@@ -1,11 +1,12 @@
 {
-  "_doc": "사이트에서 삭제(404/noindex)했지만 구글 검색에 잔재가 남을 수 있는 URL 목록. inspect_recent.py가 매일 검사해 아직 색인에 남아 있으면(고스트) 텔레그램·index_status.json으로 알린다. SC 삭제 도구 요청을 마친 URL도 실제로 사라질 때까지 여기 둔다. 니치 정리로 글을 지울 때마다 추가할 것.",
-  "urls": [
-    "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
-    "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/",
-    "https://wontheland.com/서울-노원구-공릉동-도깨비시장-점포-대상-무선-화재/",
-    "https://wontheland.com/시니어-전문-자격증-실버-보드게임-지도사-노인-일자/",
-    "https://wontheland.com/청년-주거-안심-패키지-사업-전세보증금-이자-지원-및/",
-    "https://wontheland.com/청년-후계농-영농정착지원금-월-최대-110만-원-독립-영농/"
-  ]
+ "_doc": "사이트에서 삭제(404/noindex)했지만 구글 검색에 잔재가 남을 수 있는 URL 목록. inspect_recent.py가 매일 검사해 아직 색인에 남아 있으면(고스트) 텔레그램·index_status.json으로 알린다. SC 삭제 도구 요청을 마친 URL도 실제로 사라질 때까지 여기 둔다. 니치 정리로 글을 지울 때마다 추가할 것.",
+ "urls": [
+  "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
+  "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/",
+  "https://wontheland.com/서울-노원구-공릉동-도깨비시장-점포-대상-무선-화재/",
+  "https://wontheland.com/시니어-전문-자격증-실버-보드게임-지도사-노인-일자/",
+  "https://wontheland.com/청년-주거-안심-패키지-사업-전세보증금-이자-지원-및/",
+  "https://wontheland.com/청년-후계농-영농정착지원금-월-최대-110만-원-독립-영농/"
+ ],
+ "sc_removal_requested": "2026-09-01"
 }

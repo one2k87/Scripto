@@ -173,8 +173,22 @@ try:
         idx_line = f"\n🚦 구글 색인 {pp}/{pn}편"
         ghosts = idx.get("ghosts") or []
         if ghosts:
-            ghost_line = (f"\n👻 삭제 글 검색 잔재 {len(ghosts)}건 — SC 삭제 도구에서 제거하세요\n"
-                          "https://search.google.com/search-console/removals")
+            # 이미 SC 삭제 요청을 넣었으면 며칠간 색인 상태에 남는 게 정상 — 잔소리 대신 대기 안내.
+            # 14일이 지나도 남아 있으면 그때 다시 행동 경고로 승격한다(2026-09-02 중복 알림 실측).
+            req = ""
+            try:
+                req = (json.load(open("data/removed_urls.json", encoding="utf-8")) or {}).get("sc_removal_requested", "")
+            except Exception:
+                pass
+            days = 99
+            if req:
+                import datetime as _dt
+                days = (_dt.date.today() - _dt.date.fromisoformat(req)).days
+            if req and days <= 14:
+                ghost_line = f"\n👻 삭제 잔재 {len(ghosts)}건 — 삭제 요청 처리 대기 중({req} 요청, 보통 며칠 내 반영)"
+            else:
+                ghost_line = (f"\n👻 삭제 글 검색 잔재 {len(ghosts)}건 — SC 삭제 도구에서 제거하세요\n"
+                              "https://search.google.com/search-console/removals")
     except Exception:
         pass
     # 2026-09-01부터 '무소식 = 정상'도 매일 한 줄로 알린다 — 앱을 안 열어도 아는 상태가 제품의 약속.
