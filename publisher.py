@@ -192,6 +192,16 @@ def publish_to_wordpress(article, wp_cfg):
     try:
         r = requests.post(f"{base_url}/wp-json/wp/v2/posts",
                           json=payload, headers=headers, timeout=30)
+        # 자가 수리(2026-09-02 픽담 실측): 일부 호스팅(카페24 등) 방화벽이 본문 속
+        # <script>(JSON-LD)를 XSS로 오인해 403을 돌려준다. script만 벗겨 1회 재시도.
+        if r.status_code == 403 and "<script" in (payload.get("content") or ""):
+            import re as _re
+            stripped = _re.sub(r"<script\b[^>]*>.*?</script>", "", payload["content"],
+                               flags=_re.S | _re.I)
+            print("[wp] 403 감지 → 본문 <script>(JSON-LD) 제거 후 재시도 (호스팅 방화벽 호환)")
+            payload = dict(payload, content=stripped)
+            r = requests.post(f"{base_url}/wp-json/wp/v2/posts",
+                              json=payload, headers=headers, timeout=30)
         if r.status_code in (200, 201):
             data = r.json()
             article["post_id"] = data.get("id")     # 나중에 '최신글 링크' 배너용
