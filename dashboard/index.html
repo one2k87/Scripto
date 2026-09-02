@@ -2175,7 +2175,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=134;
+const APP_BUILD=135;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 
@@ -6249,6 +6249,12 @@ async function renderGuide(){
           <span style="font-size:10.5px;color:${auto?"var(--ok)":"var(--accent)"}"> ${escAttr(st.who)} · ${st.mins}분</span></div>
         <div class="hint" style="margin-top:3px">${escAttr(st.detail)}</div>
         <div class="hint" style="opacity:.8">💡 ${escAttr(st.tip)}</div></div>`;}).join("")}
+
+    ${(g.troubleshooting||[]).length?`<div class="dl" style="font-size:11px;color:var(--muted);margin-top:12px">🛠 막혔을 때 (실제 겪은 문제)</div>
+    ${(g.troubleshooting||[]).map(f=>`<div style="margin:7px 0;padding:9px 11px;border-left:3px solid var(--warn,#e0a300);background:var(--card2)">
+      <b style="font-size:12.5px">${escAttr(f.q)}</b>
+      <div class="hint" style="margin-top:3px">${escAttr(f.a)}</div>
+      ${f.tip?`<div class="hint" style="opacity:.8">💡 ${escAttr(f.tip)}</div>`:""}</div>`).join("")}`:""}
 
     <div class="dl" style="font-size:11px;color:var(--muted);margin-top:12px">자주 묻는 질문</div>
     ${(g.faq||[]).map(f=>`<div style="margin:6px 0"><b style="font-size:12.5px">${escAttr(f.q)}</b>
