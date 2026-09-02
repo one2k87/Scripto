@@ -474,7 +474,11 @@ def _run_category(cfg, cat, hist, auto_publish, img_budget=None):
     # 서버 점검·수리(daily_check_fix)의 재작성 루틴이 평균 96점을 검증했으므로 같은 패턴을
     # 생성 단계에도 적용한다. 주제 중복(discard)은 고쳐도 또 겹치므로 구제하지 않는다.
     for a in generated:
-        if a.get("quality") != "보류" or quality.is_discard(a.get("quality_reason", "")):
+        # 버그 수정(2026-09-02 실측): is_discard()는 '사유가 있으면 무조건 True'라
+        # 보류 글 전부가 구제 대상에서 빠져 이 루프가 데드 코드였다(픽담 연속 폐기로 발견).
+        # 구제 제외는 원래 의도대로 '주제 중복'만 — 중복은 다시 써도 또 겹친다.
+        _rsn = a.get("quality_reason", "") or ""
+        if a.get("quality") != "보류" or ("중복" in _rsn or "유사" in _rsn):
             continue
         try:
             import re as _re
@@ -484,7 +488,8 @@ def _run_category(cfg, cat, hist, auto_publish, img_budget=None):
                 "- 자주 나는 실수·실패 시나리오·조건 분기(예: '벽이 석고보드라면 A, 콘크리트라면 B')·"
                 "방법 2가지 장단 비교 중 3개 이상 포함 (겪지 않은 1인칭 경험담은 창작 금지)\n"
                 "- 실측형 수치 4개 이상(규격·가격대·시간·개수). 원문에 없는 수치는 범위로\n"
-                "- 분량은 원문 이상. 소제목(h2/h3)·이미지·광고 자리(<div class=\"ad-slot\">)는 그대로 유지\n"
+                "- 분량 절대 기준: 본문 텍스트 1,800자 이상(원문이 짧아도 반드시 늘릴 것), H2 소제목 4개 이상\n"
+                "- 소제목(h2/h3)·이미지·광고 자리(<div class=\"ad-slot\">)는 그대로 유지\n"
                 "[출력] 순수 HTML 본문만. 코드블록 금지. <p>로 시작.\n\n[원문]\n" + a.get("html", ""))
             neo = chat(fix_prompt, cfg["llm"], max_tokens=16000, temperature=0.7)
             neo = _re.sub(r"^```html?\s*|\s*```$", "", (neo or "").strip())
