@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-09-03T01:31:58",
+ "updated_at": "2026-09-03T23:35:39",
  "site": "https://wontheland.com",
  "checked": 30,
- "indexed": 29,
+ "indexed": 28,
  "ghosts": [
   "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
   "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/",
@@ -26,7 +26,7 @@
   {
    "url": "https://wontheland.com/old-bathroom-drain-odor-trap-replacement-failure-recovery/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -147,37 +147,43 @@
    "url": "https://wontheland.com/다락방-계단실-벽면-원목-핸드레일-고정-브래킷-콘크/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-02"
+   "lastCrawl": "2026-09-03"
   },
   {
    "url": "https://wontheland.com/옥상-난간대-하부-콘크리트-접합부-무수축-시멘트-메/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-02"
+   "lastCrawl": "2026-09-03"
   },
   {
    "url": "https://wontheland.com/다락방-경사면-창문-섀시-하부-호차-마모-시-높이-조절/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-02"
+   "lastCrawl": "2026-09-03"
   },
   {
    "url": "https://wontheland.com/벽에-못-박을-때-숨어-있는-전선이나-배관을-어떻게-찾/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-02"
+   "lastCrawl": "2026-09-03"
+  },
+  {
+   "url": "https://wontheland.com/내부-창고의-낡은-합판-문짝을-교체할-때-수평을-맞추/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
+   "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/지하실-바닥에-물기가-스며들-때-에폭시-하도-도포-전/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-02"
+   "lastCrawl": "2026-09-03"
   },
   {
    "url": "https://wontheland.com/보일러실-내-가스-차단기-연동용-홈네트워크-수신기/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-02"
+   "lastCrawl": "2026-09-03"
   },
   {
    "url": "https://wontheland.com/다락방-접이식-사다리-상부-힌지-구동축-마찰-계수-저/",
@@ -189,13 +195,7 @@
    "url": "https://wontheland.com/외부-테라스-조명용-실외-방우형-벽등-ip65-등급-접지선/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-02"
-  },
-  {
-   "url": "https://wontheland.com/탕비실-전자레인지-수납장-후면-콘센트-발열-화재-차/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-02"
+   "lastCrawl": "2026-09-03"
   }
  ]
 }
