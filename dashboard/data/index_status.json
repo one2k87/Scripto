@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-09-02T23:56:52",
+ "updated_at": "2026-09-03T01:31:58",
  "site": "https://wontheland.com",
  "checked": 30,
- "indexed": 30,
+ "indexed": 29,
  "ghosts": [
   "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
   "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/",
@@ -13,7 +13,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-08-31T13:29:40\",\"link\":\"https:\\/\\/wontheland.com\\/%eb%93%9c%eb%a0%88%ec%8a%a4%eb%a3%b8-%eb%b6%99%eb%b"
+  "body_head": "[{\"modified\":\"2026-09-03T01:27:56\",\"link\":\"https:\\/\\/wontheland.com\\/old-bathroom-drain-odor-trap-replacement-failure-re"
  },
  "posts_n": 30,
  "results": [
@@ -22,6 +22,12 @@
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-08-31"
+  },
+  {
+   "url": "https://wontheland.com/old-bathroom-drain-odor-trap-replacement-failure-recovery/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
+   "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/드레스룸-붙박이장-도어-수평-조정용-숨은-경첩-전후/",
@@ -177,7 +183,7 @@
    "url": "https://wontheland.com/다락방-접이식-사다리-상부-힌지-구동축-마찰-계수-저/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-02"
+   "lastCrawl": "2026-09-03"
   },
   {
    "url": "https://wontheland.com/외부-테라스-조명용-실외-방우형-벽등-ip65-등급-접지선/",
@@ -187,12 +193,6 @@
   },
   {
    "url": "https://wontheland.com/탕비실-전자레인지-수납장-후면-콘센트-발열-화재-차/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-02"
-  },
-  {
-   "url": "https://wontheland.com/외부-테라스-조립식-타일-하부-배수판-고리-결속-강도/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-09-02"

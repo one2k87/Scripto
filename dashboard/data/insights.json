@@ -1,22 +1,27 @@
 {
-  "updated_at": "2026-09-02",
+  "updated_at": "2026-09-03",
   "search_console": {
     "queries": [],
     "pages": [
       {
         "page": "https://wontheland.com/%EC%98%A5%EC%83%81-%ED%8C%8C%EB%9D%BC%ED%8E%AB-%EC%83%81%EB%B6%80-%EC%95%8C%EB%A3%A8%EB%AF%B8%EB%8A%84-%EB%91%90%EA%B2%81-%EC%8B%9C%EA%B3%B5-%EC%8B%9C-%EC%9D%B4%EC%9D%8C%EC%83%88-%EC%97%B4%ED%8C%BD/",
         "clicks": 1,
-        "impressions": 20
+        "impressions": 18
       },
       {
         "page": "https://wontheland.com/",
         "clicks": 0,
-        "impressions": 2
+        "impressions": 3
       },
       {
         "page": "https://wontheland.com/%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%EC%B2%98%EB%A6%AC%EB%B0%A9%EC%B9%A8/",
         "clicks": 0,
-        "impressions": 2
+        "impressions": 3
+      },
+      {
+        "page": "https://wontheland.com/%EB%82%B4%EB%B6%80-%EC%B0%BD%EA%B3%A0-%EB%AC%B8-%EB%8F%84%EC%96%B4%EB%A1%9D-%EB%A0%88%EB%B2%84-%EC%B6%95-%EC%A4%91%EC%8B%AC%EC%84%A0-%EB%B3%B5%EC%9B%90%EC%9A%A9-%EB%82%B4%EB%B6%80-%ED%9A%8C%EC%A0%84/",
+        "clicks": 0,
+        "impressions": 1
       },
       {
         "page": "https://wontheland.com/%EB%82%B4%EB%B6%80-%EC%B0%BD%EA%B3%A0-%EC%A4%91%EB%9F%89%EB%AC%BC-%EC%A0%81%EC%9E%AC%EC%9A%A9-%ED%8C%8C%EB%A0%88%ED%8A%B8-%EB%9E%99-%ED%8F%AC%EC%8A%A4%ED%8A%B8-%EA%B3%A0%EC%A0%95%EC%9A%A9-%EB%B0%94/",
@@ -31,12 +36,12 @@
       {
         "page": "https://wontheland.com/%EB%8B%A4%EB%9D%BD%EB%B0%A9-%EC%B2%9C%EC%9E%A5-%EB%A7%A4%EC%9E%85%ED%98%95-%EC%9B%90%ED%98%95-%EC%A0%90%EA%B2%80%EA%B5%AC-%ED%83%80%EA%B3%B5-%EC%8B%9C-%EB%82%B4%EB%B6%80-%EA%B2%BD%EB%9F%89%EC%B2%A0/",
         "clicks": 0,
-        "impressions": 3
+        "impressions": 4
       },
       {
         "page": "https://wontheland.com/%EB%93%9C%EB%A0%88%EC%8A%A4%EB%A3%B8-%EB%B6%99%EB%B0%95%EC%9D%B4%EC%9E%A5-%EB%8F%84%EC%96%B4-%EC%88%98%ED%8F%89-%EC%A1%B0%EC%A0%95%EC%9A%A9-%EC%88%A8%EC%9D%80-%EA%B2%BD%EC%B2%A9-%EC%A0%84%ED%9B%84/",
         "clicks": 0,
-        "impressions": 4
+        "impressions": 5
       },
       {
         "page": "https://wontheland.com/%EB%93%9C%EB%A0%88%EC%8A%A4%EB%A3%B8-%EC%95%84%EC%9D%BC%EB%9E%9C%EB%93%9C-%EC%88%98%EB%82%A9%EC%9E%A5-%EC%84%9C%EB%9E%8D-%EC%9B%90%EB%AA%A9-%EC%95%9E%ED%8C%90-%EC%9C%A0%EA%B2%A9-%EC%A1%B0%EC%A0%95/",
@@ -45,11 +50,6 @@
       },
       {
         "page": "https://wontheland.com/%EB%93%9C%EB%A0%88%EC%8A%A4%EB%A3%B8-%EC%9D%98%EB%A5%98-%EC%88%98%EB%82%A9%EC%9A%A9-%EB%A9%94%EC%89%AC-%EC%85%94%EC%B8%A0%EB%A0%89-%EB%A0%88%EC%9D%BC-%ED%94%84%EB%A0%88%EC%9E%84-%EC%A2%8C%EC%9A%B0/",
-        "clicks": 0,
-        "impressions": 2
-      },
-      {
-        "page": "https://wontheland.com/%EB%AC%B8%EC%9D%98%ED%95%98%EA%B8%B0/",
         "clicks": 0,
         "impressions": 3
       }
@@ -64,13 +64,13 @@
       },
       {
         "title": "원더랜드 블로그 - 셀프 인테리어·집 수리 정보를 직접 확인해 정리합니다",
-        "views": 13,
-        "users": 13
+        "views": 16,
+        "users": 14
       },
       {
         "title": "외부 테라스 데크 하부 아연각관 장선 용접 부위 부식 방지용 광명단 방청 스프레이 분사 및 건조 공식 제대로 해야 녹 발생을 막는다 - 원더랜드 블로그",
-        "views": 9,
-        "users": 8
+        "views": 7,
+        "users": 7
       },
       {
         "title": "보일러실 내 벽면 단열재 석고보드 2P 복합 시공 시 이음새 교차 배치 규칙 준수 및 크랙 차단 기술 조항 - 원더랜드 블로그",
@@ -79,11 +79,16 @@
       },
       {
         "title": "지하실 옹벽 크랙 보수: 아크릴 퍼티 2회, 220방 사포 처리 - 원더랜드 블로그",
+        "views": 5,
+        "users": 6
+      },
+      {
+        "title": "외부 테라스 데크 아연각관 용접부, 광명단 스프레이 2회 도포 예방 - 원더랜드 블로그",
         "views": 4,
         "users": 4
       },
       {
-        "title": "외부 테라스 데크 아연각관 용접부, 광명단 스프레이 2회 도포 예방 - 원더랜드 블로그",
+        "title": "드레스룸 옷장 행거가 처졌다면 지지 소켓을 재고정하면 해결됩니다. - 원더랜드 블로그",
         "views": 3,
         "users": 3
       },
@@ -96,11 +101,6 @@
         "title": "드레스룸 시스템 옷장 행거 파이프 단단히 고정하기 위한 브래킷 피스 결속 장력 세팅 가이드라인 프로토콜 - 원더랜드 블로그",
         "views": 2,
         "users": 2
-      },
-      {
-        "title": "드레스룸 옷장 행거가 처졌다면 지지 소켓을 재고정하면 해결됩니다. - 원더랜드 블로그",
-        "views": 2,
-        "users": 3
       },
       {
         "title": "문의 - 원더랜드 블로그",
