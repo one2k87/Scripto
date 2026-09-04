@@ -1,0 +1,46 @@
+name: 기발행 글 이미지 재생성
+
+# 수동 전용: 기존 발행 글의 이미지를 4스타일 시스템으로 전량 교체.
+# <!--imgv2--> 마커로 재실행해도 이미 바꾼 글은 건너뛴다(무료 한도 걸리면 다시 돌리면 이어서 처리).
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "이번 실행 최대 글 수"
+        default: "100"
+        required: false
+      dry_run:
+        description: "true면 계획만 출력(수정 없음)"
+        default: "false"
+        required: false
+
+jobs:
+  reimage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: 의존성
+        run: pip install requests pillow
+      - name: 설정 생성
+        env:
+          LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+          IMAGE_PROVIDER: ${{ secrets.IMAGE_PROVIDER }}
+          IMAGE_API_KEY: ${{ secrets.IMAGE_API_KEY }}
+          BLOG_URL: ${{ secrets.BLOG_URL }}
+          WP_ENABLED: ${{ secrets.WP_ENABLED }}
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_STATUS: ${{ secrets.WP_STATUS }}
+        run: python build_config.py
+      - name: 이미지 재생성 실행
+        env:
+          REIMAGE_LIMIT: ${{ github.event.inputs.limit }}
+          REIMAGE_DRY: ${{ github.event.inputs.dry_run }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/reimage_posts.py
