@@ -24,7 +24,7 @@ import base64
 # ── 스타일 프리셋 4종 (2026-09-04 품질 개편) ─────────────────────────
 # 옛 방식(모든 이미지 = 납작한 도해 1종)이 저퀄 원인. 글 내용에 맞는 스타일을
 # LLM([[IMG:스타일|묘사]] 마커) 또는 휴리스틱으로 고르고, 스타일별 고품질 프롬프트를 쓴다.
-# 공통 원칙: 한글 렌더링 깨짐 방지를 위해 모든 스타일에서 글자 금지.
+# 텍스트 정책: 짧은 한글 라벨 허용 + 생성 후 자동 검수(_check_text)로 깨짐 시 무텍스트 재생성.
 STYLE_PRESETS = {
     "photo": (   # 실사 사진 — 생활 장면·공간·작업 모습
         "Ultra-realistic editorial photograph for a Korean lifestyle blog. "
@@ -32,22 +32,22 @@ STYLE_PRESETS = {
         "shallow depth of field, true-to-life colors and material textures, and the small "
         "imperfections of a real, lived-in ordinary Korean home so it reads as a genuine photo. "
         "If hands appear they look natural; never show a person's face. "
-        "Absolutely NO text, NO letters, NO logos, NO watermark."),
+        "No watermark, no brand logos."),
     "object": (  # 정물/제품 — 특정 도구·재료·제품 클로즈업
         "Minimal studio still-life photograph: one hero object centered on a clean neutral "
         "backdrop with a soft gradient, professional softbox lighting, crisp focus, fine detail, "
         "a gentle grounded shadow — premium magazine product-page quality. "
-        "Absolutely NO text, NO letters, NO logos, NO watermark."),
+        "No watermark, no brand logos."),
     "diagram": ( # 도해 — 구조·과정·원리·비교
         "Premium isometric infographic-style 3D illustration that explains the concept at a "
         "glance: rounded friendly shapes, a cohesive 3-color palette, soft shadows, clear visual "
         "hierarchy and generous white space — modern tech-blog quality, not a flat clipart. "
-        "Absolutely NO text, NO letters, NO numbers, NO watermark."),
+        "No watermark, no brand logos."),
     "illust": (  # 일러스트 — 감성·비유·주의 환기
         "Warm editorial illustration in a hand-drawn style with subtle paper grain, muted cozy "
         "color palette, charming friendly mood like a Korean lifestyle magazine spot illustration, "
         "thoughtful composition with breathing room. "
-        "Absolutely NO text, NO letters, NO watermark."),
+        "No watermark, no brand logos."),
 }
 _STYLE_ALIASES = {
     "photo": "photo", "실사": "photo", "사진": "photo",
@@ -89,12 +89,47 @@ def build_prompt(desc, category, style=None):
                "Do NOT add unrelated scenery, random people, or generic stock-photo filler; "
                "every element in the image must clearly belong to this subject and to the article's topic. "
                f"Context: an image for a Korean blog post about {category or 'daily life and home'}. "
-               # 글자 깨짐 방지(2026-09-05): 텍스트는 아예 그리지 않는다 — 마지막 규칙이 가장 강하게 먹힌다
-               "FINAL STRICT RULE: render absolutely NO written characters of any kind — "
-               "no text, letters, numbers, signs, labels, price tags with writing, packaging text, "
-               "screens with text, or handwriting. If the description mentions names, prices, or "
-               "documents, show them as blank/plain surfaces and convey the meaning purely visually.")
+               # 텍스트 정책(2026-09-05 v2): 짧은 한글 라벨은 허용하되, 생성 후 자동 검수로 깨짐을 잡는다
+               "TEXT POLICY: written text is optional and must be minimal — at most one short "
+               "Korean label or sign (a few words), rendered large, straight, and perfectly legible. "
+               "Never dense paragraphs, receipts, or screens full of writing. "
+               "If the text would not be clearly legible, omit it entirely.")
     return f"{STYLE_PRESETS[key]} {subject}"
+
+
+# 검수 실패 시 재생성에 덧붙이는 무텍스트 강제문
+NO_TEXT_RETRY = (" STRICT OVERRIDE: render absolutely NO written characters of any kind — "
+                 "no text, letters, numbers, labels, signs, or handwriting; use blank surfaces instead.")
+
+
+def _check_text(img_bytes, cfg):
+    """자동 확대검수 — 생성 이미지 속 글자를 비전 모델이 읽고 깨짐 판정.
+    반환: 'none'(글자 없음)/'ok'(정상)/'broken'(깨짐). 검사 자체가 실패하면 None(통과 처리)."""
+    try:
+        import base64 as _b64
+        import requests as _rq
+        url = ("https://generativelanguage.googleapis.com/v1beta/models/"
+               "gemini-2.5-flash:generateContent")
+        body = {"contents": [{"parts": [
+            {"inline_data": {"mime_type": "image/png",
+                             "data": _b64.b64encode(img_bytes).decode()}},
+            {"text": "이미지 안의 글자를 검수한다. 글자(한글·영문·숫자)가 있으면 전부 읽어라. "
+                     "왜곡·오탈자·비문·존재하지 않는 글자꼴로 깨져 보이면 broken=true. "
+                     '순수 JSON만: {"has_text":true,"broken":false,"read":"…"}'}]}],
+            "generationConfig": {"maxOutputTokens": 250, "temperature": 0}}
+        r = _rq.post(url, json=body, timeout=60,
+                     headers={"x-goog-api-key": cfg.get("api_key", ""),
+                              "Content-Type": "application/json"})
+        t = r.json()["candidates"][0]["content"]["parts"][0]["text"]
+        import json as _js
+        import re as _re
+        j = _js.loads(_re.search(r"\{.*\}", t, _re.S).group(0))
+        if not j.get("has_text"):
+            return "none"
+        return "broken" if j.get("broken") else "ok"
+    except Exception as e:
+        print(f"[images] 글자 검수 실패(통과 처리): {e}")
+        return None
 
 
 def generate_image(desc, cfg_images, out_dir, idx=0, category=""):
@@ -133,6 +168,15 @@ def generate_image(desc, cfg_images, out_dir, idx=0, category=""):
     elif provider in ("gemini", "imagen", "google"):
         data = _gemini(build_prompt(desc, category, style), cfg_images)
         if data: LAST_KIND = "ai"
+    # 자동 확대검수: AI 생성 이미지 속 글자가 깨졌으면 무텍스트로 1회 재생성
+    if data and LAST_KIND == "ai":
+        v = _check_text(data, cfg_images)
+        if v == "broken":
+            print("[images] 🔍 글자 깨짐 감지 → 무텍스트로 재생성")
+            d2 = _gemini(build_prompt(desc, category, style) + NO_TEXT_RETRY, cfg_images)
+            if d2:
+                data = d2
+
     if not data:
         globals()["LAST_ERR"] = globals().get("LAST_ERR") or f"provider '{provider}' 결과 없음(스톡 키·Pillow 확인)"
         return None
