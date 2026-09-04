@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-09-03T23:35:39",
+ "updated_at": "2026-09-04T01:05:00",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 28,
@@ -13,7 +13,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-09-03T01:27:56\",\"link\":\"https:\\/\\/wontheland.com\\/old-bathroom-drain-odor-trap-replacement-failure-re"
+  "body_head": "[{\"modified\":\"2026-09-04T10:01:00\",\"link\":\"https:\\/\\/wontheland.com\\/%eb%93%9c%eb%a0%88%ec%8a%a4%eb%a3%b8-%ec%95%84%ec%9"
  },
  "posts_n": 30,
  "results": [
@@ -24,9 +24,93 @@
    "lastCrawl": "2026-08-31"
   },
   {
+   "url": "https://wontheland.com/드레스룸-아일랜드-수납장-서랍-원목-앞판-유격-조정/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-08-20"
+  },
+  {
+   "url": "https://wontheland.com/보일러실-내-가스-차단기-연동용-홈네트워크-수신기/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-09-03"
+  },
+  {
+   "url": "https://wontheland.com/탕비실-미니-바-테이블-상판-대리석-보수용-인조대리/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-08-31"
+  },
+  {
+   "url": "https://wontheland.com/다락방-천장-매입형-원형-점검구-타공-시-내부-경량철/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-07-26"
+  },
+  {
+   "url": "https://wontheland.com/드레스룸-의류-수납용-메쉬-셔츠렉-레일-프레임-좌우/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-08-31"
+  },
+  {
+   "url": "https://wontheland.com/보일러실-난방-배관-누수-부위-컷터-절단-후-엑셀-xl-커/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-07-25"
+  },
+  {
+   "url": "https://wontheland.com/탕비실-전자레인지-수납장-후면-콘센트-발열-화재-차/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-09-03"
+  },
+  {
+   "url": "https://wontheland.com/다락방-계단실-벽면-원목-핸드레일-고정-브래킷-콘크/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-09-03"
+  },
+  {
+   "url": "https://wontheland.com/지하실-천장-곰팡이-제거용-항균-세척제-분사-스크러/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-09-01"
+  },
+  {
+   "url": "https://wontheland.com/옥상-난간대-하부-콘크리트-접합부-무수축-시멘트-메/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-09-03"
+  },
+  {
+   "url": "https://wontheland.com/지하실-바닥에-물기가-스며들-때-에폭시-하도-도포-전/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-09-03"
+  },
+  {
+   "url": "https://wontheland.com/다락방-경사면-창문-섀시-하부-호차-마모-시-높이-조절/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-09-03"
+  },
+  {
+   "url": "https://wontheland.com/벽에-못-박을-때-숨어-있는-전선이나-배관을-어떻게-찾/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-09-03"
+  },
+  {
    "url": "https://wontheland.com/old-bathroom-drain-odor-trap-replacement-failure-recovery/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/내부-창고의-낡은-합판-문짝을-교체할-때-수평을-맞추/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -72,34 +156,10 @@
    "lastCrawl": "2026-08-31"
   },
   {
-   "url": "https://wontheland.com/탕비실-미니-바-테이블-상판-대리석-보수용-인조대리/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-08-31"
-  },
-  {
-   "url": "https://wontheland.com/드레스룸-의류-수납용-메쉬-셔츠렉-레일-프레임-좌우/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-08-31"
-  },
-  {
-   "url": "https://wontheland.com/지하실-천장-곰팡이-제거용-항균-세척제-분사-스크러/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-01"
-  },
-  {
    "url": "https://wontheland.com/내부-창고-중량물-적재용-파레트-랙-포스트-고정용-바/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-07-26"
-  },
-  {
-   "url": "https://wontheland.com/보일러실-난방-배관-누수-부위-컷터-절단-후-엑셀-xl-커/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-07-25"
   },
   {
    "url": "https://wontheland.com/보일러실-온수-배관-가스켓-마모-시-링-플러그-스패너/",
@@ -136,66 +196,6 @@
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-09-01"
-  },
-  {
-   "url": "https://wontheland.com/드레스룸-아일랜드-수납장-서랍-원목-앞판-유격-조정/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-08-20"
-  },
-  {
-   "url": "https://wontheland.com/다락방-계단실-벽면-원목-핸드레일-고정-브래킷-콘크/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-03"
-  },
-  {
-   "url": "https://wontheland.com/옥상-난간대-하부-콘크리트-접합부-무수축-시멘트-메/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-03"
-  },
-  {
-   "url": "https://wontheland.com/다락방-경사면-창문-섀시-하부-호차-마모-시-높이-조절/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-03"
-  },
-  {
-   "url": "https://wontheland.com/벽에-못-박을-때-숨어-있는-전선이나-배관을-어떻게-찾/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-03"
-  },
-  {
-   "url": "https://wontheland.com/내부-창고의-낡은-합판-문짝을-교체할-때-수평을-맞추/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/지하실-바닥에-물기가-스며들-때-에폭시-하도-도포-전/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-03"
-  },
-  {
-   "url": "https://wontheland.com/보일러실-내-가스-차단기-연동용-홈네트워크-수신기/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-03"
-  },
-  {
-   "url": "https://wontheland.com/다락방-접이식-사다리-상부-힌지-구동축-마찰-계수-저/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-03"
-  },
-  {
-   "url": "https://wontheland.com/외부-테라스-조명용-실외-방우형-벽등-ip65-등급-접지선/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-03"
   }
  ]
 }

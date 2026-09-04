@@ -14561,6 +14561,19 @@
       "intent": "revenue",
       "date": "2026-09-03",
       "series_id": ""
+    },
+    {
+      "title": "오래된 주택 셀프 인테리어, 2026년 가을맞이 단열 시공으로 난방비 절감 효과를 봅니다",
+      "slug": "old-house-self-interior-insulation-2026",
+      "url": "",
+      "post_id": null,
+      "status": "폐기",
+      "kind": "long",
+      "keyword": "셀프 인테리어 중 주택",
+      "category": "셀프 인테리어",
+      "intent": "evergreen",
+      "date": "2026-09-04",
+      "series_id": ""
     }
   ]
 }
