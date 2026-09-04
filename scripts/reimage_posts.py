@@ -121,6 +121,10 @@ def main():
         new = RE_FIGURE.sub(fig, content, count=1)
         if new == content:
             new = RE_SLOT.sub(fig, content, count=1)
+        if new == content:                      # 일반 figure/단독 img도 교체 대상(중복 삽입 방지)
+            new = re.sub(r"<figure\b.*?</figure>", fig, content, count=1, flags=re.S)
+        if new == content:
+            new = re.sub(r"<img\b[^>]*>", fig, content, count=1)
         if new == content:                      # 이미지가 아예 없던 글: 첫 소제목 뒤 삽입
             if "</h2>" in content:
                 new = content.replace("</h2>", "</h2>" + fig, 1)
