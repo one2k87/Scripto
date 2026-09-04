@@ -21,12 +21,71 @@ import time
 import base64
 
 
-def build_prompt(desc, category, style):
-    # 애드센스 심사 기준에 맞춘 '설명 도해': 글자 금지(한글 렌더링 깨짐), 사진 흉내 금지(정직성)
-    style = style or ("clean technical diagram, flat vector illustration, soft muted colors, "
-                      "generous white space. Absolutely NO text, NO letters, NO numbers. "
-                      "Not a photograph, no photorealism, no watermark")
-    return f"{style}. Explanatory diagram for a Korean DIY home-repair blog post about: {desc}"
+# ── 스타일 프리셋 4종 (2026-09-04 품질 개편) ─────────────────────────
+# 옛 방식(모든 이미지 = 납작한 도해 1종)이 저퀄 원인. 글 내용에 맞는 스타일을
+# LLM([[IMG:스타일|묘사]] 마커) 또는 휴리스틱으로 고르고, 스타일별 고품질 프롬프트를 쓴다.
+# 공통 원칙: 한글 렌더링 깨짐 방지를 위해 모든 스타일에서 글자 금지.
+STYLE_PRESETS = {
+    "photo": (   # 실사 사진 — 생활 장면·공간·작업 모습
+        "Ultra-realistic editorial photograph for a Korean lifestyle blog. "
+        "Full-frame camera look, 50mm lens at f/2.8, soft natural window light, "
+        "shallow depth of field, true-to-life colors and material textures, and the small "
+        "imperfections of a real, lived-in ordinary Korean home so it reads as a genuine photo. "
+        "If hands appear they look natural; never show a person's face. "
+        "Absolutely NO text, NO letters, NO logos, NO watermark."),
+    "object": (  # 정물/제품 — 특정 도구·재료·제품 클로즈업
+        "Minimal studio still-life photograph: one hero object centered on a clean neutral "
+        "backdrop with a soft gradient, professional softbox lighting, crisp focus, fine detail, "
+        "a gentle grounded shadow — premium magazine product-page quality. "
+        "Absolutely NO text, NO letters, NO logos, NO watermark."),
+    "diagram": ( # 도해 — 구조·과정·원리·비교
+        "Premium isometric infographic-style 3D illustration that explains the concept at a "
+        "glance: rounded friendly shapes, a cohesive 3-color palette, soft shadows, clear visual "
+        "hierarchy and generous white space — modern tech-blog quality, not a flat clipart. "
+        "Absolutely NO text, NO letters, NO numbers, NO watermark."),
+    "illust": (  # 일러스트 — 감성·비유·주의 환기
+        "Warm editorial illustration in a hand-drawn style with subtle paper grain, muted cozy "
+        "color palette, charming friendly mood like a Korean lifestyle magazine spot illustration, "
+        "thoughtful composition with breathing room. "
+        "Absolutely NO text, NO letters, NO watermark."),
+}
+_STYLE_ALIASES = {
+    "photo": "photo", "실사": "photo", "사진": "photo",
+    "object": "object", "정물": "object", "제품": "object",
+    "diagram": "diagram", "도해": "diagram", "인포": "diagram",
+    "illust": "illust", "일러스트": "illust", "카툰": "illust", "cartoon": "illust",
+}
+
+
+def parse_marker(desc):
+    """'스타일|묘사' 형식이면 (style, 묘사), 아니면 (None, 원문)."""
+    d = str(desc or "").strip()
+    if "|" in d:
+        tag, rest = d.split("|", 1)
+        s = _STYLE_ALIASES.get(tag.strip().lower())
+        if s:
+            return s, rest.strip()
+    return None, d
+
+
+def pick_style(desc, category=""):
+    """마커가 없을 때의 휴리스틱 — 설명 텍스트로 어울리는 스타일 추정."""
+    t = f"{category} {desc}"
+    if any(k in t for k in ("구조", "원리", "단계", "과정", "순서", "비교", "흐름", "배치도")):
+        return "diagram"
+    if any(k in t for k in ("도구", "제품", "재료", "기기", "공구", "클로즈업", "부품")):
+        return "object"
+    if any(k in t for k in ("느낌", "분위기", "비유", "캐릭터", "주의", "경고")):
+        return "illust"
+    return "photo"   # 기본은 실사 — 블로그 체감 퀄리티가 가장 높다
+
+
+def build_prompt(desc, category, style=None):
+    """스타일 프리셋 + 구체 묘사 결합. (구 config.images.style 문자열은 폐기 — 저퀄 원인)"""
+    key = style if style in STYLE_PRESETS else pick_style(desc, category)
+    subject = (f"Subject: {desc}. Context: an image for a Korean blog post "
+               f"about {category or 'daily life and home'}; the subject matches the article.")
+    return f"{STYLE_PRESETS[key]} {subject}"
 
 
 def generate_image(desc, cfg_images, out_dir, idx=0, category=""):
@@ -37,15 +96,22 @@ def generate_image(desc, cfg_images, out_dir, idx=0, category=""):
         return None
     size = cfg_images.get("size", "1024x1024")
 
+    # 스타일 결정: [[IMG:스타일|묘사]] 마커 우선, 없으면 휴리스틱
+    style, desc = parse_marker(desc)
+    if not style:
+        style = pick_style(desc, category)
+    globals()["LAST_STYLE"] = style
+    globals()["LAST_DESC"] = desc
+
     data = None
     global LAST_KIND
     LAST_KIND = "photo"
     if provider == "free":
-        # 무료 우선: ①Gemini 무료 도해(키 있을 때) ②스톡 ③코드 썸네일. 항상 무언가는 나옴.
+        # 무료 우선: ①Gemini 무료 생성(키 있을 때) ②스톡 ③코드 썸네일. 항상 무언가는 나옴.
         # (2026-08-30: 옛 순서는 스톡→썸네일뿐이라 CI에 스톡 키·Pillow가 없으면 전부 None
         #  → '이미지 1장' 요건에서 글이 통째로 폐기되던 원인)
         if cfg_images.get("api_key"):
-            data = _gemini(build_prompt(desc, category, cfg_images.get("style")), cfg_images)
+            data = _gemini(build_prompt(desc, category, style), cfg_images)
             if data: LAST_KIND = "ai"
         if not data:
             data = _stock(desc, category, cfg_images, size) or _thumbnail(desc, category, size)
@@ -54,9 +120,9 @@ def generate_image(desc, cfg_images, out_dir, idx=0, category=""):
     elif provider in ("thumbnail", "thumb", "code"):
         data = _thumbnail(desc, category, size)
     elif provider == "openai":
-        data = _openai(build_prompt(desc, category, cfg_images.get("style")), cfg_images, size)
+        data = _openai(build_prompt(desc, category, style), cfg_images, size)
     elif provider in ("gemini", "imagen", "google"):
-        data = _gemini(build_prompt(desc, category, cfg_images.get("style")), cfg_images)
+        data = _gemini(build_prompt(desc, category, style), cfg_images)
         if data: LAST_KIND = "ai"
     if not data:
         globals()["LAST_ERR"] = globals().get("LAST_ERR") or f"provider '{provider}' 결과 없음(스톡 키·Pillow 확인)"
@@ -249,7 +315,9 @@ def to_data_uri(path):
         return "data:image/png;base64," + base64.b64encode(f.read()).decode()
 
 
-LAST_KIND = "photo"   # generate_image가 갱신: "ai"(생성 도해) / "photo"(스톡·썸네일)
+LAST_KIND = "photo"   # generate_image가 갱신: "ai"(생성) / "photo"(스톡·썸네일)
+LAST_STYLE = "photo"  # generate_image가 갱신: photo/object/diagram/illust
+LAST_DESC = ""        # 마커 태그를 뗀 순수 묘사(alt/캡션용)
 LAST_ERR = ""         # 마지막 실패 사유(관측용) — status.json에 실린다
 
 def figure_html(src, alt, note=None):

@@ -191,14 +191,20 @@ def make_image_resolver(cfg, auto_publish, category="", budget=None):
             return None
         if budget is not None:
             budget["used"] = budget.get("used", 0) + 1
+        alt = getattr(images, "LAST_DESC", "") or desc   # 스타일 태그 뗀 순수 묘사
         src = None
         if auto_publish and wp_cfg.get("enabled"):
-            src = upload_media(path, wp_cfg, alt=desc)
+            src = upload_media(path, wp_cfg, alt=alt)
         if not src:
             src = images.to_data_uri(path)     # 미게시/업로드 실패 시 인라인
-        note = ("설명을 돕는 도해이며 실제 촬영 사진이 아닙니다"
+        # 스타일별 정직한 캡션(AI 생성 고지 유지 — 애드센스 정직성)
+        _notes = {"diagram": "이해를 돕기 위한 도해입니다",
+                  "illust": "내용을 표현한 일러스트입니다",
+                  "photo": "AI로 연출한 참고 이미지입니다",
+                  "object": "AI로 연출한 참고 이미지입니다"}
+        note = (_notes.get(getattr(images, "LAST_STYLE", ""), None)
                 if getattr(images, "LAST_KIND", "") == "ai" else None)
-        return images.figure_html(src, desc, note)
+        return images.figure_html(src, alt, note)
 
     return resolver
 
