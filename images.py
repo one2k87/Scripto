@@ -88,7 +88,12 @@ def build_prompt(desc, category, style=None):
                "The described subject must be the unmistakable focus of the frame. "
                "Do NOT add unrelated scenery, random people, or generic stock-photo filler; "
                "every element in the image must clearly belong to this subject and to the article's topic. "
-               f"Context: an image for a Korean blog post about {category or 'daily life and home'}.")
+               f"Context: an image for a Korean blog post about {category or 'daily life and home'}. "
+               # 글자 깨짐 방지(2026-09-05): 텍스트는 아예 그리지 않는다 — 마지막 규칙이 가장 강하게 먹힌다
+               "FINAL STRICT RULE: render absolutely NO written characters of any kind — "
+               "no text, letters, numbers, signs, labels, price tags with writing, packaging text, "
+               "screens with text, or handwriting. If the description mentions names, prices, or "
+               "documents, show them as blank/plain surfaces and convey the meaning purely visually.")
     return f"{STYLE_PRESETS[key]} {subject}"
 
 

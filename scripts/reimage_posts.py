@@ -44,7 +44,8 @@ def llm_pick(title, text, key, model):
         "2) 스타일 1개 선택 — photo(실사: 그 소재를 다루는 생활 장면·작업 모습), object(정물: 그 소재 클로즈업), "
         "diagram(도해: 그 소재의 구조·과정·비교), illust(일러스트: 감성·비유).\n"
         "3) 장면 묘사 규칙: 반드시 핵심 소재 명칭을 그대로 포함하고, '무엇이·어디서·어떤 상태로'를 담아 "
-        "한국어 1~2문장. 글과 무관한 배경·인물·풍경 금지.\n"
+        "한국어 1~2문장. 글과 무관한 배경·인물·풍경 금지. "
+        "이미지 안에 글자·숫자·가격 표기·간판·라벨 문구를 그리라는 묘사는 금지 — 글자 없이 사물과 장면만으로 전달.\n"
         '순수 JSON만 출력: {"style":"photo","desc":"...","subject":"핵심 소재 명사"}')
     try:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
