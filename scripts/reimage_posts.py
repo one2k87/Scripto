@@ -51,9 +51,11 @@ def llm_pick(title, text, key, model):
                           timeout=60)
         t = r.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
         t = re.sub(r"^```(json)?\s*|\s*```$", "", t, flags=re.M).strip()
-        j = json.loads(t)
-        style = j.get("style") if j.get("style") in images.STYLE_PRESETS else None
-        desc = (j.get("desc") or "").strip()
+        # 정규식 추출 우선 — LLM이 JSON 규격(이스케이프·줄바꿈)을 자주 어겨 json.loads가 깨진다(9/4 실측)
+        ms = re.search(r'"style"\s*:\s*"(\w+)"', t)
+        md = re.search(r'"desc"\s*:\s*"([^"\n]{5,300})', t)
+        style = ms.group(1) if (ms and ms.group(1) in images.STYLE_PRESETS) else None
+        desc = md.group(1).strip() if md else ""
         if style and desc:
             return style, desc
     except Exception as e:
