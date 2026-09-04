@@ -684,6 +684,8 @@
   #panelTabs{display:none !important}
   #mainView #insightPanel{display:none !important}
   #mainView #trendPanel{display:none !important}
+  .tabbar{flex-wrap:nowrap}
+  .tabbar .tb{flex:1 1 0;min-width:0;padding-left:2px;padding-right:2px}
   body[data-view="home"] #streakCard{margin:12px 16px 0}
   body[data-view="home"] #statusPanel{margin-top:4px}
 </style>
@@ -2230,7 +2232,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=141;
+const APP_BUILD=142;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 
