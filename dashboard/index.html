@@ -674,6 +674,18 @@
   .appsw a.on[data-hue="s"]{background:rgba(139,92,246,.16);color:#8b5cf6}
   .appsw a.on[data-hue="p"]{background:rgba(46,158,107,.16);color:#2e9e6b}
   .appsw a.on[data-hue="c"]{background:rgba(91,141,239,.16);color:#5b8def}
+
+  /* ═══ v141 IA 개편: 홈/글 뷰 분리 ═══ */
+  body[data-view="home"] #catFilters,body[data-view="home"] #statusTabs,
+  body[data-view="home"] .toolbar,body[data-view="home"] .bulkbar,
+  body[data-view="home"] #adBanner,body[data-view="home"] #grid,
+  body[data-view="home"] #empty,body[data-view="home"] .sec-div{display:none !important}
+  body[data-view="list"] #streakCard,body[data-view="list"] #statusPanel{display:none !important}
+  #panelTabs{display:none !important}
+  #mainView #insightPanel{display:none !important}
+  #mainView #trendPanel{display:none !important}
+  body[data-view="home"] #streakCard{margin:12px 16px 0}
+  body[data-view="home"] #statusPanel{margin-top:4px}
 </style>
 <!-- 구글 로그인(애드센스 상태 조회 전용, 읽기 권한만). 없어도 나머지 기능은 정상 동작 -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -718,25 +730,13 @@
 </div>
 
 <div class="filters" id="catFilters"></div>
-<div class="filters">
-  <span class="chip active" data-f="all">전체 <b id="c-all">0</b></span>
-  <span class="chip" data-f="long">🎯 저경쟁 롱테일 <b id="c-long">0</b></span>
-  <span class="chip" data-f="season">🗓️ 시즌 선점 <b id="c-season">0</b></span>
-  <span class="chip" data-f="archive" id="chipArchive" style="display:none">🗃️ 보관함 <b id="c-archive">0</b></span>
-</div>
+<div class="subtabs" id="statusTabs" style="margin:2px 16px 0"></div>
 
 <div class="sec-div"></div>
 
 <div class="toolbar" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:6px 16px 0">
-  <input id="fSearch" placeholder="🔎 제목·키워드·주소·카테고리 검색" style="flex:1;min-width:140px;padding:8px 10px;
+  <input id="fSearch" placeholder="🔎 제목·키워드·주소·카테고리 검색" style="flex:1 1 100%;min-width:140px;padding:8px 10px;
     border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--txt);font-size:13px">
-  <select id="fStatus" style="padding:8px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--txt);font-size:13px">
-    <option value="all">상태: 전체</option>
-    <option value="게시됨">게시됨</option>
-    <option value="초안저장됨">초안</option>
-    <option value="품질보류">품질보류</option>
-    <option value="복붙대기">복붙대기</option>
-  </select>
   <select id="fSort" style="padding:8px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--txt);font-size:13px">
     <option value="default">정렬: 기본</option>
     <option value="volume">검색량↓</option>
@@ -753,6 +753,7 @@
 <div class="bulkbar">
   <button class="btn sm" onclick="selectAllVisible()">☑ 전체선택</button>
   <button class="btn ok sm" id="btnPubSel" onclick="publishSelected()" disabled>📤 선택 게시 (<span id="selCount">0</span>)</button>
+  <button class="btn sm" id="btnDelSel" onclick="deleteSelected()" disabled>🗑 선택 보관</button>
   <button class="btn primary sm" onclick="publishAll()">📢 전체 게시</button>
 </div>
 
@@ -1442,7 +1443,18 @@
 
 <script>
 const LS="adsense_blog_cfg";
-let DATA=null, fKind="all", fLang="all", fCat="all", fSearch="", fStatus="all", sortMode="default";
+let DATA=null, fView="all", fLang="all", fCat="all", fSearch="", fStatus="all", sortMode="default";
+// v141 IA 개편: 상태가 곧 상단탭 — 발행됨/대기/보류/보관함. 저경쟁·시즌은 카드 뱃지로만.
+const VIEW_L={all:"전체",pub:"발행됨",wait:"대기",hold:"보류",archive:"보관함"};
+function isHold(a){ return a.quality==="보류"||a.status==="품질보류"; }
+function matchView(a,v){
+  if(v==="pub") return a.status==="게시됨";
+  if(v==="hold") return isHold(a);
+  if(v==="wait") return a.status!=="게시됨"&&!isHold(a);
+  return true;
+}
+function artKey(a){ return String(a.slug||a.title||""); }
+function isHidden(a){ return (CFG.hiddenKeys||[]).includes(artKey(a)); }
 let CFG=loadCfg();
 
 function loadCfg(){try{return JSON.parse(localStorage.getItem(LS))||{}}catch(e){return {}}}
@@ -1715,9 +1727,8 @@ function archivedCount(){ return (DATA?.articles||[]).filter(isArchived).length;
 function visible(){
   const q=(fSearch||"").trim().toLowerCase();
   let list=(DATA?.articles||[]).filter(a=>
-    (fKind==="archive" ? isArchived(a) : !isArchived(a))&&
-    (fKind==="all"||fKind==="archive"||a.kind===fKind)&&(fCat==="all"||a.category===fCat)&&
-    (fStatus==="all"||a.status===fStatus)&&
+    (fView==="archive" ? (isArchived(a)||isHidden(a)) : !(isArchived(a)||isHidden(a)))&&
+    (fView==="all"||fView==="archive"||matchView(a,fView))&&(fCat==="all"||a.category===fCat)&&
     (!q || ((a.title||"")+" "+(a.keyword||"")+" "+(a.focus_keyword||"")+" "+(a.slug||"")+" "
             +(a.category||"")+" "+(a.meta||"")+" "+(a.tags||[]).join(" ")).toLowerCase().includes(q)));  // v1.3 검색 범위 확장
   if(sortMode==="volume") list=[...list].sort((x,y)=>(y.volume||0)-(x.volume||0));
@@ -1832,7 +1843,9 @@ function selectAllVisible(){
 function updateBulkBar(){
   const n=[...SEL].filter(a=>a.status!=="게시됨").length;
   const el=document.getElementById("selCount"); if(el) el.textContent=n;
-  const b=document.getElementById("btnPubSel"); if(b) b.disabled=(n===0);
+  const b=document.getElementById("btnPubSel"); if(b) b.disabled=(n===0||fView==="archive");
+  const d=document.getElementById("btnDelSel");
+  if(d){ d.disabled=(SEL.size===0); d.textContent=fView==="archive"?"↩️ 선택 복원":"🗑 선택 보관"; }
 }
 async function bulkPublish(items,label){
   if(!CFG.site||!CFG.user||!CFG.pass){toast("설정에서 워드프레스 정보를 먼저 입력하세요",1);openSheet();return;}
@@ -1853,12 +1866,8 @@ function publishSelected(){ bulkPublish([...SEL],"선택한 글"); }
 function publishAll(){ bulkPublish(visible(),"현재 목록의 글"); }
 
 function render(){
-  const arts=(DATA?.articles||[]).filter(a=>!isArchived(a));   // 보관된 글은 카운트에서 제외
+  const arts=(DATA?.articles||[]).filter(a=>!isArchived(a)&&!isHidden(a));   // 보관된 글은 카운트에서 제외
   renderCatFilters();
-  c("c-all",arts.length);c("c-long",arts.filter(a=>a.kind==="long").length);
-  c("c-season",arts.filter(a=>a.kind==="season").length);
-  const nArc=archivedCount(), chArc=document.getElementById("chipArchive");
-  if(chArc){ chArc.style.display=nArc?"":"none"; c("c-archive",nArc); }
   if(window.refreshKindTabs) try{ window.refreshKindTabs(); }catch(e){}
   if(window.syncSearchBar) try{ window.syncSearchBar(); }catch(e){}
   const cats=(DATA&&DATA.categories)?DATA.categories.length:[...new Set(arts.map(a=>a.category))].length;
@@ -1913,12 +1922,23 @@ function render(){
 function c(id,v){const el=document.getElementById(id); if(el) el.textContent=v;}
 
 // 필터
-document.querySelectorAll(".chip[data-f]").forEach(ch=>ch.onclick=()=>{
-  document.querySelectorAll(".chip[data-f]").forEach(x=>x.classList.remove("active"));
-  ch.classList.add("active");fKind=ch.dataset.f;render();});
-// 검색·상태·정렬
+// 검색·정렬
 document.getElementById("fSearch").addEventListener("input",e=>{fSearch=e.target.value;render();});
-document.getElementById("fStatus").addEventListener("change",e=>{fStatus=e.target.value;render();});
+// v141: 선택 보관(삭제 대체 — 실수 복구 가능) / 보관함에서는 복원
+function deleteSelected(){
+  const sel=[...SEL]; if(!sel.length) return;
+  CFG.hiddenKeys=CFG.hiddenKeys||[];
+  if(fView==="archive"){
+    const ks=sel.map(artKey);
+    CFG.hiddenKeys=CFG.hiddenKeys.filter(k=>!ks.includes(k));
+    toast("↩️ "+sel.length+"편을 목록으로 복원했습니다");
+  }else{
+    if(!confirm(sel.length+"편을 보관함으로 옮길까요? (보관함 탭에서 언제든 복원)")) return;
+    sel.forEach(a=>{ const k=artKey(a); if(k&&!CFG.hiddenKeys.includes(k)) CFG.hiddenKeys.push(k); });
+    toast("🗑 "+sel.length+"편을 보관함으로 옮겼습니다");
+  }
+  SEL.clear(); saveCfg(); render(); updateBulkBar();
+}
 document.getElementById("fSort").addEventListener("change",e=>{sortMode=e.target.value;render();});
 document.getElementById("archiveSel").addEventListener("change",e=>loadArchive(e.target.value));
 
@@ -2210,7 +2230,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=140;
+const APP_BUILD=141;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 
@@ -5876,7 +5896,7 @@ document.getElementById("archNow").onclick=()=>{
   if(!n){ toast("표시할 글이 없습니다",1); return; }
   const today=new Date().toISOString().slice(0,10);
   if(!confirm(`지금까지의 글 ${n}편을 목록에서 숨깁니다.\n\n· 기록은 삭제되지 않습니다(🗃️ 보관함에서 확인 가능)\n· 앞으로 새로 생성되는 글은 자동으로 다시 표시됩니다\n\n진행할까요?`)) return;
-  CFG.archiveBefore=today; saveCfg(); fKind="all";
+  CFG.archiveBefore=today; saveCfg(); fView="all";
   document.querySelectorAll('.chip[data-f]').forEach(c=>c.classList.toggle("active",c.dataset.f==="all"));
   render(); refreshArchLbl(); toast("목록을 비웠습니다 ✓ 새 글은 자동으로 표시됩니다");
 };
@@ -6590,17 +6610,12 @@ const PANEL_HAS={status:false,insights:false,trend:false};
 const PANEL_IDS={status:"statusPanel",insights:"insightPanel",trend:"trendPanel"};
 let activeTab=(typeof CFG!=="undefined"&&CFG.panelTab)?CFG.panelTab:"status";
 function applyPanels(){
-  const tabs=document.getElementById("panelTabs"); if(!tabs) return;
-  const any=PANEL_HAS.status||PANEL_HAS.insights||PANEL_HAS.trend;
-  tabs.style.display=any?"flex":"none";
-  const order=["status","insights","trend"];
-  if(!PANEL_HAS[activeTab]) activeTab=order.find(t=>PANEL_HAS[t])||"status";
-  order.forEach(t=>{
-    const el=document.getElementById(PANEL_IDS[t]);
-    if(el) el.style.display=(t===activeTab&&PANEL_HAS[t])?"block":"none";
-    const btn=tabs.querySelector('.ptab[data-t="'+t+'"]');
-    if(btn){ btn.style.display=PANEL_HAS[t]?"":"none"; btn.classList.toggle("active",t===activeTab); }
-  });
+  // v141: 패널 탭 폐지 — 운영 패널은 홈 화면 본문, 성과 패널은 수익 탭과 중복이라 숨김,
+  // 트렌드 패널은 수익>전략·트렌드로 이사(moveTrendPanel).
+  const st=document.getElementById("statusPanel");
+  if(st) st.style.display=PANEL_HAS.status?"block":"none";
+  const tp=document.getElementById("trendPanel");
+  if(tp&&tp.dataset.moved) tp.style.display="block";
 }
 function showTab(t){ if(!PANEL_HAS[t])return; activeTab=t; CFG.panelTab=t; saveCfg(); applyPanels(); }
 document.querySelectorAll('#panelTabs .ptab').forEach(b=>b.onclick=()=>showTab(b.dataset.t));
@@ -7304,9 +7319,9 @@ const SUBTABS={
        '오늘'(인박스+현황) → '점검'(문제 발견·수리) → '신청·결과'(세팅·신청·기록).
        준비(필수 페이지·플러그인)는 1회성이라 신청 흐름에 흡수했다. */
     tabs:[
-      {k:"now",  label:"오늘"},
-      {k:"check",label:"점검", ids:["adsCheck"]},
-      {k:"apply",label:"신청·결과", ids:["adsMakePages","adsPlugScan","adsGuide","adsReviewMode","adsAnalyze","adsLogApply","adsTrackBtn"]},
+      {k:"now",  label:"심사 현황"},
+      {k:"check",label:"사이트 점검", ids:["adsCheck"]},
+      {k:"apply",label:"신청 기록", ids:["adsMakePages","adsPlugScan","adsGuide","adsReviewMode","adsAnalyze","adsLogApply","adsTrackBtn"]},
     ],
     home:"now", render:()=>renderAdsDash(),
   },
@@ -7315,10 +7330,10 @@ const SUBTABS={
     // 구독제 글의 테마·형식을 여기서 정해 글 탭의 자동 작성에 반영)
     // → ③애드센스 광고 세팅 → ④그 외 돈 될 방법(쿠팡 등 제안·수락 시 세팅)
     tabs:[
-      {k:"now",  label:"수익", ids:["stRealViews","stRealRev","stWpCount","stViews","stRpm"]},
-      {k:"strat",label:"전략", ids:["stratBox"]},
-      {k:"ads",  label:"세팅"},
-      {k:"extra",label:"확장"},
+      {k:"now",  label:"결산", ids:["stRealViews","stRealRev","stWpCount","stViews","stRpm"]},
+      {k:"strat",label:"전략·트렌드", ids:["stratBox"]},
+      {k:"ads",  label:"광고 세팅"},
+      {k:"extra",label:"수익 채널"},
     ],
     home:"now", render:()=>renderMoneyDash(),
   },
@@ -7412,6 +7427,11 @@ function settingsToSubtabs(){
   page.dataset.subtabbed="1";
   showSub("sheet","g0");
 }
+function moveTrendPanel(){
+  const tp=document.getElementById("trendPanel"); if(!tp||tp.dataset.moved) return;
+  const sec=document.querySelector('#statsSheet .sub-sec[data-k="strat"]'); if(!sec) return;
+  sec.appendChild(tp); tp.dataset.moved="1"; tp.style.display="block";
+}
 function showSub(pageId,k){
   const page=document.getElementById(pageId), cfg=SUBTABS[pageId]; if(!page||!cfg) return;
   if(!cfg.tabs.some(t=>t.k===k)) k=cfg.home;   // 병합으로 사라진 탭 키 폴백(v129)
@@ -7419,7 +7439,7 @@ function showSub(pageId,k){
   page.querySelectorAll(".subtabs .st").forEach(b=>b.classList.toggle("active",b.dataset.k===k));
   page.querySelectorAll(".sub-sec").forEach(d=>d.classList.toggle("on",d.dataset.k===k));
   if(k===cfg.home&&cfg.render){ try{ cfg.render(); }catch(e){ console.warn(e); } }
-  if(pageId==="statsSheet"&&k==="strat"){ try{ renderStrategy(); }catch(e){ console.warn(e); } }
+  if(pageId==="statsSheet"&&k==="strat"){ try{ renderStrategy(); moveTrendPanel(); }catch(e){ console.warn(e); } }
   // 오래 걸리는 작업의 진행/완료 상태는 저장돼 있으므로 탭을 열 때마다 되살린다
   if(pageId==="adsSheet"&&k==="check"){
     try{
@@ -7443,34 +7463,33 @@ function moveSub(pageId,dir){
   showSub(pageId,ks[n]); return true;
 }
 
-// 글 목록: 종류 필터 칩 → 상단 고정 탭(3-3)
+// 글 목록: 상태 상단탭 (v141 — 발행됨/대기/보류/보관함)
 function kindTabList(){
-  const out=["all","long","season"];
-  if(archivedCount()) out.push("archive");
+  const out=["all","pub","wait","hold"];
+  const nArc=(DATA?.articles||[]).filter(a=>isArchived(a)||isHidden(a)).length;
+  if(nArc) out.push("archive");
   return out;
 }
 function moveKindTab(dir){
-  const ks=kindTabList(), i=ks.indexOf(fKind), n=i+dir;
+  const ks=kindTabList(), i=ks.indexOf(fView), n=i+dir;
   if(n<0||n>=ks.length) return;
   setKindTab(ks[n]);
 }
 function setKindTab(k){
-  fKind=k;
-  document.querySelectorAll("#kindTabs .st").forEach(b=>b.classList.toggle("active",b.dataset.f===k));
+  fView=k; SEL.clear(); updateBulkBar();
+  document.querySelectorAll("#statusTabs .st").forEach(b=>b.classList.toggle("active",b.dataset.f===k));
   render(); window.scrollTo({top:0,behavior:"instant"});
 }
 function buildKindTabs(){
-  const old=document.querySelector('.filters .chip[data-f]');
-  if(!old) return;
-  const row=old.closest(".filters"); if(!row||row.id==="kindTabs") return;
-  row.id="kindTabs"; row.className="subtabs";
-  const L={all:"전체",long:"저경쟁",season:"시즌",archive:"보관함"};
+  const row=document.getElementById("statusTabs"); if(!row) return;
   const build=()=>{
+    const all=(DATA?.articles||[]);
+    const live=all.filter(a=>!isArchived(a)&&!isHidden(a));
     const ks=kindTabList();
     row.innerHTML=ks.map(k=>{
-      const n=k==="archive"?archivedCount()
-        :(DATA?.articles||[]).filter(a=>!isArchived(a)&&(k==="all"||a.kind===k)).length;
-      return `<button class="st ${fKind===k?"active":""}" type="button" data-f="${k}">${L[k]}<span style="opacity:.65"> ${n}</span></button>`;
+      const n=k==="archive"?all.filter(a=>isArchived(a)||isHidden(a)).length
+        :k==="all"?live.length:live.filter(a=>matchView(a,k)).length;
+      return `<button class="st ${fView===k?"active":""}" type="button" data-f="${k}">${VIEW_L[k]}<span style="opacity:.65"> ${n}</span></button>`;
     }).join("");
     row.querySelectorAll(".st").forEach(b=>b.onclick=()=>setKindTab(b.dataset.f));
   };
@@ -7516,10 +7535,10 @@ function emptyArt(kind){
   const M={
     filter:{t:"이 조건에 맞는 글이 없어요",
       s:"위 필터를 <b>전체</b>로 바꾸면 다시 보입니다.",
-      b:`<button class="btn sm" style="margin-top:12px" onclick="fKind='all';document.querySelectorAll('.chip[data-f]').forEach(c=>c.classList.toggle('active',c.dataset.f==='all'));render();">전체 보기</button>`},
+      b:`<button class="btn sm" style="margin-top:12px" onclick="setKindTab('all')">전체 보기</button>`},
     archived:{t:"목록을 비워둔 상태예요",
       s:`${CFG.archiveBefore} 이전 글은 보관함에 있습니다.<br>발행을 다시 시작하면 새 글이 여기 나타납니다.`,
-      b:`<button class="btn sm" style="margin-top:12px" onclick="fKind='archive';document.querySelectorAll('.chip[data-f]').forEach(c=>c.classList.toggle('active',c.dataset.f==='archive'));render();">보관함 열기</button>`},
+      b:`<button class="btn sm" style="margin-top:12px" onclick="setKindTab('archive')">보관함 열기</button>`},
     none:{t:"아직 만들어진 글이 없어요",
       s:"설정에서 블로그와 AI 키를 연결한 뒤<br>상단 실행 버튼을 눌러보세요.",
       b:`<button class="btn primary sm" style="margin-top:12px" onclick="gotoTab('set')">설정 열기</button>`},
@@ -7896,6 +7915,8 @@ function gotoTab(k){
   const btn=bar.querySelector(`.tb[data-k="${k}"]`);
   if(!btn) return;
   closeAllSheets();
+  if(k==="home"||k==="list"){ VIEW=k; CFG.lastView=k; try{saveCfg();}catch(e){}
+    document.body.dataset.view=VIEW; }
   if(k==="set") openSheet();
   else if(k==="stats") openStats();
   else if(k==="ads") openAds();
@@ -7956,6 +7977,7 @@ function gotoTab(k){
 // 인라인 SVG 아이콘 — 이모지는 기기마다 모양·크기가 달라 선명도가 떨어진다.
 // currentColor를 쓰므로 활성/비활성 색이 자동으로 따라온다.
 const ICONS={
+  home:'<path d="M3 11l9-8 9 8"/><path d="M5 9.6V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.6"/><path d="M9.5 21v-6h5v6"/>',
   list:'<path d="M4 4h11l5 5v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M14 4v6h6"/><path d="M7 13h9M7 17h6"/>',
   ads: '<path d="M12 3l7 3v6c0 4.4-3 8.2-7 9-4-.8-7-4.6-7-9V6l7-3z"/><path d="M9 12.5l2 2 4-4.5"/>',
   stats:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
@@ -7966,6 +7988,7 @@ const ICONS={
 };
 const svgIcon=(k,cls)=>`<svg class="i ${cls||""}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]||""}</svg>`;
 const TABS=[
+  {k:"home",  ic:"home",  label:"홈"},
   {k:"list",  ic:"list",  label:"글"},
   {k:"ads",   ic:"ads",   label:"승인"},
   {k:"stats", ic:"stats", label:"수익"},
@@ -7977,13 +8000,15 @@ function closeAllSheets(){
   try{ closeAds(); }catch(e){}
   try{ closeKeyWiz(); }catch(e){}
 }
+let VIEW="home";
 function currentTab(){
   const on=id=>{const el=document.getElementById(id);return el&&el.classList.contains("open");};
   if(on("sheet")) return "set";
   if(on("statsSheet")) return "stats";
   if(on("adsSheet")) return "ads";
-  return "list";
+  return VIEW;
 }
+(function initView(){ document.body.dataset.view=VIEW; })();
 function syncTabbar(){
   const bar=document.getElementById("tabbar"); if(!bar) return;
   const ov=document.getElementById("loginOverlay");
