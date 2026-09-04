@@ -13,6 +13,10 @@ on:
         description: "true면 계획만 출력(수정 없음)"
         default: "false"
         required: false
+      force:
+        description: "true면 이미 교체한 글(imgv2)도 다시 교체"
+        default: "false"
+        required: false
 
 jobs:
   reimage:
@@ -41,6 +45,7 @@ jobs:
         env:
           REIMAGE_LIMIT: ${{ github.event.inputs.limit }}
           REIMAGE_DRY: ${{ github.event.inputs.dry_run }}
+          REIMAGE_FORCE: ${{ github.event.inputs.force }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python scripts/reimage_posts.py

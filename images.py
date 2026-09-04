@@ -81,10 +81,14 @@ def pick_style(desc, category=""):
 
 
 def build_prompt(desc, category, style=None):
-    """스타일 프리셋 + 구체 묘사 결합. (구 config.images.style 문자열은 폐기 — 저퀄 원인)"""
+    """스타일 프리셋 + 구체 묘사 결합. (구 config.images.style 문자열은 폐기 — 저퀄 원인)
+    2026-09-05 강화: '글과 무관한 이미지' 재발 방지 — 묘사를 문자 그대로, 소재 중심으로 그리게 강제."""
     key = style if style in STYLE_PRESETS else pick_style(desc, category)
-    subject = (f"Subject: {desc}. Context: an image for a Korean blog post "
-               f"about {category or 'daily life and home'}; the subject matches the article.")
+    subject = (f"Depict this exact subject, literally and specifically: {desc}. "
+               "The described subject must be the unmistakable focus of the frame. "
+               "Do NOT add unrelated scenery, random people, or generic stock-photo filler; "
+               "every element in the image must clearly belong to this subject and to the article's topic. "
+               f"Context: an image for a Korean blog post about {category or 'daily life and home'}.")
     return f"{STYLE_PRESETS[key]} {subject}"
 
 

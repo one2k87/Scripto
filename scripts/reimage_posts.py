@@ -35,14 +35,17 @@ def strip_html(s):
 
 
 def llm_pick(title, text, key, model):
-    """글 내용 → (스타일, 장면 묘사). 실패 시 휴리스틱 폴백."""
+    """글 내용 → (스타일, 장면 묘사). 실패 시 휴리스틱 폴백.
+    v2(9/5): 글의 '핵심 소재'를 먼저 찾게 하고 묘사에 강제 포함 — 무관 이미지 재발 방지."""
     prompt = (
-        "블로그 글에 넣을 대표 이미지 1장을 정한다.\n"
-        f"제목: {title}\n본문 일부: {text[:700]}\n"
-        "스타일 중 1개 선택 — photo(실사: 생활 장면·공간·작업 모습), object(정물: 제품·도구·재료 클로즈업), "
-        "diagram(도해: 구조·과정·원리·비교), illust(일러스트: 감성·비유).\n"
-        "그 스타일로 그릴 장면 묘사를 한국어 1~2문장으로, '무엇이·어디서·어떤 상태로'가 담기게 구체적으로.\n"
-        '순수 JSON만 출력: {"style":"photo","desc":"..."}')
+        "당신은 블로그 대표 이미지 기획자다. 이미지만 봐도 무슨 글인지 알 수 있어야 한다.\n"
+        f"제목: {title}\n본문 일부: {text[:900]}\n"
+        "1) 이 글이 다루는 '구체적 핵심 소재'(특정 제품·도구·작업·공간·재료의 명칭)를 본문에서 찾아라.\n"
+        "2) 스타일 1개 선택 — photo(실사: 그 소재를 다루는 생활 장면·작업 모습), object(정물: 그 소재 클로즈업), "
+        "diagram(도해: 그 소재의 구조·과정·비교), illust(일러스트: 감성·비유).\n"
+        "3) 장면 묘사 규칙: 반드시 핵심 소재 명칭을 그대로 포함하고, '무엇이·어디서·어떤 상태로'를 담아 "
+        "한국어 1~2문장. 글과 무관한 배경·인물·풍경 금지.\n"
+        '순수 JSON만 출력: {"style":"photo","desc":"...","subject":"핵심 소재 명사"}')
     try:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
         r = requests.post(url, headers={"x-goog-api-key": key, "Content-Type": "application/json"},
@@ -54,9 +57,13 @@ def llm_pick(title, text, key, model):
         # 정규식 추출 우선 — LLM이 JSON 규격(이스케이프·줄바꿈)을 자주 어겨 json.loads가 깨진다(9/4 실측)
         ms = re.search(r'"style"\s*:\s*"(\w+)"', t)
         md = re.search(r'"desc"\s*:\s*"([^"\n]{5,300})', t)
+        mj = re.search(r'"subject"\s*:\s*"([^"\n]{1,60})', t)
         style = ms.group(1) if (ms and ms.group(1) in images.STYLE_PRESETS) else None
         desc = md.group(1).strip() if md else ""
+        subj = mj.group(1).strip() if mj else ""
         if style and desc:
+            if subj and subj not in desc:      # 핵심 소재가 빠졌으면 앞에 박는다
+                desc = f"{subj} — {desc}"
             return style, desc
     except Exception as e:
         print(f"  [llm] 스타일 선택 실패(폴백): {e}")
@@ -73,6 +80,7 @@ def main():
     img_key = (cfg.get("images") or {}).get("api_key") or llm_key
     limit = int(os.getenv("REIMAGE_LIMIT") or "100")
     dry = (os.getenv("REIMAGE_DRY") or "").lower() == "true"
+    force = (os.getenv("REIMAGE_FORCE") or "").lower() == "true"   # imgv2 마커 무시하고 재교체
 
     base = wp["site_url"].rstrip("/")
     headers = _auth_header(wp["username"], wp["app_password"])
@@ -100,8 +108,10 @@ def main():
         title = strip_html(p["title"].get("rendered") or p["title"].get("raw", ""))
         content = p["content"].get("raw") or p["content"].get("rendered", "")
         if MARK in content:
-            skipped += 1
-            continue
+            if not force:
+                skipped += 1
+                continue
+            content = content.replace(MARK, "")   # 강제 모드: 마커 제거 후 기존 v2 figure를 다시 교체
         print(f"\n[{pid}] {title[:40]}")
         style, desc = llm_pick(title, strip_html(content), llm_key, llm_model)
         print(f"  스타일={style} / 묘사={desc[:60]}")
