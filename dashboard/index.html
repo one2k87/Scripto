@@ -680,7 +680,10 @@
   body[data-view="home"] .toolbar,body[data-view="home"] .bulkbar,
   body[data-view="home"] #adBanner,body[data-view="home"] #grid,
   body[data-view="home"] #empty,body[data-view="home"] .sec-div{display:none !important}
-  body[data-view="list"] #streakCard,body[data-view="list"] #statusPanel{display:none !important}
+  body[data-view="list"] #streakCard,body[data-view="list"] #statusPanel,
+  body[data-view="list"] #homePanel{display:none !important}
+  body[data-view="home"] #homePanel{margin:12px 16px 0}
+  #homePanel .card{margin-bottom:8px}
   #panelTabs{display:none !important}
   #mainView #insightPanel{display:none !important}
   #mainView #trendPanel{display:none !important}
@@ -2249,7 +2252,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=144;
+const APP_BUILD=145;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 
@@ -6710,35 +6713,127 @@ async function restoreSelected(){
 }
 // ===== v1.3 🔥 발행 스트릭 카드 =====
 // 발행 '리듬'은 심사관에게 살아있는 사이트라는 신호다. 습관을 눈에 보이게 만든다.
+// v145: '공개 발행'만 세던 버그 수정 — 초안 모드에선 공개가 잠겨 있어 숫자가 며칠째
+// 그대로였다(2026-09-05 실측). 이제 history.json(초안 포함 '제작' 기록, KST 날짜)을 기준으로
+// 진짜 파이프라인 리듬을 세고, WP 공개 글은 폴백으로만 쓴다.
+const kstDay=d=>new Intl.DateTimeFormat("sv-SE",{timeZone:"Asia/Seoul"}).format(d||new Date());
+const prevDay=s=>{ const d=new Date(s+"T12:00:00Z"); d.setUTCDate(d.getUTCDate()-1); return d.toISOString().slice(0,10); };
 async function renderStreak(){
   const box=document.getElementById("statusPanel"); if(!box) return;
   let el=document.getElementById("streakCard");
   if(!el){ el=document.createElement("div"); el.id="streakCard";
     box.parentNode.insertBefore(el, box); }
-  const base=(CFG.site||"").replace(/\/$/,""); if(!base){ el.innerHTML=""; return; }
-  let posts=[];
-  try{ const r=await fetch(`${base}/wp-json/wp/v2/posts?per_page=100&_fields=date`,{cache:"no-store"});
-       if(r.ok) posts=await r.json(); }catch(e){}
-  if(!Array.isArray(posts)||!posts.length){ el.innerHTML=""; return; }
-  const D=86400000, key=t=>new Date(t).toISOString().slice(0,10);
-  const days=new Set(posts.map(p=>String(p.date).slice(0,10)));
-  const now=Date.now();
-  let streak=0, t=now;
-  if(!days.has(key(t))) t-=D;                     // 오늘 글이 아직이면 어제부터 센다
-  while(days.has(key(t))){ streak++; t-=D; }
-  const week=posts.filter(p=>now-new Date(p.date).getTime()<7*D).length;
+  let days=new Set(), label="연속 제작";
+  try{ const hurl=(CFG.dataUrl&&CFG.dataUrl.length?CFG.dataUrl:"./data/latest.json").replace(/latest\.json.*$/,"history.json");
+       const r=await fetch(hurl+"?nc="+Date.now(),{cache:"no-store"});
+       if(r.ok){ const h=await r.json(); (h.articles||[]).forEach(a=>{ const d=String(a.date||"").slice(0,10); if(d) days.add(d); }); } }catch(e){}
+  if(!days.size){                                  // 폴백: WP 공개 글 날짜
+    label="연속 발행";
+    const base=(CFG.site||"").replace(/\/$/,""); if(!base){ el.innerHTML=""; return; }
+    try{ const r=await fetch(`${base}/wp-json/wp/v2/posts?per_page=100&_fields=date`,{cache:"no-store"});
+         if(r.ok) (await r.json()).forEach(p=>days.add(String(p.date).slice(0,10))); }catch(e){}
+  }
+  if(!days.size){ el.innerHTML=""; return; }
+  const today=kstDay();
+  let streak=0, t=today;
+  if(!days.has(t)) t=prevDay(t);                   // 오늘분이 아직이면 어제부터 센다
+  while(days.has(t)){ streak++; t=prevDay(t); }
+  let weekDays=[], w=today; for(let i=0;i<7;i++){ weekDays.unshift(w); w=prevDay(w); }
+  const week=weekDays.filter(d=>days.has(d)).length;
   const fire=streak>=7?"🔥🔥":streak>=3?"🔥":streak>=1?"✨":"🌱";
   el.innerHTML=`<div class="card" style="display:flex;gap:13px;align-items:center;padding:11px 14px;margin-bottom:8px">
     <span style="font-size:24px">${fire}</span>
-    <div style="flex:1;min-width:0"><b>연속 발행 ${streak}일</b>
-      <div class="hint" style="margin-top:2px">이번 주 ${week}편 — 꾸준한 발행 리듬이 곧 승인 신호입니다</div></div>
-    <div style="display:flex;gap:3px">${[6,5,4,3,2,1,0].map(i=>
-      `<span style="width:9px;height:22px;border-radius:4px;background:${days.has(key(now-i*D))?"var(--accent)":"var(--line)"}"></span>`).join("")}</div>
+    <div style="flex:1;min-width:0"><b>${label} ${streak}일</b>
+      <div class="hint" style="margin-top:2px">이번 주 ${week}일 가동 — 초안 포함, 글 공장이 실제로 돌아간 날 수예요</div></div>
+    <div style="display:flex;gap:3px">${weekDays.map(d=>
+      `<span title="${d}" style="width:9px;height:22px;border-radius:4px;background:${days.has(d)?"var(--accent)":"var(--line)"}"></span>`).join("")}</div>
   </div>`;
+}
+// ===== v145 홈 패널: 상태 → 방문 → 수익 (모드 설명 포함) =====
+async function renderHome(){
+  const box=document.getElementById("statusPanel"); if(!box) return;
+  let el=document.getElementById("homePanel");
+  if(!el){ el=document.createElement("div"); el.id="homePanel";
+    const anchor=document.getElementById("streakCard")||box;
+    anchor.parentNode.insertBefore(el,anchor); }
+  const base=(CFG.dataUrl&&CFG.dataUrl.length?CFG.dataUrl:"./data/latest.json");
+  const j=async n=>{ try{ const r=await fetch(base.replace(/latest\.json.*$/,n)+"?nc="+Date.now(),{cache:"no-store"});
+                          return r.ok?await r.json():null; }catch(e){ return null; } };
+  const [st,ins]=await Promise.all([j("status.json"),j("insights.json")]);
+  // ── ① 운영 모드: 지금 시스템이 어떤 상태인지 사람 말로 설명한다(요청: 상태의 이유까지)
+  const sf=CFG.safety||{}; const draft=(sf.force_draft!==false); const paused=!!CFG.paused;
+  let mIc,mName,mDesc;
+  if(paused&&draft){ mIc="🛡"; mName="심사 모드";
+    mDesc="애드센스 심사를 위해 매일 자동 생성을 멈추고, 만들던 글도 초안으로만 저장합니다. 심사 결과가 나오면 설정의 ⏸ 버튼으로 자동 생성을 다시 켜세요."; }
+  else if(paused){ mIc="⏸"; mName="자동 생성 멈춤";
+    mDesc="매일 자동 생성이 꺼져 있어 새 글이 쌓이지 않습니다. ▶ 버튼으로 수동 생성은 가능하고, 설정의 ⏸ 버튼으로 다시 켤 수 있어요."; }
+  else if(draft){ mIc="📝"; mName="초안 모드 (안전 운행)";
+    mDesc="글은 매일 자동으로 만들어지지만 <b>공개 발행은 잠겨 있습니다</b>(검토 후 발행). 공개가 멈춰 보여도 고장이 아니에요. 공개하려면 글 탭에서 골라 게시하거나, 설정 > 품질·안전에서 '초안 저장'을 끄세요."; }
+  else { mIc="🚀"; mName="자동 발행 모드";
+    mDesc="글이 매일 자동으로 만들어지고 곧바로 블로그에 공개됩니다."; }
+  let dBadge="";
+  try{ const log=adsLog(), applies=log.filter(x=>x.kind==="apply");
+    if(applies.length && !CFG.adsenseApproved){
+      const d=Math.max(0,Math.round((Date.now()-new Date(applies[applies.length-1].at+"T00:00:00+09:00").getTime())/864e5));
+      dBadge=`<span style="font-size:11px;font-weight:700;color:#ffb020;white-space:nowrap">📨 ${applies.length}회차 심사 D+${d}</span>`; } }catch(e){}
+  const L=(st&&st.last_run)||{}; const today=kstDay();
+  const ranToday=String(L.at||"").slice(0,10)===today;
+  const runLine=ranToday
+    ?`✅ 오늘 ${String(L.at).slice(11,16)} 가동 — 생성 ${L.articles||0} · 게시 ${L.published||0} · 초안 ${L.draft||0} · 보류 ${L.held||0}`
+    :`⏳ 오늘 아직 가동 전 · 최근 ${L.at?String(L.at).slice(5,16).replace("T"," "):"기록 없음"}`;
+  // ── ② 방문(실측): 서버 파이프라인이 모아 온 GA4·서치콘솔 값
+  const ga=((ins||{}).ga4||{}).top_pages||[];
+  const scp=(((ins||{}).search_console)||{}).pages||[];
+  const views=ga.reduce((s,p)=>s+(+p.views||0),0), users=ga.reduce((s,p)=>s+(+p.users||0),0);
+  const imp=scp.reduce((s,p)=>s+(+p.impressions||0),0), clk=scp.reduce((s,p)=>s+(+p.clicks||0),0);
+  const hasVisit=ga.length||scp.length;
+  const visitHtml=hasVisit
+    ?`<div style="display:flex;gap:0;text-align:center">
+        <div style="flex:1"><div style="font-size:20px;font-weight:800">${views.toLocaleString()}</div><div class="hint">조회수</div></div>
+        <div style="flex:1"><div style="font-size:20px;font-weight:800">${users.toLocaleString()}</div><div class="hint">방문자</div></div>
+        <div style="flex:1"><div style="font-size:20px;font-weight:800">${imp.toLocaleString()}</div><div class="hint">검색 노출</div></div>
+        <div style="flex:1"><div style="font-size:20px;font-weight:800">${clk.toLocaleString()}</div><div class="hint">검색 클릭</div></div>
+      </div><div class="hint" style="margin-top:6px">실측 · 최근 28일 (구글 애널리틱스·서치콘솔)${ins&&ins.updated_at?` · ${ins.updated_at} 갱신`:""}</div>`
+    :`<div class="hint">아직 실측 데이터가 없어요. 사이트가 새것이라 정상이며, 매일 아침 자동으로 수집을 시도합니다.</div>`;
+  // ── ③ 수익: 승인 전엔 심사 상태+예상, 승인 후엔 실측 우선
+  const ad=((ins||{}).adsense)||{};
+  const posts=parseFloat(CFG.wpPublished)||0, vpp=parseFloat(CFG.stViews)||300, rpm=parseFloat(CFG.stRpm)||5000;
+  const realRev=parseFloat(CFG.stRealRev)||0;
+  const est=posts?Math.round(posts*vpp/1000*rpm):0;
+  let revHtml;
+  if(CFG.adsenseApproved&&(ad.earnings!=null||realRev)){
+    revHtml=`<div style="font-size:22px;font-weight:800;color:#33c27f">${ad.earnings!=null?`${ad.earnings} ${ad.currency||""}`:`₩${realRev.toLocaleString()}`}</div>
+      <div class="hint">실측 · 최근 28일 애드센스</div>`;
+  }else if(CFG.adsenseApproved){
+    revHtml=`<div style="font-size:20px;font-weight:800">₩${est.toLocaleString()}<span class="hint" style="font-weight:400"> /월 추정</span></div>
+      <div class="hint">실측값이 잡히면 자동으로 바뀝니다 · 가정값은 수익 탭에서 조정</div>`;
+  }else{
+    revHtml=`<div><b>지금은 ₩0</b> — 애드센스 승인 전이라 광고 수익이 아직 없습니다.</div>
+      <div class="hint" style="margin-top:4px">승인되면 현재 글 기준 월 <b>₩${est.toLocaleString()}</b> 수준부터 시작할 것으로 추정돼요(가정값 기준, 수익 탭에서 조정). 심사 통과가 지금의 최우선 관문입니다.</div>`;
+  }
+  el.innerHTML=`
+    <div class="card" style="padding:12px 14px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        <b style="font-size:15px">${mIc} ${mName}</b><span style="flex:1"></span>${dBadge}
+      </div>
+      <div class="hint" style="line-height:1.55">${mDesc}</div>
+      <div style="margin-top:8px;font-size:12.5px">${runLine}</div>
+    </div>
+    <div class="card" style="padding:12px 14px">
+      <div style="display:flex;align-items:center;margin-bottom:8px"><b>👥 방문</b><span style="flex:1"></span>
+        <a href="https://analytics.google.com" target="_blank" rel="noopener" style="font-size:11px;color:var(--accent);text-decoration:none">애널리틱스 ↗</a></div>
+      ${visitHtml}
+    </div>
+    <div class="card" style="padding:12px 14px">
+      <div style="display:flex;align-items:center;margin-bottom:8px"><b>💰 수익</b><span style="flex:1"></span>
+        <a href="https://adsense.google.com/adsense/home" target="_blank" rel="noopener" style="font-size:11px;color:var(--accent);text-decoration:none">애드센스 ↗</a></div>
+      ${revHtml}
+    </div>`;
 }
 // 운영 안전망 패널: 연동 헬스체크 + 최근 실행 + 이번 달 예상비용
 async function loadStatus(dataUrl,force){
   try{ renderStreak(); }catch(e){}
+  try{ renderHome(); }catch(e){}
   const url=(dataUrl||"./data/latest.json").replace(/latest\.json.*$/,"status.json");
   const box=document.getElementById("statusPanel"); if(!box) return;
   let s=null;
