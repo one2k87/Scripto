@@ -1086,6 +1086,23 @@
   </div>
 
   <div class="divider"></div>
+  <h2 style="font-size:14px">🛠 유지관리 (원탭 실행)</h2>
+  <div class="field">
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+      <input type="checkbox" id="opsForce" style="width:auto"> 이미 바꾼 글도 다시 교체 (force)
+    </label>
+    <div class="actions" style="margin-top:6px;flex-wrap:wrap">
+      <button class="btn sm" id="opsReimage">🖼 이미지 전체 재교체</button>
+      <button class="btn sm" id="opsCleanup">🧹 기본 콘텐츠 정리</button>
+      <button class="btn sm" id="opsStrategy">📊 주간 전략 분석</button>
+      <button class="btn sm" id="opsReport">📋 주간 운영 리포트</button>
+    </div>
+    <div id="opsBox" class="hint" style="margin-top:8px"></div>
+    <div class="hint">위 "▶ 폰에서 생성 실행"의 GitHub 정보로 클라우드에서 실행됩니다. 완료되면 텔레그램으로 알림이 와요.
+      '기본 콘텐츠 정리'는 워드프레스 기본 글(Hello world! 등)을 휴지통으로 보내며, 언제든 복구할 수 있습니다.</div>
+  </div>
+
+  <div class="divider"></div>
   <h2 style="font-size:14px">📝 워드프레스 (폰에서 직접 게시)</h2>
   <div class="field">
     <label>사이트 주소</label>
@@ -2232,7 +2249,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=143;
+const APP_BUILD=144;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 
@@ -5964,6 +5981,36 @@ document.getElementById("wpTrashDrafts").onclick=async()=>{
     }catch(e){ toast("실행 실패 — 네트워크 확인",1); }
     run.disabled=false; run.textContent="지금 분석 실행";
   };
+})();
+// ===== 유지관리(Ops) 원탭 실행 — 기존 ghToken workflow_dispatch 재사용 (v144) =====
+async function opsDispatch(file,inputs,btn,label){
+  if(!CFG.ghOwner||!CFG.ghRepo||!CFG.ghToken){ toast("설정 > ▶ 폰에서 생성 실행에 GitHub 정보를 먼저 입력하세요",1); return; }
+  const box=document.getElementById("opsBox");
+  btn.disabled=true; const old=btn.textContent; btn.textContent="실행 중…";
+  try{
+    const body={ref:"main"}; if(inputs) body.inputs=inputs;
+    const r=await fetch(`https://api.github.com/repos/${CFG.ghOwner}/${CFG.ghRepo}/actions/workflows/${file}/dispatches`,
+      {method:"POST",headers:{Authorization:"Bearer "+CFG.ghToken,Accept:"application/vnd.github+json"},
+       body:JSON.stringify(body)});
+    if(r.status===204){
+      toast(label+" 시작됨 — 완료되면 텔레그램 알림","info");
+      if(box) box.innerHTML=`${label} 실행을 접수했습니다 · <a href="https://github.com/${CFG.ghOwner}/${CFG.ghRepo}/actions/workflows/${file}" target="_blank" rel="noopener">진행 상황 보기</a>`;
+    }else{ const t=await r.text(); toast(label+" 실행 실패 ("+r.status+")",1); console.warn(t); }
+  }catch(e){ toast("실행 실패 — 네트워크 확인",1); }
+  btn.disabled=false; btn.textContent=old;
+}
+(function opsBtns(){
+  const f=id=>document.getElementById(id);
+  const rb=f("opsReimage");
+  if(rb) rb.onclick=()=>{ const force=!!(f("opsForce")&&f("opsForce").checked);
+    if(force&&!confirm("이미 교체한 글까지 전부 다시 만듭니다. 20분 안팎 걸려요. 진행할까요?")) return;
+    opsDispatch("reimage.yml",{limit:"100",dry_run:"false",force:force?"true":"false"},rb,"이미지 재교체"); };
+  const cb=f("opsCleanup");
+  if(cb) cb.onclick=()=>opsDispatch("cleanup.yml",null,cb,"기본 콘텐츠 정리");
+  const sb=f("opsStrategy");
+  if(sb) sb.onclick=()=>opsDispatch("weekly-strategy.yml",null,sb,"주간 전략 분석");
+  const pb=f("opsReport");
+  if(pb) pb.onclick=()=>opsDispatch("weekly-report.yml",null,pb,"주간 운영 리포트");
 })();
 (function nicheBtn(){
   const b=document.getElementById("nicheRedo");
