@@ -2252,7 +2252,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=145;
+const APP_BUILD=146;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 
@@ -7805,11 +7805,19 @@ function pickStepsHtml(cur){
     return `<div class="stp ${cls}"><div class="sd">${n<i?"✓":n+1}</div><div class="sl">${s[0]}</div></div>`;
   }).join("")+`</div>`;
 }
+// v146: 라인 전환 — 트랙 마법사가 온보딩 이후 다시 열 수 없어, 실수로 픽 라인을
+// 고르면 승인 탭이 픽 라인에 갇혔다(2026-09-05 실측, 되돌릴 버튼이 없었음).
+function switchTrack(v){
+  CFG.trackPurpose=(v==="coupang")?"coupang":"adsense"; saveCfg();
+  toast(v==="coupang"?"픽 라인(쿠팡)으로 전환":"애드센스 라인으로 전환 ✓");
+  try{ renderAdsDash(); }catch(e){}
+}
 function renderPickDash(){
   const page=document.getElementById("adsSheet");
   const h=page.querySelector("h2");
   if(h&&!/픽 라인/.test(h.textContent))
-    h.innerHTML=`🛒 픽 라인 — 쿠팡 수익화 <span style="font-size:11px;color:var(--muted);font-weight:400">심사 없음 · 목표: 오픈 API</span>`;
+    h.innerHTML=`🛒 픽 라인 — 쿠팡 수익화 <span style="font-size:11px;color:var(--muted);font-weight:400">심사 없음 · 목표: 오픈 API</span>
+      <button class="btn sm" onclick="switchTrack('adsense')" style="float:right;font-size:11px;padding:3px 9px">↔ 애드센스 라인으로</button>`;
   let box=page.querySelector("#adsDash");
   if(!box){ box=document.createElement("div"); box.id="adsDash";
     page.querySelector('.sub-sec[data-k="now"]').prepend(box); }
