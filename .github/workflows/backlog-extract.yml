@@ -6,6 +6,9 @@ name: 백로그 주제 추출
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write   # 큐 파일 커밋에 필요(기본 토큰은 읽기 전용 — #1 push 3회 실패 실측)
+
 jobs:
   extract:
     runs-on: ubuntu-latest
