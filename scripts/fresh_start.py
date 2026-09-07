@@ -64,9 +64,9 @@ def main():
     print(f"[정리] 휴지통 {trashed} · 실패 {failed}")
 
     # 2) 통계 재구성: 살아 있는 발행 글 기준
-    live = {}
-    for it in wp_pages(base, H, status="publish", _fields="id,slug"):
-        live[str(it["id"])] = it["slug"]
+    live_posts = list(wp_pages(base, H, status="publish",
+                               _fields="id,slug,link,title,date"))
+    live = {str(it["id"]): it["slug"] for it in live_posts}
     live_slugs = set(live.values())
 
     try:
@@ -92,6 +92,20 @@ def main():
     import datetime
     old["archived_at"] = datetime.datetime.now().isoformat()[:19]
     json.dump(old, open(ARCHIVE, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    # 이력에 없는 살아 있는 발행 글은 WP에서 직접 항목을 만든다 — 옛 이력과 post_id·
+    # 슬러그가 어긋나 매칭이 새는 경우(한글 슬러그·드립 발행 id 차이, #1 실측 20→3) 방지.
+    have_ids = {str(a.get("post_id")) for a in keep}
+    have_slugs = {a.get("slug") for a in keep}
+    import re as _re
+    for it in live_posts:
+        if str(it["id"]) in have_ids or it.get("slug") in have_slugs:
+            continue
+        t = _re.sub(r"<[^>]+>", "", (it.get("title") or {}).get("rendered") or "")
+        keep.append({"title": t, "slug": it.get("slug", ""), "url": it.get("link", ""),
+                     "post_id": str(it["id"]), "status": "게시됨", "kind": "long",
+                     "keyword": t, "category": "", "intent": "",
+                     "date": str(it.get("date", ""))[:10], "series_id": ""})
+    keep.sort(key=lambda a: a.get("date", ""))
     hist["articles"] = keep
     hist["rebased_at"] = old["archived_at"]
     json.dump(hist, open(HISTORY, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
