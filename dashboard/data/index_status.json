@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-09-06T23:11:18",
+ "updated_at": "2026-09-07T01:07:01",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 28,
@@ -13,7 +13,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-09-06T00:57:58\",\"link\":\"https:\\/\\/wontheland.com\\/old-bathroom-tile-overlay-material\\/\"},{\"modified\":"
+  "body_head": "[{\"modified\":\"2026-09-07T01:02:58\",\"link\":\"https:\\/\\/wontheland.com\\/faucet-leak-repair-2026-september\\/\"},{\"modified\":\""
  },
  "posts_n": 30,
  "results": [
@@ -24,10 +24,16 @@
    "lastCrawl": "2026-08-31"
   },
   {
+   "url": "https://wontheland.com/faucet-leak-repair-2026-september/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
+   "lastCrawl": ""
+  },
+  {
    "url": "https://wontheland.com/old-bathroom-tile-overlay-material/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
+   "state": "Crawled - currently not indexed",
+   "lastCrawl": "2026-09-07"
   },
   {
    "url": "https://wontheland.com/드레스룸-붙박이장-도어-수평-조정용-숨은-경첩-전후/",
@@ -127,9 +133,9 @@
   },
   {
    "url": "https://wontheland.com/드레스룸-시스템-옷장-행거-파이프-단단히-고정하기/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-09-07"
   },
   {
    "url": "https://wontheland.com/보일러실-내-벽면-단열재-석고보드-2p-복합-시공-시-이음/",
@@ -190,12 +196,6 @@
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-09-03"
-  },
-  {
-   "url": "https://wontheland.com/지하실-천장-곰팡이-제거용-항균-세척제-분사-스크러/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-01"
   }
  ]
 }
