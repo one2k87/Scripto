@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-09-07T01:07:01",
+ "updated_at": "2026-09-07T23:38:22",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 28,
@@ -26,7 +26,7 @@
   {
    "url": "https://wontheland.com/faucet-leak-repair-2026-september/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {

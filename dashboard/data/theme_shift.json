@@ -1,13 +1,11 @@
 {
-  "at": "2026-09-07T01:01:07",
-  "notes": [
-    "'셀프 인테리어' 완충 — 누적 12편이라 하루 최대 3편(시리즈 금지)"
-  ],
+  "at": "2026-09-07T23:32:17",
+  "notes": [],
   "maturity": [
     {
       "category": "셀프 인테리어",
-      "published": 12,
-      "daily_cap": 3
+      "published": 3,
+      "daily_cap": null
     }
   ]
 }
