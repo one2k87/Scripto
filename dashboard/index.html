@@ -2252,7 +2252,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=146;
+const APP_BUILD=147;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 
@@ -2291,6 +2291,18 @@ async function todoItems(){
       const doneN=Object.keys(CFG.idxReq||{}).length;
       if(doneN<30) t.push({i:"🚀", x:`빠른 등록 부스터 — 오늘 10개 (누적 ${doneN}/30)`, b:"열기", a:"gotoTab('ads');showSub('adsSheet','check')"});
     }
+  }catch(e){}
+  // 서버 아침 점검(daily_check_fix.py)이 남긴 인박스 검사 2종 — 픽토 b142 이식 (v147)
+  try{
+    const sc=await (await fetch("data/site_check.json?nc="+Date.now(),{cache:"no-store"})).json();
+    const df=sc.defaults||[];
+    if(df.length) t.push({i:"🧹",
+      x:`워드프레스 기본 글 ${df.length}건이 아직 공개 중 — 검색 품질 신호를 깎습니다`,
+      b:"정리 실행", a:"opsDispatch('cleanup.yml',null,this,'기본 콘텐츠 정리')"});
+    const nv=sc.noimgv2||{};
+    if(nv.n) t.push({i:"🖼️",
+      x:`이미지 v2 미적용 ${nv.n}${nv.of?"/"+nv.of:""}편 — 옛 규격 이미지가 남아 있습니다`,
+      b:"재교체 실행", a:"opsDispatch('reimage.yml',{limit:'100',dry_run:'false',force:'false'},this,'이미지 재교체')"});
   }catch(e){}
   try{
     const sj=await (await fetch("data/status.json?nc="+Date.now(),{cache:"no-store"})).json();

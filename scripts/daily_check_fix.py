@@ -155,10 +155,74 @@ if AUTO_REPAIR and fails:
             repair_fail.append(f"{f['title'][:20]}({str(e)[:30]})")
     print(f"[repair] 수리 {len(repaired)}편 · 실패 {len(repair_fail)}편")
 
+# ── 인박스 검사 2종 (2026-09-07, 픽토 98c5230 이식) ─────────────
+# 왜: 둘 다 "사람이 사이트를 직접 열어봐야" 알던 문제 — 감지는 앱이 한다.
+#  ① 기본 글 존재: WP 기본 콘텐츠가 공개 중이면 색인 품질 신호를 깎는다(9/5 픽담 실측).
+#  ② imgv2 미적용: reimage.yml이 건너뛰는 기준과 동일하게 content.raw의 마커를 센다.
+IMGV2_MARK = "<!--imgv2-->"
+DEFAULT_SLUGS = {"posts": ["hello-world"], "pages": ["sample-page"]}
+
+_H = {"User-Agent": "Mozilla/5.0 (ScriptoBot)"}
+try:
+    from publisher import _auth_header
+    if wp.get("username") and wp.get("app_password"):
+        _H.update(_auth_header(wp["username"], wp["app_password"]))
+except Exception as e:
+    print(f"[check] WP 인증 헤더 없음({e}) — 공개 조회로 진행")
+
+
+def _title_of(item):
+    t = item.get("title") or {}
+    return strip_tags(t.get("rendered") or t.get("raw") or "")[:40]
+
+
+defaults_found = []
+for _kind, _slugs in DEFAULT_SLUGS.items():
+    for _slug in _slugs:
+        try:
+            r = requests.get(f"{site}/wp-json/wp/v2/{_kind}", headers=_H,
+                             params={"slug": _slug, "status": "publish",
+                                     "_fields": "id,title,link"}, timeout=20)
+            for it in (r.json() if r.ok else []):
+                defaults_found.append({"kind": _kind, "id": it["id"],
+                                       "title": _title_of(it), "link": it.get("link", "")})
+        except Exception as e:
+            print(f"[check] 기본 글 조회 실패 {_kind}/{_slug}: {e}")
+
+noimgv2, imgv2_checked = [], 0
+try:
+    _pg = 1
+    while True:
+        r = requests.get(f"{site}/wp-json/wp/v2/posts", headers=_H,
+                         params={"per_page": 50, "page": _pg, "status": "publish",
+                                 "context": "edit", "_fields": "id,title,content"}, timeout=30)
+        if not r.ok:
+            raise RuntimeError(f"HTTP {r.status_code}")
+        batch = r.json()
+        for it in batch:
+            imgv2_checked += 1
+            c = it.get("content") or {}
+            if IMGV2_MARK not in (c.get("raw") or c.get("rendered") or ""):
+                noimgv2.append({"id": it["id"], "title": _title_of(it)})
+        if len(batch) < 50:
+            break
+        _pg += 1
+except Exception as e:
+    # context=edit는 인증 필요 — 막히면 이미 받아둔 rendered 본문으로 근사.
+    print(f"[check] imgv2 정밀 조회 실패({e}) — rendered 본문으로 대체")
+    imgv2_checked = len(posts)
+    noimgv2 = [{"id": p["id"], "title": _title_of(p)}
+               for p in posts
+               if IMGV2_MARK not in ((p.get("content") or {}).get("rendered") or "")]
+
+print(f"[check] 기본 글 잔존 {len(defaults_found)}건 · imgv2 미적용 {len(noimgv2)}/{imgv2_checked}편")
+
 # ── 결과 저장 + 텔레그램 ───────────────────────────────────────
 out = {"at": datetime.datetime.now().isoformat()[:19], "n": len(scored), "avg": avg,
        "fails": [{k: x[k] for k in ("id", "title", "score", "issues")} for x in fails],
-       "auto_repair": AUTO_REPAIR, "repaired": repaired, "repair_fail": repair_fail}
+       "auto_repair": AUTO_REPAIR, "repaired": repaired, "repair_fail": repair_fail,
+       "defaults": defaults_found,
+       "noimgv2": {"n": len(noimgv2), "of": imgv2_checked, "posts": noimgv2[:20]}}
 os.makedirs("dashboard/data", exist_ok=True)
 json.dump(out, open("dashboard/data/site_check.json", "w", encoding="utf-8"),
           ensure_ascii=False, indent=1)
@@ -194,10 +258,15 @@ try:
     # 2026-09-01부터 '무소식 = 정상'도 매일 한 줄로 알린다 — 앱을 안 열어도 아는 상태가 제품의 약속.
     msg = (f"📋 <b>스크립토 아침 점검</b>\n"
            f"글 {len(scored)}편 · 평균 {avg}점 · 미달 {len(fails)}편{idx_line}{ghost_line}")
+    if defaults_found:
+        msg += (f"\n🧹 워드프레스 기본 글 {len(defaults_found)}건이 아직 공개 중 "
+                f"({' · '.join(d['title'] for d in defaults_found[:2])}) — 앱 유지관리 > 기본 콘텐츠 정리")
+    if noimgv2:
+        msg += f"\n🖼️ 이미지 v2 미적용 {len(noimgv2)}/{imgv2_checked}편 — 앱 유지관리 > 이미지 재교체"
     if repaired: msg += "\n🔧 자동 수리: " + " / ".join(repaired[:3])
     if repair_fail: msg += "\n⚠️ 수리 실패: " + " / ".join(repair_fail[:3])
     if fails and not AUTO_REPAIR: msg += "\n앱에서 '한 번에 고치기'를 실행하세요 (또는 자동 수리를 켜세요)"
-    if not (fails or repaired or repair_fail): msg += "\n✅ 이상 없음"
+    if not (fails or repaired or repair_fail or defaults_found or noimgv2): msg += "\n✅ 이상 없음"
     notify.send(cfg, msg)
 except Exception as e:
     print(f"[notify] 건너뜀: {e}")
