@@ -115,6 +115,16 @@ def collect_lane(cfg, cat, lane, n_slots, exclude):
     cand = [c for c in cand if not topics.is_corporate(c["keyword"])]
     if len(cand) < before:
         print(f"  · 기업·전문가용 주제 {before - len(cand)}개 제외(일반인 관점 유지)")
+    # 형제 사이트(픽담) 동일 제목 회피(2026-09-08): 9/1 두 사이트가 완전히 같은 제목을
+    # 생성한 실측 사고의 대칭 방어. 공개 제목만 사용, 회피 전용(내부링크 등 불사용).
+    try:
+        import sibling
+        before = len(cand)
+        cand = [c for c in cand if not sibling.is_dup(c["keyword"])]
+        if len(cand) < before:
+            print(f"  · 형제 사이트 중복 주제 {before - len(cand)}개 제외")
+    except Exception as e:
+        print(f"  · 형제 중복 회피 건너뜀: {e}")
 
     # 지속 판별(저경쟁 vs 시즌). 속도 위해 perf.classify=false 면 건너뜀
     # (이미 lane별 프롬프트로 생성했으므로 끄더라도 분류 자체는 유지됨)
