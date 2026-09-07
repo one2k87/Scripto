@@ -39,5 +39,14 @@
   },
   "_indexnow_설명": "네이버·빙·얀덱스 즉시 색인(IndexNow). 키는 공개 값(키 파일 URL로 검증). 루트에 파일을 못 놓는 환경을 위해 미디어 업로드 URL을 keyLocation으로 쓴다. 구글은 불참 — 구글 쪽은 WebSub(RSS 푸시)+사이트맵이 담당.",
   "auto_repair": true,
-  "_auto_repair_설명": "60점 미만 글을 매일 자동 재작성(하루 5편 캡). 대시보드 '자동 수리' 스위치의 서버판. 끄려면 false."
+  "_auto_repair_설명": "60점 미만 글을 매일 자동 재작성(하루 5편 캡). 대시보드 '자동 수리' 스위치의 서버판. 끄려면 false.",
+  "line": "adsense",
+  "_line_설명": "라인 선언(단일 소스). adsense=제휴(쿠팡·affiliate) 삽입을 코드가 강제 차단하고, 아침 점검이 발행 글에서 제휴·픽담 흔적을 감시한다. 애드센스와 쿠팡파트너스의 철저 분리(2026-09-07 사용자 확정 — 지식상품화 대비).",
+  "line_forbid": [
+    "coupang.com",
+    "link.coupang",
+    "partners.coupang",
+    "쿠팡 파트너스",
+    "pickdam.com"
+  ]
 }

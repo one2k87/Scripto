@@ -828,6 +828,19 @@ def run():
     _gen.COMMERCE_MODE = (cfg.get("track") == "coupang")
     if _gen.COMMERCE_MODE:
         print("[트랙] 🛒 픽 라인(쿠팡) — 커머스 모드로 생성합니다")
+    # ── 라인 격리 가드(2026-09-07 사용자 확정) ─────────────────────
+    # 애드센스 라인 사이트에는 시크릿 실수·설정 잔재로도 제휴 요소가 섞이면 안 된다
+    # (제휴 혼입은 심사·정책 리스크이자, 이후 지식상품화 때 '순수 애드센스 사례'라는
+    # 상품 가치를 훼손). line은 data/site_categories.json(단일 소스)에 선언한다.
+    try:
+        _sc = json.load(open("data/site_categories.json", encoding="utf-8"))
+        if _sc.get("line", "adsense") == "adsense" and cfg.get("track") != "coupang":
+            for _k in ("coupang", "affiliate"):
+                if (cfg.get(_k) or {}).get("enabled"):
+                    cfg[_k]["enabled"] = False
+                    print(f"[격리] 애드센스 라인 — {_k} 삽입이 켜져 있어 강제 차단했습니다")
+    except Exception:
+        pass
 
     # 일시정지: 매일 자동 생성을 꺼둔 상태면 아무것도 하지 않고 종료(초안 안 쌓임, API 호출 0)
     if cfg.get("paused"):

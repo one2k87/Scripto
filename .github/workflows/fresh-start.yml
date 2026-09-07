@@ -1,0 +1,56 @@
+name: 새 출발 정리 (초안 휴지통 + 통계 재구성)
+
+# 수동 전용(2026-09-07): 옛 초안 전량을 휴지통으로(복구 가능), 통계는 살아 있는
+# 발행 글 기준으로 재구성. 발행 글·페이지는 절대 건드리지 않는다.
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "실행하려면 YES 입력"
+        default: ""
+        required: true
+
+permissions:
+  contents: write   # history 재구성 결과 커밋
+
+jobs:
+  fresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 확인
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "YES" ]; then
+            echo "confirm에 YES를 입력해야 실행됩니다"; exit 1; fi
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: 의존성
+        run: pip install requests
+      - name: 설정 생성
+        env:
+          LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+          BLOG_URL: ${{ secrets.BLOG_URL }}
+          WP_ENABLED: ${{ secrets.WP_ENABLED }}
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_STATUS: ${{ secrets.WP_STATUS }}
+        run: python build_config.py
+      - name: 정리 + 재구성 실행
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/fresh_start.py
+      - name: 결과 커밋
+        run: |
+          git config user.name "blog-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add dashboard/data/history.json dashboard/data/history_archive.json 2>/dev/null || true
+          git commit -m "새 출발: 통계를 살아 있는 발행 글 기준으로 재구성" || { echo "변경 없음"; exit 0; }
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin main && git push && exit 0
+            sleep $((i*7))
+          done
+          echo "::warning::push 3회 실패"

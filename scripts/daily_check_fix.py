@@ -189,7 +189,17 @@ for _kind, _slugs in DEFAULT_SLUGS.items():
         except Exception as e:
             print(f"[check] 기본 글 조회 실패 {_kind}/{_slug}: {e}")
 
-noimgv2, imgv2_checked = [], 0
+# ③ 라인 오염 감시(2026-09-07): 애드센스 라인 발행 글에 제휴(쿠팡)·픽담 흔적이 있으면
+#    즉시 경고. 패턴은 site_categories.json의 line_forbid(단일 소스). imgv2 루프에 얹어 비용 0.
+_forbid = []
+try:
+    _scj = json.load(open("data/site_categories.json", encoding="utf-8"))
+    if _scj.get("line", "adsense") == "adsense":
+        _forbid = _scj.get("line_forbid") or []
+except Exception:
+    pass
+
+noimgv2, imgv2_checked, contamination = [], 0, []
 try:
     _pg = 1
     while True:
@@ -202,8 +212,12 @@ try:
         for it in batch:
             imgv2_checked += 1
             c = it.get("content") or {}
-            if IMGV2_MARK not in (c.get("raw") or c.get("rendered") or ""):
+            body = c.get("raw") or c.get("rendered") or ""
+            if IMGV2_MARK not in body:
                 noimgv2.append({"id": it["id"], "title": _title_of(it)})
+            hits = [f for f in _forbid if f in body]
+            if hits:
+                contamination.append({"id": it["id"], "title": _title_of(it), "hits": hits})
         if len(batch) < 50:
             break
         _pg += 1
@@ -222,7 +236,8 @@ out = {"at": datetime.datetime.now().isoformat()[:19], "n": len(scored), "avg": 
        "fails": [{k: x[k] for k in ("id", "title", "score", "issues")} for x in fails],
        "auto_repair": AUTO_REPAIR, "repaired": repaired, "repair_fail": repair_fail,
        "defaults": defaults_found,
-       "noimgv2": {"n": len(noimgv2), "of": imgv2_checked, "posts": noimgv2[:20]}}
+       "noimgv2": {"n": len(noimgv2), "of": imgv2_checked, "posts": noimgv2[:20]},
+       "contamination": contamination[:20]}
 os.makedirs("dashboard/data", exist_ok=True)
 json.dump(out, open("dashboard/data/site_check.json", "w", encoding="utf-8"),
           ensure_ascii=False, indent=1)
@@ -258,6 +273,9 @@ try:
     # 2026-09-01부터 '무소식 = 정상'도 매일 한 줄로 알린다 — 앱을 안 열어도 아는 상태가 제품의 약속.
     msg = (f"📋 <b>스크립토 아침 점검</b>\n"
            f"글 {len(scored)}편 · 평균 {avg}점 · 미달 {len(fails)}편{idx_line}{ghost_line}")
+    if contamination:
+        msg += (f"\n🚨 라인 오염 감지! 애드센스 라인 글 {len(contamination)}편에서 제휴·픽담 흔적 발견 "
+                f"({contamination[0]['title'][:20]}… · {' ,'.join(contamination[0]['hits'][:2])}) — 즉시 확인 필요")
     if defaults_found:
         msg += (f"\n🧹 워드프레스 기본 글 {len(defaults_found)}건이 아직 공개 중 "
                 f"({' · '.join(d['title'] for d in defaults_found[:2])}) — 앱 유지관리 > 기본 콘텐츠 정리")
@@ -266,7 +284,7 @@ try:
     if repaired: msg += "\n🔧 자동 수리: " + " / ".join(repaired[:3])
     if repair_fail: msg += "\n⚠️ 수리 실패: " + " / ".join(repair_fail[:3])
     if fails and not AUTO_REPAIR: msg += "\n앱에서 '한 번에 고치기'를 실행하세요 (또는 자동 수리를 켜세요)"
-    if not (fails or repaired or repair_fail or defaults_found or noimgv2): msg += "\n✅ 이상 없음"
+    if not (fails or repaired or repair_fail or defaults_found or noimgv2 or contamination): msg += "\n✅ 이상 없음 (라인 격리 포함)"
     notify.send(cfg, msg)
 except Exception as e:
     print(f"[notify] 건너뜀: {e}")
