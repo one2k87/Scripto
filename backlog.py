@@ -64,14 +64,25 @@ def extract(cfg):
     except Exception as e:
         print(f"[backlog] 카테고리 조회 실패: {e}")
 
-    # 기발행 이력(중복 방지 기준): history.json 제목 + 발행 글 제목
+    # 중복 방지 기준 = '실제 공개 발행된 글'만. history.json을 쓰면 안 된다 —
+    # 초안 자신도 제작 이력에 기록돼 있어 전량이 자기 자신과 중복 판정된다(#1 실측: 1,053→21).
     seen = set()
     try:
-        hist = json.load(open("dashboard/data/history.json", encoding="utf-8"))
-        for a in hist.get("articles", []):
-            seen.add(_norm(a.get("title") or a.get("keyword")))
-    except Exception:
-        pass
+        pg = 0
+        while True:
+            pg += 1
+            r = requests.get(f"{base}/wp-json/wp/v2/posts", headers=H,
+                             params={"per_page": 100, "page": pg, "status": "publish",
+                                     "_fields": "title"}, timeout=30)
+            if not r.ok:
+                break
+            b = r.json()
+            for it in b:
+                seen.add(_norm((it.get("title") or {}).get("rendered")))
+            if len(b) < 100:
+                break
+    except Exception as e:
+        print(f"[backlog] 발행 글 조회 실패(중복 기준 축소): {e}")
 
     q = load_queue()
     have = {t["id"] for t in q["topics"]}
