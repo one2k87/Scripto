@@ -1,0 +1,45 @@
+name: 백로그 주제 추출
+
+# 수동 전용(#49): 옛 초안 전량에서 '주제'만 추출해 topic_queue.json에 적재.
+# 초안 본문은 건드리지 않는다(정리는 앱의 '초안 전부 휴지통으로'가 담당).
+# 이후 매일 생성이 이 큐에서 절반을 꺼내 전체 재검증을 거쳐 발행한다.
+on:
+  workflow_dispatch:
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: 의존성
+        run: pip install requests
+      - name: 설정 생성
+        env:
+          LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+          BLOG_URL: ${{ secrets.BLOG_URL }}
+          WP_ENABLED: ${{ secrets.WP_ENABLED }}
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_STATUS: ${{ secrets.WP_STATUS }}
+        run: python build_config.py
+      - name: 주제 추출 실행
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python backlog.py
+      - name: 큐 커밋
+        run: |
+          git config user.name "blog-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add dashboard/data/topic_queue.json 2>/dev/null || true
+          git commit -m "백로그 주제 큐 적재" || { echo "변경 없음"; exit 0; }
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin main && git push && exit 0
+            sleep $((i*7))
+          done
+          echo "::warning::push 3회 실패"

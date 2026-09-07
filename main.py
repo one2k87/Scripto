@@ -93,6 +93,17 @@ def collect_lane(cfg, cat, lane, n_slots, exclude):
                                          intent=cfg.get("_today_intent")),
                cfg["llm"], max_tokens=900, temperature=0.9)
     cand = topics.parse_topics(raw, pool)
+    # 백로그 주제 재고 합류(#49, 2026-09-07): 옛 초안에서 추출한 주제를 후보의 절반까지 공급.
+    # 재고 주제도 이후의 모든 검증(금지·기업 필터 → 저경쟁/시즌 판별 → 네이버 실측 →
+    # 본문 최신성 검증)을 신규 주제와 똑같이 통과해야 발행된다. 케이던스는 늘지 않는다.
+    try:
+        import backlog
+        bl = backlog.draw(cat["name"], max(1, pool // 2), exclude)
+        if bl:
+            print(f"  · 백로그 재고 주제 {len(bl)}개 합류(전체 재검증 대상)")
+            cand = bl + cand
+    except Exception as e:
+        print(f"  · 백로그 합류 건너뜀: {e}")
     # 금지·위험 주제 필터(성인/도박/과장의료/저작권/전쟁 등 자동 제외)
     extra_block = (cfg.get("safety", {}) or {}).get("blocklist_extra", [])
     before = len(cand)
