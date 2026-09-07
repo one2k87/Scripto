@@ -135,6 +135,12 @@ def draw(category, n, exclude=None):
         return []
     ex = {_norm(x) for x in (exclude or [])}
     catn = _norm(category)
+
+    def _cat_ok(tc):
+        # config의 카테고리명("셀프 인테리어")과 WP 카테고리명("셀프 인테리어 정보")이
+        # 달라 정확 일치가 전량 미스였다(#115 실측: 큐 381 대기·소진 0) → 포함 관계 허용
+        return (not tc) or tc == catn or catn in tc or tc in catn
+
     picked = []
     for prefer_cat in (True, False):
         for t in q["topics"]:
@@ -143,9 +149,9 @@ def draw(category, n, exclude=None):
             if t["st"] != "pending":
                 continue
             tc = _norm(t.get("cat"))
-            if prefer_cat and tc != catn:
+            if prefer_cat and not (tc and _cat_ok(tc)):
                 continue
-            if (not prefer_cat) and tc and tc != catn:   # 남의 카테고리 주제는 안 가져간다
+            if (not prefer_cat) and not _cat_ok(tc):   # 남의 카테고리 주제는 안 가져간다
                 continue
             if _norm(t["kw"]) in ex:
                 t["st"] = "dup"; continue
