@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-09-08T01:19:05",
+ "updated_at": "2026-09-08T23:43:33",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 29,
@@ -13,7 +13,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-09-07T01:02:58\",\"link\":\"https:\\/\\/wontheland.com\\/faucet-leak-repair-2026-september\\/\"},{\"modified\":\""
+  "body_head": "[{\"modified\":\"2026-09-08T10:17:46\",\"link\":\"https:\\/\\/wontheland.com\\/old-bathroom-tile-overlay-material\\/\"},{\"modified\":"
  },
  "posts_n": 30,
  "results": [
@@ -24,15 +24,15 @@
    "lastCrawl": "2026-08-31"
   },
   {
-   "url": "https://wontheland.com/faucet-leak-repair-2026-september/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-08"
-  },
-  {
    "url": "https://wontheland.com/old-bathroom-tile-overlay-material/",
    "verdict": "NEUTRAL",
    "state": "Crawled - currently not indexed",
+   "lastCrawl": "2026-09-08"
+  },
+  {
+   "url": "https://wontheland.com/faucet-leak-repair-2026-september/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
    "lastCrawl": "2026-09-08"
   },
   {
