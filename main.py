@@ -971,6 +971,9 @@ def run():
 
     today = datetime.now().strftime("%Y-%m-%d")
     for a in all_articles:
+        # latest.json에도 date를 남긴다 — 없으면 앱 보관함(archiveBefore)이
+        # ""<=기준일 비교로 새 글까지 전부 숨겼다(2026-09-08 글 탭 공백 실측).
+        a.setdefault("date", today)
         hist["articles"].append({
             "title": a["title"], "slug": a.get("slug", ""), "url": a.get("post_url", ""),
             "post_id": a.get("post_id"), "status": a.get("status", ""),
