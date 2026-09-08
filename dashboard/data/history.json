@@ -480,6 +480,19 @@
       "intent": "revenue",
       "date": "2026-09-07",
       "series_id": ""
+    },
+    {
+      "title": "2026년 9월, 전통시장 노후 전선 정비 사업과 화재 감지기 무상 설치, 어디까지 지원받을 수 있나요?",
+      "slug": "traditional-market-safety-support-2026-september",
+      "url": "",
+      "post_id": null,
+      "status": "폐기",
+      "kind": "long",
+      "keyword": "전통시장 노후 전선 정비 사업 및 화재 감지기 무상 설치 지원 신청 대상과 지원 범위 총정리",
+      "category": "셀프 인테리어",
+      "intent": "evergreen",
+      "date": "2026-09-08",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"

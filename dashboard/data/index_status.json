@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-09-07T23:49:00",
+ "updated_at": "2026-09-08T01:19:05",
  "site": "https://wontheland.com",
  "checked": 30,
- "indexed": 28,
+ "indexed": 29,
  "ghosts": [
   "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
   "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/",
@@ -25,15 +25,15 @@
   },
   {
    "url": "https://wontheland.com/faucet-leak-repair-2026-september/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-09-08"
   },
   {
    "url": "https://wontheland.com/old-bathroom-tile-overlay-material/",
    "verdict": "NEUTRAL",
    "state": "Crawled - currently not indexed",
-   "lastCrawl": "2026-09-07"
+   "lastCrawl": "2026-09-08"
   },
   {
    "url": "https://wontheland.com/드레스룸-붙박이장-도어-수평-조정용-숨은-경첩-전후/",
