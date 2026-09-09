@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-09-08T23:43:33",
+ "updated_at": "2026-09-09T00:43:19",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 29,
@@ -13,7 +13,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-09-08T10:17:46\",\"link\":\"https:\\/\\/wontheland.com\\/old-bathroom-tile-overlay-material\\/\"},{\"modified\":"
+  "body_head": "[{\"modified\":\"2026-09-09T00:38:47\",\"link\":\"https:\\/\\/wontheland.com\\/old-apartment-bathroom-fan-replacement-cost-2026\\/\""
  },
  "posts_n": 30,
  "results": [
@@ -24,10 +24,16 @@
    "lastCrawl": "2026-08-31"
   },
   {
-   "url": "https://wontheland.com/old-bathroom-tile-overlay-material/",
+   "url": "https://wontheland.com/old-apartment-bathroom-fan-replacement-cost-2026/",
    "verdict": "NEUTRAL",
-   "state": "Crawled - currently not indexed",
-   "lastCrawl": "2026-09-08"
+   "state": "URL is unknown to Google",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/old-bathroom-tile-overlay-material/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-09-09"
   },
   {
    "url": "https://wontheland.com/faucet-leak-repair-2026-september/",
@@ -187,12 +193,6 @@
   },
   {
    "url": "https://wontheland.com/탕비실-전자레인지-수납장-후면-콘센트-발열-화재-차/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-03"
-  },
-  {
-   "url": "https://wontheland.com/다락방-계단실-벽면-원목-핸드레일-고정-브래킷-콘크/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-09-03"
