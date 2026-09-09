@@ -181,8 +181,10 @@ jobs:
         id: dup
         if: github.event_name == 'schedule'
         run: |
-          today=$(date -u +%F)
-          gen=$(python3 -c "import json;print(json.load(open('dashboard/data/latest.json')).get('generated_at','')[:10])" 2>/dev/null || echo "")
+          # KST 기준으로 비교한다. UTC 비교는 낮에 수동 실행이 있으면 다음 날 아침 크론(UTC로는
+          # 아직 같은 날)이 "이미 생성함"으로 오판해 하루를 통째로 건너뛰었다(2026-09-09 실측).
+          today=$(TZ=Asia/Seoul date +%F)
+          gen=$(python3 -c "import json,datetime as dt; g=json.load(open('dashboard/data/latest.json')).get('generated_at',''); print((dt.datetime.fromisoformat(g)+dt.timedelta(hours=9)).date() if g else '')" 2>/dev/null || echo "")
           if [ "$gen" = "$today" ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
             echo "오늘($today) 이미 생성 완료 — 생성 단계 건너뜀(백업 크론). 점검·색인은 계속 진행"

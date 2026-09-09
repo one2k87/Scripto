@@ -1500,6 +1500,26 @@ function saveCfg(){
   try{ if(typeof syncAuto==="function") syncAuto(); }catch(e){}
 }
 
+/* ===== 경계 가드(v150) =====
+   2026-09-08 실측(P 통지): 세 앱이 Supabase 설정 레코드 하나를 공유하던 시기에 픽토 값
+   (ghRepo:"Picto", trackPurpose:"coupang")이 이 앱 설정으로 실려 들어왔다. 규약만으로는
+   설정 한 줄로 무너진다 — 어떤 경로로 오염되든(동기화 수신·이식·수동 실수) 부팅과
+   동기화 수신 직후에 앱 정체성 3가지를 코드가 강제로 되돌린다. */
+const GUARD={repo:"Scripto", host:"wontheland.com", track:"adsense"};
+function sanitizeCfg(){
+  const fx=[];
+  if(CFG.ghRepo && CFG.ghRepo!==GUARD.repo){ fx.push("GitHub 저장소 "+CFG.ghRepo+"→"+GUARD.repo); CFG.ghRepo=GUARD.repo; }
+  if(CFG.trackPurpose==="coupang"){ fx.push("트랙 coupang→adsense(애드센스 라인 고정)"); CFG.trackPurpose=GUARD.track; }
+  const _h=String(CFG.site||"").replace(/^https?:\/\//,"").replace(/^www\./,"").split("/")[0];
+  if(_h && _h!==GUARD.host){ fx.push("WP 주소 "+_h+" → 자격 폐기(남의 사이트 오발행 차단)"); CFG.site=""; CFG.user=""; CFG.pass=""; }
+  if(fx.length){ console.warn("[경계 가드]", fx); window.__guardFx=(window.__guardFx||[]).concat(fx); }
+  return fx;
+}
+if(sanitizeCfg().length){ try{ saveCfg(); }catch(e){} }   // 부팅 정화(+자동 동기화가 서버 레코드도 치유)
+document.addEventListener("DOMContentLoaded",()=>{
+  if(window.__guardFx&&window.__guardFx.length){ try{ toast("🛡 경계 가드: "+window.__guardFx.join(" · "),1); }catch(e){} }
+});
+
 /* ===== v1.2 🎬 데모 모드 =====
    로그인 화면의 '데모로 둘러보기' → 실제 운영 사이트의 실황 데이터(공개 저장소)를
    읽기 전용으로 체험한다. 판매 퍼널의 핵심: 설명 대신 실물을 보여준다.
@@ -2256,7 +2276,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=149;
+const APP_BUILD=150;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 
@@ -3952,6 +3972,7 @@ async function syncPull(silent, force){
     Object.assign(CFG, keep);
     CFG.syncAt=row.updated_at; CFG.cfgTouchedAt=row.updated_at;
     _syncApplying=true; saveCfg(); _syncApplying=false;
+    if(sanitizeCfg().length){ saveCfg(); syncPush(true); }   // 수신값 오염 시 즉시 정화 + 서버 레코드 치유
     try{ openSheet(); }catch(e){}
     try{ fillApprovalFields(); }catch(e){}
     renderSyncBox();
