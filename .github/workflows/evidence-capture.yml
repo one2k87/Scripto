@@ -1,0 +1,42 @@
+name: 증빙 캡처
+
+# 승인 여정 증빙 자동 캡처(docs/승인_여정_기록.md 4절).
+# 승인 당일 앱의 원탭 절차(approveDayFlow)가 자동 발동하며, 심사 중 수동 실행으로
+# '이전 상태' 기준선도 남긴다. 구글 로그인 화면(애드센스·GSC)은 대상 외(수동 2장).
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: "캡처 사유 (예: 심사중 기준선 / 승인 당일)"
+        default: ""
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul   # 날짜 계산 전부 KST(UTC 날짜가 기록에 박히던 계열 버그 일괄 차단, P b156 대칭)
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Playwright 설치
+        run: |
+          pip install playwright
+          python -m playwright install chromium --with-deps
+      - name: 캡처 실행
+        run: python scripts/capture_evidence.py
+      - name: 커밋
+        run: |
+          git config user.name "blog-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add docs/증빙 2>/dev/null || true
+          git commit -m "증빙 캡처: $(date '+%Y-%m-%d %H:%M') ${{ github.event.inputs.note }}" || { echo "변경 없음"; exit 0; }
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin main && git push && exit 0
+            echo "push 경쟁 — ${i}차 재시도"; sleep $((i*7))
+          done
+          echo "::warning::push 3회 실패"
