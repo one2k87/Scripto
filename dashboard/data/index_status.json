@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-09-09T01:18:49",
+ "updated_at": "2026-09-10T08:40:40",
  "site": "https://wontheland.com",
  "checked": 30,
- "indexed": 29,
+ "indexed": 28,
  "ghosts": [
   "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
   "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/",
@@ -13,7 +13,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-09-09T00:38:47\",\"link\":\"https:\\/\\/wontheland.com\\/old-apartment-bathroom-fan-replacement-cost-2026\\/\""
+  "body_head": "[{\"modified\":\"2026-09-10T08:32:09\",\"link\":\"https:\\/\\/wontheland.com\\/2026-september-youth-housing-package-conditions\\/\"}"
  },
  "posts_n": 30,
  "results": [
@@ -24,9 +24,15 @@
    "lastCrawl": "2026-08-31"
   },
   {
-   "url": "https://wontheland.com/old-apartment-bathroom-fan-replacement-cost-2026/",
+   "url": "https://wontheland.com/2026-september-youth-housing-package-conditions/",
    "verdict": "NEUTRAL",
    "state": "URL is unknown to Google",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/old-apartment-bathroom-fan-replacement-cost-2026/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -190,12 +196,6 @@
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-09-06"
-  },
-  {
-   "url": "https://wontheland.com/탕비실-전자레인지-수납장-후면-콘센트-발열-화재-차/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-03"
   }
  ]
 }
