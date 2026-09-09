@@ -160,8 +160,21 @@ def apply_to_config(cfg):
     saf["force_draft"] = o["force_draft"]
     rev = cfg.setdefault("revenue", {})
     rev["ad_slots"] = o["ad_slots"]
-    cfg.setdefault("affiliate", {})["enabled"] = o["affiliate"]
-    cfg.setdefault("coupang", {})["enabled"] = o["coupang"]
+    aff, cp = o["affiliate"], o["coupang"]
+    # 라인 격리(2026-09-09 순서 버그 수정): main의 격리 가드가 램프보다 '먼저' 돌아서,
+    # 승인 2주차부터 램프가 쿠팡·제휴를 다시 켜며 가드를 덮어쓰고 있었다(승인되는 순간
+    # 애드센스 라인에 커머스가 섞일 뻔). 픽담 b153 사고(램프가 쿠팡을 '끄던' 문제)의 대칭.
+    # 애드센스 라인에서는 램프가 어떤 단계에서도 제휴·쿠팡을 켜지 않는다.
+    try:
+        _sc = json.load(open(os.path.join("data", "site_categories.json"), encoding="utf-8"))
+        if _sc.get("line", "adsense") == "adsense" and cfg.get("track") != "coupang":
+            if aff or cp:
+                print("[램프] 애드센스 라인 — 단계상 제휴·쿠팡 on이지만 라인 격리로 유지 안 함")
+            aff = cp = False
+    except Exception:
+        pass
+    cfg.setdefault("affiliate", {})["enabled"] = aff
+    cfg.setdefault("coupang", {})["enabled"] = cp
     cfg["_ramp"] = {k: v for k, v in o.items() if k.startswith("_")}
     cfg["_ramp_posts_per_day"] = o["posts_per_day"]
     cfg["_ramp_intent_bias"] = o["intent_bias"]
