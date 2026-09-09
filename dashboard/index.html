@@ -157,6 +157,8 @@
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
   .st.active{color:#fff;border-color:var(--accent);background:#241f3d}
   .sub-sec{display:none}
+  .setsearch{width:calc(100% - 32px);margin:8px 16px 0;padding:8px 12px;border-radius:10px;
+    border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:13px}
   .sub-sec.on{display:block}
   .swipehint{font-size:10.5px;color:var(--muted);text-align:center;padding:2px 0 6px}
   /* 현황 대시보드 카드 */
@@ -2285,7 +2287,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=151;
+const APP_BUILD=152;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 
@@ -6811,10 +6813,10 @@ async function renderHome(){
   const [st,ins]=await Promise.all([j("status.json"),j("insights.json")]);
   // ── ① 운영 모드: 지금 시스템이 어떤 상태인지 사람 말로 설명한다(요청: 상태의 이유까지)
   const sf=CFG.safety||{}; const draft=(sf.force_draft!==false); const paused=!!CFG.paused;
-  let mIc,mName,mDesc;
-  if(paused&&draft){ mIc="🛡"; mName="심사 모드";
+  let mIc,mName,mDesc,mGo="list";
+  if(paused&&draft){ mIc="🛡"; mName="심사 모드"; mGo="ads";
     mDesc="애드센스 심사를 위해 매일 자동 생성을 멈추고, 만들던 글도 초안으로만 저장합니다. 심사 결과가 나오면 설정의 ⏸ 버튼으로 자동 생성을 다시 켜세요."; }
-  else if(paused){ mIc="⏸"; mName="자동 생성 멈춤";
+  else if(paused){ mIc="⏸"; mName="자동 생성 멈춤"; mGo="set";
     mDesc="매일 자동 생성이 꺼져 있어 새 글이 쌓이지 않습니다. ▶ 버튼으로 수동 생성은 가능하고, 설정의 ⏸ 버튼으로 다시 켤 수 있어요."; }
   else if(draft){ mIc="📝"; mName="초안 모드 (안전 운행)";
     mDesc="글은 매일 자동으로 만들어지지만 <b>공개 발행은 잠겨 있습니다</b>(검토 후 발행). 공개가 멈춰 보여도 고장이 아니에요. 공개하려면 글 탭에서 골라 게시하거나, 설정 > 품질·안전에서 '초안 저장'을 끄세요."; }
@@ -6861,9 +6863,9 @@ async function renderHome(){
       <div class="hint" style="margin-top:4px">승인되면 현재 글 기준 월 <b>₩${est.toLocaleString()}</b> 수준부터 시작할 것으로 추정돼요(가정값 기준, 수익 탭에서 조정). 심사 통과가 지금의 최우선 관문입니다.</div>`;
   }
   el.innerHTML=`
-    <div class="card" style="padding:12px 14px">
+    <div class="card" style="padding:12px 14px;cursor:pointer" onclick="gotoTab('${mGo}')" title="탭으로 이동">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-        <b style="font-size:15px">${mIc} ${mName}</b><span style="flex:1"></span>${dBadge}
+        <b style="font-size:15px">${mIc} ${mName}</b><span style="flex:1"></span>${dBadge}<span style="color:var(--muted)">›</span>
       </div>
       <div class="hint" style="line-height:1.55">${mDesc}</div>
       <div style="margin-top:8px;font-size:12.5px">${runLine}</div>
@@ -6999,120 +7001,10 @@ async function loadArchive(date){
   toast("그 날짜 기록을 못 찾았어요",1);
 }
 
-// ===== v1.0 투트랙: 시작 마법사 (애드 라인 / 픽 라인) =====
-// 스크립토는 이제 두 개의 라인을 가진다.
-//  · 애드 라인(Ad Line): 구글 애드센스 승인·광고 수익 — 심사관 관점 최적화 (기존 여정 전부)
-//  · 픽 라인(Pick Line): 쿠팡파트너스 커머스 수익 — 구매의도 최적화, 승인 불필요.
-//    초기 목표 = 파트너스 가입 → 첫 확정 수익 → 오픈 API 발급(조건 충족 시) → 픽토·캐스토 연동.
-// 도메인(사이트)은 용도별로 분리한다 — 니치 오염과 정책 리스크의 상호 격리(v0의 실측 교훈).
-function showTrackWiz(step){
-  const bg=document.getElementById("obBg"), card=document.getElementById("obCard"), body=document.getElementById("obBody");
-  bg.style.display="block"; card.style.display="block"; step=step||0;
-  const opt=(icon,title,desc,sel)=>`
-    <div class="trackopt" style="border:1.5px solid ${sel?"var(--accent)":"var(--line)"};border-radius:14px;
-      padding:14px;margin:9px 0;cursor:pointer;display:flex;gap:12px;align-items:center;
-      ${sel?"box-shadow:0 0 0 3px var(--glow);":""}">
-      <div style="font-size:26px">${icon}</div>
-      <div><b style="font-size:14px">${title}</b><div class="hint" style="margin-top:3px">${desc}</div></div>
-    </div>`;
-  if(step===0){
-    body.innerHTML=`<h2 style="margin:0 0 4px">무엇으로 수익화할까요?</h2>
-      <p class="hint">선택에 따라 필요한 도메인·호스팅 개수와 비용이 달라집니다. 뒤에서 전부 계산해 보여드려요.</p>
-      <div data-v="adsense">${opt("🅐","애드센스만 <span style='font-size:10px;color:var(--accent-2)'>애드 라인</span>",
-        "구글 광고 수익. 심사 승인이 필요 — 승인까지 스크립토가 끌고 갑니다.",CFG.trackPlan==="adsense")}</div>
-      <div data-v="coupang">${opt("🛒","쿠팡파트너스만 <span style='font-size:10px;color:var(--accent-2)'>픽 라인</span>",
-        "상품 추천 수수료. 심사가 없어 오늘 바로 시작 — 목표는 첫 수익과 오픈 API.",CFG.trackPlan==="coupang")}</div>
-      <div data-v="both">${opt("🅐🛒","둘 다 지금 시작",
-        "사이트 2개를 따로 만듭니다(정책 안전을 위해 도메인 분리). 비용은 2배지만 수익원도 2개.",CFG.trackPlan==="both")}</div>
-      <div data-v="later">${opt("➕","지금은 하나만, 나중에 추가",
-        "가볍게 시작하고 자리 잡으면 확장. 추가할 시점도 스크립토가 알려줍니다.",CFG.trackPlan==="later")}</div>`;
-    body.querySelectorAll("[data-v]").forEach(el=>el.onclick=()=>{
-      const v=el.dataset.v; CFG.trackPlan=v;
-      if(v==="adsense"||v==="coupang"){ CFG.trackPurpose=v; saveCfg(); showTrackWiz(1); }
-      else if(v==="both"){ CFG.trackPurpose="adsense"; saveCfg(); showTrackWiz(1); }  // 첫 사이트는 애드부터(심사가 오래 걸리니 먼저 굴린다)
-      else showTrackWiz(0.5);
-    });
-  } else if(step===0.5){   // '나중에 추가' — 무엇부터?
-    body.innerHTML=`<h2 style="margin:0 0 4px">그럼 무엇부터 시작할까요?</h2>
-      <p class="hint">정답은 없지만 참고: 애드센스는 심사(수 주)가 걸리니 <b>먼저 심어두면</b> 기다리는 동안 쿠팡을 준비하기 좋고,
-      쿠팡은 심사가 없어 <b>수익을 먼저 경험</b>하기 좋습니다.</p>
-      <div data-v="adsense">${opt("🅐","애드센스부터","심사 기간을 벌어두는 전략. 쿠팡은 나중에 사이트 추가.")}</div>
-      <div data-v="coupang">${opt("🛒","쿠팡부터","오늘 시작해 첫 수익부터. 애드센스는 글이 쌓인 뒤 새 사이트로.")}</div>
-      <div class="actions" style="justify-content:flex-start;margin-top:6px">
-        <button class="btn sm" onclick="showTrackWiz(0)">← 뒤로</button></div>`;
-    body.querySelectorAll("[data-v]").forEach(el=>el.onclick=()=>{
-      CFG.trackPurpose=el.dataset.v; saveCfg(); showTrackWiz(1); });
-  } else if(step===1){
-    body.innerHTML=`<h2 style="margin:0 0 4px">도메인과 호스팅이 준비돼 있나요?</h2>
-      <p class="hint">블로그 주소(도메인)와 워드프레스가 설치된 서버(호스팅)가 필요합니다.
-      ${CFG.trackPurpose==="coupang"?"쿠팡용 도메인은 애드센스 블로그와 <b>다른 도메인</b>을 쓰세요(정책 리스크 격리).":""}</p>
-      <div data-v="yes">${opt("✅","둘 다 있어요","워드프레스 관리자에 로그인할 수 있는 상태예요.")}</div>
-      <div data-v="no">${opt("🧭","아직 없어요 / 잘 몰라요","개설 마법사가 순서대로 안내합니다 (사람이 하는 일 약 40분, 첫해 약 3만원).")}</div>`;
-    body.querySelectorAll("[data-v]").forEach(el=>el.onclick=()=>{
-      if(el.dataset.v==="yes"){ closeTrackWiz(); showOnboard(0); }
-      else showTrackWiz(2);
-    });
-  } else if(step===2){
-    renderPlanGuide(body);
-  }
-}
-// ===== v1.4 선택별 개설 가이드: 비용 전부 계산 + 도메인·카페24 절차를 클릭 경로까지 =====
-// 금액은 2026-09-01 실측(변동 가능) — 결제 화면 금액이 항상 우선.
-function renderPlanGuide(body){
-  const plan=CFG.trackPlan||CFG.trackPurpose||"adsense";
-  const first=CFG.trackPurpose||"adsense";
-  const DOM=23500;                       // .com 1년 (가비아/카페24 통상가)
-  const HO_ADS=1980, HO_PICK=1100;       // 카페24 월: 애드센스WP / 뉴매니지드WP 최저
-  const yr=(dom,ho)=>dom+ho*12;
-  const won=n=>"약 "+n.toLocaleString()+"원";
-  const row=(k,v,b)=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--line)">
-    <span class="hint" style="color:var(--txt)">${k}</span><span style="font-weight:${b?800:600};color:${b?"var(--accent-2)":"var(--txt)"}">${v}</span></div>`;
-  const sets={ adsense:[["🅐 애드센스 사이트",DOM,HO_ADS,"애드센스 워드프레스"]],
-               coupang:[["🛒 쿠팡 사이트",DOM,HO_PICK,"뉴매니지드 워드프레스"]],
-               both:[["🅐 애드센스 사이트",DOM,HO_ADS,"애드센스 워드프레스"],["🛒 쿠팡 사이트",DOM,HO_PICK,"뉴매니지드 워드프레스"]],
-               later:[[first==="coupang"?"🛒 쿠팡 사이트":"🅐 애드센스 사이트",DOM,first==="coupang"?HO_PICK:HO_ADS,first==="coupang"?"뉴매니지드 워드프레스":"애드센스 워드프레스"]] }[plan];
-  const total=sets.reduce((s,x)=>s+yr(x[1],x[2]),0);
-  const costHtml=`<div style="border:1px solid var(--line);border-radius:12px;padding:6px 13px;margin:8px 0">
-    ${sets.map(x=>row(`${x[0]} — 도메인(1년)`,won(x[1]))+row(`&nbsp;&nbsp;└ 카페24 ${x[3]}(월 ${x[2].toLocaleString()}원×12)`,won(x[2]*12))).join("")}
-    ${row("첫해 총비용",won(total),true)}
-    ${plan==="later"?row("➕ 나중에 추가할 사이트(그때 결제)",won(yr(DOM,first==="coupang"?HO_ADS:HO_PICK))):""}
-  </div>
-  <div class="hint">월 결제 기준·부가세 별도일 수 있음. 1년 선결제가 더 쌉니다. ⚠️ .shop/.store 550원 특가는 이듬해 갱신이 7~9만원이라 비추천 — .com이 정석.</div>`;
-  const steps=[
-    ["도메인 사기 · 10분","카페24(hosting.cafe24.com) 상단 [도메인] 또는 가비아 → 검색창에 원하는 이름 입력 → <b>.com</b> 선택 → 결제. 짧고 기억하기 쉬운 영문으로, 오래 쓸 이름을 고르세요."],
-    ["카페24 호스팅 신청 · 10분","hosting.cafe24.com → [워드프레스] 메뉴 → "+(plan==="coupang"?"<b>뉴매니지드 워드프레스</b>(월 1,100원대~)":plan==="both"?"애드센스 사이트는 <b>애드센스 워드프레스</b>(월 1,980원~), 쿠팡 사이트는 <b>뉴매니지드 워드프레스</b>(월 1,100원대~)":"<b>애드센스 워드프레스</b>(월 1,980원~, 애드센스 연결 기능 내장)")+" → 신청 과정에서 1번에서 산 도메인 연결 → 무료 SSL(https 자물쇠) 켜져 있는지 확인. 워드프레스는 설치된 상태로 나옵니다."],
-    ["워드프레스 접속 · 5분","내도메인.com<b>/wp-admin</b> 으로 들어가 카페24가 알려준 아이디·비밀번호로 로그인. 이 정보는 꼭 메모해두세요."],
-    ["앱 비밀번호 발급 · 3분","워드프레스 관리자 → 사용자 → 프로필 → 맨 아래 <b>응용 프로그램 비밀번호</b>에 이름 'Scripto' 입력 후 추가 → 나온 문자열 복사(로그인 비번과 다른 전용 열쇠예요)."],
-    ["스크립토 연결 · 2분","이 앱 설정 → 연결에 블로그 주소·아이디·앱 비밀번호 입력 → 니치(주제) 마법사 진행. 여기서부터는 스크립토가 알아서 합니다."]];
-  if(plan==="coupang"||first==="coupang") steps.push(["쿠팡 파트너스 가입 · 5분","partners.coupang.com → 쿠팡 계정으로 가입(심사 없음, 무료) → 승인 탭의 [가입 완료] 버튼으로 기록. 오픈 API는 최근 30일 수익 15만원(변동 가능) 달성 후 열립니다."]);
-  const planNote={ both:"👉 순서 추천: <b>애드센스 사이트를 먼저</b> 세팅해 심사 시계를 돌려두고, 기다리는 동안 쿠팡 사이트를 세팅하세요. 두 사이트는 도메인을 꼭 분리합니다(정책 리스크 격리).",
-    later:first==="coupang"?"👉 지금은 쿠팡만. 글과 색인이 쌓이면 스크립토가 '애드센스 사이트를 추가할 때'라고 알려드립니다.":"👉 지금은 애드센스만. 승인이 나면 '쿠팡 사이트 추가' 안내가 열립니다.",
-    adsense:"",coupang:""}[plan];
-  body.innerHTML=`<h2 style="margin:0 0 4px">비용과 순서, 이게 전부예요</h2>
-    <div class="hint">직접 하실 일은 결제 ${sets.length*2}건과 아래 ${steps.length}단계(총 30~40분/사이트)뿐. 나머지는 전부 스크립토가 합니다.</div>
-    ${costHtml}
-    ${planNote?`<div class="dnext" style="margin:8px 0"><div class="dv" style="font-size:12.5px">${planNote}</div></div>`:""}
-    <div style="margin:10px 0">${steps.map((s,i)=>`
-      <div style="display:flex;gap:11px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:7px 0">
-        <div style="width:24px;height:24px;flex:0 0 auto;border-radius:50%;background:var(--accent);color:#fff;
-          display:grid;place-items:center;font-size:12px;font-weight:800">${i+1}</div>
-        <div style="min-width:0"><b style="font-size:13px">${s[0]}</b>
-          <div class="hint" style="margin-top:3px;line-height:1.6">${s[1]}</div></div>
-      </div>`).join("")}</div>
-    <div class="actions" style="justify-content:space-between;margin-top:6px">
-      <button class="btn sm" onclick="showTrackWiz(1)">← 뒤로</button>
-      <div style="display:flex;gap:6px">
-        <button class="btn sm" onclick="closeTrackWiz();finishOnboard(true);setTimeout(()=>{const b=document.getElementById('setupGuideBtn');if(b)b.click();},400)">🧭 상세 안내</button>
-        <button class="btn primary sm" onclick="closeTrackWiz();showOnboard(0)">준비됐어요 →</button>
-      </div>
-    </div>`;
-}
-function closeTrackWiz(){ const bg=document.getElementById("obBg"), card=document.getElementById("obCard");
-  bg.style.display="none"; card.style.display="none"; }
-// ===== 온보딩 위저드 (첫 실행 1회) =====
-const OB_CATS=["금융/재테크","건강/생활","경제/IT","반려동물","여행","자기계발","육아","IT/기기"];
-let _obStep=0, _obPick=[];
-function maybeOnboard(){ if(!CFG.onboarded && isLoggedIn()){ if(!CFG.trackPurpose) showTrackWiz(0); else showOnboard(0); } }
+// ===== 온보딩 =====
+// v152: 트랙 마법사(애드/픽 선택) 삭제 — 라인 격리 확정으로 스크립토는 애드센스 전용.
+// 픽 라인(쿠팡)은 픽토 앱이 전담한다. 경계 가드(sanitizeCfg)가 트랙을 adsense로 고정.
+function maybeOnboard(){ if(!CFG.onboarded && isLoggedIn()){ if(!CFG.trackPurpose){ CFG.trackPurpose="adsense"; try{saveCfg();}catch(e){} } showOnboard(0); } }
 // ===== 니치 확정 마법사 =====
 // 역질문 3개로 '무엇을 쓸지'를 좁힌다. 사용자가 정하거나, Scripto가 승인 확률로 고른다.
 let NICHES=null, _ans={mode:"",exp:[],region:""}, _nichePick=null;
@@ -7525,8 +7417,8 @@ const SUBTABS={
     tabs:[
       {k:"now",  label:"결산", ids:["stRealViews","stRealRev","stWpCount","stViews","stRpm"]},
       {k:"strat",label:"전략·트렌드", ids:["stratBox"]},
-      {k:"ads",  label:"광고 세팅"},
-      {k:"extra",label:"수익 채널"},
+      {k:"ads",  label:"광고 세팅", lock:true},   // 승인 후 노출(라인 격리)
+      {k:"extra",label:"수익 채널", lock:true},   // 승인 후 노출(라인 격리)
     ],
     home:"now", render:()=>renderMoneyDash(),
   },
@@ -7551,7 +7443,7 @@ function buildSubtabs(pageId){
     secs[k||lastK].appendChild(el);
   });
   const bar=document.createElement("div"); bar.className="subtabs";
-  bar.innerHTML=cfg.tabs.map(t=>`<button class="st" type="button" data-k="${t.k}">${t.label}</button>`).join("");
+  bar.innerHTML=cfg.tabs.map(t=>`<button class="st" type="button" data-k="${t.k}"${(t.lock&&!CFG.adsenseApproved)?' style="display:none"':''}>${t.label}</button>`).join("");
   const hint=document.createElement("div");
   hint.className="swipehint"; hint.textContent="← 좌우로 밀어 탭 이동 →";
   if(title&&title.nextSibling) page.insertBefore(bar,title.nextSibling); else page.prepend(bar);
@@ -7592,17 +7484,18 @@ function settingsToSubtabs(){
     const name=g.querySelector(".gt")?.textContent||("그룹"+seq);
     const body=g.querySelector(".grp-b");
     const plan=SPLIT_GROUPS[name];
+    const locked=g.dataset.locked==="1";
     const parts=plan&&body?splitGroupBody(body,plan)
       :[{label:name,nodes:body?[...body.children]:[]}];
     parts.forEach(pt=>{
       const d=document.createElement("div");
       d.className="sub-sec"; d.dataset.k="g"+seq;
       pt.nodes.forEach(n=>d.appendChild(n));
-      secs.push({k:"g"+seq,label:pt.label,el:d}); seq++;
+      secs.push({k:"g"+seq,label:pt.label,el:d,locked}); seq++;
     });
     g.remove();
   });
-  bar.innerHTML=secs.map(s=>`<button class="st" type="button" data-k="${s.k}">${escAttr(s.label)}</button>`).join("");
+  bar.innerHTML=secs.map(s=>`<button class="st" type="button" data-k="${s.k}"${s.locked?' style="display:none"':''}>${escAttr(s.label)}</button>`).join("");
   if(title&&title.nextSibling) page.insertBefore(bar,title.nextSibling); else page.prepend(bar);
   bar.after(hint);
   // 저장/닫기 버튼 줄은 항상 아래에 남기고, 그 앞에 섹션을 넣는다.
@@ -7615,8 +7508,31 @@ function settingsToSubtabs(){
     try{ if(tail&&tail.parentNode===page) page.insertBefore(s.el,tail); else page.appendChild(s.el); }
     catch(e){ page.appendChild(s.el); }
   });
-  SUBTABS.sheet={tabs:secs.map(s=>({k:s.k,label:s.label})),home:"g0"};
+  SUBTABS.sheet={tabs:secs.map(s=>({k:s.k,label:s.label,lock:!!s.locked})),home:"g0"};
   bar.querySelectorAll(".st").forEach(b=>b.onclick=()=>showSub("sheet",b.dataset.k));
+  // v152: 설정 검색 — 입력하면 모든 섹션에서 항목을 찾아 보여준다(잠긴 그룹 제외)
+  const q=document.createElement("input");
+  q.className="setsearch"; q.placeholder="🔍 설정에서 찾기"; q.autocomplete="off";
+  bar.parentNode.insertBefore(q,bar);
+  const lockedK=new Set(secs.filter(x=>x.locked).map(x=>x.k));
+  q.oninput=()=>{
+    const v=q.value.trim().toLowerCase();
+    const ds=[...page.querySelectorAll(".sub-sec")];
+    if(!v){
+      ds.forEach(d=>d.querySelectorAll(".field").forEach(f=>f.style.display=""));
+      bar.style.display=""; showSub("sheet",page.dataset.sub||"g0"); return;
+    }
+    bar.style.display="none";
+    ds.forEach(d=>{
+      if(lockedK.has(d.dataset.k)){ d.classList.remove("on"); return; }
+      let any=false;
+      d.querySelectorAll(".field").forEach(f=>{
+        const hit=(f.textContent||"").toLowerCase().includes(v);
+        f.style.display=hit?"":"none"; any=any||hit;
+      });
+      d.classList.toggle("on",any);
+    });
+  };
   page.dataset.subtabbed="1";
   showSub("sheet","g0");
 }
@@ -7628,6 +7544,8 @@ function moveTrendPanel(){
 function showSub(pageId,k){
   const page=document.getElementById(pageId), cfg=SUBTABS[pageId]; if(!page||!cfg) return;
   if(!cfg.tabs.some(t=>t.k===k)) k=cfg.home;   // 병합으로 사라진 탭 키 폴백(v129)
+  const _td=cfg.tabs.find(t=>t.k===k);
+  if(_td&&_td.lock&&!CFG.adsenseApproved) k=cfg.home;   // 승인 전 잠금 탭 폴백(v152)
   page.dataset.sub=k;
   page.querySelectorAll(".subtabs .st").forEach(b=>b.classList.toggle("active",b.dataset.k===k));
   page.querySelectorAll(".sub-sec").forEach(d=>d.classList.toggle("on",d.dataset.k===k));
@@ -7842,71 +7760,8 @@ async function renderStrategy(force){
 }
 
 // ===== 현황 대시보드 =====
-// ═══ v1.0 픽 라인(쿠팡파트너스) 여정 대시보드 ═══
-// 애드 라인의 '승인'에 해당하는 관문이 픽 라인에선 '오픈 API 발급'이다.
-// 발급 조건(최근 30일 확정 수익 15만원 — 파트너스 공지 기준, 변동 가능)을 넘기 전까지는
-// 위젯·수동 링크로 운영하며, 발급되면 픽토(상품 선정)·캐스토(배포)와 연동한다.
-function pickStepsHtml(cur){
-  const S=[["연결","site"],["세팅","setup"],["발행","content"],["유입","traffic"],["가입","join"],["첫수익","first"],["API","api"],["연동","link"]];
-  const i=S.findIndex(s=>s[1]===cur);
-  return `<div class="steps">`+S.map((s,n)=>{
-    const cls=n<i?"done":n===i?"cur":"";
-    return `<div class="stp ${cls}"><div class="sd">${n<i?"✓":n+1}</div><div class="sl">${s[0]}</div></div>`;
-  }).join("")+`</div>`;
-}
-// v146: 라인 전환 — 트랙 마법사가 온보딩 이후 다시 열 수 없어, 실수로 픽 라인을
-// 고르면 승인 탭이 픽 라인에 갇혔다(2026-09-05 실측, 되돌릴 버튼이 없었음).
-function switchTrack(v){
-  CFG.trackPurpose=(v==="coupang")?"coupang":"adsense"; saveCfg();
-  toast(v==="coupang"?"픽 라인(쿠팡)으로 전환":"애드센스 라인으로 전환 ✓");
-  try{ renderAdsDash(); }catch(e){}
-}
-function renderPickDash(){
-  const page=document.getElementById("adsSheet");
-  const h=page.querySelector("h2");
-  if(h&&!/픽 라인/.test(h.textContent))
-    h.innerHTML=`🛒 픽 라인 — 쿠팡 수익화 <span style="font-size:11px;color:var(--muted);font-weight:400">심사 없음 · 목표: 오픈 API</span>
-      <button class="btn sm" onclick="switchTrack('adsense')" style="float:right;font-size:11px;padding:3px 9px">↔ 애드센스 라인으로</button>`;
-  let box=page.querySelector("#adsDash");
-  if(!box){ box=document.createElement("div"); box.id="adsDash";
-    page.querySelector('.sub-sec[data-k="now"]').prepend(box); }
-  const P=CFG.pick||(CFG.pick={});           // {joined, firstSale, api}
-  let stage;
-  if(!(CFG.site&&CFG.user&&CFG.pass)) stage="site";
-  else if(!CFG.runnerAt) stage="setup";
-  else if(!P.joined) stage="join";
-  else if(!P.firstSale) stage="first";
-  else if(!P.api) stage="api";
-  else stage="link";
-  const NEXT={
-    site:"⚙️ 설정에서 블로그 주소·앱 비밀번호 연결 (도메인이 없으면 개설 안내부터)",
-    setup:"원클릭 정리로 필수 페이지·사이트 구성 자동 세팅 후 발행 시작",
-    join:"쿠팡 파트너스 가입 후 아래 [가입 완료]를 눌러 기록하세요",
-    first:"비교·추천형 글로 첫 확정 수익 만들기 — 대가성 문구는 자동 삽입됩니다",
-    api:"최근 30일 확정 수익 15만원(변동 가능) 달성 시 오픈 API 신청 → [API 발급됨] 기록",
-    link:"🎉 오픈 API 확보 — 픽토(상품 선정)·캐스토(배포) 연동은 다음 업데이트에서 열립니다"};
-  const chk=(k,label)=>`<button class="btn sm ${P[k]?"ok":""}" style="flex:1"
-    onclick="(CFG.pick=CFG.pick||{})['${k}']=${P[k]?"false":"true"};saveCfg();renderPickDash()">${P[k]?"✓ ":""}${label}</button>`;
-  box.innerHTML=
-    `<div class="hint" style="margin:-2px 0 6px">🛒 <b>픽 라인</b> — 쿠팡파트너스 트랙 (심사 없음 · 목표: 오픈 API)</div>`+
-    pickStepsHtml(stage)+
-    `<div class="dnext"><div class="dl">다음 할 일</div><div class="dv">${NEXT[stage]}</div></div>
-     <div style="display:flex;gap:6px;margin-top:8px">
-       ${chk("joined","가입 완료")}${chk("firstSale","첫 수익")}${chk("api","API 발급됨")}
-     </div>
-     <a class="btn sm" style="width:100%;margin-top:8px;text-align:center;display:block" target="_blank" rel="noopener"
-        href="https://partners.coupang.com">🛒 쿠팡 파트너스 열기</a>
-     <div class="hint" style="margin-top:8px">글 전략: 검색량보다 <b>구매의도</b>(가격·비교·추천·규격) 우선.
-     겪지 않은 경험담은 여기서도 금지 — 스펙·가격 비교 관점으로 씁니다. 애드센스 사이트와 도메인을 분리하세요.</div>`;
-  try{ renderTodoInbox(); }catch(e){}
-}
 function renderAdsDash(){
-  if(CFG.trackPurpose==="coupang"){ try{renderPickDash();}catch(e){} return; }
   const page=document.getElementById("adsSheet");
-  // 픽 라인에서 돌아왔을 때 제목 복원 (픽↔애드 전환 시 잔상 방지)
-  const h0=page.querySelector("h2");
-  if(h0&&/픽 라인/.test(h0.textContent))
-    h0.innerHTML=`🛡️ 애드센스 승인 준비 <span style="font-size:11px;color:var(--muted);font-weight:400">사이트 자동 점검·조치</span>`;
   let box=page.querySelector("#adsDash");
   if(!box){ box=document.createElement("div"); box.id="adsDash";
     page.querySelector('.sub-sec[data-k="now"]').prepend(box); }
@@ -7949,7 +7804,14 @@ function renderAdsDash(){
       <div class="dcard"><div class="dl">공개 발행 글</div><div class="dv" data-num="${posts}">0편</div></div>
       <div class="dcard"><div class="dl">기준 갱신</div><div class="dv" style="font-size:13px">${(ADS_RULES&&ADS_RULES.version)||"-"}</div></div>
     </div>
-    <div class="dnext"><div class="dl">다음 할 일</div><div class="dv">${escAttr(next)}</div></div>`;
+    <div class="dnext"><div class="dl">다음 할 일</div><div class="dv">${escAttr(next)}</div></div>`
+    +(stage==="review"?`<div style="display:flex;gap:6px;margin-top:8px">
+       <button class="btn ok sm" style="flex:1" onclick="adsAddEntry('approve')">✅ 승인됐어요</button>
+       <button class="btn sm" style="flex:1;border-color:#e5484d;color:#ff9a9a" onclick="adsAddEntry('reject')">❌ 반려됐어요</button>
+     </div>`:"")
+    +((!applies&&!approved)?`<div style="margin-top:8px">
+       <button class="btn sm" style="width:100%" onclick="adsAddEntry('apply')">📨 이미 신청했다면 — 지금 기록 (D+n 계산에 필요)</button>
+     </div>`:"");
   animateRings(box);
   try{ renderTodoInbox(); }catch(e){}
   countUp(box.querySelector('[data-num="'+applies+'"]'),applies,"회");
@@ -8402,9 +8264,12 @@ if(needLock()) faceUnlock();   // 잠금 상태면 진입하자마자 Face ID �
 // 세부 항목은 마법사(setupWizard)가 순서대로 물어보므로, 여기서는 나중에 고칠 때
 // 찾아갈 수 있을 정도의 큰 덩어리로만 나눈다.
 const SETTING_GROUPS=[
-  {key:"connect", t:"연결",   d:"블로그·실행",       open:true,  match:["워드프레스","생성 실행"]},
+  {key:"connect", t:"연결",   d:"블로그·실행·동기화",  open:true,  match:["워드프레스","생성 실행","기기 간 설정 동기화"]},
   {key:"content", t:"콘텐츠", d:"주제·품질·작성자",   open:false, match:["__TOP__","품질·안전","작성자 정보"]},
-  {key:"money",   t:"수익",   d:"쿠팡·제휴",         open:false, match:["쿠팡","제휴 SaaS"]},
+  {key:"maint",   t:"유지관리",d:"원탭 실행",          open:false, match:["유지관리"]},
+  // 라인 격리(2026-09-08 사용자 확정): 스크립토=애드센스 전용. 파이프라인이 쿠팡·제휴를
+  // 강제 차단하므로 이 설정 UI는 승인 전엔 '거짓 스위치'다 → 승인 후에만 노출.
+  {key:"money",   t:"수익",   d:"쿠팡·제휴",          open:false, approvedOnly:true, match:["쿠팡","제휴 SaaS"]},
   {key:"adv",     t:"고급",   d:"검색등록·연동·데이터", open:false, match:["검색엔진","Supabase","앱 · 데이터"]},
 ];
 function organizeSettings(){
@@ -8433,6 +8298,8 @@ function organizeSettings(){
     mine.forEach(s=>used.add(s));
     const box=document.createElement("div");
     box.className="grp"+(g.open?" open":"");
+    box.dataset.gkey=g.key;
+    if(g.approvedOnly&&!CFG.adsenseApproved) box.dataset.locked="1";
     box.innerHTML=`<div class="grp-h"><span class="gt">${g.t}</span><span class="gd">${g.d}</span><span class="gc">▶</span></div><div class="grp-b"></div>`;
     const body=box.querySelector(".grp-b");
     mine.forEach(s=>s.nodes.forEach(n=>body.appendChild(n)));
