@@ -671,9 +671,11 @@
   .appsw a[data-hue="s"]:hover{color:#8b5cf6}
   .appsw a[data-hue="p"]:hover{color:#2e9e6b}
   .appsw a[data-hue="c"]:hover{color:#5b8def}
+  .appsw a[data-hue="m"]:hover{color:#ed8f47}
   .appsw a.on[data-hue="s"]{background:rgba(139,92,246,.16);color:#8b5cf6}
   .appsw a.on[data-hue="p"]{background:rgba(46,158,107,.16);color:#2e9e6b}
   .appsw a.on[data-hue="c"]{background:rgba(91,141,239,.16);color:#5b8def}
+  .appsw a.on[data-hue="m"]{background:rgba(237,143,71,.18);color:#ed8f47}
 
   /* ═══ v141 IA 개편: 홈/글 뷰 분리 ═══ */
   body[data-view="home"] #catFilters,body[data-view="home"] #statusTabs,
@@ -709,7 +711,7 @@
     cursor:pointer;flex:0 0 auto;margin-right:6px;padding:0;background:#7a8291"></button>
   <button class="icon-btn" id="keyBtn" title="AI 키 연결 마법사">🔑</button>
   <button class="icon-btn" id="adsBtn" title="애드센스 승인 준비">🛡️</button>
-  <nav class="appsw" id="appSwitch" aria-label="앱 전환"><a class="on" data-hue="s" href="#" onclick="return false">S</a><a data-hue="p" href="https://one2k87.github.io/Picto/dashboard/" title="Picto — 쿠팡 픽 라인">P</a><a data-hue="c" href="https://one2k87.github.io/Casto/dashboard/" title="Casto — 쇼츠 배포 라인">C</a></nav>
+  <nav class="appsw" id="appSwitch" aria-label="앱 전환"><a class="on" data-hue="s" href="#" onclick="return false">S</a><a data-hue="p" href="https://one2k87.github.io/Picto/dashboard/" title="Picto — 쿠팡 픽 라인">P</a><a data-hue="c" href="https://one2k87.github.io/Casto/dashboard/" title="Casto — 쇼츠 배포 라인">C</a><a data-hue="m" href="https://one2k87.github.io/Markto/dashboard/" title="Markto — 핀터레스트 배포 라인">M</a></nav>
   <button class="icon-btn" id="statsBtn" title="조회·수익">📊</button>
   <div class="run-wrap" id="runWrap" title="지금 생성 실행">
     <svg class="run-ring" viewBox="0 0 44 44" aria-hidden="true">
@@ -1516,6 +1518,13 @@ function sanitizeCfg(){
   return fx;
 }
 if(sanitizeCfg().length){ try{ saveCfg(); }catch(e){} }   // 부팅 정화(+자동 동기화가 서버 레코드도 치유)
+
+// iOS 인앱 시트/bfcache 복귀 후 상단 고정 요소가 상태바 위로 밀려 못 누르게 되는 현상 보정:
+// 복귀 시 스크롤을 1px 흔들어 뷰포트 재계산을 강제한다(2026-09-09 모바일 실측 증상 대응)
+window.addEventListener("pageshow",e=>{
+  if(!e.persisted) return;
+  requestAnimationFrame(()=>{ const y=window.scrollY; window.scrollTo(0,y+1); window.scrollTo(0,y); });
+});
 document.addEventListener("DOMContentLoaded",()=>{
   if(window.__guardFx&&window.__guardFx.length){ try{ toast("🛡 경계 가드: "+window.__guardFx.join(" · "),1); }catch(e){} }
 });
@@ -2276,7 +2285,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=150;
+const APP_BUILD=151;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 

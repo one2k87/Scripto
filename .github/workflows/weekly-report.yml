@@ -12,6 +12,8 @@ permissions:
 jobs:
   report:
     runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul   # 날짜 계산 전부 KST(UTC 날짜가 기록에 박히던 계열 버그 일괄 차단, P b156 대칭)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
