@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-09-10T10:07:48",
+ "updated_at": "2026-09-11T08:30:35",
  "site": "https://wontheland.com",
  "checked": 30,
- "indexed": 28,
+ "indexed": 27,
  "ghosts": [
   "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
   "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/",
@@ -13,7 +13,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-09-10T09:01:24\",\"link\":\"https:\\/\\/wontheland.com\\/old-apartment-bathroom-fan-replacement-cost-2026\\/\""
+  "body_head": "[{\"modified\":\"2026-09-11T08:25:34\",\"link\":\"https:\\/\\/wontheland.com\\/old-switch-outlet-diy-safety-cost\\/\"},{\"modified\":\""
  },
  "posts_n": 30,
  "results": [
@@ -24,15 +24,21 @@
    "lastCrawl": "2026-08-31"
   },
   {
-   "url": "https://wontheland.com/old-apartment-bathroom-fan-replacement-cost-2026/",
+   "url": "https://wontheland.com/old-switch-outlet-diy-safety-cost/",
    "verdict": "NEUTRAL",
    "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
+   "url": "https://wontheland.com/old-apartment-bathroom-fan-replacement-cost-2026/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
    "url": "https://wontheland.com/2026-september-youth-housing-package-conditions/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -93,7 +99,7 @@
    "url": "https://wontheland.com/다락방-접이식-사다리-상부-힌지-구동축-마찰-계수-저/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-03"
+   "lastCrawl": "2026-09-10"
   },
   {
    "url": "https://wontheland.com/지하실-내벽-결로-방지용-단열-복합-보드-압착-시공-전/",
@@ -177,7 +183,7 @@
    "url": "https://wontheland.com/탕비실-미니-바-테이블-상판-대리석-보수용-인조대리/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-08-31"
+   "lastCrawl": "2026-09-10"
   },
   {
    "url": "https://wontheland.com/다락방-천장-매입형-원형-점검구-타공-시-내부-경량철/",
@@ -190,12 +196,6 @@
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-08-31"
-  },
-  {
-   "url": "https://wontheland.com/보일러실-난방-배관-누수-부위-컷터-절단-후-엑셀-xl-커/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-06"
   }
  ]
 }

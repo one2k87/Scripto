@@ -1,13 +1,8 @@
 {
-  "updated_at": "2026-09-10",
+  "updated_at": "2026-09-11",
   "search_console": {
     "queries": [],
     "pages": [
-      {
-        "page": "https://wontheland.com/%EC%98%A5%EC%83%81-%ED%8C%8C%EB%9D%BC%ED%8E%AB-%EC%83%81%EB%B6%80-%EC%95%8C%EB%A3%A8%EB%AF%B8%EB%8A%84-%EB%91%90%EA%B2%81-%EC%8B%9C%EA%B3%B5-%EC%8B%9C-%EC%9D%B4%EC%9D%8C%EC%83%88-%EC%97%B4%ED%8C%BD/",
-        "clicks": 1,
-        "impressions": 6
-      },
       {
         "page": "https://wontheland.com/",
         "clicks": 0,
@@ -51,7 +46,12 @@
       {
         "page": "https://wontheland.com/%EB%93%9C%EB%A0%88%EC%8A%A4%EB%A3%B8-%EC%9D%98%EB%A5%98-%EC%88%98%EB%82%A9%EC%9A%A9-%EB%A9%94%EC%89%AC-%EC%85%94%EC%B8%A0%EB%A0%89-%EB%A0%88%EC%9D%BC-%ED%94%84%EB%A0%88%EC%9E%84-%EC%A2%8C%EC%9A%B0/",
         "clicks": 0,
-        "impressions": 3
+        "impressions": 2
+      },
+      {
+        "page": "https://wontheland.com/%EB%AC%B8%EC%9D%98%ED%95%98%EA%B8%B0/",
+        "clicks": 0,
+        "impressions": 1
       }
     ]
   },
@@ -59,7 +59,7 @@
     "top_pages": [
       {
         "title": "원더랜드 블로그 - 셀프 인테리어·집 수리 정보를 직접 확인해 정리합니다",
-        "views": 20,
+        "views": 21,
         "users": 18
       },
       {
@@ -78,6 +78,11 @@
         "users": 7
       },
       {
+        "title": "보일러실 벽면에 석고보드를 시공할 때 이음새를 교차 배치하여 크랙을 막습니다. - 원더랜드 블로그",
+        "views": 6,
+        "users": 3
+      },
+      {
         "title": "드레스룸 옷장 행거가 처졌다면 지지 소켓을 재고정하면 해결됩니다. - 원더랜드 블로그",
         "views": 5,
         "users": 5
@@ -86,11 +91,6 @@
         "title": "보일러실 내 벽면 단열재 석고보드 2P 복합 시공 시 이음새 교차 배치 규칙 준수 및 크랙 차단 기술 조항 - 원더랜드 블로그",
         "views": 5,
         "users": 5
-      },
-      {
-        "title": "보일러실 벽면에 석고보드를 시공할 때 이음새를 교차 배치하여 크랙을 막습니다. - 원더랜드 블로그",
-        "views": 5,
-        "users": 3
       },
       {
         "title": "외부 테라스 데크 하부 아연각관 장선 용접 부위 부식 방지용 광명단 방청 스프레이 분사 및 건조 공식 제대로 해야 녹 발생을 막는다 - 원더랜드 블로그",
