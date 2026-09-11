@@ -116,6 +116,11 @@ def collect_lane(cfg, cat, lane, n_slots, exclude):
     cand = [c for c in cand if not topics.is_corporate(c["keyword"])]
     if len(cand) < before:
         print(f"  · 기업·전문가용 주제 {before - len(cand)}개 제외(일반인 관점 유지)")
+    # 니치 이탈 차단(2026-09-11, 6회차 반려 대응): 정책·금융류는 신규든 백로그 재고든 전부 제외
+    before = len(cand)
+    cand = [c for c in cand if not topics.is_offniche(c["keyword"])]
+    if len(cand) < before:
+        print(f"  · 니치 이탈 주제 {before - len(cand)}개 제외(셀프 인테리어 고정)")
     # 형제 사이트(픽담) 동일 제목 회피(2026-09-08): 9/1 두 사이트가 완전히 같은 제목을
     # 생성한 실측 사고의 대칭 방어. 공개 제목만 사용, 회피 전용(내부링크 등 불사용).
     try:

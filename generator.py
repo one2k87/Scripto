@@ -18,6 +18,54 @@ import html as html_mod
 import random
 from llm import chat
 from links import find_reference_links
+import os as _os
+
+# ── 글쓴이 페르소나(2026-09-11, 7회차 전략) ──────────────────────────
+# 모든 글이 '한 사람'의 시선·어조로 쓰이게 하는 단일 소스. data/persona.json이 원본.
+# 원칙: 정체성·관점·습관은 일관되게, '하지 않은 시공을 했다'는 조작은 금지
+# (그건 1~4회차 반려 원인이었고 quality.py 게이트가 지금도 감점한다).
+def _load_persona():
+    try:
+        p = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "data", "persona.json")
+        with open(p, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+PERSONA = _load_persona()
+
+def persona_block():
+    p = PERSONA
+    if not p:
+        return ""
+    j = lambda k: "\n".join("- " + x for x in (p.get(k) or []))
+    return f"""
+[글쓴이 페르소나 — '{p.get("pen_name","")}': 이 블로그의 모든 글은 같은 한 사람이 쓴다]
+정체성: {p.get("identity","")}
+목소리(항상 유지):
+{j("voice")}
+정직 규칙(어길 바엔 그 문장을 빼라):
+{j("honesty_rules")}
+시그니처 습관(글에 자연스럽게 녹일 것 — 독자가 '이 블로그 글이네'라고 알아보는 지점):
+{j("signature_habits")}
+"""
+
+def search_intent(keyword, category, llm_cfg):
+    """검색의도 선행 분석(2026-09-11): 쓰기 전에 '이 검색을 치는 사람'을 먼저 그린다.
+    승인 사례들의 공통 기법 — 같은 AI 글이라도 실제 검색자의 상황·니즈에 정확히
+    답하면 경험성 콘텐츠로 판정될 가능성이 올라간다. 실패해도 무해(빈 문자열)."""
+    try:
+        raw = chat(
+            f"'{category}' 분야에서 \"{keyword}\"를 검색창에 치는 사람을 구체적으로 그려라.\n"
+            "1) 상황: 지금 무슨 일이 벌어져서 검색하는가 (한 문장)\n"
+            "2) 진짜 걱정: 돈·안전·실패 중 무엇이 제일 두려운가 (한 문장)\n"
+            "3) 결정 지점: 이 검색으로 무엇을 정하려 하는가 (한 문장)\n"
+            "4) 검색해도 못 찾아 답답한 정보 한 가지 (한 문장)\n"
+            "형식: 번호별 한 줄, 다른 말 없이.",
+            llm_cfg, max_tokens=350, temperature=0.4)
+        return (raw or "").strip()[:900]
+    except Exception:
+        return ""
 
 # 승인 후 수익 최적화: True면 광고 3개 배치(기본 2개). main.run()에서 설정.
 ADS_BOOST = False
@@ -176,7 +224,7 @@ def _weighted_pick(weights, seed):
     return items[0][0]
 
 
-def _article_prompt(keyword, kind, category, links, related, insert_ads, competitive=False):
+def _article_prompt(keyword, kind, category, links, related, insert_ads, competitive=False, intent_ctx=""):
     from datetime import date
     today = date.today()
     nxt = today.month % 12 + 1
@@ -316,10 +364,10 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
    광고가 오게 설계. 광고 근처엔 정책 위반 없는 '무의식 유도' 문장을 둔다
    (예: "더 많은 정보는 아래에서 확인해보세요.", "관련 자료가 궁금하다면 다음 내용을 참고하세요.").
    ※ '광고를 클릭하라'는 직접 표현은 절대 금지.
-② 고단가 키워드: 금융/보험/건강/기술 계열 단가 높은 키워드를 제목·첫문단·본문 중반·마지막 문단에 나눠
-   자연스러운 회화체로 삽입(예: "최근 자동차보험 갱신을 하면서 알아본 내용입니다.").
-   특히 제목에 고단가 키워드를 분명히 담는다.
-   (나쁜 예 "겨울철 건강관리 팁" → 좋은 예 "면역력 강화 건강기능식품 추천 (비타민, 홍삼 등)")
+② 수익 키워드는 '이 카테고리 안의 지출 결정'이다(2026-09-11 개정 — 옛 금융·보험 예시가
+   니치 밖 글을 끌어들여 반려 원인이 됐다): 시공 비용, 업체 견적, 셀프 vs 업체,
+   자재·공구 선택, 보수 비용 같은 '돈 쓰기 직전' 키워드를 제목·첫문단·본문에 자연스럽게.
+   (나쁜 예 "욕실 관리 팁" → 좋은 예 "욕실 실리콘 재시공, 업체 견적과 셀프 비용 차이")
 ③ 타이밍/시의성: '지금 뜨는'보다 '이제 뜰' 주제를 완결성 있게 정리(검색 반영에 1~2주 걸림).
 ④ 체류시간: 첫 문장은 3초 안에 붙잡는 질문형/공감형으로 시작
    (예: "왜 내 글은 수익이 안 날까요?", "매달 이런 고민 해보셨나요?"). 서론은 짧게, 핵심을 바로 전달.
@@ -328,6 +376,9 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
 
 핵심 키워드(고단가): {keyword}
 글 성격: {kind_hint}
+{("[검색의도 실측 — 본문은 이 사람에게 답한다]" + chr(10) + intent_ctx + chr(10)
+  + "- 첫 문단은 1)의 상황에 곧장 응답하고, 본문 어딘가에서 반드시 4)의 답답함을 해소하라."
+  + " 2)의 걱정(돈·안전·실패)이 글의 무게중심이다.") if intent_ctx else ""}
 
 본문에 그대로 쓸 실제 외부 링크(URL을 지어내지 말 것, 없으면 넣지 않음):
 {link_lines}
@@ -341,7 +392,7 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
    - 명사만 5개 이상 이어 붙이지 마라("보일러실 가스 차단기 연동 신호선 결선 절연 장갑" ❌).
    - 배정 골격이 '상황선두형/질문형/수치선두형'이면 공간 이름으로 시작하지 마라.
    - "~로 보강", "~로 조정", "~ 절차", "~ 매뉴얼"처럼 동작명사·절차어로 끝내지 마라.
-   (나쁜 예: "무직자 대출 총정리"  → 좋은 예: "무직자 비상금 대출, 한도는 300만 원까지입니다")
+   (나쁜 예: "곰팡이 제거 총정리"  → 좋은 예: "벽지 곰팡이, 닦아내면 3주 뒤에 다시 옵니다")
 2. hook(첫 문장): 3초 안에 이탈을 막는 질문형 또는 공감형 한 문장. (예: "대출 이자 부담, 조금이라도 줄일 방법 없을까요?")
 3. 첫 문단에서 검색 의도에 바로 답하고 핵심 키워드를 1회 자연스럽게 포함.
 4. 키워드를 제목·첫문단·본문 중반·마지막 문단에 나눠서 자연스러운 회화체로 배치.
@@ -373,6 +424,7 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
    + "  (이 목소리는 시기마다 조금씩 달라집니다. 요건은 그대로 지키되 말투와 리듬을 여기에 맞추세요.)")
   if _era else ""}
 
+{persona_block()}
 {HUMAN_STYLE}
 {_commerce_block()}
 [이번 글의 도입 방식] {_open_mode}
@@ -835,7 +887,9 @@ def _assemble(data, related, blog_url, insert_ads, resolver=None, series_nav="",
 def _gen_one(keyword, kind, llm_cfg, category, links, related, blog_url,
              insert_ads, image_resolver, series_nav="", author="편집부",
              author_bio="", author_type="Organization", competitive=False):
-    prompt = _article_prompt(keyword, kind, category, links, related, insert_ads, competitive)
+    intent_ctx = search_intent(keyword, category, llm_cfg)   # 검색의도 선행 분석(실패 무해)
+    prompt = _article_prompt(keyword, kind, category, links, related, insert_ads, competitive,
+                             intent_ctx=intent_ctx)
     raw = chat(prompt, llm_cfg, system=SYSTEM, max_tokens=6000, temperature=0.7)
     data = _parse_output(raw)
     body = data.get("html_body", "")
