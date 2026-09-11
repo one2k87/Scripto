@@ -23,9 +23,10 @@ def main():
     if not (wp.get("enabled") and wp.get("site_url")):
         print("WP 설정 없음 — 종료"); return 1
     base = wp["site_url"].rstrip("/")
-    from publisher import _auth_header
-    H = {"User-Agent": "Mozilla/5.0 (ScriptoBot)"}
-    H.update(_auth_header(wp["username"], wp["app_password"]))
+    # 자립형 인증(2026-09-11 실측: publisher import가 미설치 의존성을 끌고 와 8초 실패)
+    import base64
+    tok = base64.b64encode(f"{wp['username']}:{wp['app_password']}".encode()).decode()
+    H = {"User-Agent": "Mozilla/5.0 (ScriptoBot)", "Authorization": f"Basic {tok}"}
 
     # 1) 공개 글 전량 → 초안
     moved, fail = [], []
