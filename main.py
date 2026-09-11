@@ -33,6 +33,7 @@ import notify
 import insights
 import supabase_client
 from llm import chat
+import generator                      # AD_CODE 배선용(모듈 전역을 세팅해야 하므로 모듈째 import)
 from generator import generate_article, generate_series
 from publisher import (publish_to_wordpress, upload_media, add_update_banner,
                        submit_indexnow, get_post, update_post_content, trash_post)
@@ -376,6 +377,8 @@ def _run_category(cfg, cat, hist, auto_publish, img_budget=None):
     name = cat["name"]
     blog_url = cfg.get("blog_url", "") or cfg.get("site", {}).get("blog_url", "")
     insert_ads = cfg.get("ads", {}).get("insert_slots", True)
+    # 실제 광고 코드가 없으면 generator._ad_slot()이 빈 문자열을 돌려주어 상자를 만들지 않는다.
+    generator.AD_CODE = cfg.get("ads", {}).get("code", "") or ""
     author = cfg.get("author") or "편집부"
     author_bio = cfg.get("author_bio") or ""
     author_type = cfg.get("author_type") or "Organization"

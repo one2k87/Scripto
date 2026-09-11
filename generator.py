@@ -59,14 +59,23 @@ def slugify(text, max_words=8):
     return "-".join(text.split("-")[:max_words]) or "post"
 
 
+# 실제 광고 코드(애드센스 <ins> 스니펫 등). 비어 있으면 광고 상자를 **아예 만들지 않는다**.
+# 2026-09-11: 빈 "[ 광고 자리 ]" 점선 상자가 독자 화면에 그대로 보이고 있었다(발행 전수).
+# 애드센스 심사원 눈에는 '내용 없는 빈 상자' = 가치 낮은 콘텐츠 신호라 자리표시 자체를 폐지한다.
+# main.py가 config의 ads.code(env ADS_CODE)를 이 값에 배선한다.
+AD_CODE = ""
+
+
 def _ad_slot():
+    """실제 광고 코드가 있을 때만 광고 블록을 만든다. 없으면 빈 문자열(삽입 자체를 건너뜀)."""
+    if not (AD_CODE or "").strip():
+        return ""
     cta = random.choice(CTA_LINES)
     return (
         '<div class="ad-slot" style="margin:26px 0;padding:14px;border:1px dashed #d8dbe0;'
         'border-radius:10px;text-align:center;background:#fafbfc">'
         f'<p style="margin:0 0 8px;color:#666;font-size:14px">{cta}</p>'
-        '<!-- 애드센스 광고 코드를 이 자리에 붙여넣으세요 -->'
-        '<div style="color:#b6bcc6;font-size:13px">[ 광고 자리 ]</div>'
+        f'{AD_CODE}'
         '</div>'
     )
 
@@ -502,7 +511,7 @@ def _convert_markers(html_body, insert_ads, resolver=None, fallback_desc=""):
                 html_body = html_body.replace("</h2>", "</h2>" + _html, 1)
             else:
                 html_body = _html + html_body
-    if insert_ads:
+    if insert_ads and _ad_slot():
         if "[[AD]]" in html_body:
             html_body = html_body.replace("[[AD]]", _ad_slot())
         else:

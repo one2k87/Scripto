@@ -138,7 +138,8 @@ cfg = {
         "series_min_parts": envi("SERIES_MIN", 2),
         "series_max_parts": envi("SERIES_MAX", 3),
     },
-    "ads": {"insert_slots": b("INSERT_ADS", True)},
+    # ads.code 가 비어 있으면 generator 가 광고 상자를 만들지 않는다(빈 "[ 광고 자리 ]" 방지).
+    "ads": {"insert_slots": b("INSERT_ADS", True), "code": envs("ADS_CODE", "")},
     "coupang": {                                    # 쿠팡 파트너스(API 불필요)
         "enabled": b("COUPANG_ENABLED", False),
         "disclosure": b("COUPANG_DISCLOSURE", True),
