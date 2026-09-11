@@ -1075,7 +1075,7 @@
   </div>
   <div class="field">
     <label>액세스 토큰 (fine-grained PAT · Actions 쓰기)</label>
-    <input id="cfgGhToken" placeholder="github_pat_..." autocapitalize="off">
+    <input id="cfgGhToken" type="password" placeholder="github_pat_..." autocapitalize="off">
     <div class="hint">github.com → Settings → Developer settings → Fine-grained tokens.
       이 저장소의 Actions(Read/Write) 권한만 주세요. 이 기기에만 저장됩니다.</div>
   </div>
@@ -1125,7 +1125,7 @@
   </div>
   <div class="field">
     <label>응용 프로그램 비밀번호</label>
-    <input id="cfgPass" placeholder="abcd efgh ijkl mnop" autocapitalize="off">
+    <input id="cfgPass" type="password" placeholder="abcd efgh ijkl mnop" autocapitalize="off">
     <div class="hint">아래 버튼을 누르면 발급 화면이 바로 열립니다 — 이름 아무거나 입력 → [새 응용 프로그램 비밀번호 추가] → 나온 값을 복사해 붙여넣으세요.
       <button class="btn sm" style="margin-top:5px" onclick="openAppPassPage()">🔑 발급 화면 바로 열기</button></div>
   </div>
@@ -2324,7 +2324,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=154;
+const APP_BUILD=155;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 
@@ -8666,7 +8666,7 @@ function wizSteps(){
       el.innerHTML = `
         <input id="wzOwner" placeholder="GitHub 사용자명" autocapitalize="off" value="${escAttr(CFG.ghOwner||"")}">
         <input id="wzRepo" placeholder="저장소 이름 (예: Scripto)" autocapitalize="off" value="${escAttr(CFG.ghRepo||"")}">
-        <input id="wzTok" placeholder="개인 접근 토큰 (ghp_...)" autocapitalize="off" value="${escAttr(CFG.ghToken||"")}">
+        <input id="wzTok" type="password" placeholder="개인 접근 토큰 (ghp_...)" autocapitalize="off" value="${escAttr(CFG.ghToken||"")}">
         <div class="wiz-note">
           토큰은 GitHub → Settings → Developer settings → <b>Personal access tokens</b> 에서 만듭니다.
           권한은 <b>repo</b> 와 <b>workflow</b> 두 개면 충분합니다.
@@ -8871,6 +8871,62 @@ setTimeout(maybeOnboard, 800);   // 첫 실행이면 온보딩 위저드
     if(benign.test(m)) { console.warn("무해한 실패(표시 안 함):", m.slice(0,120)); return; }
     show("처리되지 않은 오류: "+m);
   });
+})();
+
+/* ── 자격증명 칸 '잠깐 보기' 토글 (v155) ───────────────────────────────
+   마크토 통지(2026-09-09) 실측: GitHub PAT·WP 앱 비밀번호·마법사 토큰 칸이
+   type="text" 라 화면·스크린샷에 값이 그대로 찍혔다. 같은 화면의 서파베이스 칸
+   3개는 이미 password 였으니 일관성 결함이기도 했다.
+   가리기만 하면 붙여넣은 값을 눈으로 확인할 수 없어 못 쓰므로 👁 토글을 함께 단다.
+   런타임 렌더(마법사 wzTok)까지 덮으려고 MutationObserver 로 감시한다. */
+(function(){
+  "use strict";
+  function decorate(inp){
+    try{
+      if(!inp || inp.type!=="password" || inp.dataset.eyeDone==="1") return;
+      inp.dataset.eyeDone="1";
+      var wrap=document.createElement("span");
+      wrap.style.cssText="position:relative;display:block";
+      inp.parentNode.insertBefore(wrap, inp);
+      wrap.appendChild(inp);
+      inp.style.paddingRight="38px";
+      var b=document.createElement("button");
+      b.type="button"; b.textContent="👁";
+      b.setAttribute("aria-label","값 잠깐 보기");
+      b.style.cssText="position:absolute;right:6px;top:50%;transform:translateY(-50%);"+
+        "border:0;background:transparent;cursor:pointer;font-size:15px;line-height:1;"+
+        "padding:4px;opacity:.6";
+      b.addEventListener("click",function(){
+        var showing = inp.type==="text";
+        inp.type = showing ? "password" : "text";
+        b.style.opacity = showing ? ".6" : "1";
+      });
+      wrap.appendChild(b);
+    }catch(e){ console.warn("eye toggle 실패(무시):", e && e.message); }
+  }
+  function scan(root){
+    try{
+      (root||document).querySelectorAll('input[type="password"]').forEach(decorate);
+    }catch(e){}
+  }
+  function boot(){
+    scan(document);
+    try{
+      new MutationObserver(function(muts){
+        for(var i=0;i<muts.length;i++){
+          var ns=muts[i].addedNodes;
+          for(var j=0;j<ns.length;j++){
+            var n=ns[j];
+            if(n.nodeType!==1) continue;
+            if(n.matches && n.matches('input[type="password"]')) decorate(n);
+            else scan(n);
+          }
+        }
+      }).observe(document.body,{childList:true,subtree:true});
+    }catch(e){}
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",boot);
+  else boot();
 })();
 </script>
 </body>
