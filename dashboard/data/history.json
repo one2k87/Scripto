@@ -532,6 +532,19 @@
       "intent": "revenue",
       "date": "2026-09-11",
       "series_id": ""
+    },
+    {
+      "title": "스마트폰 글씨가 너무 작고 복잡해서 답답하신가요? 2026년 9월 시니어 스마트폰 글자 크기 키우고 아이콘 쉽게 정리하는 방법",
+      "slug": "senior-smartphone-font-icon-easy-setup",
+      "url": "",
+      "post_id": null,
+      "status": "폐기",
+      "kind": "long",
+      "keyword": "시니어 스마트폰 글자 크기 키우고 아이콘 쉽게 정리하는 방법",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-09-12",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"

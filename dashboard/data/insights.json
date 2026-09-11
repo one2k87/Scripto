@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-09-11",
+  "updated_at": "2026-09-12",
   "search_console": {
     "queries": [],
     "pages": [
       {
         "page": "https://wontheland.com/",
         "clicks": 0,
-        "impressions": 2
+        "impressions": 4
       },
       {
         "page": "https://wontheland.com/%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%EC%B2%98%EB%A6%AC%EB%B0%A9%EC%B9%A8/",
@@ -29,6 +29,16 @@
         "impressions": 1
       },
       {
+        "page": "https://wontheland.com/%EB%8B%A4%EB%9D%BD%EB%B0%A9-%EA%B3%84%EB%8B%A8%EC%8B%A4-%EB%B2%BD%EB%A9%B4-%EC%9B%90%EB%AA%A9-%ED%95%B8%EB%93%9C%EB%A0%88%EC%9D%BC-%EA%B3%A0%EC%A0%95-%EB%B8%8C%EB%9E%98%ED%82%B7-%EC%BD%98%ED%81%AC/",
+        "clicks": 0,
+        "impressions": 2
+      },
+      {
+        "page": "https://wontheland.com/%EB%8B%A4%EB%9D%BD%EB%B0%A9-%EC%A0%91%EC%9D%B4%EC%8B%9D-%EC%82%AC%EB%8B%A4%EB%A6%AC-%EC%83%81%EB%B6%80-%ED%9E%8C%EC%A7%80-%EA%B5%AC%EB%8F%99%EC%B6%95-%EB%A7%88%EC%B0%B0-%EA%B3%84%EC%88%98-%EC%A0%80/",
+        "clicks": 0,
+        "impressions": 2
+      },
+      {
         "page": "https://wontheland.com/%EB%8B%A4%EB%9D%BD%EB%B0%A9-%EC%B2%9C%EC%9E%A5-%EB%A7%A4%EC%9E%85%ED%98%95-%EC%9B%90%ED%98%95-%EC%A0%90%EA%B2%80%EA%B5%AC-%ED%83%80%EA%B3%B5-%EC%8B%9C-%EB%82%B4%EB%B6%80-%EA%B2%BD%EB%9F%89%EC%B2%A0/",
         "clicks": 0,
         "impressions": 3
@@ -39,19 +49,9 @@
         "impressions": 3
       },
       {
-        "page": "https://wontheland.com/%EB%93%9C%EB%A0%88%EC%8A%A4%EB%A3%B8-%EC%95%84%EC%9D%BC%EB%9E%9C%EB%93%9C-%EC%88%98%EB%82%A9%EC%9E%A5-%EC%84%9C%EB%9E%8D-%EC%9B%90%EB%AA%A9-%EC%95%9E%ED%8C%90-%EC%9C%A0%EA%B2%A9-%EC%A1%B0%EC%A0%95/",
-        "clicks": 0,
-        "impressions": 5
-      },
-      {
-        "page": "https://wontheland.com/%EB%93%9C%EB%A0%88%EC%8A%A4%EB%A3%B8-%EC%9D%98%EB%A5%98-%EC%88%98%EB%82%A9%EC%9A%A9-%EB%A9%94%EC%89%AC-%EC%85%94%EC%B8%A0%EB%A0%89-%EB%A0%88%EC%9D%BC-%ED%94%84%EB%A0%88%EC%9E%84-%EC%A2%8C%EC%9A%B0/",
+        "page": "https://wontheland.com/%EB%93%9C%EB%A0%88%EC%8A%A4%EB%A3%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EC%98%B7%EC%9E%A5-%ED%96%89%EA%B1%B0-%ED%8C%8C%EC%9D%B4%ED%94%84-%EB%8B%A8%EB%8B%A8%ED%9E%88-%EA%B3%A0%EC%A0%95%ED%95%98%EA%B8%B0/",
         "clicks": 0,
         "impressions": 2
-      },
-      {
-        "page": "https://wontheland.com/%EB%AC%B8%EC%9D%98%ED%95%98%EA%B8%B0/",
-        "clicks": 0,
-        "impressions": 1
       }
     ]
   },
@@ -59,8 +59,8 @@
     "top_pages": [
       {
         "title": "원더랜드 블로그 - 셀프 인테리어·집 수리 정보를 직접 확인해 정리합니다",
-        "views": 21,
-        "users": 18
+        "views": 23,
+        "users": 19
       },
       {
         "title": "원더랜드 블로그 -",
@@ -69,8 +69,8 @@
       },
       {
         "title": "외부 테라스 데크 아연각관 용접부, 광명단 스프레이 2회 도포 예방 - 원더랜드 블로그",
-        "views": 8,
-        "users": 8
+        "views": 9,
+        "users": 9
       },
       {
         "title": "지하실 옹벽 크랙 보수: 아크릴 퍼티 2회, 220방 사포 처리 - 원더랜드 블로그",

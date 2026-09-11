@@ -1,21 +1,16 @@
 {
- "at": "2026-09-11T10:08:34",
- "n": 39,
- "avg": 96,
+ "at": "2026-09-12T08:34:39",
+ "n": 0,
+ "avg": 0,
  "fails": [],
  "auto_repair": true,
  "repaired": [],
  "repair_fail": [],
  "defaults": [],
  "noimgv2": {
-  "n": 1,
-  "of": 39,
-  "posts": [
-   {
-    "id": 2536,
-    "title": "오래된 스위치 교체, 비용 아끼려다 감전 사고 위험까지? 2026년 안전"
-   }
-  ]
+  "n": 0,
+  "of": 0,
+  "posts": []
  },
  "contamination": []
 }

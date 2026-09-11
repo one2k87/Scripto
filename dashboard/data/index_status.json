@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-09-11T10:08:19",
+ "updated_at": "2026-09-12T08:34:31",
  "site": "https://wontheland.com",
- "checked": 30,
- "indexed": 27,
+ "checked": 1,
+ "indexed": 1,
  "ghosts": [
   "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
   "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/",
@@ -13,189 +13,15 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-09-11T08:25:34\",\"link\":\"https:\\/\\/wontheland.com\\/old-switch-outlet-diy-safety-cost\\/\"},{\"modified\":\""
+  "body_head": "[]"
  },
- "posts_n": 30,
+ "posts_n": 0,
  "results": [
   {
    "url": "https://wontheland.com/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-08-31"
-  },
-  {
-   "url": "https://wontheland.com/old-switch-outlet-diy-safety-cost/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/old-apartment-bathroom-fan-replacement-cost-2026/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/2026-september-youth-housing-package-conditions/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/old-bathroom-tile-overlay-material/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-09"
-  },
-  {
-   "url": "https://wontheland.com/faucet-leak-repair-2026-september/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-08"
-  },
-  {
-   "url": "https://wontheland.com/드레스룸-붙박이장-도어-수평-조정용-숨은-경첩-전후/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-08-31"
-  },
-  {
-   "url": "https://wontheland.com/보일러실-온수-배관-가스켓-마모-시-링-플러그-스패너/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-08-27"
-  },
-  {
-   "url": "https://wontheland.com/탕비실-냉온수기-급수용-호스-인입선-무게추-장착-위/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-08-29"
-  },
-  {
-   "url": "https://wontheland.com/지하실-옹벽-크랙-메우기-후-아크릴-퍼티-2회-얇게-펴-바/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-08-27"
-  },
-  {
-   "url": "https://wontheland.com/옥상-우수관-홈통-덮개-교체-시-pvc-접착제-도포-후-밀착/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-08-31"
-  },
-  {
-   "url": "https://wontheland.com/탕비실-싱크대-볼-테두리-물때-차단용-투명-바이오-실/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-08-31"
-  },
-  {
-   "url": "https://wontheland.com/외부-테라스-데크-하부-아연각관-장선-용접-부위-부식/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-08-31"
-  },
-  {
-   "url": "https://wontheland.com/다락방-접이식-사다리-상부-힌지-구동축-마찰-계수-저/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-10"
-  },
-  {
-   "url": "https://wontheland.com/지하실-내벽-결로-방지용-단열-복합-보드-압착-시공-전/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-07-26"
-  },
-  {
-   "url": "https://wontheland.com/옥상-방수-우레탄-중도-3mm-균일-두께-도포용-스크래퍼/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-07-26"
-  },
-  {
-   "url": "https://wontheland.com/외부-테라스-조명용-실외-방우형-벽등-ip65-등급-접지선/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-03"
-  },
-  {
-   "url": "https://wontheland.com/물품-창고-중량-랙-단-높이-조절-시-고무망치-하향-수직/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-08-31"
-  },
-  {
-   "url": "https://wontheland.com/지하실-바닥-습기-배출용-미세-배수-라인-트렌치-가공/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-06"
-  },
-  {
-   "url": "https://wontheland.com/옥상-파라펫-상부-알루미늄-두겁-시공-시-이음새-열팽/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-07-26"
-  },
-  {
-   "url": "https://wontheland.com/외부-테라스-조립식-타일-하부-배수판-고리-결속-강도/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-03"
-  },
-  {
-   "url": "https://wontheland.com/내부-창고-문-도어록-레버-축-중심선-복원용-내부-회전/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-08-31"
-  },
-  {
-   "url": "https://wontheland.com/드레스룸-시스템-옷장-행거-파이프-단단히-고정하기/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-07"
-  },
-  {
-   "url": "https://wontheland.com/보일러실-내-벽면-단열재-석고보드-2p-복합-시공-시-이음/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-01"
-  },
-  {
-   "url": "https://wontheland.com/내부-창고-중량물-적재용-파레트-랙-포스트-고정용-바/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-07-26"
-  },
-  {
-   "url": "https://wontheland.com/드레스룸-아일랜드-수납장-서랍-원목-앞판-유격-조정/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-08-20"
-  },
-  {
-   "url": "https://wontheland.com/보일러실-내-가스-차단기-연동용-홈네트워크-수신기/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-03"
-  },
-  {
-   "url": "https://wontheland.com/탕비실-미니-바-테이블-상판-대리석-보수용-인조대리/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-10"
-  },
-  {
-   "url": "https://wontheland.com/다락방-천장-매입형-원형-점검구-타공-시-내부-경량철/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-06"
-  },
-  {
-   "url": "https://wontheland.com/드레스룸-의류-수납용-메쉬-셔츠렉-레일-프레임-좌우/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-08-31"
+   "lastCrawl": "2026-09-11"
   }
  ]
 }
