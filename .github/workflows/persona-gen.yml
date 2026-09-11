@@ -1,0 +1,46 @@
+name: AI 추천 페르소나 재생성
+
+# 주제(site_categories.json)가 바뀌었을 때 실행 — auto 슬롯만 갱신(custom·mode 불변).
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  gen:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: 의존성
+        run: pip install -r requirements.txt
+      - name: config 생성(시크릿에서)
+        env:
+          LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+        run: |
+          python - <<'EOF'
+          import json, os
+          cfg = {"llm": {"provider": os.getenv("LLM_PROVIDER","gemini"),
+                          "api_key": os.getenv("LLM_API_KEY",""),
+                          "model": os.getenv("LLM_MODEL","gemini-2.0-flash")}}
+          json.dump(cfg, open("config.json","w"), ensure_ascii=False)
+          EOF
+      - name: 페르소나 생성
+        run: python scripts/persona_gen.py
+      - name: 커밋
+        run: |
+          git config user.name "blog-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/persona.json
+          git commit -m "AI 추천 페르소나 재생성: $(date '+%Y-%m-%d %H:%M')" || { echo "변경 없음"; exit 0; }
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin main && git push && exit 0
+            echo "push 경쟁 — ${i}차"; sleep $((i*7))
+          done
+          echo "::warning::push 실패"

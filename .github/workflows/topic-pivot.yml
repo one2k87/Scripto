@@ -1,0 +1,52 @@
+name: 주제 전환 집행
+
+# 2026-09-11 사용자 확정: 셀프 인테리어 → 시니어 디지털.
+# 공개 글 전부 초안(비공개 보관) + 태그라인 교체. 삭제 없음(복구 가능).
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "정말 실행하려면 YES 입력(공개 글 전부 비공개 전환)"
+        default: ""
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  pivot:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - name: 확인 게이트
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "YES" ]; then
+            echo "::error::confirm=YES 가 아니어서 중단합니다."; exit 1
+          fi
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: 의존성
+        run: pip install requests
+      - name: config 생성(시크릿에서)
+        env:
+          WP_ENABLED: ${{ secrets.WP_ENABLED }}
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+        run: |
+          python - <<'EOF'
+          import json, os
+          cfg = {"llm": {}, "wordpress": {
+              "enabled": os.getenv("WP_ENABLED","true").lower()=="true",
+              "site_url": os.getenv("WP_SITE",""),
+              "username": os.getenv("WP_USER",""),
+              "app_password": os.getenv("WP_APP_PASSWORD","")}}
+          json.dump(cfg, open("config.json","w"), ensure_ascii=False)
+          EOF
+      - name: 전환 실행
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/topic_pivot.py

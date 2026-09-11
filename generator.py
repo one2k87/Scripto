@@ -34,8 +34,20 @@ def _load_persona():
 
 PERSONA = _load_persona()
 
+def _active_persona():
+    """mode(auto/custom)가 가리키는 페르소나를 고른다. custom이 비어 있으면 auto로 폴백.
+    구버전(평평한 스키마) 파일도 그대로 동작한다."""
+    p = PERSONA or {}
+    if "auto" in p or "custom" in p:
+        mode = p.get("mode", "auto")
+        cand = p.get(mode) or {}
+        if mode == "custom" and not (cand.get("pen_name") or cand.get("identity")):
+            cand = p.get("auto") or {}
+        return cand
+    return p
+
 def persona_block():
-    p = PERSONA
+    p = _active_persona()
     if not p:
         return ""
     j = lambda k: "\n".join("- " + x for x in (p.get(k) or []))
@@ -364,10 +376,9 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
    광고가 오게 설계. 광고 근처엔 정책 위반 없는 '무의식 유도' 문장을 둔다
    (예: "더 많은 정보는 아래에서 확인해보세요.", "관련 자료가 궁금하다면 다음 내용을 참고하세요.").
    ※ '광고를 클릭하라'는 직접 표현은 절대 금지.
-② 수익 키워드는 '이 카테고리 안의 지출 결정'이다(2026-09-11 개정 — 옛 금융·보험 예시가
-   니치 밖 글을 끌어들여 반려 원인이 됐다): 시공 비용, 업체 견적, 셀프 vs 업체,
-   자재·공구 선택, 보수 비용 같은 '돈 쓰기 직전' 키워드를 제목·첫문단·본문에 자연스럽게.
-   (나쁜 예 "욕실 관리 팁" → 좋은 예 "욕실 실리콘 재시공, 업체 견적과 셀프 비용 차이")
+② 수익 키워드는 '이 카테고리 안의 지출·선택 결정'이다(니치 밖 금융·보험으로 새지 말 것):
+   독자가 돈을 쓰거나 요금제·서비스·제품·업체를 '고르기 직전'에 검색하는 순간을
+   제목·첫문단·본문에 자연스럽게 담는다. 비용은 범위+기준 시점으로.
 ③ 타이밍/시의성: '지금 뜨는'보다 '이제 뜰' 주제를 완결성 있게 정리(검색 반영에 1~2주 걸림).
 ④ 체류시간: 첫 문장은 3초 안에 붙잡는 질문형/공감형으로 시작
    (예: "왜 내 글은 수익이 안 날까요?", "매달 이런 고민 해보셨나요?"). 서론은 짧게, 핵심을 바로 전달.
