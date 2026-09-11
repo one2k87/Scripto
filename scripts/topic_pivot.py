@@ -20,8 +20,9 @@ TAGLINE = "부모님 스마트폰과 디지털 생활, 자녀의 마음으로 �
 def main():
     cfg = json.load(open("config.json", encoding="utf-8"))
     wp = cfg.get("wordpress", {}) or {}
-    if not (wp.get("enabled") and wp.get("site_url")):
-        print("WP 설정 없음 — 종료"); return 1
+    # site_url·자격만 있으면 진행(enabled 플래그 형식 차이로 조기 종료하지 않는다 — #1 실측 8초 실패)
+    if not (wp.get("site_url") and wp.get("username") and wp.get("app_password")):
+        print(f"WP 설정 부족 — site={bool(wp.get('site_url'))} user={bool(wp.get('username'))} pass={bool(wp.get('app_password'))}"); return 1
     base = wp["site_url"].rstrip("/")
     # 자립형 인증(2026-09-11 실측: publisher import가 미설치 의존성을 끌고 와 8초 실패)
     import base64
