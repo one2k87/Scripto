@@ -545,6 +545,19 @@
       "intent": "evergreen",
       "date": "2026-09-12",
       "series_id": ""
+    },
+    {
+      "title": "시니어 스마트폰 사진 백업, 용량 걱정 없이",
+      "slug": "senior-smartphone-photo-backup-easy-way",
+      "url": "",
+      "post_id": null,
+      "status": "폐기",
+      "kind": "long",
+      "keyword": "시니어 스마트폰 용량 부족 사진 백업 가장 쉬운 방법 (구글 포토 vs 네이버 MYBOX 차이점)",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-09-13",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
