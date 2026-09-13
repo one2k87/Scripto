@@ -1,0 +1,35 @@
+name: 페르소나 사이트 적용
+
+# 표시명·소개 페이지·본문 서명을 현재 페르소나로 맞춘다(멱등). 주제/페르소나 변경 후 1회 실행.
+on:
+  workflow_dispatch:
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: 의존성
+        run: pip install requests
+      - name: config 생성(시크릿에서)
+        env:
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+        run: |
+          python - <<'EOF'
+          import json, os
+          json.dump({"wordpress": {"site_url": os.getenv("WP_SITE",""),
+                                    "username": os.getenv("WP_USER",""),
+                                    "app_password": os.getenv("WP_APP_PASSWORD","")}},
+                    open("config.json","w"), ensure_ascii=False)
+          EOF
+      - name: 적용
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/persona_apply.py

@@ -387,6 +387,18 @@ def _run_category(cfg, cat, hist, auto_publish, img_budget=None):
     author = cfg.get("author") or "편집부"
     author_bio = cfg.get("author_bio") or ""
     author_type = cfg.get("author_type") or "Organization"
+    # 페르소나 단일 소스(2026-09-14): persona.json의 필명·정체성이 시크릿 AUTHOR_NAME보다 우선.
+    # 주제가 바뀌면 페르소나만 갈아끼우면 바이라인·E-E-A-T 서명이 함께 따라온다.
+    try:
+        _pj = json.load(open("data/persona.json", encoding="utf-8"))
+        _pa = _pj.get(_pj.get("mode", "auto")) or {}
+        if not (_pj.get("mode") == "custom" and not _pa.get("pen_name")):
+            if _pa.get("pen_name"):
+                author = _pa["pen_name"]
+                author_bio = (_pa.get("identity") or author_bio)[:120]
+                author_type = "Person"
+    except Exception:
+        pass
     wp_cfg = cfg.get("wordpress", {})
     resolver = make_image_resolver(cfg, auto_publish, name, img_budget)
 
