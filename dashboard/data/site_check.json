@@ -1,16 +1,21 @@
 {
- "at": "2026-09-13T10:00:53",
- "n": 0,
- "avg": 0,
+ "at": "2026-09-13T20:21:23",
+ "n": 1,
+ "avg": 100,
  "fails": [],
  "auto_repair": true,
  "repaired": [],
  "repair_fail": [],
  "defaults": [],
  "noimgv2": {
-  "n": 0,
-  "of": 0,
-  "posts": []
+  "n": 1,
+  "of": 1,
+  "posts": [
+   {
+    "id": 2541,
+    "title": "엄마 아빠 휴대폰에 온 스미싱 문자, 진짜와 가짜 어떻게 구별하나요?"
+   }
+  ]
  },
  "contamination": []
 }

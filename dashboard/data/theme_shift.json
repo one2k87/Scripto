@@ -1,11 +1,13 @@
 {
-  "at": "2026-09-13T08:18:47",
-  "notes": [],
+  "at": "2026-09-13T20:17:45",
+  "notes": [
+    "'시니어 디지털' 완충 — 누적 2편이라 하루 최대 1편(시리즈 금지)"
+  ],
   "maturity": [
     {
       "category": "시니어 디지털",
-      "published": 1,
-      "daily_cap": null
+      "published": 2,
+      "daily_cap": 1
     }
   ]
 }
