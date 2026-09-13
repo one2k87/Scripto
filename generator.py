@@ -857,7 +857,10 @@ def _assemble(data, related, blog_url, insert_ads, resolver=None, series_nav="",
     body = _convert_markers(data.get("html_body", ""), insert_ads, resolver,
                             fallback_desc=(data.get("title") or "")[:60])
     body, headings = _slugify_headings(body)
-    toc = _build_toc(headings)
+    # 2026-09-14 실측: 원더랜드에 Easy TOC 플러그인이 자동 목차를 넣고 있어(글당 ez-toc 33노드)
+    # 자체 목차와 2중 표시됐다. 목차는 플러그인에 위임하고 파이프라인은 넣지 않는다.
+    # (_slugify_headings의 앵커는 내부링크·점프용으로 유지)
+    toc = ""
     summary = _summary_table_html(data.get("summary_table"))
     hook = data.get("hook", "")
     hook_html = f'<p class="hook" style="font-size:17px;font-weight:600">{html_mod.escape(hook)}</p>' if hook else ""

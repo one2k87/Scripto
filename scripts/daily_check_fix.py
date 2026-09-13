@@ -218,6 +218,19 @@ try:
             hits = [f for f in _forbid if f in body]
             if hits:
                 contamination.append({"id": it["id"], "title": _title_of(it), "hits": hits})
+            # 목차 2중 제거(2026-09-14 실측): Easy TOC 플러그인이 자동 목차를 넣는데
+            # 옛 파이프라인 자체 목차(nav.toc)가 본문에 남아 있으면 한 글에 목차가 둘 뜬다.
+            # 생성기는 이미 목차를 안 넣도록 고쳤고, 여기서는 기발행분을 멱등하게 정리한다.
+            if '<nav class="toc"' in body:
+                import re as _re
+                neo = _re.sub(r'<nav class="toc".*?</nav>', "", body, count=1, flags=_re.S)
+                if neo != body:
+                    try:
+                        from publisher import update_post_content
+                        if update_post_content(wp, it["id"], neo):
+                            print(f"[check] 목차 2중 제거 #{it['id']}")
+                    except Exception as _e:
+                        print(f"[check] 목차 제거 실패 #{it['id']}: {_e}")
         if len(batch) < 50:
             break
         _pg += 1
