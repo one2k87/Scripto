@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-13",
+  "updated_at": "2026-09-14",
   "search_console": {
     "queries": [],
     "pages": [
@@ -46,7 +46,7 @@
       {
         "page": "https://wontheland.com/%EB%93%9C%EB%A0%88%EC%8A%A4%EB%A3%B8-%EB%B6%99%EB%B0%95%EC%9D%B4%EC%9E%A5-%EB%8F%84%EC%96%B4-%EC%88%98%ED%8F%89-%EC%A1%B0%EC%A0%95%EC%9A%A9-%EC%88%A8%EC%9D%80-%EA%B2%BD%EC%B2%A9-%EC%A0%84%ED%9B%84/",
         "clicks": 0,
-        "impressions": 3
+        "impressions": 1
       },
       {
         "page": "https://wontheland.com/%EB%93%9C%EB%A0%88%EC%8A%A4%EB%A3%B8-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EC%98%B7%EC%9E%A5-%ED%96%89%EA%B1%B0-%ED%8C%8C%EC%9D%B4%ED%94%84-%EB%8B%A8%EB%8B%A8%ED%9E%88-%EA%B3%A0%EC%A0%95%ED%95%98%EA%B8%B0/",
@@ -88,24 +88,24 @@
         "users": 5
       },
       {
-        "title": "보일러실 내 벽면 단열재 석고보드 2P 복합 시공 시 이음새 교차 배치 규칙 준수 및 크랙 차단 기술 조항 - 원더랜드 블로그",
-        "views": 5,
-        "users": 5
+        "title": "Page Not Found - 원더랜드 블로그",
+        "views": 4,
+        "users": 2
       },
       {
         "title": "외부 테라스 데크 하부 아연각관 장선 용접 부위 부식 방지용 광명단 방청 스프레이 분사 및 건조 공식 제대로 해야 녹 발생을 막는다 - 원더랜드 블로그",
-        "views": 5,
-        "users": 5
+        "views": 4,
+        "users": 4
+      },
+      {
+        "title": "보일러실 내 벽면 단열재 석고보드 2P 복합 시공 시 이음새 교차 배치 규칙 준수 및 크랙 차단 기술 조항 - 원더랜드 블로그",
+        "views": 3,
+        "users": 3
       },
       {
         "title": "드레스룸 시스템 옷장 행거 파이프 단단히 고정하기 위한 브래킷 피스 결속 장력 세팅 가이드라인 프로토콜 - 원더랜드 블로그",
         "views": 2,
         "users": 2
-      },
-      {
-        "title": "문의 - 원더랜드 블로그",
-        "views": 2,
-        "users": 1
       }
     ]
   }
