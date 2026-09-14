@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-09-14T08:32:01",
+ "updated_at": "2026-09-14T10:04:30",
  "site": "https://wontheland.com",
  "checked": 3,
  "indexed": 1,
@@ -13,7 +13,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-09-14T08:30:17\",\"link\":\"https:\\/\\/wontheland.com\\/senior-affordable-phone-plan-comparison-2026-09\\/\"}"
+  "body_head": "[{\"modified\":\"2026-09-14T08:45:51\",\"link\":\"https:\\/\\/wontheland.com\\/smishing-text-message-distinction-for-seniors-2026\\"
  },
  "posts_n": 2,
  "results": [
@@ -24,15 +24,15 @@
    "lastCrawl": "2026-09-11"
   },
   {
-   "url": "https://wontheland.com/senior-affordable-phone-plan-comparison-2026-09/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
-  },
-  {
    "url": "https://wontheland.com/smishing-text-message-distinction-for-seniors-2026/",
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-affordable-phone-plan-comparison-2026-09/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   }
  ]
