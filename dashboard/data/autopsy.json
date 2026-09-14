@@ -1,0 +1,21 @@
+{
+ "at": "2026-09-14T09:14:23",
+ "rules_version": "2026-09-11",
+ "posts": 2,
+ "mechanical_titles": {
+  "n": 0,
+  "samples": []
+ },
+ "offniche": {
+  "n": 0,
+  "samples": []
+ },
+ "gain_coverage": 1.0,
+ "practical_coverage": 1.0,
+ "persona_signed": 1.0,
+ "gsc_clicks_28d": 0,
+ "indexed_hint": "?",
+ "verdicts": [
+  "실수요 부족(GSC 클릭 0) — 유입 라인·대기 필요"
+ ]
+}
