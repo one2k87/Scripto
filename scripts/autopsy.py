@@ -23,6 +23,9 @@ from datetime import datetime
 
 import requests
 
+# scripts/에서 실행돼도 루트 모듈(topics)을 찾도록 (daily_check_fix와 동일 패턴 — #1 실측 8초 실패 수정)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 DATA = os.path.join("dashboard", "data")
 
 
