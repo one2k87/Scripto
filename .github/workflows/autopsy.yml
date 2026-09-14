@@ -1,0 +1,41 @@
+name: 반려 부검
+
+# 자가적응 루프 P0: 반려 원탭(❌)이 자동 발동. 평시 실행도 무해(신청 게이트 v2의 근거 데이터).
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: "발동 사유 (예: 6회차 반려 / 평시 점검)"
+        default: ""
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  autopsy:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: 의존성
+        run: pip install requests
+      - name: 부검 실행
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/autopsy.py
+      - name: 커밋
+        run: |
+          git config user.name "blog-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add dashboard/data/autopsy.json dashboard/data/attempts.json
+          git commit -m "부검: $(date '+%Y-%m-%d %H:%M') ${{ github.event.inputs.note }}" || { echo "변경 없음"; exit 0; }
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin main && git push && exit 0
+            sleep $((i*7))
+          done
+          echo "::warning::push 실패"

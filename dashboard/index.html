@@ -2280,6 +2280,15 @@ async function setRepoVar(name,value){
 // ═══ #50 승인 당일 절차(원탭) — 승인 기록과 동시에 수익 전환을 서버까지 반영 ═══
 // 이후는 램프(ramp.py)가 3~4주에 걸쳐 자동 점진: 발행 2→5편/일, 광고 0→3개.
 // 쿠팡·제휴는 라인 격리로 어떤 단계에서도 켜지지 않는다(2026-09-09 램프 순서 버그 수정).
+// 반려 부검 자동 발동(자가적응 루프): 반려가 기록되는 모든 경로에서 호출된다.
+async function dispatchAutopsy(note){
+  if(!CFG.ghOwner||!CFG.ghRepo||!CFG.ghToken) return;
+  try{
+    const r=await fetch("https://api.github.com/repos/"+CFG.ghOwner+"/"+CFG.ghRepo+"/actions/workflows/autopsy.yml/dispatches",
+      {method:"POST",headers:ghHeaders(),body:JSON.stringify({ref:"main",inputs:{note:note||""}})});
+    if(r.status===204) toast("🔬 반려 부검 자동 실행 — 결과는 텔레그램으로 옵니다");
+  }catch(e){}
+}
 async function approveDayFlow(){
   const steps=[];
   const today=new Date().toISOString().slice(0,10);
@@ -2324,7 +2333,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=155;
+const APP_BUILD=156;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 
@@ -2542,6 +2551,7 @@ function adsAddEntry(kind){
   log.push({kind, note:note.trim(), at:today});
   adsLogSave(log);
   if(kind==="reject"){ CFG.lastRejectReason=note.trim();
+    dispatchAutopsy("반려 기록: "+note.trim().slice(0,40));   // 자가적응: 반려=자동 부검
     // 반려는 승인 상태를 해제한다 — 승인 플래그가 남으면 여정 스테퍼와
     // 수익 최적화가 '승인됨'으로 잘못 갈린다(실데이터에서 발견, 2026-08-30)
     CFG.adsenseApproved=false; saveCfg();
