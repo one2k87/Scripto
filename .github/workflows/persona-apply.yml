@@ -1,4 +1,4 @@
-name: 페르소나 사이트 적용
+name: 사이트 정체성 적용(페르소나·메뉴)
 
 # 표시명·소개 페이지·본문 서명을 현재 페르소나로 맞춘다(멱등). 주제/페르소나 변경 후 1회 실행.
 on:
@@ -33,3 +33,9 @@ jobs:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python scripts/persona_apply.py
+      - name: 메뉴 동기화(현재 니치로)
+        if: always()
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/menu_sync.py
