@@ -86,8 +86,9 @@ def upload_media(image_path, wp_cfg, alt=""):
     return None
 
 
-def ensure_category(base_url, headers, name, slug=None):
-    """WP 카테고리 이름 → ID(없으면 생성). slug 지정 시 영문 주소(/category/slug/)로 만든다."""
+def ensure_category(base_url, headers, name, slug=None, parent=None):
+    """WP 카테고리 이름 → ID(없으면 생성). slug 지정 시 영문 주소(/category/slug/).
+    parent(상위 카테고리 id) 지정 시 하위 카테고리로 만든다(토픽 클러스터 구조)."""
     if not name:
         return None
     try:
@@ -107,6 +108,8 @@ def ensure_category(base_url, headers, name, slug=None):
         payload = {"name": name}
         if slug:
             payload["slug"] = slug
+        if parent:
+            payload["parent"] = int(parent)
         c = requests.post(f"{base_url}/wp-json/wp/v2/categories",
                           json=payload, headers=headers, timeout=20)
         if c.status_code in (200, 201):
@@ -174,7 +177,14 @@ def publish_to_wordpress(article, wp_cfg):
     # 글의 카테고리를 WP 카테고리(영문 슬러그 주소)로 매핑해 나눠 게시
     wp_cat_name = article.get("wp_category") or article.get("category")
     wp_cat_slug = article.get("wp_category_slug")
-    cat_id = ensure_category(base_url, headers, wp_cat_name, wp_cat_slug) if wp_cat_name else None
+    # 토픽 클러스터(2026-09-16): 상위 카테고리를 먼저 보장하고 글은 하위에 배치한다.
+    # 니치 정체성은 상위 하나로 유지되고, 다루는 폭은 하위로 넓힌다.
+    parent_id = None
+    if article.get("wp_parent_category"):
+        parent_id = ensure_category(base_url, headers, article["wp_parent_category"],
+                                    article.get("wp_parent_slug"))
+    cat_id = ensure_category(base_url, headers, wp_cat_name, wp_cat_slug,
+                             parent=parent_id) if wp_cat_name else None
     if cat_id:
         payload["categories"] = [cat_id]
     elif wp_cfg.get("category_id"):

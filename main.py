@@ -15,6 +15,7 @@ main.py - 카테고리 집중 애드센스 수익형 파이프라인 (한국어 
 """
 
 import os
+import re
 import json
 import time
 import html as html_mod
@@ -74,7 +75,8 @@ def get_categories(cfg):
     if cfg.get("categories"):
         return [{"name": c.get("name", ""), "desc": c.get("desc", ""),
                  "wp_category": c.get("wp_category", c.get("name", "")),
-                 "wp_slug": c.get("wp_slug", "")} for c in cfg["categories"]]
+                 "wp_slug": c.get("wp_slug", ""),
+                 "subtopics": c.get("subtopics") or []} for c in cfg["categories"]]
     site = cfg.get("site", {})
     return [{"name": site.get("category", ""), "desc": site.get("category_desc", ""),
              "wp_category": site.get("category", ""), "wp_slug": ""}]
@@ -120,7 +122,7 @@ def collect_lane(cfg, cat, lane, n_slots, exclude):
     before = len(cand)
     cand = [c for c in cand if not topics.is_offniche(c["keyword"])]
     if len(cand) < before:
-        print(f"  · 니치 이탈 주제 {before - len(cand)}개 제외(셀프 인테리어 고정)")
+        print(f"  · 니치 이탈 주제 {before - len(cand)}개 제외(현재 니치 고정)")
     # 형제 사이트(픽담) 동일 제목 회피(2026-09-08): 9/1 두 사이트가 완전히 같은 제목을
     # 생성한 실측 사고의 대칭 방어. 공개 제목만 사용, 회피 전용(내부링크 등 불사용).
     try:
@@ -259,6 +261,28 @@ def _category_active_today(cat):
         return True
     doy_is_odd = (datetime.now().timetuple().tm_yday % 2 == 1)
     return doy_is_odd if mode == "odd" else (not doy_is_odd)
+
+
+def _pick_subtopics(cat, n):
+    """오늘 다룰 하위 영역을 날짜 순환으로 고른다(2026-09-16 토픽 클러스터).
+    파이프라인 주제는 여전히 1개(램프 주제폭·완충 가드 보호)이고, 하위 영역만 순환한다."""
+    subs = cat.get("subtopics") or []
+    if not subs:
+        return []
+    doy = datetime.now().timetuple().tm_yday
+    return [subs[(doy * max(1, n) + i) % len(subs)] for i in range(max(1, n))]
+
+
+def _match_subtopic(text, subs):
+    """생성된 글을 어느 하위 카테고리에 넣을지 판정(제목·키워드 기준, 실패 시 None=상위)."""
+    t = str(text or "")
+    best, score = None, 0
+    for s in subs:
+        words = [w for w in re.split(r"[,·\s]+", (s.get("focus") or "") + " " + s.get("name", "")) if len(w) >= 2]
+        hit = sum(1 for w in words if w in t)
+        if hit > score:
+            best, score = s, hit
+    return best if score else None
 
 
 def _theme_guard(cats, hist, topic_width=None):
@@ -402,6 +426,14 @@ def _run_category(cfg, cat, hist, auto_publish, img_budget=None):
     wp_cfg = cfg.get("wordpress", {})
     resolver = make_image_resolver(cfg, auto_publish, name, img_budget)
 
+    # 오늘의 하위 영역 주입(토픽 클러스터) — 주제 생성이 이 영역 안에서 나오게 한다
+    _subs_today = _pick_subtopics(cat, 2)
+    if _subs_today:
+        _focus = "; ".join(f"{s['name']}: {s['focus']}" for s in _subs_today)
+        cat = dict(cat)
+        cat["desc"] = f"{cat.get('desc','')}\n\n[오늘 다룰 세부 영역 — 이 안에서만 주제를 고른다]\n{_focus}"
+        print(f"  · 오늘의 하위 영역: {', '.join(s['name'] for s in _subs_today)}")
+
     # 이 카테고리의 과거 글만으로 중복방지 + 내부링크
     cat_hist = [a for a in hist["articles"] if a.get("category") == name]
     exclude = [a["title"] for a in cat_hist] + [a.get("keyword", "") for a in cat_hist]
@@ -462,6 +494,13 @@ def _run_category(cfg, cat, hist, auto_publish, img_budget=None):
             a["category"] = name
             a["wp_category"] = cat.get("wp_category", name)
             a["wp_category_slug"] = cat.get("wp_slug", "")
+            # 하위 카테고리 배치(상위는 그대로 유지 — 사이트 구조만 깊어진다)
+            _sub = _match_subtopic(f"{a.get('title','')} {a.get('keyword','')}", cat.get("subtopics") or [])
+            if _sub:
+                a["wp_parent_category"] = cat.get("wp_category", name)
+                a["wp_parent_slug"] = cat.get("wp_slug", "")
+                a["wp_category"] = _sub["name"]
+                a["wp_category_slug"] = _sub.get("slug", "")
             a["volume"] = kw.get("volume")
             a["competition"] = kw.get("competition", "")
             a["steadiness"] = kw.get("steadiness")
