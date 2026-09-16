@@ -594,6 +594,20 @@ def _convert_markers(html_body, insert_ads, resolver=None, fallback_desc="",
             return ""
         return _img_slot(desc)            # 리졸버 미설정(미리보기)일 때만 자리 표시
 
+    # 본문 첫 이미지가 그대로 대표이미지(featured_media)가 된다 — LLM이 도해 마커를
+    # 먼저 써버리면 검색·공유 썸네일이 도해가 된다. 첫 마커가 대표용(photo/illust)이
+    # 아니고 뒤에 대표용이 있으면 두 마커의 내용을 맞바꾼다.
+    _ms = list(re.finditer(r"\[\[IMG:([^\]]*)\]\]", html_body))
+    if len(_ms) >= 2:
+        def _is_hero(d):
+            return str(d).split("|", 1)[0].strip().lower() in ("photo", "illust", "실사", "사진", "일러스트")
+        if not _is_hero(_ms[0].group(1)):
+            _k = next((x for x in _ms[1:] if _is_hero(x.group(1))), None)
+            if _k is not None:
+                a, b = _ms[0], _k
+                html_body = (html_body[:a.start()] + f"[[IMG:{b.group(1)}]]"
+                             + html_body[a.end():b.start()] + f"[[IMG:{a.group(1)}]]"
+                             + html_body[b.end():])
     html_body = re.sub(r"\[\[IMG:([^\]]*)\]\]", img_repl, html_body)
     # LLM이 [[IMG:]] 마커를 빼먹는 일이 잦다 — 검수 요건(이미지)이 있으므로
     # 모자란 만큼 보장 삽입한다(2026-08-30: 마커 누락→전량 폐기 원인).
