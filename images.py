@@ -31,7 +31,8 @@ STYLE_PRESETS = {
         "Full-frame camera look, 50mm lens at f/2.8, soft natural window light, "
         "shallow depth of field, true-to-life colors and material textures, and the small "
         "imperfections of a real, lived-in ordinary Korean home so it reads as a genuine photo. "
-        "If hands appear they look natural; never show a person's face. "
+        "People may appear with clearly visible, natural faces and honest expressions; "
+        "hands and skin must look anatomically correct. "
         "No watermark, no brand logos."),
     "object": (  # 정물/제품 — 특정 도구·재료·제품 클로즈업
         "Minimal studio still-life photograph: one hero object centered on a clean neutral "
@@ -90,14 +91,21 @@ def build_prompt(desc, category, style=None):
                "every element in the image must clearly belong to this subject and to the article's topic. "
                f"Context: an image for a Korean blog post about {category or 'daily life and home'}. "
                # 텍스트 정책(2026-09-05 v2): 짧은 한글 라벨은 허용하되, 생성 후 자동 검수로 깨짐을 잡는다
-               "TEXT POLICY: written text is optional and must be minimal — at most one short "
-               "Korean label or sign (a few words), rendered large, straight, and perfectly legible. "
-               "Never dense paragraphs, receipts, or screens full of writing. "
-               "If the text would not be clearly legible, omit it entirely.")
+               # 텍스트 정책 v3(2026-09-16): 생성 후 비전 검수가 깨진 글자를 걸러 '대체'하므로
+               # 버튼 이름 수준의 짧은 한글 라벨은 허용한다(폰 화면 그림에 필요).
+               "TEXT POLICY: short Korean labels are allowed — up to about five separate labels of "
+               "one to four syllables each (button names, step names), each rendered large, "
+               "horizontal, high-contrast and perfectly legible in correct modern Hangul. "
+               "Never dense paragraphs, sentences, receipts, or screens full of small writing. "
+               "If a label would not be clearly legible at this size, omit that label entirely.")
     return f"{STYLE_PRESETS[key]} {subject}"
 
 
 # 검수 실패 시 재생성에 덧붙이는 무텍스트 강제문
+# 두 번째 대체 시도: 글자를 빼는 것을 넘어 구도 자체를 바꿔 '다른 이미지'를 만든다
+REFRAME_RETRY = (" Also change the composition entirely: a different camera angle, distance, "
+                 "and arrangement of the same subject, so this reads as a completely different photo.")
+
 NO_TEXT_RETRY = (" STRICT OVERRIDE: render absolutely NO written characters of any kind — "
                  "no text, letters, numbers, labels, signs, or handwriting; use blank surfaces instead.")
 
@@ -168,14 +176,28 @@ def generate_image(desc, cfg_images, out_dir, idx=0, category=""):
     elif provider in ("gemini", "imagen", "google"):
         data = _gemini(build_prompt(desc, category, style), cfg_images)
         if data: LAST_KIND = "ai"
-    # 자동 확대검수: AI 생성 이미지 속 글자가 깨졌으면 무텍스트로 1회 재생성
+    # 자동 확대검수(2026-09-16 개편): 글자가 멀쩡하면 그대로 쓰고, 깨졌으면 '대체'한다.
+    # 종전 버그 — 재생성 결과를 다시 검수하지 않았고, 재생성이 실패하면 깨진 이미지를
+    # 그대로 발행했다. 이제 통과할 때까지 교체하고, 끝내 안 되면 그 이미지는 버린다.
     if data and LAST_KIND == "ai":
         v = _check_text(data, cfg_images)
+        tries = 0
+        while v == "broken" and tries < 2:
+            tries += 1
+            extra = NO_TEXT_RETRY if tries == 1 else (NO_TEXT_RETRY + REFRAME_RETRY)
+            print(f"[images] 🔍 글자 깨짐 감지 → 대체 생성 {tries}/2")
+            d2 = _gemini(build_prompt(desc, category, style) + extra, cfg_images)
+            if not d2:
+                break
+            data, v = d2, _check_text(d2, cfg_images)
         if v == "broken":
-            print("[images] 🔍 글자 깨짐 감지 → 무텍스트로 재생성")
-            d2 = _gemini(build_prompt(desc, category, style) + NO_TEXT_RETRY, cfg_images)
-            if d2:
-                data = d2
+            print("[images] ⚠️ 2회 대체에도 글자 깨짐 → AI 이미지 폐기, 대체 경로로")
+            alt = _stock(desc, category, cfg_images, size) or _thumbnail(desc, category, size)
+            if alt:
+                data, LAST_KIND = alt, "photo"
+            else:
+                globals()["LAST_ERR"] = "글자 깨짐 반복 — 대체 이미지 없음(이미지 생략)"
+                data = None
 
     if not data:
         globals()["LAST_ERR"] = globals().get("LAST_ERR") or f"provider '{provider}' 결과 없음(스톡 키·Pillow 확인)"
