@@ -1,21 +1,16 @@
 {
- "at": "2026-09-16T08:43:57",
- "n": 3,
- "avg": 100,
+ "at": "2026-09-16T10:25:23",
+ "n": 0,
+ "avg": 0,
  "fails": [],
  "auto_repair": true,
  "repaired": [],
  "repair_fail": [],
  "defaults": [],
  "noimgv2": {
-  "n": 1,
-  "of": 3,
-  "posts": [
-   {
-    "id": 2555,
-    "title": "2026년 9월 부모님 휴대폰에 수상한 전화가 오면 절대 먼저 끊지 마세"
-   }
-  ]
+  "n": 0,
+  "of": 0,
+  "posts": []
  },
  "contamination": []
 }
