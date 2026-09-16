@@ -105,6 +105,13 @@ for pg in (1, 2):
     except Exception as e:
         print(f"[check] 목록 실패: {e}"); break
 
+# 2026-09-16 실측: 10:25 실행에서 WP 목록이 0편으로 돌아와 site_check.json이 n=0·avg=0으로
+# 덮였다(라이브에는 3편 존재). 앱·부검 봇·신청 게이트가 이 파일을 근거로 판단하므로
+# '조용한 0'은 오판을 만든다. 0편이면 기존 파일을 보존하고 경고만 남긴다.
+if not posts:
+    print("[check] ⚠️ 발행 글 0편 조회 — 조회 실패로 보고 기존 site_check.json 보존(덮어쓰지 않음)")
+    raise SystemExit(0)
+
 scored = []
 for p in posts:
     sc, issues, ln = score_post(p.get("content", {}).get("rendered", ""))

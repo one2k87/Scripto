@@ -74,6 +74,9 @@ def main():
     import topics as topics_mod
     posts = _get_posts(base)
     n = len(posts)
+    if n == 0:
+        print("⚠️ 발행 글 0편 조회 — 조회 실패로 보고 autopsy.json 보존(덮어쓰지 않음)")
+        return 0
     mech, offn, gain, practical, signed = [], [], 0, 0, 0
     PRACT = [r"흔한\s*실수", r"잘못\s*(?:누르|입력|보내|지우|고르)", r"이럴\s*때", r"안\s*될\s*때",
              r"주의할\s*점", r"만약\s", r"반대로", r"라면\s", r"인\s*경우", r"차이가", r"멈추고"]

@@ -89,7 +89,9 @@ def collect_lane(cfg, cat, lane, n_slots, exclude):
     """
     mcfg = cfg.get("metrics", {}) or {}
     measured = mcfg.get("provider", "none") not in ("none", None)
-    pool = max(3, n_slots + 2)
+    # 하위 영역(subtopics) 주입 후 후보 다양성이 줄 수 있어 여유를 준다
+    # (2026-09-16: 슬롯 2인데 1편만 생산된 건의 원인 후보 — 후보 수를 로그로 남겨 내일 판정)
+    pool = max(4, n_slots + 3)
 
     raw = chat(topics.build_topic_prompt(cat["name"], cat["desc"], lane, pool, exclude=exclude,
                                          winners=cfg.get("_insight_hints"),
@@ -188,6 +190,8 @@ def collect_lane(cfg, cat, lane, n_slots, exclude):
         ordered = picked
 
     sel = ordered[:n_slots]
+    if len(sel) < n_slots:
+        print(f"  · ⚠️ 슬롯 미충족 — 요청 {n_slots} / 확보 {len(sel)}(후보 {len(cand)}→선별 {len(ordered)})")
     # 상위노출 강화 대상 표시: 검색량 몫으로 뽑혔거나 경쟁도 중간/높음이면 강화 글로 작성
     for kw in sel:
         comp = str(kw.get("competition", ""))
