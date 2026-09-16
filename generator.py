@@ -829,7 +829,8 @@ def _freshness_html():
             f'🗓️ <b>기준: {d.year}년 {d.month}월</b> · {tail}</p>')
 
 
-def _build_jsonld(title, meta, faqs, author="편집부", lang="ko", author_type="Organization", author_bio=""):
+def _build_jsonld(title, meta, faqs, author="편집부", lang="ko", author_type="Organization",
+                  author_bio="", image_url=""):
     """author_type='Person'이면 실명 저자로 인식되어 YMYL(금융/건강) E-E-A-T 신뢰 신호가 강해진다."""
     from datetime import date
     iso = date.today().isoformat()
@@ -842,6 +843,10 @@ def _build_jsonld(title, meta, faqs, author="편집부", lang="ko", author_type=
             "datePublished": iso, "dateModified": iso,
             "author": author_obj,
             "mainEntityOfPage": {"@type": "WebPage"}}
+    # 검색 결과·디스커버 이미지 노출 자격(2026-09-16): BlogPosting에 image가 없으면
+    # 구글이 이 글의 대표 이미지를 확정하기 어렵다. 본문 첫 이미지를 명시한다.
+    if image_url:
+        blog["image"] = [image_url]
     scripts = [json.dumps(blog, ensure_ascii=False)]
     if faqs:
         faq = {"@context": "https://schema.org", "@type": "FAQPage",
@@ -875,8 +880,10 @@ def _assemble(data, related, blog_url, insert_ads, resolver=None, series_nav="",
     risk_txt = f"{category} {data.get('title','')} {data.get('focus_keyword','')} {data.get('meta','')}"
     invest_risk = _invest_risk_html() if _needs_invest_risk(risk_txt) else ""
     internal = _build_internal_links(related, blog_url)
+    _m = re.search(r'<img[^>]+src="([^"]+)"', body or "")
     jsonld = _build_jsonld(data.get("title", ""), data.get("meta", ""), data.get("faqs", []),
-                           author, author_type=author_type, author_bio=author_bio)
+                           author, author_type=author_type, author_bio=author_bio,
+                           image_url=(_m.group(1) if _m else ""))
     # ── 구조 변주 ──
     # 모든 글이 같은 골격이면 그 자체가 대량생산 신호다. slug를 시드로
     # 선택 블록(요약표·체크리스트·목차)을 글마다 다르게 넣고 순서도 흔든다.

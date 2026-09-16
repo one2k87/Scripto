@@ -6,6 +6,7 @@ status: "publish"(즉시 게시) 또는 "draft"(임시저장, 검토 후 발행)
 """
 
 import base64
+import re
 from urllib.parse import urlparse
 import requests
 
@@ -59,8 +60,16 @@ def submit_indexnow(urls, key, site_url, key_location=None):
     return ok
 
 
+# 업로드한 이미지의 URL→미디어 id 기억장치(2026-09-16).
+# 지금까지 upload_media가 id를 버리고 URL만 돌려줘서 featured_media가 한 번도 설정되지 않았다
+# (실측: 발행 글 4편 전부 featured_media=0). 대표이미지가 없으면 목록·공유·검색 노출에서
+# 썸네일이 빠져 클릭률이 떨어진다. 픽토 cc6f655의 대칭 수정.
+MEDIA_ID_BY_URL = {}
+
+
 def upload_media(image_path, wp_cfg, alt=""):
-    """이미지를 WordPress 미디어로 업로드하고 공개 URL을 반환(실패 시 None)."""
+    """이미지를 WordPress 미디어로 업로드하고 공개 URL을 반환(실패 시 None).
+    미디어 id는 MEDIA_ID_BY_URL에 기록해 대표이미지 지정에 쓴다."""
     import os
     base_url = wp_cfg["site_url"].rstrip("/")
     headers = _auth_header(wp_cfg["username"], wp_cfg["app_password"])
@@ -74,6 +83,8 @@ def upload_media(image_path, wp_cfg, alt=""):
         if r.status_code in (200, 201):
             data = r.json()
             mid, url = data.get("id"), data.get("source_url")
+            if mid and url:
+                MEDIA_ID_BY_URL[url] = mid
             if mid and alt:
                 requests.post(f"{base_url}/wp-json/wp/v2/media/{mid}",
                               headers={**_auth_header(wp_cfg["username"], wp_cfg["app_password"]),
@@ -139,6 +150,38 @@ def ensure_tags(base_url, headers, tag_names):
         except Exception as e:
             print(f"[wp] 태그 처리 실패('{name}'): {e}")
     return ids
+
+
+def _set_featured_image(base_url, headers, post_id, article):
+    """본문 첫 이미지를 대표이미지로 승격(2026-09-16 신설).
+
+    왜: 대표이미지가 없으면 ①목록·관련글에 썸네일이 안 뜨고 ②구글 디스커버·검색의
+    이미지 노출 자격이 약해지며 ③공유 카드가 비어 보인다 — 전부 클릭률 손실이다.
+    실측 근거: 발행 글 4편 전부 featured_media=0(업로드한 미디어 id를 버리고 있었다).
+    실패해도 발행에는 영향 없음(대표이미지만 비는 것).
+    """
+    if not post_id:
+        return
+    try:
+        body = article.get("html") or article.get("html_body") or ""
+        m = re.search(r'<img[^>]+src="([^"]+)"', body)
+        url = m.group(1) if m else ""
+        mid = MEDIA_ID_BY_URL.get(url)
+        if not mid and url:                 # 캐시에 없으면 미디어 목록에서 역조회
+            fn = url.rsplit("/", 1)[-1].rsplit(".", 1)[0]
+            q = requests.get(f"{base_url}/wp-json/wp/v2/media", headers=headers,
+                             params={"search": fn, "per_page": 5, "_fields": "id,source_url"},
+                             timeout=20)
+            if q.ok:
+                mid = next((x["id"] for x in q.json() if x.get("source_url") == url), None)
+        if not mid:
+            print("[wp] 대표이미지 건너뜀 — 본문 이미지의 미디어 id를 찾지 못함")
+            return
+        u = requests.post(f"{base_url}/wp-json/wp/v2/posts/{post_id}", headers=headers,
+                          json={"featured_media": int(mid)}, timeout=20)
+        print(f"[wp] 대표이미지 {'설정' if u.ok else '실패'} #{post_id} ← media {mid}")
+    except Exception as e:
+        print(f"[wp] 대표이미지 예외(무시): {e}")
 
 
 def publish_to_wordpress(article, wp_cfg):
@@ -215,6 +258,7 @@ def publish_to_wordpress(article, wp_cfg):
         if r.status_code in (200, 201):
             data = r.json()
             article["post_id"] = data.get("id")     # 나중에 '최신글 링크' 배너용
+            _set_featured_image(base_url, headers, data.get("id"), article)
             try:
                 import monitor
                 monitor.mark("wordpress")
