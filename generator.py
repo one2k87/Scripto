@@ -304,6 +304,9 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
     # ── 정보 이득(information gain) 슬롯 ────────────────────────────
     # 2026년 저가치 판정의 핵심 기준은 분량이 아니라 '검색 상위 글에 없는 것'이다.
     # 글마다 하나를 배정해 실행시키고, META의 gain 필드로 표기하게 한다.
+    _plot_name, _plot_desc = _pick_hero_plot(keyword, (category or {}).get("desc", ""))
+    _sec_style, _sec_desc = SECOND_ROLES[_variant(str(keyword) + "|second", len(SECOND_ROLES))]
+
     GAIN_MODES = [
         ("compare", "실제 제품·방식 2~3가지를 직접 비교하는 표(가격대·규격·수명·난이도 열 포함). 상위 글에 없는 조합으로."),
         ("failure", "이 작업에서 자주 나는 실패 시나리오 2가지와 각각의 복구 절차(무엇이 망가지고 어떻게 되돌리는지)."),
@@ -312,23 +315,32 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
     ]
     _gain_key, _gain_desc = GAIN_MODES[_variant(str(keyword) + "|gain", len(GAIN_MODES))]
     if not insert_ads:
-        ad_rule = "5. 이미지는 '딱 1개'만 [[IMG:스타일|장면묘사]]로 본문 상단부에 넣으세요(광고 마커는 넣지 말 것)."
+        ad_rule = "5. 이미지는 '정확히 2개'([[IMG:스타일|장면묘사]]) — 대표 1 + 설명 1 (광고 마커는 넣지 말 것)."
     elif ADS_BOOST:   # 승인 후 수익 최적화: 광고 3개(첫 소제목·중반·결론 직전)
-        ad_rule = ("5. 이미지는 '딱 1개'만 [[IMG:스타일|장면묘사]]로 본문 상단부에 넣고 그 아래 [[AD]] 1개. "
+        ad_rule = ("5. 이미지는 '정확히 2개' — 대표 이미지를 본문 상단부에 넣고 그 아래 [[AD]] 1개, "
+                   "설명 이미지는 본문 중반(절차·비교를 설명하는 대목)에. "
                    "본문 중간 '정보가 끝나는 문단 뒤'에 [[AD]] 1개, 마지막 결론 문단 직전에 [[AD]] 1개 — "
                    "광고는 총 3개(과밀하지 않게 문단 사이에 자연스럽게).")
     else:
-        ad_rule = ("5. 이미지는 '딱 1개'만 [[IMG:스타일|장면묘사]]로 본문 상단부(첫 소제목 부근) 적절한 위치에 넣고, "
-                   "그 바로 아래에 [[AD]]를 배치(이미지→광고 순서). 추가로 본문 중간 '정보가 끝나는 문단 뒤'에 "
-                   "[[AD]] 1개를 더 넣어 광고는 총 2개.")
-    # 이미지 마커 공통 규격(2026-09-04 품질 개편): 스타일을 글 내용에 맞게 LLM이 직접 고른다
-    ad_rule += (" [이미지 마커 작성법] 스타일은 photo(실사 사진: 생활 장면·공간·작업 모습·경험 문맥), "
-                "object(정물 사진: 특정 도구·재료·제품 클로즈업), diagram(도해: 구조·과정·원리·비교), "
-                "illust(일러스트: 감성·비유·주의 환기) 중 이 글에 가장 어울리는 1개를 고르세요. "
-                "장면묘사는 '무엇이, 어디서, 어떤 상태로'가 담긴 구체적 1~2문장(영어 아님, 한국어). "
-                "⚠️ 장면묘사에는 이 글이 다루는 '핵심 소재'(특정 제품·도구·공간·재료 명칭)를 반드시 그대로 포함하고, "
-                "글과 무관한 배경·인물·풍경은 넣지 마세요 — 이미지만 봐도 무슨 글인지 알 수 있어야 합니다. 이미지 안에 글자·숫자·간판·라벨 문구를 넣으라는 묘사는 금지(글자 깨짐 방지 — 사물·장면만으로 전달). "
-                "예: [[IMG:photo|주방 싱크대 아래 배수관을 몽키스패너로 조이는 손, 부품이 바닥에 정리되어 있는 모습]]")
+        ad_rule = ("5. 이미지는 '정확히 2개' — 대표 이미지를 본문 상단부(첫 소제목 부근)에 넣고 그 바로 아래 "
+                   "[[AD]] 1개(이미지→광고 순서), 설명 이미지는 본문 중반(절차·비교를 설명하는 대목)에 넣는다. "
+                   "추가로 본문 중간 '정보가 끝나는 문단 뒤'에 [[AD]] 1개를 더 넣어 광고는 총 2개.")
+    # 이미지 마커 규격(2026-09-16 개편): 2장의 역할을 나누고, 대표이미지는 플롯을 배정받는다.
+    # 대표=상황이 한눈에 읽히는 장면(클릭 유인), 설명=절차·비교를 보여주는 도해(이해 보조).
+    ad_rule += (
+        "\n[이미지 2장 작성법]\n"
+        "① 대표 이미지(본문 상단 — 목록·검색·공유의 썸네일이 된다): 스타일은 photo 또는 illust.\n"
+        f"   이번 글에 배정된 플롯 = '{_plot_name}' → {_plot_desc}\n"
+        "   이 플롯을 이 글의 주제에 맞게 구체화해 한국어 1~2문장으로 쓰세요.\n"
+        "   ⚠️ 대표 이미지에 앱 화면 캡처·복잡한 UI를 넣지 마세요 — 독자(시니어와 그 자녀)는\n"
+        "   복잡한 화면 그림을 클릭하지 않습니다. 인물의 얼굴도 프레임에 넣지 마세요(손·어깨·뒷모습).\n"
+        "   사람의 손·어깨·뒷모습, 공간, 사물로 상황을 전하세요.\n"
+        f"② 설명 이미지(본문 중반): 스타일 {_sec_style} → {_sec_desc}\n"
+        "   이 글의 내용에 맞게 구체화해 한국어 1~2문장으로 쓰세요.\n"
+        "[공통] 형식 [[IMG:스타일|장면묘사]]. 장면묘사에는 이 글의 핵심 소재를 그대로 포함하고,\n"
+        "글과 무관한 배경·인물·풍경은 넣지 마세요. 이미지 안에 글자·숫자·간판·라벨을 넣으라는 묘사는 금지\n"
+        "(AI 이미지에서 한글이 깨집니다 — 형태·아이콘·사물로만 전달).\n"
+        "예: [[IMG:photo|창가 식탁에서 어르신의 손이 스마트폰을 들고 있는 클로즈업, 옆에 돋보기와 찻잔]]")
 
     seo_block = ("""
 [상위노출 강화 모드 — 검색량이 많고 경쟁이 있는 키워드]
@@ -497,8 +509,8 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
 (위 tldr·checklist·summary_table·faqs는 '배정된 것만' 채우고, 배정되지 않은 항목은 위처럼 빈 채로 두세요)
 ===BODY===
 <p>첫 문단(검색 의도에 바로 답, 키워드 포함)</p>
-<h2>소제목1</h2><p>내용... [[IMG:photo|대표 장면의 구체적 묘사]]</p>[[AD]]
-<h2>소제목2</h2><p>내용...</p>
+<h2>소제목1</h2><p>내용... [[IMG:photo|① 대표 장면의 구체적 묘사]]</p>[[AD]]
+<h2>소제목2</h2><p>내용... [[IMG:diagram|② 설명 도해의 구체적 묘사]]</p>
 <h2>소제목3</h2><p>마무리 내용... [[AD]]</p>"""
 
 
@@ -551,31 +563,61 @@ def _parse_output(raw):
     return {}
 
 
-def _convert_markers(html_body, insert_ads, resolver=None, fallback_desc=""):
+def _hero_fallback_desc(keyword, category=None):
+    """LLM이 마커를 빼먹었을 때 쓸 대표이미지 묘사 — 배정 플롯을 그대로 따른다.
+    category는 dict(카테고리 설정)일 수도, 문자열(이름)일 수도 있다."""
+    ctx = category.get("desc", "") if isinstance(category, dict) else str(category or "")
+    _n, d = _pick_hero_plot(keyword, ctx)
+    return f"{d} (주제: {keyword})"
+
+
+MAX_IMAGES = 2   # 2026-09-16: 대표 1 + 설명 1 (검색 썸네일 + 본문 이해 보조)
+
+
+def _convert_markers(html_body, insert_ads, resolver=None, fallback_desc="",
+                     fallback_hero=""):
     """[[IMG:..]] / [[AD]] 마커를 실제 이미지/광고 자리로 치환. 부족하면 자동 보충."""
     counter = [0]
 
     def img_repl(m):
         counter[0] += 1
-        if counter[0] > 1:                # 글당 이미지 1개만: 초과 마커 제거
+        if counter[0] > MAX_IMAGES:       # 상한 초과 마커는 제거
             return ""
         desc = m.group(1)
         if resolver:                      # 이미지 자동 생성 시도
             html = resolver(desc, counter[0])
             if html:
                 return html
-        return _img_slot(desc)            # 실패/미설정 시 자리 표시
+            # 생성 실패/예산 초과 → 회색 "📷 이미지 삽입" 상자를 발행하면
+            # 심사 중인 사이트에 눈에 보이는 결함이 남는다. 조용히 비운다.
+            counter[0] -= 1
+            return ""
+        return _img_slot(desc)            # 리졸버 미설정(미리보기)일 때만 자리 표시
 
     html_body = re.sub(r"\[\[IMG:([^\]]*)\]\]", img_repl, html_body)
-    # LLM이 [[IMG:]] 마커를 빼먹는 일이 잦다 — 검수 요건(이미지 1장 이상)이 있으므로
-    # 마커가 없으면 제목 기반으로 1장을 보장 삽입한다(2026-08-30: 마커 누락→전량 폐기 원인).
-    if counter[0] == 0 and resolver and fallback_desc:
-        _html = resolver(f"diagram|{fallback_desc} — 작업 과정을 한눈에 보여주는 도해", 1)
+    # LLM이 [[IMG:]] 마커를 빼먹는 일이 잦다 — 검수 요건(이미지)이 있으므로
+    # 모자란 만큼 보장 삽입한다(2026-08-30: 마커 누락→전량 폐기 원인).
+    # 첫 장은 대표(=썸네일)가 되어야 하므로 반드시 글 맨 앞에 온다.
+    if resolver and fallback_desc and counter[0] == 0:
+        _hero = fallback_hero or f"{fallback_desc} — 이 글의 상황이 한눈에 읽히는 장면"
+        _html = resolver(f"photo|{_hero}", 1)
         if _html:
+            counter[0] = 1
             if "</h2>" in html_body:
                 html_body = html_body.replace("</h2>", "</h2>" + _html, 1)
             else:
                 html_body = _html + html_body
+    if resolver and fallback_desc and counter[0] == 1:
+        _html = resolver(f"diagram|{fallback_desc} — 절차를 3~5단계로 보여주는 도해, 글자 없이 도형과 화살표로만", 2)
+        if _html:
+            counter[0] = 2
+            # 본문 중반(두 번째 H2 뒤)에 끼운다
+            _hs = [mm.end() for mm in re.finditer(r"</h2>", html_body)]
+            if len(_hs) >= 2:
+                _at = _hs[1]
+                html_body = html_body[:_at] + _html + html_body[_at:]
+            else:
+                html_body += _html
     if insert_ads and _ad_slot():
         if "[[AD]]" in html_body:
             html_body = html_body.replace("[[AD]]", _ad_slot())
@@ -783,6 +825,45 @@ def _variant(seed_text, n):
     return h % max(1, n)
 
 
+# ── 대표이미지 플롯(2026-09-16 사용자 확정) ──────────────────────────────
+# 타겟은 시니어와 그 자녀. 복잡한 화면 캡처는 클릭을 부르지 않는다 —
+# "무슨 상황에 관한 글인지" 한눈에 읽히는 장면이어야 한다.
+# 플롯을 여러 개 두되 아무거나 돌리지 않는다: 주제에 '어울리는' 후보만 모아
+# 그 안에서 글별로 고정 난수 선택 → 매번 같은 그림도, 엉뚱한 그림도 아니게.
+# (trigger가 빈 문자열이면 어떤 주제에나 쓸 수 있는 범용 플롯)
+HERO_PLOTS = [
+    ("손안의 순간", "", "어르신의 손이 스마트폰을 들고 있는 클로즈업. 화면은 은은하게 빛날 뿐 세부 내용은 보이지 않게. 따뜻한 실내 채광, 주름과 온기가 느껴지는 손"),
+    ("나란히 보기", "", "자녀와 부모가 소파나 식탁에 나란히 앉아 한 화면을 함께 들여다보는 장면. 어깨와 두 사람의 손 위주로 잡고 얼굴은 프레임 밖"),
+    ("책상 위 정황", "", "식탁이나 거실 탁자 위에 스마트폰·돋보기·메모지·따뜻한 차가 놓인 정물. 사람 없이 사물만으로 상황을 짐작하게"),
+    ("전화 앞에서", r"전화|통화|보이스|피싱|사기|스팸|문자|메시지|번호", "전화기를 귀에 대고 있는 어르신의 어깨와 손, 다른 손은 탁자 위에 멈춰 있다. 단순한 집 안 배경, 얼굴은 프레임 밖"),
+    ("메모하는 손", r"전화|통화|상담|접수|신청|문의|고객센터|예약", "한 손으로 전화기를 귀에 대고 다른 손으로 종이에 적는 장면. 책상 위가 단정하게"),
+    ("누르기 직전", r"설정|바꾸|변경|켜|끄|글씨|크기|화면|버튼|누르|삭제|차단|등록|가입|해지", "스마트폰 화면 앞에서 검지가 버튼을 누르려는 순간의 클로즈업. 화면은 큼직한 형태만 보이고 글자는 없게"),
+    ("창가의 영상통화", r"영상통화|사진|앨범|카톡|카카오|가족|손주|공유|전송|보내", "창가에서 스마트폰을 세워 들고 있는 손과 어깨. 화면 속 인물은 흐릿하게, 자연광이 들어오는 조용한 방, 얼굴은 프레임 밖"),
+    ("기계 앞에 서서", r"키오스크|무인|단말|주문|발급|창구|은행|ATM|매장|병원|주민센터|정부24|인증", "무인 기기나 매장 단말기 앞에 선 어르신의 뒷모습(얼굴 보이지 않음). 공간감이 느껴지는 넓은 구도"),
+    ("서류와 돋보기", r"요금|통신비|청구|고지서|서류|신청서|증명|등본|비용|할인|납부", "탁자 위 서류를 돋보기로 들여다보는 손. 종이의 글자는 흐릿하게 처리"),
+]
+# 두 번째(설명) 이미지 역할도 돌려쓴다 — 매번 같은 도해가 나오지 않게
+SECOND_ROLES = [
+    ("diagram", "이 글의 절차를 3~5단계 흐름으로 보여주는 도해. 단계는 도형과 화살표·아이콘으로만 표현"),
+    ("diagram", "스마트폰 화면을 단순화한 도해. 큰 버튼과 아이콘 형태만 있고 글자는 없게 — 어디를 눌러야 하는지 형태로 전달"),
+    ("object", "이 글의 핵심 사물 클로즈업(유심칩·카드·단말기·영수증 등 주제에 맞는 것 하나)"),
+    ("diagram", "두 가지 선택지를 좌우로 비교하는 도해. 아이콘과 크기 차이로만 대비"),
+    ("illust", "이 글이 막아주려는 상황을 은유로 보여주는 따뜻한 일러스트"),
+]
+
+
+def _pick_hero_plot(keyword, ctx=""):
+    """주제에 어울리는 플롯 후보만 모아 글별 고정 선택.
+
+    범용 플롯 3개는 항상 후보에 두어 후보군이 빈약해지지 않게 하고,
+    키워드가 특정 상황을 가리키면 그 상황 플롯이 후보에 더해진다.
+    """
+    text = f"{keyword} {ctx}"
+    pool = [(n, d) for (n, t, d) in HERO_PLOTS if not t]
+    pool += [(n, d) for (n, t, d) in HERO_PLOTS if t and re.search(t, text)]
+    return pool[_variant(str(keyword) + "|plot", len(pool))]
+
+
 def _review_slot_html(note=""):
     """운영자가 직접 한 줄 채우는 '검수 슬롯'.
     여기에 실제 경험·확인 내용을 넣으면 그게 진짜 사람 검수 기록이 된다."""
@@ -860,7 +941,9 @@ def _build_jsonld(title, meta, faqs, author="편집부", lang="ko", author_type=
 def _assemble(data, related, blog_url, insert_ads, resolver=None, series_nav="",
               category="", author="편집부", author_bio="", author_type="Organization"):
     body = _convert_markers(data.get("html_body", ""), insert_ads, resolver,
-                            fallback_desc=(data.get("title") or "")[:60])
+                            fallback_desc=(data.get("title") or "")[:60],
+                            fallback_hero=_hero_fallback_desc(
+                                data.get("focus_keyword") or data.get("title") or "", category))
     body, headings = _slugify_headings(body)
     # 2026-09-14 실측: 원더랜드에 Easy TOC 플러그인이 자동 목차를 넣고 있어(글당 ez-toc 33노드)
     # 자체 목차와 2중 표시됐다. 목차는 플러그인에 위임하고 파이프라인은 넣지 않는다.
