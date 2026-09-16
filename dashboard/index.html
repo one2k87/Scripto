@@ -2333,7 +2333,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=156;
+const APP_BUILD=157;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 
@@ -3399,8 +3399,7 @@ function moveApprovalControls(){
   relabel("adsLogApply","⑥ 신청 이력","📒 신청 이력");
   relabel("adsTrackBtn","⑧ 승인 상태 자동 추적","📡 승인 상태 자동 추적");
   relabel("adsAnalyze","④ 반려 사유 분석 & 보완","🔁 반려 사유 분석 & 보완");
-  const rvBtn=document.getElementById("adsReviewMode");
-  if(rvBtn) rvBtn.textContent=rvBtn.textContent.replace(/^[③②]\s*/,"🛡️ ").replace("(대량 생성 정지 + 엄격)","(신청 직전 필수 — 대량 생성 정지)");
+  try{ refreshReviewBtn(); }catch(e){}   // 켜짐/꺼짐을 버튼이 직접 말한다(라벨 하드코딩 제거)
   const mkBtn=document.getElementById("adsMakePages");
   if(mkBtn) mkBtn.textContent=mkBtn.textContent.replace(/^②\s*/,"① ");
   const pg=fieldOf("adsPlugScan");
@@ -5999,12 +5998,35 @@ document.getElementById("adsAnalyze").onclick=async()=>{
     `<div class="hint" style="margin-top:4px">보완 후 애드센스에서 재신청 → 또 반려되면 그 사유를 다시 붙여넣어 반복하세요. 회차가 쌓여도 핵심은 '콘텐츠 가치'입니다.</div>`;
   const n=document.getElementById("adsAttemptN"); if(n) n.textContent="· 재신청 "+CFG.adsAttempts.length+"회차";
 };
+// 심사 모드 = 대량 생성 정지 + 초안 잠금 + 엄격 검수.
+// 2026-09-16 사용자 지적: 켜기만 있고 끄는 길이 없었다(끄려면 ⏸ 버튼과 설정 두 곳을 따로 만져야 했음).
+// 한 버튼에서 켜고 끄고, 지금 어떤 상태인지 버튼이 말하게 한다.
+function reviewModeOn(){
+  return !!(CFG.paused || (CFG.safety && CFG.safety.force_draft));
+}
+function refreshReviewBtn(){
+  const b=document.getElementById("adsReviewMode"); if(!b) return;
+  const on=reviewModeOn();
+  b.textContent = on ? "🛡️ 심사 모드 켜짐 — 끄기(발행 재개)"
+                     : "🛡️ 심사 모드 켜기 (대량 생성 정지 + 초안 잠금)";
+  b.classList.toggle("ok", on);
+}
 document.getElementById("adsReviewMode").onclick=async()=>{
-  CFG.paused=true;
-  CFG.safety=Object.assign({}, CFG.safety, {strength:"엄격", force_draft:true, verify_accuracy:"strict"});
-  saveCfg(); refreshPauseBtn();
-  await setPausedVar(true);
-  toast("심사 모드 ✓ 대량 생성 정지 + 엄격. 승인 후 자동생성을 다시 켜세요.");
+  const turnOff = reviewModeOn();
+  if(turnOff){
+    CFG.paused=false;
+    CFG.safety=Object.assign({}, CFG.safety, {strength:"표준", force_draft:false, verify_accuracy:"basic"});
+    saveCfg(); refreshPauseBtn(); refreshReviewBtn();
+    const r=await setPausedVar(false);
+    toast(r.ok ? "심사 모드 꺼짐 ✓ 매일 자동 생성·공개 발행 재개(스케줄까지 반영)"
+               : "심사 모드 꺼짐 — 이 기기에만 반영(스케줄 반영은 GitHub 정보 필요)", r.ok?0:1);
+  }else{
+    CFG.paused=true;
+    CFG.safety=Object.assign({}, CFG.safety, {strength:"엄격", force_draft:true, verify_accuracy:"strict"});
+    saveCfg(); refreshPauseBtn(); refreshReviewBtn();
+    await setPausedVar(true);
+    toast("심사 모드 ✓ 대량 생성 정지 + 초안 잠금. 다시 누르면 꺼집니다.");
+  }
 };
 // 보관함 조작: 기준일만 저장하면 되므로 데이터는 손상되지 않는다.
 function refreshArchLbl(){

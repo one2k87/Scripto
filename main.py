@@ -432,6 +432,7 @@ def _run_category(cfg, cat, hist, auto_publish, img_budget=None):
 
     # 오늘의 하위 영역 주입(토픽 클러스터) — 주제 생성이 이 영역 안에서 나오게 한다
     _subs_today = _pick_subtopics(cat, 2)
+    _orig_desc = cat.get("desc", "")
     if _subs_today:
         _focus = "; ".join(f"{s['name']}: {s['focus']}" for s in _subs_today)
         cat = dict(cat)
@@ -454,6 +455,16 @@ def _run_category(cfg, cat, hist, auto_publish, img_budget=None):
         label = "저경쟁 롱테일" if lane == "long" else "시즌 선점"
         print(f"[{label}] 슬롯 {need[lane]}개용 주제 확보…")
         got = collect_lane(cfg, cat, lane, need[lane], exclude)
+        # 보충 재시도(2026-09-16): 하위 영역 주입이 후보를 좁혀 슬롯을 못 채우는 경우가 실측됐다
+        # (9/16: 슬롯 2 → 1편 생산). 부족하면 '영역 제한 없이' 한 번 더 받아 채운다.
+        # 케이던스는 늘지 않는다 — 원래 계획한 슬롯 수를 채우는 것뿐이다.
+        if len(got) < need[lane] and (cat.get("subtopics") or _orig_desc):
+            _wide = dict(cat); _wide["desc"] = _orig_desc or cat.get("desc", "")
+            _more = collect_lane(cfg, _wide, lane, need[lane] - len(got),
+                                 exclude + [t["keyword"] for t in got])
+            if _more:
+                print(f"  · 보충 {len(_more)}건(영역 제한 없이 재수집)")
+                got = got + _more
         topic_q[lane] = got
         print(f"  · 주제:", [t["keyword"] for t in got])
         exclude += [t["keyword"] for t in got]
