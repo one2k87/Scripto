@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-09-16T10:52:40",
+ "updated_at": "2026-09-17T08:51:06",
  "site": "https://wontheland.com",
  "checked": 5,
  "indexed": 1,
@@ -13,7 +13,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-09-16T10:50:46\",\"link\":\"https:\\/\\/wontheland.com\\/senior-phone-suspicious-link-prevention-2026-09\\/\"}"
+  "body_head": "[{\"modified\":\"2026-09-16T13:24:14\",\"link\":\"https:\\/\\/wontheland.com\\/smishing-text-message-distinction-for-seniors-2026\\"
  },
  "posts_n": 4,
  "results": [
@@ -24,7 +24,13 @@
    "lastCrawl": "2026-09-11"
   },
   {
-   "url": "https://wontheland.com/senior-phone-suspicious-link-prevention-2026-09/",
+   "url": "https://wontheland.com/smishing-text-message-distinction-for-seniors-2026/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-affordable-phone-plan-comparison-2026-09/",
    "verdict": "NEUTRAL",
    "state": "URL is unknown to Google",
    "lastCrawl": ""
@@ -32,19 +38,13 @@
   {
    "url": "https://wontheland.com/boice-phishing-prevention-senior-2026-september/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
-   "url": "https://wontheland.com/smishing-text-message-distinction-for-seniors-2026/",
+   "url": "https://wontheland.com/senior-phone-suspicious-link-prevention-2026-09/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-affordable-phone-plan-comparison-2026-09/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   }
  ]
