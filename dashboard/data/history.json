@@ -675,6 +675,32 @@
       "intent": "revenue",
       "date": "2026-09-17",
       "series_id": ""
+    },
+    {
+      "title": "2026년 9월 시니어 스마트폰 배터리가 빨리 닳을 때, 급한 연락 위해 어떤 설정 확인해야 할까요?",
+      "slug": "senior-smartphone-battery-drain-settings-2026-09",
+      "url": "",
+      "post_id": null,
+      "status": "폐기",
+      "kind": "long",
+      "keyword": "시니어 스마트폰 배터리 빨리 닳을 때 설정 확인 방법",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-09-17",
+      "series_id": ""
+    },
+    {
+      "title": "정부24 모바일 신분증, 급할 때 당황하지 않으려면 2026년 9월 이것부터 확인하세요",
+      "slug": "government24-mobile-id-senior-digital-guide",
+      "url": "https://wontheland.com/government24-mobile-id-senior-digital-guide/",
+      "post_id": 2574,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "정부24 모바일 신분증 발급 조건과 사용 절차",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-09-17",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
