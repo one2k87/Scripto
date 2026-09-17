@@ -18,6 +18,11 @@ import html as html_mod
 import random
 from llm import chat
 from links import find_reference_links
+try:                                   # 검수기의 제목 금지어를 '그대로' 쓴다
+    from quality import _TITLE_CLICHE as TITLE_BANNED
+except Exception:                      # 임포트 실패해도 생성은 계속(보수적 기본값)
+    TITLE_BANNED = ["알아야 할", "알아보기", "총정리", "완벽 정리", "완벽 분석",
+                    "하는 방법", "핵심 정보", "핵심 사항", "한 번에", "제대로", "활용법"]
 import os as _os
 
 # ── 글쓴이 페르소나(2026-09-11, 7회차 전략) ──────────────────────────
@@ -263,6 +268,7 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
     # 제목 골격: 기수가 선호하는 형태에 가중치를 줘서 고른다.
     # (균등 랜덤이 아니라 가중 랜덤이라, 시기마다 목록의 '결'이 달라진다)
     _form_key = _weighted_pick((_era or {}).get("title_weights"), str(keyword) + "|tform") if _era else None
+    _banned_line = " · ".join(TITLE_BANNED)
     _title_form = next((f for f in TITLE_FORMS if _form_key and f.startswith(_form_key)), None) \
         or TITLE_FORMS[_variant(str(keyword) + "|title", len(TITLE_FORMS))]
 
@@ -349,8 +355,7 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
 - 핵심 키워드+연관어(LSI)를 제목·첫문단·여러 H2 소제목·마지막 문단에 자연스럽게 반복(억지 반복 금지).
 - 비교표·체크리스트·구체 수치·실제 예시를 넣어 경쟁 글보다 정보량이 많게(독보적 완성도).
 - FAQ를 4~5개로 늘려 '사람들이 또 묻는 질문(PAA)'까지 커버.
-- 제목은 검색어를 정확히 포함하되, '총정리·완벽정리·알아보기·핵심정보' 같은 상투어는 절대 쓰지 말 것.
-  대신 그 글에만 있는 구체 정보(금액·조건·기간·대상)를 제목에 넣어 차별화한다.
+- 제목에는 그 글에만 있는 구체 정보(금액·조건·기간·대상)를 넣어 차별화한다.
 """
         if competitive else "")
 
@@ -416,6 +421,10 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
    - 배정 골격이 '상황선두형/질문형/수치선두형'이면 공간 이름으로 시작하지 마라.
    - "~로 보강", "~로 조정", "~ 절차", "~ 매뉴얼"처럼 동작명사·절차어로 끝내지 마라.
    (나쁜 예: "곰팡이 제거 총정리"  → 좋은 예: "벽지 곰팡이, 닦아내면 3주 뒤에 다시 옵니다")
+   🚫 제목 금지어 — 하나라도 들어가면 글이 통째로 폐기된다(검수기가 기계로 잡는다):
+      {_banned_line}
+      ⚠️ 검색어 자체에 이 말이 들어 있어도 제목에서는 반드시 바꿔 써라.
+      ("…정리하는 방법" → "…이렇게 정리하세요" / "한 번에" → "한꺼번에" / "제대로" → "빠짐없이")
 2. hook(첫 문장): 3초 안에 이탈을 막는 질문형 또는 공감형 한 문장. (예: "대출 이자 부담, 조금이라도 줄일 방법 없을까요?")
 3. 첫 문단에서 검색 의도에 바로 답하고 핵심 키워드를 1회 자연스럽게 포함.
 4. 키워드를 제목·첫문단·본문 중반·마지막 문단에 나눠서 자연스러운 회화체로 배치.
@@ -830,6 +839,32 @@ TITLE_FORMS = [
 ]
 
 
+
+# 제목 상투어 자동 치환(2026-09-17). 프롬프트로 1차 차단하지만, 검색어 자체에
+# 금지어가 박혀 있으면 모델이 그대로 따라 쓰는 일이 있다(실측: "…한 번에 정리하는
+# 방법" 키워드가 그대로 제목이 돼 글 한 편이 폐기됨). 그때 글을 통째로 버리는 대신
+# 제목만 자연스럽게 바꾼다 — 의미 보존 우선, 치환표에 없으면 제거.
+_TITLE_FIX = [
+    ("하는 방법", "하는 법"), ("한 번에", "한꺼번에"), ("제대로", "빠짐없이"),
+    ("알아야 할", "챙겨야 할"), ("알아보기", "정리"), ("완벽 정리", "정리"),
+    ("완벽 분석", "비교"), ("총정리", "정리"), ("핵심 정보", "요점"),
+    ("핵심 사항", "요점"), ("활용법", "쓰는 법"),
+]
+
+
+def sanitize_title(title):
+    """검수기 금지어가 남지 않게 제목을 손본다. (새 제목, 바꾼 목록) 반환."""
+    t, changed = str(title or ""), []
+    for bad, good in _TITLE_FIX:
+        if bad in t:
+            t = t.replace(bad, good); changed.append(f"{bad}→{good}")
+    for bad in TITLE_BANNED:
+        if bad in t:
+            t = t.replace(bad, ""); changed.append(f"{bad} 삭제")
+    t = re.sub(r"\s{2,}", " ", t).strip(" ,·-!")
+    return t, changed
+
+
 def _variant(seed_text, n):
     """slug 등을 시드로 0~n-1 값을 고정 반환(같은 글은 항상 같은 구조)."""
     h = 0
@@ -1036,6 +1071,9 @@ def _gen_one(keyword, kind, llm_cfg, category, links, related, blog_url,
     if _bad:
         # 폴백 제목도 상투어를 쓰지 않는다(품질 게이트가 잡는 표현이므로)
         title = f"{keyword}, 신청 전에 확인해야 할 조건"
+    title, _t_chg = sanitize_title(title)
+    if _t_chg:
+        print(f"  · 제목 상투어 자동 치환({', '.join(_t_chg)}) → {title}")
     data["title"] = title
     slug = slugify((data.get("slug") or "").strip() or slugify(title))
     full_html = _assemble(data, related, blog_url, insert_ads, image_resolver, series_nav,

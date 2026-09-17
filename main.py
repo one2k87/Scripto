@@ -71,12 +71,25 @@ def save_history(hist):
 
 
 def get_categories(cfg):
-    """config에서 카테고리 목록을 만든다(구버전 site.category 호환)."""
+    """config에서 카테고리 목록을 만든다(구버전 site.category 호환).
+
+    ⚠️ 원본 dict의 키를 '버리지 않는다'. 화이트리스트로 재조립하던 옛 구현이
+    같은 사고를 두 번 냈다(2026-09-16 subtopics 누락 → 하위영역 순환 무효,
+    2026-09-17 counts 누락 → 카테고리별 발행량 2편 설정이 전역 기본값 1편으로
+    되돌아가 하루 1편만 생산). 카테고리 설정에 키를 추가하는 사람이 이 함수를
+    같이 고쳐야 한다면, 그건 언젠가 잊힌다.
+    """
     if cfg.get("categories"):
-        return [{"name": c.get("name", ""), "desc": c.get("desc", ""),
-                 "wp_category": c.get("wp_category", c.get("name", "")),
-                 "wp_slug": c.get("wp_slug", ""),
-                 "subtopics": c.get("subtopics") or []} for c in cfg["categories"]]
+        out = []
+        for c in cfg["categories"]:
+            d = dict(c)                                   # 원본 보존이 기본
+            d.setdefault("name", "")
+            d.setdefault("desc", "")
+            d["wp_category"] = c.get("wp_category") or c.get("name", "")
+            d.setdefault("wp_slug", "")
+            d["subtopics"] = c.get("subtopics") or []
+            out.append(d)
+        return out
     site = cfg.get("site", {})
     return [{"name": site.get("category", ""), "desc": site.get("category_desc", ""),
              "wp_category": site.get("category", ""), "wp_slug": ""}]
