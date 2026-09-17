@@ -121,12 +121,12 @@ def _check_text(img_bytes, cfg):
         body = {"contents": [{"parts": [
             {"inline_data": {"mime_type": "image/png",
                              "data": _b64.b64encode(img_bytes).decode()}},
-            {"text": "이미지 안의 글자를 검수한다. 글자(한글·영문·숫자)가 있으면 전부 읽어라. "
-                     "왜곡·오탈자·비문·존재하지 않는 글자꼴로 깨져 보이면 broken=true. "
-                     '순수 JSON만: {"has_text":true,"broken":false,"read":"…"}'}]}],
+            {"text": "이미지 안의 글자를 검수한다. 한글·영문·숫자가 왜곡·오탈자·비문·"
+                     "존재하지 않는 글자꼴로 깨져 보이면 broken=true. 읽은 글자는 30자 이내로만 요약. "
+                     '다른 말 없이 JSON만: {"has_text":true,"broken":false,"read":"30자 이내"}'}]}],
             # 2026-09-17 실측: 응답에서 JSON을 못 찾아 매번 '검수 실패(통과 처리)'로
             # 흘렀다 — 즉 글자 검수가 사실상 꺼져 있었다. 응답 형식을 JSON으로 강제한다.
-            "generationConfig": {"maxOutputTokens": 250, "temperature": 0,
+            "generationConfig": {"maxOutputTokens": 400, "temperature": 0,
                                  "responseMimeType": "application/json"}}
         r = _rq.post(url, json=body, timeout=60,
                      headers={"x-goog-api-key": cfg.get("api_key", ""),
@@ -134,16 +134,26 @@ def _check_text(img_bytes, cfg):
         t = r.json()["candidates"][0]["content"]["parts"][0]["text"]
         import json as _js
         import re as _re
-        t = _re.sub(r"^```[a-zA-Z]*|```$", "", (t or "").strip()).strip()
-        m = _re.search(r"\{.*\}", t, _re.S)
-        if not m:
-            # 무엇이 왔는지 남긴다 — 조용한 통과 처리로 검수기가 꺼져 있던 게 이 버그였다
-            print(f"[images] ⚠️ 검수 응답에 JSON 없음(통과 처리): {t[:120]!r}")
-            return None
-        j = _js.loads(m.group(0))
-        if not j.get("has_text"):
+        t = (t or "").strip()
+        m = _re.search(r"\{.*\}", t, _re.S)      # 서문·```json 펜스가 앞뒤에 붙어 와도 본문만
+        if m:
+            try:
+                j = _js.loads(m.group(0))
+                if not j.get("has_text"):
+                    return "none"
+                return "broken" if j.get("broken") else "ok"
+            except Exception:
+                pass
+        # JSON이 잘렸거나 깨진 경우의 관대한 해석(2026-09-17 실측: read 필드가 길어
+        # 토큰 상한에서 잘리면 닫는 중괄호가 없어 전체가 '통과 처리'로 흘렀다)
+        ht = _re.search(r'"has_text"\s*:\s*(true|false)', t)
+        bk = _re.search(r'"broken"\s*:\s*(true|false)', t)
+        if ht and ht.group(1) == "false":
             return "none"
-        return "broken" if j.get("broken") else "ok"
+        if bk:
+            return "broken" if bk.group(1) == "true" else "ok"
+        print(f"[images] ⚠️ 검수 응답 해석 불가(통과 처리): {t[:120]!r}")
+        return None
     except Exception as e:
         print(f"[images] 글자 검수 실패(통과 처리): {type(e).__name__}: {e}")
         return None
