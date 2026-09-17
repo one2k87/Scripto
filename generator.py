@@ -304,7 +304,7 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
     # ── 정보 이득(information gain) 슬롯 ────────────────────────────
     # 2026년 저가치 판정의 핵심 기준은 분량이 아니라 '검색 상위 글에 없는 것'이다.
     # 글마다 하나를 배정해 실행시키고, META의 gain 필드로 표기하게 한다.
-    _plot_name, _plot_desc = _pick_hero_plot(keyword, (category or {}).get("desc", ""))
+    _plot_name, _plot_desc = _pick_hero_plot(keyword, category)
     _sec_style, _sec_desc = SECOND_ROLES[_variant(str(keyword) + "|second", len(SECOND_ROLES))]
 
     GAIN_MODES = [
@@ -566,8 +566,7 @@ def _parse_output(raw):
 def _hero_fallback_desc(keyword, category=None):
     """LLM이 마커를 빼먹었을 때 쓸 대표이미지 묘사 — 배정 플롯을 그대로 따른다.
     category는 dict(카테고리 설정)일 수도, 문자열(이름)일 수도 있다."""
-    ctx = category.get("desc", "") if isinstance(category, dict) else str(category or "")
-    _n, d = _pick_hero_plot(keyword, ctx)
+    _n, d = _pick_hero_plot(keyword, category)
     return f"{d} (주제: {keyword})"
 
 
@@ -871,9 +870,16 @@ def _pick_hero_plot(keyword, ctx=""):
     """주제에 어울리는 플롯 후보만 모아 글별 고정 선택.
 
     범용 플롯 3개는 항상 후보에 두어 후보군이 빈약해지지 않게 하고,
-    키워드가 특정 상황을 가리키면 그 상황 플롯이 후보에 더해진다.
+    키워드가 특정 상황을 가리키면 그 상황 플롯이 더해진다.
+
+    ⚠️ ctx는 호출 경로에 따라 문자열(카테고리 이름)일 수도 dict(카테고리 설정)일
+    수도 있다 — main.generate_article은 category=name(문자열)으로 넘긴다.
+    (2026-09-17 실측: dict로 가정했다가 'str' object has no attribute 'get'로
+     당일 생성 전량 실패)
     """
-    text = f"{keyword} {ctx}"
+    if isinstance(ctx, dict):
+        ctx = f"{ctx.get('name', '')} {ctx.get('desc', '')}"
+    text = f"{keyword} {ctx or ''}"
     pool = [(n, d) for (n, t, d) in HERO_PLOTS if not t]
     pool += [(n, d) for (n, t, d) in HERO_PLOTS if t and re.search(t, text)]
     return pool[_variant(str(keyword) + "|plot", len(pool))]

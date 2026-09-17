@@ -856,6 +856,13 @@ def _save_status_and_notify(cfg, all_articles, start_t, ok=True, error=""):
         notify.send(cfg, f"⛔ <b>Scripto 실행 실패</b>\n🕖 {monitor.now_kst()}\n{str(error)[:400]}")
     else:
         notify.send(cfg, notify.run_summary(cfg, stats))
+    # 0편 경보(2026-09-17 신설) — 워크플로는 success인데 생산이 0인 날이 조용히
+    # 지나가면 D-day 계산이 어긋난다. 요약 메시지와 별개로 눈에 띄게 한 번 더 알린다.
+    if not error and not all_articles:
+        notify.send(cfg, "🚨 <b>오늘 발행 0편</b>\n"
+                         f"🕖 {monitor.now_kst()}\n"
+                         "생성 루프가 돌았지만 글이 하나도 나오지 않았습니다. "
+                         "Actions 로그의 '[오류] … 글 생성 실패(건너뜀)' 줄을 확인하세요.")
     if snap["llm_calls"] >= FREE_LLM_DAILY * 0.8:
         notify.send(cfg, f"⚠️ 오늘 LLM 호출 {snap['llm_calls']}회 — 무료 한도({FREE_LLM_DAILY}) 근접")
     return status

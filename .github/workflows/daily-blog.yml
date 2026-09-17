@@ -193,6 +193,9 @@ jobs:
             echo "오늘($today) 이미 생성 완료 — 생성 단계 건너뜀(백업 크론). 점검·색인은 계속 진행"
           fi
 
+      - name: 프롬프트 조립 무연기 시험(생성 전 크래시 차단)
+        run: python scripts/smoke_prompt.py
+
       - name: 블로그 생성 실행
         if: steps.dup.outputs.skip != 'true'
         run: python -u main.py
