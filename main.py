@@ -284,14 +284,24 @@ def _category_active_today(cat):
     return doy_is_odd if mode == "odd" else (not doy_is_odd)
 
 
-def _pick_subtopics(cat, n):
-    """오늘 다룰 하위 영역을 날짜 순환으로 고른다(2026-09-16 토픽 클러스터).
-    파이프라인 주제는 여전히 1개(램프 주제폭·완충 가드 보호)이고, 하위 영역만 순환한다."""
+def _pick_subtopics(cat, n=0):
+    """오늘 다룰 하위 영역 — 전부 열되 '순서'만 날짜로 돌린다(2026-09-17 개편).
+
+    종전에는 하루 2개 영역으로 좁혔다. 글이 9편 쌓이자 그 좁은 창 안에서
+    소재가 말라 '기존글과유사(중복위험)'로 전량 폐기되는 날이 이어졌다(9/17 실측).
+    파이프라인 주제(카테고리)는 여전히 1개라 램프의 topic_width·완충 가드는
+    그대로 지켜진다 — 넓히는 것은 그 안의 세부 영역뿐이다.
+
+    n을 주면 그만큼만(옛 동작), 0이면 전 영역을 날짜 기준 회전 순서로 돌려준다.
+    앞쪽 영역이 프롬프트에서 더 강조되므로 회전만으로도 날마다 무게중심이 바뀐다.
+    """
     subs = cat.get("subtopics") or []
     if not subs:
         return []
     doy = datetime.now().timetuple().tm_yday
-    return [subs[(doy * max(1, n) + i) % len(subs)] for i in range(max(1, n))]
+    k = len(subs) if not n else max(1, int(n))
+    start = doy % len(subs)
+    return [subs[(start + i) % len(subs)] for i in range(min(k, len(subs)))]
 
 
 def _match_subtopic(text, subs):
@@ -448,13 +458,19 @@ def _run_category(cfg, cat, hist, auto_publish, img_budget=None):
     resolver = make_image_resolver(cfg, auto_publish, name, img_budget)
 
     # 오늘의 하위 영역 주입(토픽 클러스터) — 주제 생성이 이 영역 안에서 나오게 한다
-    _subs_today = _pick_subtopics(cat, 2)
+    _subs_today = _pick_subtopics(cat)          # 전 영역 개방(순서만 날짜로 회전)
     _orig_desc = cat.get("desc", "")
     if _subs_today:
-        _focus = "; ".join(f"{s['name']}: {s['focus']}" for s in _subs_today)
+        _focus = "\n".join(f"{i+1}) {s['name']} — {s['focus']}" for i, s in enumerate(_subs_today))
         cat = dict(cat)
-        cat["desc"] = f"{cat.get('desc','')}\n\n[오늘 다룰 세부 영역 — 이 안에서만 주제를 고른다]\n{_focus}"
-        print(f"  · 오늘의 하위 영역: {', '.join(s['name'] for s in _subs_today)}")
+        cat["desc"] = (f"{cat.get('desc','')}\n\n"
+                       "[세부 영역 — 아래 전부가 이 사이트의 범위다]\n"
+                       f"{_focus}\n"
+                       "※ 오늘 뽑는 주제들은 '서로 다른 영역'에서 하나씩 고른다. "
+                       "한 영역에서 둘 이상 뽑지 말 것(같은 날 비슷한 글이 나와 중복으로 폐기된다). "
+                       f"※ 앞번호({_subs_today[0]['name']})를 우선 고려하되 거기서 좋은 주제가 "
+                       "없으면 주저 말고 다른 영역으로 넘어갈 것.")
+        print(f"  · 세부 영역 {len(_subs_today)}개 개방 (오늘 선두: {_subs_today[0]['name']})")
 
     # 이 카테고리의 과거 글만으로 중복방지 + 내부링크
     cat_hist = [a for a in hist["articles"] if a.get("category") == name]
