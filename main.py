@@ -118,6 +118,10 @@ def collect_lane(cfg, cat, lane, n_slots, exclude):
     # 일반인이 클릭 안 하는 기업·전문가·B2B 주제 제거(안전망)
     before = len(cand)
     cand = [c for c in cand if not topics.is_corporate(c["keyword"])]
+    _meta = [c for c in cand if topics.is_meta_topic(c["keyword"])]
+    if _meta:
+        print(f"  · 메타 주제 제외 {len(_meta)}건: {[c['keyword'][:30] for c in _meta]}")
+    cand = [c for c in cand if not topics.is_meta_topic(c["keyword"])]
     if len(cand) < before:
         print(f"  · 기업·전문가용 주제 {before - len(cand)}개 제외(일반인 관점 유지)")
     # 니치 이탈 차단(2026-09-11, 6회차 반려 대응): 정책·금융류는 신규든 백로그 재고든 전부 제외

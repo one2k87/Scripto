@@ -1,0 +1,46 @@
+name: 글 내리기(초안으로)
+
+# 수동 전용. 심사 중 내려야 할 글이 나왔을 때 글 번호만 넣고 실행한다.
+# 삭제가 아니라 status=draft — WP 관리자 '초안'에서 원문 확인·재작성 가능.
+on:
+  workflow_dispatch:
+    inputs:
+      post_ids:
+        description: "내릴 글 번호(쉼표 구분, 예: 2562,2563)"
+        required: true
+      reason:
+        description: "사유(기록용)"
+        default: ""
+        required: false
+
+jobs:
+  unpublish:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: 의존성
+        run: pip install requests
+      - name: config 생성(시크릿에서)
+        env:
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+        run: |
+          python - <<'PY'
+          import json, os
+          json.dump({"wordpress": {"site_url": os.getenv("WP_SITE",""),
+                                    "username": os.getenv("WP_USER",""),
+                                    "app_password": os.getenv("WP_APP_PASSWORD","")}},
+                    open("config.json","w"), ensure_ascii=False)
+          PY
+      - name: 내리기
+        env:
+          POST_IDS: ${{ inputs.post_ids }}
+          REASON: ${{ inputs.reason }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/unpublish.py
