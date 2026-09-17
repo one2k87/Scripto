@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-09-17T16:54:23",
+ "updated_at": "2026-09-18T08:45:23",
  "site": "https://wontheland.com",
- "checked": 6,
+ "checked": 7,
  "indexed": 1,
  "ghosts": [
   "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
@@ -13,9 +13,9 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-09-17T16:52:12\",\"link\":\"https:\\/\\/wontheland.com\\/government24-mobile-id-senior-digital-guide\\/\"},{\"m"
+  "body_head": "[{\"modified\":\"2026-09-18T08:43:18\",\"link\":\"https:\\/\\/wontheland.com\\/senior-pass-app-installation-guide\\/\"},{\"modified\":"
  },
- "posts_n": 5,
+ "posts_n": 6,
  "results": [
   {
    "url": "https://wontheland.com/",
@@ -24,15 +24,21 @@
    "lastCrawl": "2026-09-11"
   },
   {
-   "url": "https://wontheland.com/government24-mobile-id-senior-digital-guide/",
+   "url": "https://wontheland.com/senior-pass-app-installation-guide/",
    "verdict": "NEUTRAL",
    "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
+   "url": "https://wontheland.com/government24-mobile-id-senior-digital-guide/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
    "url": "https://wontheland.com/smishing-text-message-distinction-for-seniors-2026/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {

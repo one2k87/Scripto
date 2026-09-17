@@ -701,6 +701,32 @@
       "intent": "evergreen",
       "date": "2026-09-17",
       "series_id": ""
+    },
+    {
+      "title": "시니어를 위한 PASS 앱 설치, 자녀가 옆에 없다고 포기하면 안 되는 이유 2026년 9월",
+      "slug": "senior-pass-app-installation-guide",
+      "url": "https://wontheland.com/senior-pass-app-installation-guide/",
+      "post_id": 2580,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "시니어를 위한 PASS 앱 설치부터 본인확인까지 (자녀가 알려드리는)",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-09-18",
+      "series_id": ""
+    },
+    {
+      "title": "3가지 준비물만 알면 2026년 9월 알뜰폰 번호이동, 유심 개통까지 걱정 없습니다",
+      "slug": "senior-digital-mvno-portability-guide",
+      "url": "https://wontheland.com/?p=2582",
+      "post_id": 2582,
+      "status": "예약발행",
+      "kind": "long",
+      "keyword": "알뜰폰 번호이동 준비물과 절차, 유",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-09-18",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
