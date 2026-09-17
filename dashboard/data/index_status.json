@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-09-17T08:51:06",
+ "updated_at": "2026-09-17T10:25:38",
  "site": "https://wontheland.com",
  "checked": 5,
  "indexed": 1,
@@ -44,7 +44,7 @@
   {
    "url": "https://wontheland.com/senior-phone-suspicious-link-prevention-2026-09/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   }
  ]
