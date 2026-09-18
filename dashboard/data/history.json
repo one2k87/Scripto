@@ -727,6 +727,32 @@
       "intent": "evergreen",
       "date": "2026-09-18",
       "series_id": ""
+    },
+    {
+      "title": "2026년 9월 시니어 알뜰폰 부가서비스, 예상치 못한 요금은 이렇게 해지합니다",
+      "slug": "senior-alttelphone-value-added-service-cancel",
+      "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
+      "post_id": 2588,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "시니어 알뜰폰 통신사 부가서비스 신청 및 해지 방법 (자녀가 알려드리는)",
+      "category": "시니어 디지털",
+      "intent": "revenue",
+      "date": "2026-09-19",
+      "series_id": ""
+    },
+    {
+      "title": "2026년 9월, 보이스피싱 가족 약속을 무작정 정하면 오히려 위험한 이유",
+      "slug": "voice-phishing-family-promise-danger-2026-09",
+      "url": "",
+      "post_id": null,
+      "status": "폐기",
+      "kind": "long",
+      "keyword": "보이스피싱 가족 확인 약속 정하는",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-09-19",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"

@@ -1,13 +1,11 @@
 {
-  "at": "2026-09-18T08:39:49",
-  "notes": [
-    "'시니어 디지털' 완충 — 누적 13편이라 하루 최대 3편(시리즈 금지)"
-  ],
+  "at": "2026-09-19T08:34:05",
+  "notes": [],
   "maturity": [
     {
       "category": "시니어 디지털",
-      "published": 13,
-      "daily_cap": 3
+      "published": 15,
+      "daily_cap": null
     }
   ]
 }

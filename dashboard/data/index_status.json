@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-09-18T10:17:56",
+ "updated_at": "2026-09-19T08:39:27",
  "site": "https://wontheland.com",
- "checked": 1,
+ "checked": 9,
  "indexed": 1,
  "ghosts": [
   "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
@@ -12,15 +12,64 @@
   "https://wontheland.com/청년-후계농-영농정착지원금-월-최대-110만-원-독립-영농/"
  ],
  "posts_diag": {
-  "err": "Expecting value: line 1 column 1 (char 0)"
+  "http": 200,
+  "body_head": "[{\"modified\":\"2026-09-19T08:37:14\",\"link\":\"https:\\/\\/wontheland.com\\/senior-alttelphone-value-added-service-cancel\\/\"},{"
  },
- "posts_n": 0,
+ "posts_n": 8,
  "results": [
   {
    "url": "https://wontheland.com/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-09-11"
+  },
+  {
+   "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-digital-mvno-portability-guide/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-pass-app-installation-guide/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/government24-mobile-id-senior-digital-guide/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/smishing-text-message-distinction-for-seniors-2026/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-affordable-phone-plan-comparison-2026-09/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/boice-phishing-prevention-senior-2026-september/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-phone-suspicious-link-prevention-2026-09/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
   }
  ]
 }
