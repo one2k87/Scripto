@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-09-19T10:11:15",
+ "updated_at": "2026-09-20T08:34:54",
  "site": "https://wontheland.com",
- "checked": 9,
+ "checked": 10,
  "indexed": 1,
  "ghosts": [
   "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
@@ -13,15 +13,21 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-09-19T08:37:14\",\"link\":\"https:\\/\\/wontheland.com\\/senior-alttelphone-value-added-service-cancel\\/\"},{"
+  "body_head": "[{\"modified\":\"2026-09-20T08:32:36\",\"link\":\"https:\\/\\/wontheland.com\\/senior-digital-phone-payment-phishing-block\\/\"},{\"m"
  },
- "posts_n": 8,
+ "posts_n": 9,
  "results": [
   {
    "url": "https://wontheland.com/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-09-11"
+   "lastCrawl": "2026-09-19"
+  },
+  {
+   "url": "https://wontheland.com/senior-digital-phone-payment-phishing-block/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
+   "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
