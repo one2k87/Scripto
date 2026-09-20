@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-09-20T08:34:54",
+ "updated_at": "2026-09-20T10:09:12",
  "site": "https://wontheland.com",
  "checked": 10,
  "indexed": 1,
@@ -32,7 +32,7 @@
   {
    "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
