@@ -1,6 +1,6 @@
 {
-  "updated": "2026-09-14 08:52",
-  "next_review": "2026-09-21",
+  "updated": "2026-09-21 08:50",
+  "next_review": "2026-09-28",
   "data_status": "no_data",
   "verdict": "아직 성과 데이터가 없어 기본 계획으로 운영합니다. 발행·색인이 쌓이면 자동으로 실측 기반으로 바뀝니다.",
   "matched_posts": 0,
@@ -85,7 +85,7 @@
     {
       "category": "시니어 디지털",
       "intent": "evergreen",
-      "posts": 1,
+      "posts": 7,
       "clicks": 0,
       "impressions": 0,
       "scored": 0,
@@ -96,7 +96,7 @@
     {
       "category": "시니어 디지털",
       "intent": "revenue",
-      "posts": 1,
+      "posts": 3,
       "clicks": 0,
       "impressions": 0,
       "scored": 0,
