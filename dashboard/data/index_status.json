@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-09-20T10:09:12",
+ "updated_at": "2026-09-21T08:35:38",
  "site": "https://wontheland.com",
- "checked": 10,
+ "checked": 12,
  "indexed": 1,
  "ghosts": [
   "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
@@ -13,9 +13,9 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-09-20T08:32:36\",\"link\":\"https:\\/\\/wontheland.com\\/senior-digital-phone-payment-phishing-block\\/\"},{\"m"
+  "body_head": "[{\"modified\":\"2026-09-21T08:33:03\",\"link\":\"https:\\/\\/wontheland.com\\/senior-express-bus-app-destination-check-2026\\/\"},{"
  },
- "posts_n": 9,
+ "posts_n": 11,
  "results": [
   {
    "url": "https://wontheland.com/",
@@ -24,9 +24,21 @@
    "lastCrawl": "2026-09-19"
   },
   {
-   "url": "https://wontheland.com/senior-digital-phone-payment-phishing-block/",
+   "url": "https://wontheland.com/senior-express-bus-app-destination-check-2026/",
    "verdict": "NEUTRAL",
    "state": "URL is unknown to Google",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-train-ticket-app-reservation/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-digital-phone-payment-phishing-block/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
