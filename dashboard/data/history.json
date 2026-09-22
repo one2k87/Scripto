@@ -831,6 +831,32 @@
       "intent": "evergreen",
       "date": "2026-09-22",
       "series_id": ""
+    },
+    {
+      "title": "2026년 9월 비싼 통신사 데이터 무제한 요금, 알뜰폰으로 이렇게 바꿉니다",
+      "slug": "senior-digital-low-cost-unlimited-plan-202609",
+      "url": "https://wontheland.com/senior-digital-low-cost-unlimited-plan-202609/",
+      "post_id": 2618,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "알뜰폰 무제한 요금제, 비싼 통신사 데이터 무제",
+      "category": "시니어 디지털",
+      "intent": "revenue",
+      "date": "2026-09-23",
+      "series_id": ""
+    },
+    {
+      "title": "시니어 스마트폰 알림, 중요한 전화만 울리게 하는 설정",
+      "slug": "senior-smartphone-notification-important-call-setting",
+      "url": "https://wontheland.com/?p=2620",
+      "post_id": 2620,
+      "status": "예약발행",
+      "kind": "long",
+      "keyword": "시니어 스마트폰 알림 소리만 끄고 중요한 전화는 울리게 하는 방법",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-09-23",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
