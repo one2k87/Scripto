@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-09-22T09:21:09",
+ "updated_at": "2026-09-22T10:38:40",
  "site": "https://wontheland.com",
  "checked": 14,
  "indexed": 1,
@@ -62,7 +62,7 @@
   {
    "url": "https://wontheland.com/senior-digital-mvno-portability-guide/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -86,7 +86,7 @@
   {
    "url": "https://wontheland.com/senior-affordable-phone-plan-comparison-2026-09/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
