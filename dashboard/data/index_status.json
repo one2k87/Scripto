@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-09-24T09:03:54",
+ "updated_at": "2026-09-24T10:26:11",
  "site": "https://wontheland.com",
  "checked": 18,
  "indexed": 1,
@@ -56,7 +56,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-unexpected-charges/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -80,7 +80,7 @@
   {
    "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -104,13 +104,13 @@
   {
    "url": "https://wontheland.com/smishing-text-message-distinction-for-seniors-2026/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-affordable-phone-plan-comparison-2026-09/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
