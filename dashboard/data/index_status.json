@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-09-23T10:32:45",
+ "updated_at": "2026-09-24T09:03:54",
  "site": "https://wontheland.com",
- "checked": 16,
+ "checked": 18,
  "indexed": 1,
  "ghosts": [
   "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
@@ -13,9 +13,9 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-09-23T08:50:50\",\"link\":\"https:\\/\\/wontheland.com\\/senior-digital-low-cost-unlimited-plan-202609\\/\"},{"
+  "body_head": "[{\"modified\":\"2026-09-24T09:00:29\",\"link\":\"https:\\/\\/wontheland.com\\/senior-telecom-saving-mvno-2026-09\\/\"},{\"modified\":"
  },
- "posts_n": 15,
+ "posts_n": 17,
  "results": [
   {
    "url": "https://wontheland.com/",
@@ -24,9 +24,21 @@
    "lastCrawl": "2026-09-19"
   },
   {
-   "url": "https://wontheland.com/senior-digital-low-cost-unlimited-plan-202609/",
+   "url": "https://wontheland.com/senior-telecom-saving-mvno-2026-09/",
    "verdict": "NEUTRAL",
    "state": "URL is unknown to Google",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-digital-low-cost-unlimited-plan-202609/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -38,19 +50,19 @@
   {
    "url": "https://wontheland.com/senior-smartphone-ringtones-notifications/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-smartphone-unexpected-charges/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-express-bus-app-destination-check-2026/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -62,7 +74,7 @@
   {
    "url": "https://wontheland.com/senior-digital-phone-payment-phishing-block/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -74,7 +86,7 @@
   {
    "url": "https://wontheland.com/senior-digital-mvno-portability-guide/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -92,7 +104,7 @@
   {
    "url": "https://wontheland.com/smishing-text-message-distinction-for-seniors-2026/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
