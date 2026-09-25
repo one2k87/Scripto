@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-24",
+  "updated_at": "2026-09-25",
   "search_console": {
     "queries": [],
     "pages": [
@@ -44,14 +44,14 @@
         "impressions": 2
       },
       {
-        "page": "https://wontheland.com/%EB%93%9C%EB%A0%88%EC%8A%A4%EB%A3%B8-%EC%95%84%EC%9D%BC%EB%9E%9C%EB%93%9C-%EC%88%98%EB%82%A9%EC%9E%A5-%EC%84%9C%EB%9E%8D-%EC%9B%90%EB%AA%A9-%EC%95%9E%ED%8C%90-%EC%9C%A0%EA%B2%A9-%EC%A1%B0%EC%A0%95/",
-        "clicks": 0,
-        "impressions": 1
-      },
-      {
         "page": "https://wontheland.com/%EB%93%9C%EB%A0%88%EC%8A%A4%EB%A3%B8-%EC%9D%98%EB%A5%98-%EC%88%98%EB%82%A9%EC%9A%A9-%EB%A9%94%EC%89%AC-%EC%85%94%EC%B8%A0%EB%A0%89-%EB%A0%88%EC%9D%BC-%ED%94%84%EB%A0%88%EC%9E%84-%EC%A2%8C%EC%9A%B0/",
         "clicks": 0,
         "impressions": 2
+      },
+      {
+        "page": "https://wontheland.com/%EB%AC%BC%ED%92%88-%EC%B0%BD%EA%B3%A0-%EC%A4%91%EB%9F%89-%EB%9E%99-%EB%8B%A8-%EB%86%92%EC%9D%B4-%EC%A1%B0%EC%A0%88-%EC%8B%9C-%EA%B3%A0%EB%AC%B4%EB%A7%9D%EC%B9%98-%ED%95%98%ED%96%A5-%EC%88%98%EC%A7%81/",
+        "clicks": 0,
+        "impressions": 1
       }
     ]
   },
@@ -98,12 +98,12 @@
         "users": 1
       },
       {
-        "title": "문의 - 원더랜드 블로그",
+        "title": "2026년 9월 부모님 휴대폰에 수상한 링크를 눌렀을 때 대처하고 예방하는 절차입니다 - 원더랜드 블로그",
         "views": 2,
-        "users": 1
+        "users": 2
       },
       {
-        "title": "옥상 난간 콘크리트 틈새, 무수축 시멘트 채운 뒤 10mm 실리콘 마감 - 원더랜드 블로그",
+        "title": "문의 - 원더랜드 블로그",
         "views": 2,
         "users": 1
       }
