@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-09-25T10:32:43",
+ "updated_at": "2026-09-26T09:15:34",
  "site": "https://wontheland.com",
- "checked": 19,
+ "checked": 20,
  "indexed": 1,
  "ghosts": [
   "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
@@ -13,15 +13,21 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-09-24T11:31:52\",\"link\":\"https:\\/\\/wontheland.com\\/senior-digital-assistance-2026-09\\/\"},{\"modified\":\""
+  "body_head": "[{\"modified\":\"2026-09-26T09:12:00\",\"link\":\"https:\\/\\/wontheland.com\\/senior-digital-kiosk-order-2026\\/\"},{\"modified\":\"20"
  },
- "posts_n": 18,
+ "posts_n": 19,
  "results": [
   {
    "url": "https://wontheland.com/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-09-19"
+  },
+  {
+   "url": "https://wontheland.com/senior-digital-kiosk-order-2026/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
+   "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-digital-assistance-2026-09/",
@@ -38,13 +44,13 @@
   {
    "url": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-digital-low-cost-unlimited-plan-202609/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -68,7 +74,7 @@
   {
    "url": "https://wontheland.com/senior-express-bus-app-destination-check-2026/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -98,7 +104,7 @@
   {
    "url": "https://wontheland.com/senior-pass-app-installation-guide/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {

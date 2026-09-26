@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25",
+  "updated_at": "2026-09-26",
   "search_console": {
     "queries": [],
     "pages": [
@@ -46,7 +46,7 @@
       {
         "page": "https://wontheland.com/%EB%93%9C%EB%A0%88%EC%8A%A4%EB%A3%B8-%EC%9D%98%EB%A5%98-%EC%88%98%EB%82%A9%EC%9A%A9-%EB%A9%94%EC%89%AC-%EC%85%94%EC%B8%A0%EB%A0%89-%EB%A0%88%EC%9D%BC-%ED%94%84%EB%A0%88%EC%9E%84-%EC%A2%8C%EC%9A%B0/",
         "clicks": 0,
-        "impressions": 2
+        "impressions": 1
       },
       {
         "page": "https://wontheland.com/%EB%AC%BC%ED%92%88-%EC%B0%BD%EA%B3%A0-%EC%A4%91%EB%9F%89-%EB%9E%99-%EB%8B%A8-%EB%86%92%EC%9D%B4-%EC%A1%B0%EC%A0%88-%EC%8B%9C-%EA%B3%A0%EB%AC%B4%EB%A7%9D%EC%B9%98-%ED%95%98%ED%96%A5-%EC%88%98%EC%A7%81/",
@@ -59,8 +59,8 @@
     "top_pages": [
       {
         "title": "원더랜드 블로그 - 셀프 인테리어·집 수리 정보를 직접 확인해 정리합니다",
-        "views": 23,
-        "users": 19
+        "views": 21,
+        "users": 18
       },
       {
         "title": "원더랜드 블로그 - 부모님 스마트폰과 디지털 생활, 자녀의 마음으로 대신 알아봐 드립니다",
@@ -71,11 +71,6 @@
         "title": "외부 테라스 데크 아연각관 용접부, 광명단 스프레이 2회 도포 예방 - 원더랜드 블로그",
         "views": 9,
         "users": 9
-      },
-      {
-        "title": "지하실 옹벽 크랙 보수: 아크릴 퍼티 2회, 220방 사포 처리 - 원더랜드 블로그",
-        "views": 7,
-        "users": 7
       },
       {
         "title": "Page Not Found - 원더랜드 블로그",
@@ -89,6 +84,11 @@
       },
       {
         "title": "드레스룸 옷장 행거가 처졌다면 지지 소켓을 재고정하면 해결됩니다. - 원더랜드 블로그",
+        "views": 5,
+        "users": 5
+      },
+      {
+        "title": "지하실 옹벽 크랙 보수: 아크릴 퍼티 2회, 220방 사포 처리 - 원더랜드 블로그",
         "views": 5,
         "users": 5
       },
