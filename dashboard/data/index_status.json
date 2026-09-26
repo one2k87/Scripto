@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-09-26T10:35:19",
+ "updated_at": "2026-09-27T08:56:49",
  "site": "https://wontheland.com",
- "checked": 20,
+ "checked": 22,
  "indexed": 1,
  "ghosts": [
   "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
@@ -13,9 +13,9 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-09-26T09:12:00\",\"link\":\"https:\\/\\/wontheland.com\\/senior-digital-kiosk-order-2026\\/\"},{\"modified\":\"20"
+  "body_head": "[{\"modified\":\"2026-09-27T08:53:41\",\"link\":\"https:\\/\\/wontheland.com\\/senior-smartphone-document-pdf-send-method\\/\"},{\"mo"
  },
- "posts_n": 19,
+ "posts_n": 21,
  "results": [
   {
    "url": "https://wontheland.com/",
@@ -24,9 +24,21 @@
    "lastCrawl": "2026-09-19"
   },
   {
-   "url": "https://wontheland.com/senior-digital-kiosk-order-2026/",
+   "url": "https://wontheland.com/senior-smartphone-document-pdf-send-method/",
    "verdict": "NEUTRAL",
    "state": "URL is unknown to Google",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/smartphone-photo-google-photos-backup-senior/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-digital-kiosk-order-2026/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -74,19 +86,19 @@
   {
    "url": "https://wontheland.com/senior-express-bus-app-destination-check-2026/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-train-ticket-app-reservation/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-digital-phone-payment-phishing-block/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {

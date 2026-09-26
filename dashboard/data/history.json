@@ -935,6 +935,32 @@
       "intent": "evergreen",
       "date": "2026-09-26",
       "series_id": ""
+    },
+    {
+      "title": "시니어 스마트폰 서류 PDF 보내기, 자녀가 알려주는 방법",
+      "slug": "senior-smartphone-document-pdf-send-method",
+      "url": "https://wontheland.com/senior-smartphone-document-pdf-send-method/",
+      "post_id": 2646,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "시니어 스마트폰으로 중요한 서류 사진 찍어 PDF 파일로 보내는 방법 (자녀가 알려드리는)",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-09-27",
+      "series_id": ""
+    },
+    {
+      "title": "모바일 신분증 캡처 사진은 안 됩니다: 은행에서 진짜 화면 보여주는 법",
+      "slug": "mobile-id-screen-instead-of-photo",
+      "url": "https://wontheland.com/?p=2648",
+      "post_id": 2648,
+      "status": "예약발행",
+      "kind": "long",
+      "keyword": "모바일 신분증 사진 대신 화면",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-09-27",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
