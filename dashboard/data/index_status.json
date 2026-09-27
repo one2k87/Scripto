@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-09-27T08:56:49",
+ "updated_at": "2026-09-27T10:30:00",
  "site": "https://wontheland.com",
  "checked": 22,
  "indexed": 1,
@@ -44,7 +44,7 @@
   {
    "url": "https://wontheland.com/senior-digital-assistance-2026-09/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -98,7 +98,7 @@
   {
    "url": "https://wontheland.com/senior-digital-phone-payment-phishing-block/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -140,13 +140,13 @@
   {
    "url": "https://wontheland.com/boice-phishing-prevention-senior-2026-september/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-phone-suspicious-link-prevention-2026-09/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   }
  ]
