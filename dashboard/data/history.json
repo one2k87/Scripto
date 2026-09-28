@@ -961,6 +961,32 @@
       "intent": "evergreen",
       "date": "2026-09-27",
       "series_id": ""
+    },
+    {
+      "title": "은행에서 모바일 신분증 거절당했다면, 시니어 운전면허 발급 조건과 절차를 확인하세요",
+      "slug": "senior-mobile-drivers-license-guide",
+      "url": "https://wontheland.com/senior-mobile-drivers-license-guide/",
+      "post_id": 2654,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "시니어 운전면허 모바일 신분증 발급 조건과 사용 절차",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-09-28",
+      "series_id": ""
+    },
+    {
+      "title": "알뜰폰 통신사 변경 후 데이터 사용량 확인 방법 (자녀, 신청 전에 확인해야 할 조건",
+      "slug": "post",
+      "url": "https://wontheland.com/?p=2656",
+      "post_id": 2656,
+      "status": "예약발행",
+      "kind": "long",
+      "keyword": "알뜰폰 통신사 변경 후 데이터 사용량 확인 방법 (자녀",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-09-28",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
