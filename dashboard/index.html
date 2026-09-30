@@ -2533,7 +2533,57 @@ async function adsPluginInstall(){
 }
 
 // ===== 신청 이력(몇 번째에 승인됐는지 + 그 사이 무엇을 바꿨는지) =====
-function adsLog(){ try{ return JSON.parse(localStorage.getItem("adsense_attempts")||"[]"); }catch(e){ return []; } }
+// 단일 기준은 서버의 회차 대장(dashboard/data/attempts.json)이다.
+// 2026-10-01 실측: 실제 7회차인데 앱은 2회차로 알고 있었다 — 이력이 localStorage에만
+// 있어서, '신청함 기록' 버튼을 누르지 않은 회차를 앱이 통째로 몰랐다. 브라우저를
+// 바꾸거나 캐시를 지우면 사라지기도 한다. 그래서 대장을 읽어 표시하고,
+// localStorage는 '대장에 아직 없는 최신 기록'만 얹는 보조 장부로 강등한다.
+let LEDGER_LOG=null;          // 대장에서 만든 항목(비동기 로드 후 채워짐)
+
+function adsLogLocal(){ try{ return JSON.parse(localStorage.getItem("adsense_attempts")||"[]"); }catch(e){ return []; } }
+
+function _ledgerToEntries(led){
+  const out=[];
+  for(const a of ((led&&led.attempts)||[])){
+    const no=a.no||"?";
+    const applied=(a.applied_at||(a.submitted_at||"").slice(0,10)||"");
+    const unknown=a.date_unknown||!applied;
+    let note=`${no}회차`;
+    if(a.reconstructed||unknown) note+=" (대장 복원·날짜 미상)";
+    if(a.gate_verdict) note+=" — "+a.gate_verdict;
+    else if(a.summary) note+=" — "+a.summary;
+    out.push({kind:"apply", note, at:applied, _src:"ledger", _no:no});
+    if(a.result==="반려")
+      out.push({kind:"reject", note:(a.cause_label||"가치가 별로 없는 콘텐츠"),
+                at:(a.result_at||""), _src:"ledger", _no:no});
+    else if(a.result==="승인")
+      out.push({kind:"approve", note:(a.approve_note||"승인"),
+                at:(a.result_at||""), _src:"ledger", _no:no});
+  }
+  return out;
+}
+
+async function loadLedgerLog(force){
+  if(LEDGER_LOG && !force) return LEDGER_LOG;
+  const owner=CFG.ghOwner||"one2k87", repo=CFG.ghRepo||"Scripto";
+  for(const u of [`https://raw.githubusercontent.com/${owner}/${repo}/main/dashboard/data/attempts.json`,
+                  "./data/attempts.json"]){
+    try{
+      const r=await fetch(u,{cache:"no-store"});
+      if(r.ok){ LEDGER_LOG=_ledgerToEntries(await r.json()); return LEDGER_LOG; }
+    }catch(e){}
+  }
+  return null;   // 못 읽으면 localStorage만으로 동작(오프라인에서도 앱이 죽지 않게)
+}
+
+function adsLog(){
+  const local=adsLogLocal();
+  if(!LEDGER_LOG) return local;                 // 아직 로드 전 → 종전 동작
+  // 대장에 이미 있는 회차와 같은 날·같은 종류의 로컬 기록은 중복이므로 버린다
+  const seen=new Set(LEDGER_LOG.map(e=>e.kind+"|"+e.at));
+  const extra=local.filter(e=>!seen.has(e.kind+"|"+(e.at||"")));
+  return LEDGER_LOG.concat(extra);
+}
 function adsLogSave(v){ localStorage.setItem("adsense_attempts",JSON.stringify(v)); renderAdsHistory(); }
 function adsAddEntry(kind){
   const log=adsLog();
@@ -2577,10 +2627,11 @@ function renderAdsHistory(){
   let html=`<div><b>총 ${applies}회 신청</b>${approved?` · <span style="color:#33c27f">${applies}회 만에 승인 ✅</span>`:" · 진행 중"}</div>`;
   log.slice().reverse().forEach(e=>{
     const ic=e.kind==="apply"?"📨":e.kind==="reject"?"❌":"✅";
-    const lb=e.kind==="apply"?"신청":e.kind==="reject"?"반려":"승인";
+    const lb=(e.kind==="apply"?"신청":e.kind==="reject"?"반려":"승인")
+            +(e._src==="ledger"?"":" <span style=\"font-size:10px;color:var(--muted)\">(이 기기)</span>");
     html+=`<div style="margin:4px 0">${ic} <b>${lb}</b> <span class="hint">${e.at}</span><div class="hint" style="margin-left:16px">${escAttr(e.note||"-")}</div></div>`;
   });
-  html+=`<button class="btn sm" style="margin-top:6px;padding:1px 9px;font-size:11px" onclick="if(confirm('이력을 모두 지울까요?')){localStorage.removeItem('adsense_attempts');renderAdsHistory();}">이력 초기화</button>`;
+  html+=`<button class="btn sm" style="margin-top:6px;padding:1px 9px;font-size:11px" onclick="if(confirm('이 기기에 남은 보조 기록만 지웁니다.\n회차 대장(서버)은 그대로 유지됩니다. 진행할까요?')){localStorage.removeItem('adsense_attempts');renderAdsHistory();}">이 기기 기록 지우기</button>`;
   box.innerHTML=html;
 }
 
@@ -2759,7 +2810,9 @@ function refreshApprovedUI(){
   const n=document.getElementById("adsAttemptN"); if(n) n.textContent=(CFG.adsAttempts&&CFG.adsAttempts.length)?("· 재신청 "+CFG.adsAttempts.length+"회차"):"";
 }
 function openAds(){ refreshApprovedUI(); document.getElementById("adsBg").classList.add("open"); document.getElementById("adsSheet").classList.add("open");
-  renderAdsHistory(); loadAdsRules(true).then(R=>{ const v=document.getElementById("adsPlugVer"); if(v) v.innerHTML=rulesAgeNote(R); }); adsCheck(); }
+  renderAdsHistory();                                  // 우선 로컬로 즉시 표시
+  loadLedgerLog(true).then(()=>{ try{ renderAdsHistory(); applyStateLayout(); }catch(e){} });  // 대장 도착하면 교체
+  loadAdsRules(true).then(R=>{ const v=document.getElementById("adsPlugVer"); if(v) v.innerHTML=rulesAgeNote(R); }); adsCheck(); }
 function closeAds(){ document.getElementById("adsBg").classList.remove("open"); document.getElementById("adsSheet").classList.remove("open"); }
 document.getElementById("adsBtn").onclick=openAds;
 document.getElementById("adsBg").onclick=closeAds;
