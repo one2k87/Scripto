@@ -2543,22 +2543,27 @@ let LEDGER_LOG=null;          // 대장에서 만든 항목(비동기 로드 후
 function adsLogLocal(){ try{ return JSON.parse(localStorage.getItem("adsense_attempts")||"[]"); }catch(e){ return []; } }
 
 function _ledgerToEntries(led){
+  // 회차가 두 종류다(2026-10-01 사용자 확정): 사이트가 구글에 신청한 '전체 회차'와,
+  // 스크립토가 진행한 '스크립토 회차'. 이전 5번은 전부 외주였다.
+  // 제품의 성과는 스크립토 회차로 세야 한다 — 남이 말아먹은 횟수까지 떠안으면
+  // "몇 번 만에 승인시켰는가"라는 판매 근거가 왜곡된다.
   const out=[];
   for(const a of ((led&&led.attempts)||[])){
-    const no=a.no||"?";
+    const no=a.no||"?", sno=a.scripto_no||null;
     const applied=(a.applied_at||(a.submitted_at||"").slice(0,10)||"");
     const unknown=a.date_unknown||!applied;
-    let note=`${no}회차`;
-    if(a.reconstructed||unknown) note+=" (대장 복원·날짜 미상)";
+    let note = sno ? `스크립토 ${sno}회차 (사이트 전체 ${no}회차)`
+                   : `${no}회차 · 외주`;
+    if(unknown) note+=" (날짜 미상)";
     if(a.gate_verdict) note+=" — "+a.gate_verdict;
     else if(a.summary) note+=" — "+a.summary;
-    out.push({kind:"apply", note, at:applied, _src:"ledger", _no:no});
+    out.push({kind:"apply", note, at:applied, _src:"ledger", _no:no, _sno:sno});
     if(a.result==="반려")
       out.push({kind:"reject", note:(a.cause_label||"가치가 별로 없는 콘텐츠"),
-                at:(a.result_at||""), _src:"ledger", _no:no});
+                at:(a.result_at||""), _src:"ledger", _no:no, _sno:sno});
     else if(a.result==="승인")
       out.push({kind:"approve", note:(a.approve_note||"승인"),
-                at:(a.result_at||""), _src:"ledger", _no:no});
+                at:(a.result_at||""), _src:"ledger", _no:no, _sno:sno});
   }
   return out;
 }
@@ -2619,12 +2624,21 @@ function adsAddEntry(kind){
 function renderAdsHistory(){
   const box=document.getElementById("adsHistory"); if(!box) return;
   const log=adsLog();
-  const applies=log.filter(x=>x.kind==="apply").length;
+  // 사이트 전체 회차는 '행 수'가 아니라 '가장 큰 회차 번호'로 센다 —
+  // 대장에 2·3회차 행이 없어(외주 시절 기록 유실) 행 수로 세면 실제보다 적게 나온다.
+  const applies=Math.max(
+    log.filter(x=>x.kind==="apply").length,
+    ...log.map(x=>Number(x._no)||0));
+  // 제품 성과 카운터는 '스크립토로 진행한 회차'다(2026-10-01 확정).
+  // 대장에 scripto_no가 없는 옛 로컬 기록만 있는 경우엔 전체 수로 폴백한다.
+  const sApplies=log.filter(x=>x.kind==="apply" && x._sno).length || applies;
+  const outsourced=applies-sApplies;
   const approved=log.some(x=>x.kind==="approve");
   const n=document.getElementById("adsAttemptN");
-  if(n) n.textContent=applies?`(현재 ${applies}회 신청)`:"";
+  if(n) n.textContent=sApplies?`(스크립토 ${sApplies}회차)`:"";
   if(!log.length){ box.innerHTML='<span class="hint">아직 기록이 없습니다. 신청할 때마다 눌러 남겨두세요.</span>'; return; }
-  let html=`<div><b>총 ${applies}회 신청</b>${approved?` · <span style="color:#33c27f">${applies}회 만에 승인 ✅</span>`:" · 진행 중"}</div>`;
+  const ctx=outsourced>0?` <span class="hint">· 사이트 전체 ${applies}회(그중 외주 ${outsourced}회)</span>`:"";
+  let html=`<div><b>스크립토 ${sApplies}회차</b>${approved?` · <span style="color:#33c27f">스크립토 ${sApplies}회 만에 승인 ✅</span>`:" · 진행 중"}${ctx}</div>`;
   log.slice().reverse().forEach(e=>{
     const ic=e.kind==="apply"?"📨":e.kind==="reject"?"❌":"✅";
     const lb=(e.kind==="apply"?"신청":e.kind==="reject"?"반려":"승인")
