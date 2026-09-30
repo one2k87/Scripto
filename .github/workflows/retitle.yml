@@ -1,0 +1,41 @@
+name: 제목 교체(발행 글)
+
+# 수동 전용. 부검의 '기계 제목' 지표 등을 신청 직전에 맞출 때 쓴다.
+# 슬러그는 건드리지 않는다 — 바꾸면 색인이 끊긴다.
+on:
+  workflow_dispatch:
+    inputs:
+      retitle:
+        description: "ID=새 제목 (여러 건은 || 로 구분)"
+        required: true
+
+jobs:
+  retitle:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: 의존성
+        run: pip install requests
+      - name: config 생성(시크릿에서)
+        env:
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+        run: |
+          python - <<'PY'
+          import json, os
+          json.dump({"wordpress": {"site_url": os.getenv("WP_SITE",""),
+                                    "username": os.getenv("WP_USER",""),
+                                    "app_password": os.getenv("WP_APP_PASSWORD","")}},
+                    open("config.json","w"), ensure_ascii=False)
+          PY
+      - name: 교체
+        env:
+          RETITLE: ${{ inputs.retitle }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/retitle.py
