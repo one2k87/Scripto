@@ -1039,6 +1039,32 @@
       "intent": "evergreen",
       "date": "2026-09-30",
       "series_id": ""
+    },
+    {
+      "title": "2026년 10월, 시니어 스마트폰 비행기 모드, 몰래 해제하면 안 되는 이유와 올바른 소통법",
+      "slug": "2026-10-senior-smartphone-airplane-mode-communication",
+      "url": "https://wontheland.com/2026-10-senior-smartphone-airplane-mode-communication/",
+      "post_id": 2680,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "시니어 스마트폰 비행기 모드, 몰래 해제하고 싶은데 어떻게 해야 할까요?",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-10-01",
+      "series_id": ""
+    },
+    {
+      "title": "2026년 10월 스마트폰 화면이 갑자기 너무 어두워졌을 때, 밝기 조절보다 중요한 설정들을 비교합니다",
+      "slug": "smart-phone-dark-screen-solution-2026-10",
+      "url": "https://wontheland.com/?p=2682",
+      "post_id": 2682,
+      "status": "예약발행",
+      "kind": "long",
+      "keyword": "스마트폰 화면이 갑자기 너무 어두워졌을",
+      "category": "시니어 디지털",
+      "intent": "revenue",
+      "date": "2026-10-01",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
