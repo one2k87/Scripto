@@ -2426,7 +2426,9 @@ async function renderTodoInbox(){
   if(!box){
     box=document.createElement("div"); box.id="todoBox";
     const sec=page.querySelector('.sub-sec[data-k="now"]'); if(!sec) return;
-    sec.prepend(box);
+    // v158: 여정 스테퍼(#adsDash)가 있으면 그 '아래'에. 단계가 잡일보다 먼저 읽혀야 한다.
+    const dash=sec.querySelector("#adsDash");
+    if(dash) dash.after(box); else sec.prepend(box);
   }
   const items=await todoItems();
   const toggle=`<label class="hint" style="display:flex;align-items:center;gap:6px;margin-top:7px;cursor:pointer">
@@ -8088,15 +8090,24 @@ function renderBriefing(which){
 }
 // 힌트 다이어트: 첫 문장만 보이고 나머지는 ⓘ 뒤로. 마크업이 든 힌트는 손대지 않는다(링크·강조 보존).
 function dietHints(root){
+  const balanced=frag=>{   // 잘린 앞부분의 태그가 모두 닫혀 있는가(끊긴 <b>가 뒤 전체를 굵게 만드는 사고 방지)
+    const open=(frag.match(/<([a-z][a-z0-9]*)\b[^>]*>/gi)||[]).filter(t=>!/^<(br|img|input|hr)\b/i.test(t)&&!/\/>$/.test(t)).length;
+    const close=(frag.match(/<\/[a-z][a-z0-9]*>/gi)||[]).length;
+    return open===close;
+  };
   (root||document).querySelectorAll(".hint").forEach(h=>{
-    if(h.dataset.diet) return;
+    if(h.dataset.diet||h.querySelector("input,button,select,textarea,a")) return;   // 조작 요소가 든 힌트는 손대지 않는다
     const html=h.innerHTML.trim();
-    if(/<[a-z]/i.test(html)||html.length<70) return;
-    const parts=html.split(/(?<=[.!?。])\s+/);
-    if(parts.length<2) return;
+    if(h.textContent.trim().length<70) return;
+    // 문장 경계(마침표+공백, 태그 안은 제외) 후보들 중 태그 균형이 맞는 첫 지점에서 자른다
+    const re=/(?<=[.!?。])\s+(?![^<]*>)/g; let m, cut=-1;
+    while((m=re.exec(html))){ if(balanced(html.slice(0,m.index))){ cut=m.index; break; } }
+    if(cut<0||cut<12) return;
+    const head=html.slice(0,cut), tail=html.slice(cut).trim();
+    if(!tail) return;
     h.dataset.diet="1"; h.classList.add("hx");
-    h.innerHTML=parts[0]+`<span class="hi">ⓘ</span><span class="hmore"> ${parts.slice(1).join(" ")}</span>`;
-    h.onclick=()=>h.classList.toggle("open");
+    h.innerHTML=head+`<span class="hi">ⓘ</span><span class="hmore"> ${tail}</span>`;
+    h.onclick=e=>{ if(e.target.closest("a,button,input,label")) return; h.classList.toggle("open"); };
   });
 }
 
