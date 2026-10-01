@@ -157,6 +157,33 @@
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
   .st.active{color:#fff;border-color:var(--accent);background:#241f3d}
   .sub-sec{display:none}
+  /* ═══ v158 브리핑 카드 + 세로 한 줄(스택) ═══
+     규칙: 탭 맨 위는 항상 같은 모양의 카드 하나(지금/다음/버튼).
+     그 아래는 위→아래 순서대로, 지금 단계가 아닌 것은 접는다. */
+  .brief{border:1.5px solid var(--accent);border-radius:14px;padding:12px 14px;margin:6px 0 12px;
+    background:color-mix(in srgb,var(--accent) 6%,transparent)}
+  .brief .bk{font-size:11px;color:var(--muted);letter-spacing:.04em}
+  .brief .bt{font-size:17px;font-weight:700;margin:1px 0 2px;line-height:1.3}
+  .brief .bs{font-size:12.5px;color:var(--muted)}
+  .brief .bn{font-size:13.5px;margin-top:9px;line-height:1.4}
+  .brief .ba{display:flex;gap:6px;margin-top:10px}
+  .brief .ba .btn{flex:1}
+  .page[data-stack] .subtabs,.page[data-stack] .swipehint{display:none !important}
+  .page[data-stack] .sub-sec{display:block;animation:none}
+  details.stk{border:1px solid var(--line);border-radius:12px;margin:8px 0;padding:0 12px;background:var(--card)}
+  details.stk>summary{cursor:pointer;list-style:none;padding:11px 0;font-weight:600;font-size:13.5px;
+    display:flex;align-items:center;gap:8px;user-select:none}
+  details.stk>summary::-webkit-details-marker{display:none}
+  details.stk>summary::after{content:"›";margin-left:auto;color:var(--muted);font-size:18px;transition:transform .15s}
+  details.stk[open]>summary::after{transform:rotate(90deg)}
+  details.stk>summary .sb{font-size:11px;font-weight:400;color:var(--muted)}
+  details.stk>.sub-sec{padding-bottom:8px}
+  .page[data-stack] #adsFlowGuide,.page[data-stack] #applyStateHead{display:none}
+  /* 힌트 다이어트: 첫 문장만, 나머지는 ⓘ 뒤로 */
+  .hint.hx{cursor:pointer}
+  .hint.hx .hmore{display:none}
+  .hint.hx.open .hmore{display:inline}
+  .hint.hx .hi{color:var(--accent);margin-left:4px;font-size:11px;font-weight:600}
   .setsearch{width:calc(100% - 32px);margin:8px 16px 0;padding:8px 12px;border-radius:10px;
     border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:13px}
   .sub-sec.on{display:block}
@@ -680,6 +707,7 @@
   .appsw a.on[data-hue="m"]{background:rgba(237,143,71,.18);color:#ed8f47}
 
   /* ═══ v141 IA 개편: 홈/글 뷰 분리 ═══ */
+  body[data-view="home"] #brief-list,
   body[data-view="home"] #catFilters,body[data-view="home"] #statusTabs,
   body[data-view="home"] .toolbar,body[data-view="home"] .bulkbar,
   body[data-view="home"] #adBanner,body[data-view="home"] #grid,
@@ -2333,7 +2361,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=157;
+const APP_BUILD=158;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 
@@ -2589,7 +2617,8 @@ function adsLog(){
   const extra=local.filter(e=>!seen.has(e.kind+"|"+(e.at||"")));
   return LEDGER_LOG.concat(extra);
 }
-function adsLogSave(v){ localStorage.setItem("adsense_attempts",JSON.stringify(v)); renderAdsHistory(); }
+function adsLogSave(v){ localStorage.setItem("adsense_attempts",JSON.stringify(v)); renderAdsHistory();
+  try{ renderBriefing("adsSheet"); }catch(e){} }
 function adsAddEntry(kind){
   const log=adsLog();
   const note=prompt(kind==="apply"
@@ -3235,10 +3264,17 @@ function buildMoneyTab(){
   const now=sec("now"), setg=sec("ads"), extra=sec("extra");
   const mkNote=(html)=>{ const d=document.createElement("div"); d.className="wiz-note"; d.innerHTML=html; return d; };
 
-  // ① 수익: 대시보드가 이미 맨 위. 가정값·실측은 아래에 붙는다(ids로 이동됨)
-  if(now) now.insertBefore(
-    mkNote(`💰 <b>지금 얼마나 벌고 있나</b> — 실측값을 넣을수록 아래 추정이 정확해집니다.`),
-    now.firstChild.nextSibling);
+  // ① v158: 가정값 입력폼(글당 조회·RPM·실측)은 승인 전엔 쓸 일이 없다 — 접어둔다.
+  if(now){
+    const ids=["stViews","stRpm","stRealViews","stRealRev","stWpCount"];
+    const fs=ids.map(id=>fieldOf(id)).filter(Boolean);
+    if(fs.length){
+      const d=document.createElement("details"); d.className="stk"; d.style.margin="10px 0";
+      d.innerHTML=`<summary>🧮 예상 수익 계산기 <span class="sb">가정값 입력 · 선택</span></summary>`;
+      const body=document.createElement("div"); body.className="sub-sec on";
+      fs.forEach(f=>body.appendChild(f)); d.appendChild(body); now.appendChild(d);
+    }
+  }
 
   // ② 전략 안내 + 주제 전환 완충 상태
   const strat=sec("strat");
@@ -7548,6 +7584,7 @@ const SUBTABS={
       {k:"apply",label:"신청 기록", ids:["adsMakePages","adsPlugScan","adsGuide","adsReviewMode","adsAnalyze","adsLogApply","adsTrackBtn"]},
     ],
     home:"now", render:()=>renderAdsDash(),
+    stack:true,   // v158: 서브탭 대신 세로 한 줄(브리핑 → 지금 단계 → 나머지 접힘)
   },
   statsSheet:{
     // 수익 탭의 흐름: ①얼마 벌고 있나(수익) → ②무엇을 쓰면 더 버나(전략,
@@ -7560,6 +7597,7 @@ const SUBTABS={
       {k:"extra",label:"수익 채널", lock:true},   // 승인 후 노출(라인 격리)
     ],
     home:"now", render:()=>renderMoneyDash(),
+    stack:true,
   },
 };
 function buildSubtabs(pageId){
@@ -7581,6 +7619,25 @@ function buildSubtabs(pageId){
     // id가 안 잡히는 부속 블록(결과 표시 영역 등)은 직전 탭에 붙인다
     secs[k||lastK].appendChild(el);
   });
+  if(cfg.stack){
+    // v158 세로 한 줄: 섹션을 순서대로 쌓고, 홈(지금 단계)만 펼친다. 나머지는 접힘.
+    // "어느 탭을 눌러야 하지"라는 두 번째 고민과 위아래 왕복이 여기서 사라진다.
+    page.dataset.stack="1";
+    let brief=page.querySelector(".brief");
+    if(!brief){ brief=document.createElement("div"); brief.className="brief"; brief.id="brief-"+pageId;
+      if(title&&title.nextSibling) page.insertBefore(brief,title.nextSibling); else page.prepend(brief); }
+    cfg.tabs.forEach(t=>{
+      const d=document.createElement("details"); d.className="stk"; d.dataset.k=t.k;
+      if(t.k===cfg.home) d.open=true;
+      if(t.lock&&!CFG.adsenseApproved) d.style.display="none";
+      const sm=document.createElement("summary"); sm.textContent=t.label; d.appendChild(sm);
+      secs[t.k].classList.add("on"); d.appendChild(secs[t.k]); page.appendChild(d);
+      d.addEventListener("toggle",()=>{ if(d.open) showSub(pageId,t.k,true); });
+    });
+    page.dataset.subtabbed="1"; page.dataset.sub=cfg.home;
+    showSub(pageId,cfg.home,true);
+    return;
+  }
   const bar=document.createElement("div"); bar.className="subtabs";
   bar.innerHTML=cfg.tabs.map(t=>`<button class="st" type="button" data-k="${t.k}"${(t.lock&&!CFG.adsenseApproved)?' style="display:none"':''}>${t.label}</button>`).join("");
   const hint=document.createElement("div");
@@ -7680,12 +7737,25 @@ function moveTrendPanel(){
   const sec=document.querySelector('#statsSheet .sub-sec[data-k="strat"]'); if(!sec) return;
   sec.appendChild(tp); tp.dataset.moved="1"; tp.style.display="block";
 }
-function showSub(pageId,k){
+function showSub(pageId,k,fromStack){
   const page=document.getElementById(pageId), cfg=SUBTABS[pageId]; if(!page||!cfg) return;
   if(!cfg.tabs.some(t=>t.k===k)) k=cfg.home;   // 병합으로 사라진 탭 키 폴백(v129)
   const _td=cfg.tabs.find(t=>t.k===k);
   if(_td&&_td.lock&&!CFG.adsenseApproved) k=cfg.home;   // 승인 전 잠금 탭 폴백(v152)
   page.dataset.sub=k;
+  if(page.dataset.stack){
+    // v158: 섹션을 숨기지 않는다. 해당 접힘을 열고 거기로 스크롤할 뿐.
+    const d=page.querySelector(`details.stk[data-k="${k}"]`);
+    if(d&&!d.open) d.open=true;
+    if(d&&!fromStack) setTimeout(()=>{ try{ d.scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){} },60);
+    if(k===cfg.home&&cfg.render){ try{ cfg.render(); }catch(e){ console.warn(e); } }
+    if(pageId==="statsSheet"&&k==="strat"){ try{ renderStrategy(); moveTrendPanel(); }catch(e){ console.warn(e); } }
+    if(pageId==="adsSheet"&&k==="check"){ try{ renderJob(); renderLearn(); renderPlan(); renderIdxQueue(); maybeRestore();
+      setTimeout(maybeRestore,300); setTimeout(maybeRestore,900); }catch(e){} }
+    try{ renderBriefing(pageId); dietHints(page); }catch(e){ console.warn("brief",e); }
+    try{ CFG.lastSub=Object.assign({}, CFG.lastSub||{}, {[pageId]:k}); saveCfg(); }catch(e){}
+    return;
+  }
   page.querySelectorAll(".subtabs .st").forEach(b=>b.classList.toggle("active",b.dataset.k===k));
   page.querySelectorAll(".sub-sec").forEach(d=>d.classList.toggle("on",d.dataset.k===k));
   if(k===cfg.home&&cfg.render){ try{ cfg.render(); }catch(e){ console.warn(e); } }
@@ -7707,6 +7777,7 @@ function showSub(pageId,k){
 }
 function moveSub(pageId,dir){
   const cfg=SUBTABS[pageId], page=document.getElementById(pageId); if(!cfg||!page) return false;
+  if(page.dataset.stack) return false;   // v158: 세로 한 줄엔 좌우 이동이 없다
   const ks=cfg.tabs.map(t=>t.k), i=ks.indexOf(page.dataset.sub||cfg.home);
   const n=i+dir;
   if(n<0||n>=ks.length) return false;
@@ -7899,6 +7970,136 @@ async function renderStrategy(force){
 }
 
 // ===== 현황 대시보드 =====
+/* ═══ v158 브리핑 — "지금 어디이고, 다음이 무엇인가"를 탭마다 같은 자리에 ═══
+   사용자 실측(2026-10-01): 가장 중요한 '다음 할 일'이 2화면 아래에 있었고, 같은 뜻의
+   상태 표시가 5군데였고, 힌트가 27개였다. 브리핑 카드 하나가 그 셋을 대신한다. */
+function adsStage(){
+  const log=adsLog(), applies=log.filter(x=>x.kind==="apply");
+  const approved=!!CFG.adsenseApproved;
+  const scoreTxt=(document.getElementById("adsReport")||{}).textContent||"";
+  const m=scoreTxt.match(/승인 준비 점수:\s*(\d+)\s*\/\s*(\d+)/);
+  const pct=approved?100:(m?Math.round(+m[1]/+m[2]*100):0);
+  const hasPlan=(typeof planLoad==="function")&&!!planLoad();
+  const lastKind=log.length?log[log.length-1].kind:"none";
+  let stage;
+  if(approved) stage="done";
+  else if(lastKind==="apply") stage="review";
+  else if(!(CFG.site&&CFG.user&&CFG.pass)) stage="site";
+  else if(!CFG.runnerAt && !m) stage="setup";
+  else if(!hasPlan) stage="content";
+  else if(!m || pct<100) stage="check";
+  else stage="apply";
+  // 스크립토 회차(성과 카운터)와 신청 경과일
+  const sApplies=applies.filter(x=>x._sno).length||applies.length;
+  const lastApply=applies[applies.length-1];
+  let days=null;
+  if(lastApply&&lastApply.at){ days=Math.max(0,Math.round((Date.now()-new Date(lastApply.at))/86400000)); }
+  const posts=(DATA&&DATA.articles)?DATA.articles.filter(a=>a.status==="게시됨").length:0;
+  const lastRej=[...log].reverse().find(e=>e.kind==="reject");
+  return {stage,pct,m,approved,sApplies,lastApply,days,posts,lastRej,lastKind};
+}
+function _briefHtml(b){
+  const act=(b.actions||[]).map(a=>`<button class="btn sm ${a.cls||""}" onclick="${a.on}">${a.label}</button>`).join("");
+  return `<div class="bk">지금</div><div class="bt">${b.now}</div>${b.sub?`<div class="bs">${b.sub}</div>`:""}
+    <div class="bk" style="margin-top:8px">다음</div><div class="bn">${b.next}</div>${act?`<div class="ba">${act}</div>`:""}`;
+}
+let _LISTRUN=null;
+function renderBriefing(which){
+  if(which==="adsSheet"){
+    const el=document.getElementById("brief-adsSheet"); if(!el) return;
+    const st=adsStage(); let b;
+    const when=st.lastApply&&st.lastApply.at?st.lastApply.at.slice(5).replace("-","/"):"";
+    switch(st.stage){
+      case "site":    b={now:"블로그 연결 전", next:"설정에서 블로그 주소·아이디·앱 비밀번호 넣기",
+                         actions:[{label:"⚙️ 설정 열기",cls:"primary",on:"gotoTab('set')"}]}; break;
+      case "setup":   b={now:"연결됨 · 사이트 세팅 전", sub:`공개 글 ${st.posts}편`,
+                         next:"필수 페이지·소개·사이트 구성을 원클릭으로 세팅",
+                         actions:[{label:"🧩 세팅 열기",cls:"primary",on:"gotoSub('adsSheet','apply')"}]}; break;
+      case "content": b={now:`공개 글 ${st.posts}편`, next:"발행 계획을 만들어 예약 발행 시작",
+                         actions:[{label:"⚡ 계획 만들기",cls:"primary",on:"gotoSub('adsSheet','check')"}]}; break;
+      case "check":   b={now:st.lastRej?"반려 후 보완 중":(st.m?`점검 ${st.m[1]}/${st.m[2]}`:"점검 전"),
+                         sub:st.lastRej?`사유: ${escAttr((st.lastRej.note||"").slice(0,40))}`:`공개 글 ${st.posts}편`,
+                         next:st.m?"걸린 항목을 고쳐 점검 만점 만들기":"점검을 한 번 돌려 상태 보기",
+                         actions:[{label:"🔍 점검 실행",cls:"primary",on:"gotoSub('adsSheet','check');setTimeout(()=>{const b=document.getElementById('adsCheck');b&&b.click();},400)"}]}; break;
+      case "apply":   b={now:"점검 통과 · 신청 가능", sub:`공개 글 ${st.posts}편`,
+                         next:"애드센스에서 검토 요청 → 돌아와서 '신청함' 기록",
+                         actions:[{label:"📋 절차 보기",on:"gotoSub('adsSheet','apply')"},
+                                  {label:"📨 신청함 기록",cls:"primary",on:"adsAddEntry('apply')"}]}; break;
+      case "review":  b={now:`스크립토 ${st.sApplies}회차 심사 중`,
+                         sub:`${when} 신청${st.days!==null?` · ${st.days}일째`:""} · 보통 며칠~2주`,
+                         next:"결과 메일이 오면 아래 버튼 하나만 — 나머지는 자동",
+                         actions:[{label:"✅ 승인됐어요",cls:"ok",on:"adsAddEntry('approve')"},
+                                  {label:"❌ 반려됐어요",on:"adsAddEntry('reject')"}]}; break;
+      case "done":    b={now:"승인 완료 🎉", sub:`스크립토 ${st.sApplies}회차 만에`,
+                         next:"수익 탭에서 램프가 광고·발행량을 3주에 걸쳐 올립니다",
+                         actions:[{label:"📊 수익 탭",cls:"primary",on:"gotoTab('stats')"}]}; break;
+      default:        b={now:"상태 확인 중", next:"잠시 후 다시 열어보세요"};
+    }
+    el.innerHTML=_briefHtml(b);
+    return;
+  }
+  if(which==="statsSheet"){
+    const el=document.getElementById("brief-statsSheet"); if(!el) return;
+    const approved=!!CFG.adsenseApproved;
+    const pages=(((typeof INS!=="undefined"&&INS)||{}).search_console||{}).pages||[];
+    const clicks=pages.reduce((a,p)=>a+(+p.clicks||0),0), imps=pages.reduce((a,p)=>a+(+p.impressions||0),0);
+    const ga=(((typeof INS!=="undefined"&&INS)||{}).ga4||{}); const views=(ga.top_pages||[]).reduce((a,p)=>a+(+p.views||0),0);
+    let b;
+    if(!approved){
+      b={now:"승인 전 · 수익 없음", sub:`최근 28일 방문 ${views} · 검색 노출 ${imps} · 클릭 ${clicks}`,
+         next:"여기서 할 일은 없습니다. 승인되면 광고가 자동으로 세팅됩니다",
+         actions:[{label:"🛡️ 승인 탭 보기",on:"gotoTab('ads')"}]};
+    }else{
+      const ad=(typeof INS!=="undefined"&&INS&&INS.adsense)?INS.adsense:null;
+      const won=n=>"₩"+Math.round(n||0).toLocaleString("ko-KR");
+      b={now:ad&&ad.earnings?`이번 달 ${won(ad.earnings)}`:"승인 완료 · 광고 게재 중",
+         sub:`방문 ${views} · 노출 ${imps} · 클릭 ${clicks}`,
+         next:"결산을 확인하고, 전략이 정한 주제 비율이 글에 반영되는지 보기",
+         actions:[{label:"🎯 전략 보기",on:"gotoSub('statsSheet','strat')"}]};
+    }
+    el.innerHTML=_briefHtml(b);
+    return;
+  }
+  if(which==="list"){
+    let el=document.getElementById("brief-list");
+    if(!el){ const cf=document.getElementById("catFilters"); if(!cf) return;
+      el=document.createElement("div"); el.className="brief"; el.id="brief-list"; el.style.margin="8px 16px 4px";
+      cf.parentNode.insertBefore(el,cf); }
+    const draw=(L)=>{
+      L=L||{}; const today=(typeof kstDay==="function")?kstDay():new Date().toISOString().slice(0,10);
+      const ran=String(L.at||"").slice(0,10)===today;
+      const arts=(DATA&&DATA.articles)||[]; const held=arts.filter(a=>a.status==="보류").length;
+      let b;
+      if(ran){
+        b={now:`오늘 ${L.published||0}편 발행`,
+           sub:`생성 ${L.articles||0} · 게시 ${L.published||0} · 초안 ${L.draft||0} · 보류 ${L.held||0}${L.failed?` · 실패 ${L.failed}`:""} — ${String(L.at).slice(11,16)} 가동`,
+           next:held?`보류 ${held}편을 아래에서 확인 (이유가 적혀 있습니다)`:"내일 06:43 자동 — 할 일 없음"};
+      }else{
+        b={now:"오늘 아직 가동 전", sub:L.at?`최근 ${String(L.at).slice(5,16).replace("T"," ")} — 게시 ${L.published||0}편`:"",
+           next:"06:43 크론이 깨우면 자동으로 2편 — 보통 3시간 안에 도착"};
+      }
+      if(held) b.actions=[{label:`⏸ 보류 ${held}편 보기`,on:"document.querySelector('#statusTabs .st[data-k=\\'held\\']')?.click()"}];
+      el.innerHTML=_briefHtml(b);
+    };
+    if(_LISTRUN){ draw(_LISTRUN); return; }
+    draw(null);
+    fetch("data/status.json?nc="+Date.now(),{cache:"no-store"}).then(r=>r.json()).then(sj=>{ _LISTRUN=(sj&&sj.last_run)||{}; draw(_LISTRUN); }).catch(()=>{});
+  }
+}
+// 힌트 다이어트: 첫 문장만 보이고 나머지는 ⓘ 뒤로. 마크업이 든 힌트는 손대지 않는다(링크·강조 보존).
+function dietHints(root){
+  (root||document).querySelectorAll(".hint").forEach(h=>{
+    if(h.dataset.diet) return;
+    const html=h.innerHTML.trim();
+    if(/<[a-z]/i.test(html)||html.length<70) return;
+    const parts=html.split(/(?<=[.!?。])\s+/);
+    if(parts.length<2) return;
+    h.dataset.diet="1"; h.classList.add("hx");
+    h.innerHTML=parts[0]+`<span class="hi">ⓘ</span><span class="hmore"> ${parts.slice(1).join(" ")}</span>`;
+    h.onclick=()=>h.classList.toggle("open");
+  });
+}
+
 function renderAdsDash(){
   const page=document.getElementById("adsSheet");
   let box=page.querySelector("#adsDash");
@@ -7933,28 +8134,19 @@ function renderAdsDash(){
     review:"심사 결과 대기 중 — 결과가 오면 결과 탭에 기록 (반려면 사유 붙여넣기)",
     done:"수익 최적화 켜고 발행 재개"};
   const next=NEXT[stage];
-  box.innerHTML=
-    stepsHtml(stage)+
-    ringHtml(pct,col,approved?"승인 완료":`준비도 ${pct}%`,desc)+
-    `<div class="dash">
-      <div class="dcard"><div class="dl">승인 상태</div>
-        <div class="dv ${approved?"s-ok":"s-wait"}">${approved?"완료":"심사 전"}</div></div>
-      <div class="dcard"><div class="dl">신청 횟수</div><div class="dv" data-num="${applies}">0회</div></div>
-      <div class="dcard"><div class="dl">공개 발행 글</div><div class="dv" data-num="${posts}">0편</div></div>
-      <div class="dcard"><div class="dl">기준 갱신</div><div class="dv" style="font-size:13px">${(ADS_RULES&&ADS_RULES.version)||"-"}</div></div>
-    </div>
-    <div class="dnext"><div class="dl">다음 할 일</div><div class="dv">${escAttr(next)}</div></div>`
-    +(stage==="review"?`<div style="display:flex;gap:6px;margin-top:8px">
-       <button class="btn ok sm" style="flex:1" onclick="adsAddEntry('approve')">✅ 승인됐어요</button>
-       <button class="btn sm" style="flex:1;border-color:#e5484d;color:#ff9a9a" onclick="adsAddEntry('reject')">❌ 반려됐어요</button>
-     </div>`:"")
+  // v158: 승인 상태·신청 횟수·다음 할 일·승인/반려 버튼은 전부 브리핑 카드로 올라갔다.
+  // 여기엔 여정 스테퍼만 남긴다(한 줄로 '어디까지 왔나'). 준비도 링은 점검 단계에서만.
+  const page2=document.getElementById("adsSheet");
+  const stacked=page2&&page2.dataset.stack;
+  box.innerHTML=stepsHtml(stage)
+    +((!stacked||stage==="check"||stage==="apply")?ringHtml(pct,col,approved?"승인 완료":`준비도 ${pct}%`,desc):"")
+    +(stacked?"":`<div class="dnext"><div class="dl">다음 할 일</div><div class="dv">${escAttr(next)}</div></div>`)
     +((!applies&&!approved)?`<div style="margin-top:8px">
        <button class="btn sm" style="width:100%" onclick="adsAddEntry('apply')">📨 이미 신청했다면 — 지금 기록 (D+n 계산에 필요)</button>
      </div>`:"");
   animateRings(box);
   try{ renderTodoInbox(); }catch(e){}
-  countUp(box.querySelector('[data-num="'+applies+'"]'),applies,"회");
-  const pEl=[...box.querySelectorAll("[data-num]")][1]; countUp(pEl,posts,"편");
+  try{ renderBriefing("adsSheet"); }catch(e){}
 }
 function renderMoneyDash(){
   const page=document.getElementById("statsSheet");
@@ -7972,20 +8164,29 @@ function renderMoneyDash(){
   // 카테고리 분포를 막대로 — 어느 주제에 쏠렸는지 숫자보다 빨리 읽힌다
   const byCat={}; arts.forEach(a=>{const c=a.category||"기타"; byCat[c]=(byCat[c]||0)+1;});
   const pairs=Object.entries(byCat).sort((x,y)=>y[1]-x[1]).slice(0,5);
-  box.innerHTML=`
-    <div class="dash">
+  // v158: 승인 전엔 ₩0·'-' 카드가 네 개 떠 있어 "뭘 봐야 하지"를 만들었다.
+  // 승인 전 = 실제로 쌓이는 숫자(글·방문·노출)만, 승인 후 = 수익 카드.
+  const approved2=!!CFG.adsenseApproved;
+  const _pg=(((typeof INS!=="undefined"&&INS)||{}).search_console||{}).pages||[];
+  const _imps=_pg.reduce((a,p)=>a+(+p.impressions||0),0), _clk=_pg.reduce((a,p)=>a+(+p.clicks||0),0);
+  const _ga=(((typeof INS!=="undefined"&&INS)||{}).ga4||{}); const _views=(_ga.top_pages||[]).reduce((a,p)=>a+(+p.views||0),0);
+  const cards=approved2?`
       <div class="dcard"><div class="dl">월 수익 · ${basis}</div><div class="dv">${won(shown)}</div></div>
       <div class="dcard"><div class="dl">공개 발행 글</div><div class="dv" data-cnt="${pub}">0편</div></div>
       <div class="dcard"><div class="dl">글당 월 조회</div><div class="dv">${views||"-"}</div></div>
-      <div class="dcard"><div class="dl">RPM</div><div class="dv">${rpm?won(rpm):"-"}</div></div>
-    </div>
+      <div class="dcard"><div class="dl">RPM</div><div class="dv">${rpm?won(rpm):"-"}</div></div>`
+    :`
+      <div class="dcard"><div class="dl">공개 발행 글</div><div class="dv" data-cnt="${pub}">0편</div></div>
+      <div class="dcard"><div class="dl">방문 · 28일</div><div class="dv">${_views}</div></div>
+      <div class="dcard"><div class="dl">검색 노출</div><div class="dv">${_imps}</div></div>
+      <div class="dcard"><div class="dl">검색 클릭</div><div class="dv">${_clk}</div></div>`;
+  box.innerHTML=`<div class="dash">${cards}</div>
     ${sparkHtml(dailyCounts(arts,14))}
-    ${pairs.length?`<div class="dl" style="font-size:11px;color:var(--muted);margin-top:12px">카테고리 분포 (전체 ${arts.length}편)</div>`+barsHtml(pairs):""}
-    ${pub===0?`<div class="dnext"><div class="dl">아직 공개된 글이 없습니다</div>
-      <div class="dv">승인 후 발행을 시작하면 실제 수치가 쌓입니다</div></div>`:""}`;
+    ${pairs.length?`<div class="dl" style="font-size:11px;color:var(--muted);margin-top:12px">카테고리 분포 (전체 ${arts.length}편)</div>`+barsHtml(pairs):""}`;
   animateBars(box);
   countUp(box.querySelector("[data-cnt]"),pub,"편");
   try{ renderDigest(); }catch(e){ console.warn("digest",e); }
+  try{ renderBriefing("statsSheet"); }catch(e){}
 }
 
 /* ───────── 📆 주·월 결산 + 🎯 글 비율 자동 조절 ─────────
@@ -8118,7 +8319,8 @@ function gotoTab(k){
   if(!btn) return;
   closeAllSheets();
   if(k==="home"||k==="list"){ VIEW=k; CFG.lastView=k; try{saveCfg();}catch(e){}
-    document.body.dataset.view=VIEW; }
+    document.body.dataset.view=VIEW;
+    if(k==="list"){ try{ renderBriefing("list"); }catch(e){} } }
   if(k==="set") openSheet();
   else if(k==="stats") openStats();
   else if(k==="ads") openAds();
