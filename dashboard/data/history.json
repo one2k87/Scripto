@@ -1065,6 +1065,32 @@
       "intent": "revenue",
       "date": "2026-10-01",
       "series_id": ""
+    },
+    {
+      "title": "스마트폰 터치가 갑자기 안 될 때, 시니어라면 꼭 확인해야 할 점과 해결 절차",
+      "slug": "senior-smartphone-touch-troubleshoot",
+      "url": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
+      "post_id": 2688,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "시니어 스마트폰 터치 안 될 때 해결 방법: 화면 오류부터 서비스센터 확인 절차까지",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-10-02",
+      "series_id": ""
+    },
+    {
+      "title": "시니어 스마트폰 알림, 꼭 받아야 할 문자만 따로 설정하는 법, 신청 전에 확인해야 할 조건",
+      "slug": "post",
+      "url": "",
+      "post_id": null,
+      "status": "폐기",
+      "kind": "long",
+      "keyword": "시니어 스마트폰 알림, 꼭 받아야 할 문자만 따로 설정하는 방법",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-10-02",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
