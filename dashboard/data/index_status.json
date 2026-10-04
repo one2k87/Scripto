@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-10-03T11:00:07",
+ "updated_at": "2026-10-04T09:06:31",
  "site": "https://wontheland.com",
- "checked": 26,
+ "checked": 25,
  "indexed": 1,
  "ghosts": [
   "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
@@ -25,13 +25,13 @@
   {
    "url": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/smart-phone-dark-screen-solution-2026-10/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -55,7 +55,7 @@
   {
    "url": "https://wontheland.com/senior-international-call-block/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -103,7 +103,7 @@
   {
    "url": "https://wontheland.com/smartphone-photo-google-photos-backup-senior/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -139,7 +139,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-google-account-password-reset/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -151,7 +151,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-unexpected-charges/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -162,12 +162,6 @@
   },
   {
    "url": "https://wontheland.com/senior-digital-phone-payment-phishing-block/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
    "lastCrawl": ""
