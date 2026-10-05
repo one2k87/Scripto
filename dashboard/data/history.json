@@ -1143,6 +1143,32 @@
       "intent": "evergreen",
       "date": "2026-10-04",
       "series_id": ""
+    },
+    {
+      "title": "부모님 휴대폰 소액 결제 한도, 확인 안 하면 터지고 줄이면 안심입니다",
+      "slug": "senior-phone-micro-payment-limit-check-reduce",
+      "url": "https://wontheland.com/senior-phone-micro-payment-limit-check-reduce/",
+      "post_id": 2698,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "부모님 휴대폰 소액 결제 한도 확인하고 안전하게 줄이는 절차",
+      "category": "시니어 디지털",
+      "intent": "revenue",
+      "date": "2026-10-05",
+      "series_id": ""
+    },
+    {
+      "title": "3가지! 2026년 10월 시니어 병원 모바일 접수, 오류 없이 미리 준비하세요",
+      "slug": "senior-hospital-mobile-registration-tips",
+      "url": "https://wontheland.com/?p=2700",
+      "post_id": 2700,
+      "status": "예약발행",
+      "kind": "long",
+      "keyword": "시니어 병원 모바일 접수 오류 없이 미리 준비할 3",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-10-05",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
