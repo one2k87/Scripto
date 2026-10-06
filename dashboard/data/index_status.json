@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-10-05T11:02:57",
+ "updated_at": "2026-10-06T10:58:51",
  "site": "https://wontheland.com",
- "checked": 24,
+ "checked": 25,
  "indexed": 1,
  "ghosts": [
   "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
@@ -12,7 +12,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-10-05T09:11:10\",\"link\":\"https:\\/\\/wontheland.com\\/senior-phone-micro-payment-limit-check-reduce\\/\"},{"
+  "body_head": "[{\"modified\":\"2026-10-06T10:55:21\",\"link\":\"https:\\/\\/wontheland.com\\/senior-smartphone-photo-tips\\/\"},{\"modified\":\"2026-"
  },
  "posts_n": 30,
  "results": [
@@ -23,9 +23,21 @@
    "lastCrawl": "2026-09-19"
   },
   {
-   "url": "https://wontheland.com/senior-phone-micro-payment-limit-check-reduce/",
+   "url": "https://wontheland.com/senior-smartphone-photo-tips/",
    "verdict": "NEUTRAL",
    "state": "URL is unknown to Google",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-hospital-mobile-registration-tips/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-phone-micro-payment-limit-check-reduce/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -55,13 +67,13 @@
   {
    "url": "https://wontheland.com/senior-hospital-kiosk-registration/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-international-call-block/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -73,7 +85,7 @@
   {
    "url": "https://wontheland.com/2026-september-senior-data-usage-check/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -85,19 +97,19 @@
   {
    "url": "https://wontheland.com/post/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-mobile-drivers-license-guide/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/mobile-id-screen-instead-of-photo/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -133,7 +145,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -150,12 +162,6 @@
   },
   {
    "url": "https://wontheland.com/senior-smartphone-ringtones-notifications/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-unexpected-charges/",
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
    "lastCrawl": ""
