@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-06T10:58:51",
+ "updated_at": "2026-10-06T12:01:19",
  "site": "https://wontheland.com",
  "checked": 25,
  "indexed": 1,
@@ -73,13 +73,13 @@
   {
    "url": "https://wontheland.com/senior-international-call-block/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-digital-education-2026-september/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -133,7 +133,7 @@
   {
    "url": "https://wontheland.com/senior-digital-assistance-2026-09/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -145,7 +145,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
