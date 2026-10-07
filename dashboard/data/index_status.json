@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-07T10:07:56",
+ "updated_at": "2026-10-07T11:25:49",
  "site": "https://wontheland.com",
  "checked": 24,
  "indexed": 1,
@@ -43,7 +43,7 @@
   {
    "url": "https://wontheland.com/senior-phone-micro-payment-limit-check-reduce/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -73,7 +73,7 @@
   {
    "url": "https://wontheland.com/senior-hospital-kiosk-registration/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -97,13 +97,13 @@
   {
    "url": "https://wontheland.com/government24-mobile-id-senior-digital-guide/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/post/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -139,7 +139,7 @@
   {
    "url": "https://wontheland.com/senior-digital-assistance-2026-09/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -151,13 +151,13 @@
   {
    "url": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-digital-low-cost-unlimited-plan-202609/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   }
  ]
