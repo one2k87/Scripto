@@ -1,0 +1,46 @@
+name: 옛 URL 301 (내린 글 → 새 글)
+
+# 주제 전환으로 내린 옛 글 URL을 새 글로 301. dry=true면 매핑만 출력(기본).
+on:
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: "매핑만 보기(true) / 실제 적용(false)"
+        default: "true"
+        required: false
+      extra_slugs:
+        description: "WP에 없는 유령 slug(쉼표 구분, 선택)"
+        default: ""
+        required: false
+
+jobs:
+  redirect:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: 의존성
+        run: pip install requests
+      - name: config 생성(시크릿에서)
+        env:
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+        run: |
+          python - <<'PY'
+          import json, os
+          json.dump({"wordpress": {"site_url": os.getenv("WP_SITE",""),
+                                    "username": os.getenv("WP_USER",""),
+                                    "app_password": os.getenv("WP_APP_PASSWORD","")}},
+                    open("config.json","w"), ensure_ascii=False)
+          PY
+      - name: 실행
+        env:
+          DRY: ${{ inputs.dry == 'false' && '0' || '1' }}
+          EXTRA_SLUGS: ${{ inputs.extra_slugs }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/redirect_old.py
