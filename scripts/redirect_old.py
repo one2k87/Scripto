@@ -45,15 +45,23 @@ def _auth():
 
 
 def _all(base, H, status, fields):
+    """목록 조회 — 실측(10/8 #5): 첫 GET이 30초 타임아웃으로 전체가 죽었다. 50개씩, 60초, 3회 재시도."""
     out, pg = [], 1
     while True:
-        r = requests.get(f"{base}/wp-json/wp/v2/posts", headers=H, timeout=30,
-                         params={"per_page": 100, "page": pg, "status": status,
-                                 "context": "edit", "_fields": fields})
-        if not r.ok:
+        r = None
+        for _try in range(3):
+            try:
+                r = requests.get(f"{base}/wp-json/wp/v2/posts", headers=H, timeout=60,
+                                 params={"per_page": 50, "page": pg, "status": status,
+                                         "context": "edit", "_fields": fields})
+                break
+            except requests.exceptions.RequestException as e:
+                print(f"  ⚠️ 목록 조회 재시도 {_try+1}/3 ({type(e).__name__})", flush=True)
+                time.sleep(5)
+        if r is None or not r.ok:
             break
         b = r.json(); out += b
-        if len(b) < 100:
+        if len(b) < 50:
             break
         pg += 1
     return out
