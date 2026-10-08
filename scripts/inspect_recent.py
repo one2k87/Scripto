@@ -105,6 +105,35 @@ json.dump(out, open("dashboard/data/index_status.json", "w", encoding="utf-8"),
           ensure_ascii=False, indent=1)
 print(f"[inspect] {ok_n}개 검사 — 색인됨 {passed} / 미색인 {ok_n - passed}")
 
+# ── 색인 정체 경보(2026-10-08 신설) ─────────────────────────────────────────
+# 실측: 9/18~10/7 20일 연속 "색인 1(홈뿐)"이 매일 이 파일에 기록됐는데 아무도 못 봤다.
+# 그 사이 유입 0의 원인이 색인이라는 걸 25일 뒤에야 알았다. 숫자가 있으면 소리를 내야 한다.
+try:
+    import os as _os
+    import requests as _rq
+    hist_p = "dashboard/data/index_history.json"
+    hist = json.load(open(hist_p, encoding="utf-8")) if _os.path.exists(hist_p) else []
+    today = out["updated_at"][:10]
+    hist = [h for h in hist if h.get("d") != today] + [{"d": today, "posts": len(posts), "indexed": passed, "checked": ok_n}]
+    hist = hist[-60:]
+    json.dump(hist, open(hist_p, "w", encoding="utf-8"), ensure_ascii=False)
+    out["history"] = hist[-14:]
+    # 글은 있는데 글 색인(홈 제외)이 7일 연속 0이면 경보
+    post_idx = sum(1 for r in results if r.get("verdict") == "PASS" and r.get("url", "").rstrip("/") != site.rstrip("/"))
+    out["post_indexed"] = post_idx
+    stale = [h for h in hist[-7:] if h.get("posts", 0) >= 5 and (h.get("indexed", 0) <= 1)]
+    if len(hist) >= 7 and len(stale) >= 7:
+        msg = (f"🚨 색인 정체 7일+ — 발행 {len(posts)}편 중 글 색인 {post_idx}편 (홈 제외)\n"
+               "구글이 새 글을 가져가지 않고 있습니다. 랭킹 문제가 아니라 크롤 문제입니다.\n"
+               "→ GSC에서 '색인 생성 요청'(하루 ~10개) · 앱 글 탭 브리핑 참고")
+        print(msg)
+        tok, chat = _os.getenv("TELEGRAM_TOKEN", ""), _os.getenv("TELEGRAM_CHAT_ID", "")
+        if tok and chat:
+            _rq.post(f"https://api.telegram.org/bot{tok}/sendMessage", data={"chat_id": chat, "text": msg}, timeout=20)
+    json.dump(out, open("dashboard/data/index_status.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+except Exception as _e:
+    print("[inspect] 경보 단계 건너뜀:", _e)
+
 # 사이트맵+RSS 피드 제출(크롤 넛지) — 권한 없으면 건너뜀.
 # RSS를 사이트맵으로 제출하면 구글 발견이 빨라진다(WebSub와 짝).
 # 종전엔 'SC에서 피드 수동 제출(1회)'이 이용자 할 일이었는데 API로 지워버렸다(2026-08-31).

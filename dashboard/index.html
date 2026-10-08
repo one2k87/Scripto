@@ -2361,7 +2361,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=158;
+const APP_BUILD=159;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 
@@ -8005,8 +8005,22 @@ function _briefHtml(b){
   return `<div class="bk">지금</div><div class="bt">${b.now}</div>${b.sub?`<div class="bs">${b.sub}</div>`:""}
     <div class="bk" style="margin-top:8px">다음</div><div class="bn">${b.next}</div>${act?`<div class="ba">${act}</div>`:""}`;
 }
-let _LISTRUN=null;
+let _LISTRUN=null, _IDX=null;
+async function loadIndexStatus(){
+  if(_IDX) return _IDX;
+  try{ const r=await fetch("data/index_status.json?nc="+Date.now(),{cache:"no-store"}); if(r.ok){ _IDX=await r.json(); } }catch(e){}
+  return _IDX;
+}
+// 색인 한 줄: "색인 N/M" — 2026-10-08 실측: 색인 1/36이 25일간 기록돼 있었는데 화면 어디에도 없었다
+function _idxLine(){
+  const d=_IDX; if(!d) return "";
+  const posts=d.posts_n||0, idx=(typeof d.post_indexed==="number")?d.post_indexed:Math.max(0,(d.indexed||0)-1);
+  if(!posts) return "";
+  const bad=idx===0||idx/posts<0.3;
+  return ` · <span style="${bad?"color:var(--danger);font-weight:600":""}">구글 색인 ${idx}/${posts}</span>`;
+}
 function renderBriefing(which){
+  if(!_IDX){ loadIndexStatus().then(d=>{ if(d) try{ renderBriefing(which); }catch(e){} }); }
   if(which==="adsSheet"){
     const el=document.getElementById("brief-adsSheet"); if(!el) return;
     const st=adsStage(); let b;
@@ -8023,12 +8037,12 @@ function renderBriefing(which){
                          sub:st.lastRej?`사유: ${escAttr((st.lastRej.note||"").slice(0,40))}`:`공개 글 ${st.posts}편`,
                          next:st.m?"걸린 항목을 고쳐 점검 만점 만들기":"점검을 한 번 돌려 상태 보기",
                          actions:[{label:"🔍 점검 실행",cls:"primary",on:"gotoSub('adsSheet','check');setTimeout(()=>{const b=document.getElementById('adsCheck');b&&b.click();},400)"}]}; break;
-      case "apply":   b={now:"점검 통과 · 신청 가능", sub:`공개 글 ${st.posts}편`,
+      case "apply":   b={now:"점검 통과 · 신청 가능", sub:`공개 글 ${st.posts}편${_idxLine()}`,
                          next:"애드센스에서 검토 요청 → 돌아와서 '신청함' 기록",
                          actions:[{label:"📋 절차 보기",on:"gotoSub('adsSheet','apply')"},
                                   {label:"📨 신청함 기록",cls:"primary",on:"adsAddEntry('apply')"}]}; break;
       case "review":  b={now:`스크립토 ${st.sApplies}회차 심사 중`,
-                         sub:`${when} 신청${st.days!==null?` · ${st.days}일째`:""} · 보통 며칠~2주`,
+                         sub:`${when} 신청${st.days!==null?` · ${st.days}일째`:""}${_idxLine()}`,
                          next:"결과 메일이 오면 아래 버튼 하나만 — 나머지는 자동",
                          actions:[{label:"✅ 승인됐어요",cls:"ok",on:"adsAddEntry('approve')"},
                                   {label:"❌ 반려됐어요",on:"adsAddEntry('reject')"}]}; break;
@@ -8072,13 +8086,14 @@ function renderBriefing(which){
       const ran=String(L.at||"").slice(0,10)===today;
       const arts=(DATA&&DATA.articles)||[]; const held=arts.filter(a=>a.status==="보류").length;
       let b;
+      const idxStuck=_IDX&&(_IDX.posts_n||0)>=5&&((typeof _IDX.post_indexed==="number"?_IDX.post_indexed:(_IDX.indexed||0)-1)<=0);
       if(ran){
         b={now:`오늘 ${L.published||0}편 발행`,
-           sub:`생성 ${L.articles||0} · 게시 ${L.published||0} · 초안 ${L.draft||0} · 보류 ${L.held||0}${L.failed?` · 실패 ${L.failed}`:""} — ${String(L.at).slice(11,16)} 가동`,
-           next:held?`보류 ${held}편을 아래에서 확인 (이유가 적혀 있습니다)`:"내일 06:43 자동 — 할 일 없음"};
+           sub:`생성 ${L.articles||0} · 게시 ${L.published||0} · 초안 ${L.draft||0} · 보류 ${L.held||0}${L.failed?` · 실패 ${L.failed}`:""} — ${String(L.at).slice(11,16)} 가동${_idxLine()}`,
+           next:idxStuck?"구글이 새 글을 안 가져갑니다 — GSC에서 '색인 생성 요청' (하루 ~10개, 승인 탭 안내)":held?`보류 ${held}편을 아래에서 확인 (이유가 적혀 있습니다)`:"내일 06:43 자동 — 할 일 없음"};
       }else{
-        b={now:"오늘 아직 가동 전", sub:L.at?`최근 ${String(L.at).slice(5,16).replace("T"," ")} — 게시 ${L.published||0}편`:"",
-           next:"06:43 크론이 깨우면 자동으로 2편 — 보통 3시간 안에 도착"};
+        b={now:"오늘 아직 가동 전", sub:(L.at?`최근 ${String(L.at).slice(5,16).replace("T"," ")} — 게시 ${L.published||0}편`:"")+_idxLine(),
+           next:idxStuck?"구글이 새 글을 안 가져갑니다 — GSC에서 '색인 생성 요청' (하루 ~10개)":"06:43 크론이 깨우면 자동으로 2편 — 보통 3시간 안에 도착"};
       }
       if(held) b.actions=[{label:`⏸ 보류 ${held}편 보기`,on:"document.querySelector('#statusTabs .st[data-k=\\'held\\']')?.click()"}];
       el.innerHTML=_briefHtml(b);

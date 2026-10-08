@@ -206,11 +206,16 @@ jobs:
         if: always()
         run: python scripts/ping_new_posts.py || true
 
-      # URL Inspection API(하루 2,000회, insights 서비스 계정 재사용):
-      # 최근 수정 글을 검사해 ①구글 fetch 유발(재크롤 넛지) ②색인 신호등 기록
-      # → 수동 '색인 생성 요청'의 API판. 결과는 dashboard/data/index_status.json
-      - name: 색인 검사·넛지 (Inspection API)
+      # URL Inspection API(하루 2,000회, insights 서비스 계정 재사용) — ⚠️ 읽기 전용이다.
+      # ❌ 옛 주석의 "수동 '색인 생성 요청'의 API판"은 틀렸다(2026-10-08 정정). 검사 API는
+      #    구글에 색인을 '요청'하지 못한다. 그 오해 때문에 25일간 색인 1편을 두고도 손을 안 썼다.
+      #    구글에 "가져가라"고 할 수 있는 건 GSC 수동 요청(하루 ~10개)뿐 — 사람 일이다.
+      # 이 단계가 하는 일: ①색인 신호등 기록 ②7일 연속 정체면 🚨 텔레그램 ③사이트맵 제출
+      - name: 색인 검사·기록 (Inspection API, 읽기 전용)
         if: always()
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python scripts/inspect_recent.py || true
 
       # 점검·수리의 서버 이전(v1): 대시보드 채점을 매일 서버에서 수행,
