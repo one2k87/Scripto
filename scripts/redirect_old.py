@@ -90,6 +90,26 @@ def main():
     new = _all(base, H, "publish", "id,slug,title,date,content")
     if not new:
         print("공개 글 0편 — 중단"); return 1
+    # 원본 slug의 단일 기준 = history.json(post_id→slug). 실측(10/8): 앞선 실행이 깨뜨린 slug를
+    # '현재 slug'로 읽어 와 그걸 원본이라 믿고 복원·대조했다 → 깨진 채 고정. 라이브 slug가
+    # 정상(영문·__trashed 없음)이면 라이브를 믿되, 비정상이면 history 값을 원본으로 쓴다.
+    def _junk(sl):
+        sl = sl or ""
+        return ("%" in sl) or ("__trashed" in sl) or any(ord(c) > 127 for c in sl) or (sl == "post")
+    canon = {}
+    try:
+        for a in json.load(open("dashboard/data/history.json", encoding="utf-8")).get("articles", []):
+            if a.get("post_id") and a.get("slug") and not _junk(a["slug"]):
+                canon[int(a["post_id"])] = a["slug"]
+    except Exception as e:
+        print("  ⚠️ history.json 못 읽음(라이브 slug만 사용):", e)
+    fixed_now = 0
+    for q in new:
+        if _junk(q.get("slug")) and canon.get(q["id"]):
+            print(f"  🔧 #{q['id']} 현재 slug가 비정상({q['slug'][:24]}) → 원본 {canon[q['id']]} 로 간주·복원", flush=True)
+            rr_ = requests.post(f"{base}/wp-json/wp/v2/posts/{q['id']}", headers=H, timeout=40, json={"slug": canon[q["id"]]})
+            if rr_.ok: q["slug"] = canon[q["id"]]; fixed_now += 1
+    if fixed_now: print(f"  🔧 시작 전 slug 복원 {fixed_now}건")
     # 강한 글 순(이미지 수·분량)
     def strength(p):
         c = (p.get("content") or {}).get("raw") or ""
