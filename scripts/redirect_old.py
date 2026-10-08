@@ -128,10 +128,22 @@ def main():
             # WP가 slug에 __trashed를 붙여 비우되 old_slug 메타는 남기지 않는다(복구 가능).
             if oid:
                 requests.delete(f"{base}/wp-json/wp/v2/posts/{oid}", headers=H, timeout=20)   # force 없음 = 휴지통
-            r1 = requests.post(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=20, json={"slug": slug})
-            r2 = requests.post(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=20, json={"slug": orig})
-            if not (r1.ok and r2.ok):
-                fail.append(f"{slug}: {r1.status_code}/{r2.status_code}"); continue
+            r1 = requests.post(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=30, json={"slug": slug})
+            # ⚠️ 복원은 절대 건너뛰지 않는다. 10/8 #3에서 복원 요청이 타임아웃돼 라이브 글 2편이
+            #    '…__trashed-2' 주소로 남았다(사용자가 메일 보고 발견). 최대 4회, 성공할 때까지.
+            r2 = None
+            for _try in range(4):
+                try:
+                    r2 = requests.post(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=40, json={"slug": orig})
+                    if r2.ok and (r2.json().get("slug") == orig):
+                        break
+                except Exception:
+                    r2 = None
+                time.sleep(2 + _try * 3)
+            if not (r2 is not None and r2.ok and r2.json().get("slug") == orig):
+                fail.append(f"🚨 #{pid} slug 복원 실패 — 수동 복구 필요: {orig}"); print(fail[-1], flush=True); continue
+            if not r1.ok:
+                fail.append(f"{slug}: {r1.status_code}"); continue
             # WP가 요청 slug를 정규화(sanitize_title)할 수 있어, 실제로 저장됐던 slug로 검증
             saved = r1.json().get("slug") or slug
             if saved != slug and saved.rstrip("-0123456789") != slug:
@@ -146,6 +158,16 @@ def main():
             fail.append(f"{slug}: {type(e).__name__}")
         time.sleep(0.3)
 
+    # 마지막 안전망: 공개 글의 slug가 처음과 같은지 전수 대조, 다르면 되돌린다
+    try:
+        want = {q["id"]: q["slug"] for q in new}
+        for q in _all(base, H, "publish", "id,slug"):
+            if q["id"] in want and q.get("slug") != want[q["id"]]:
+                rr_ = requests.post(f"{base}/wp-json/wp/v2/posts/{q['id']}", headers=H, timeout=40, json={"slug": want[q["id"]]})
+                print(f"  🔧 #{q['id']} slug 복원 {q.get('slug','')[:30]} → {want[q['id']]} ({'ok' if rr_.ok else rr_.status_code})", flush=True)
+                if not rr_.ok: fail.append(f"🚨 #{q['id']} 최종 복원 실패: {want[q['id']]}")
+    except Exception as e:
+        print("  ⚠️ 최종 점검 실패:", e)
     if not ok and not fail:
         print(f"옛 URL 301 — 이미 전부 적용됨({skipped}건), 할 일 없음"); return 0
     msg = (f"↪️ 옛 URL 301 적용 — 성공 {ok}/{len(jobs)-skipped}" + (f" (기적용 {skipped})" if skipped else "")
