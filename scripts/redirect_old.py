@@ -68,8 +68,12 @@ def main():
     extra = [s.strip() for s in os.getenv("EXTRA_SLUGS", "").split(",") if s.strip()]
     base, H = _auth()
 
-    old = [p for p in _all(base, H, "draft,trash,private", "id,slug,title,date,status")
-           if (p.get("date") or "")[:10] < PIVOT_DAY]
+    # 실측(10/8): 조건 없이 잡으면 '발행된 적 없는 생성 초안' 수백 편까지 걸려 40분 넘게 돈다.
+    # 구글이 색인에 들고 있을 수 있는 건 '한 번이라도 공개됐던 글'뿐 — WP는 그런 글에만
+    # date_gmt를 남긴다(발행 전 초안은 null). 그걸로 거른다.
+    old = [p for p in _all(base, H, "draft,trash,private", "id,slug,title,date,date_gmt,status")
+           if (p.get("date") or "")[:10] < PIVOT_DAY and p.get("date_gmt")]
+    print(f"공개된 적 있는 옛 글 {len(old)}편 선별")
     new = _all(base, H, "publish", "id,slug,title,date,content")
     if not new:
         print("공개 글 0편 — 중단"); return 1
@@ -120,6 +124,7 @@ def main():
                 fail.append(f"{slug}: {r1.status_code}/{r2.status_code}"); continue
             # WP가 요청 slug를 정규화(sanitize_title)할 수 있어, 실제로 저장됐던 slug로 검증
             saved = r1.json().get("slug") or slug
+            print(f"  · {slug[:30]} → #{pid}", flush=True)
             chk = requests.get(f"{base}/{saved}/", headers={"User-Agent": "Mozilla/5.0 (ScriptoBot)"},
                                timeout=20, allow_redirects=False)
             if chk.status_code in (301, 302) and f"/{orig}/" in (chk.headers.get("Location") or ""):
