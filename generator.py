@@ -118,10 +118,17 @@ CTA_LINES = [
 
 
 def slugify(text, max_words=8):
+    raw = text
     text = text.lower().strip()
     text = re.sub(r"[^a-z0-9\s-]", "", text)
     text = re.sub(r"[\s-]+", "-", text).strip("-")
-    return "-".join(text.split("-")[:max_words]) or "post"
+    out = "-".join(text.split("-")[:max_words])
+    if out:
+        return out
+    # 2026-10-08: 영문이 하나도 없으면(LLM이 한글 slug를 준 경우) 종전엔 'post'를 돌려줘
+    # 실제로 /post/ 주소의 글이 발행됐다. 고유값으로 폴백한다.
+    import hashlib
+    return "post-" + hashlib.md5(str(raw).encode("utf-8")).hexdigest()[:8]
 
 
 # 실제 광고 코드(애드센스 <ins> 스니펫 등). 비어 있으면 광고 상자를 **아예 만들지 않는다**.

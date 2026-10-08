@@ -215,6 +215,15 @@ jobs:
 
       # 점검·수리의 서버 이전(v1): 대시보드 채점을 매일 서버에서 수행,
       # auto_repair 켜진 사이트는 미달 글을 자동 재작성(캡 5편) — 앱을 안 열어도 관리되는 상태
+      - name: 옛 URL 301 자가치유 (주제 전환으로 내린 글 → 새 글)
+        if: always()
+        continue-on-error: true
+        env:
+          DRY: "0"
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/redirect_old.py
+
       - name: 사이트 점검·자동 수리
         if: always()
         run: python scripts/daily_check_fix.py || true

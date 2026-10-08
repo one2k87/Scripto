@@ -49,6 +49,17 @@ def main():
         if len(batch) < 50:
             break
 
+    # 1-b) 전환일 기록 — 2026-10-08 교훈: 내린 글을 404로 두면 구글이 크롤을 끊는다(실측 25일 색인 0).
+    #      새 글은 아직 없으므로 여기서 301을 걸 수는 없다. 마커만 남기고, daily-blog의
+    #      '옛 URL 301 자가치유' 단계가 새 글이 쌓이는 대로 redirect_old.py로 연결한다.
+    try:
+        os.makedirs("dashboard/data", exist_ok=True)
+        json.dump({"pivot_day": time.strftime("%Y-%m-%d"), "moved": len(moved)},
+                  open("dashboard/data/pivot_marker.json", "w", encoding="utf-8"), ensure_ascii=False)
+        print(f"  ✓ 전환일 기록 → 새 글이 생기면 옛 URL {len(moved)}개가 자동으로 301됩니다")
+    except Exception as e:
+        print("  ⚠️ 전환일 기록 실패:", e)
+
     # 2) 태그라인 교체(제목은 유지)
     tag_ok = False
     try:

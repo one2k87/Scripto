@@ -5,7 +5,7 @@
 게이트를 맞추는 일이라 손이 빨라야 한다.
 
 본문·슬러그·발행일은 건드리지 않는다(슬러그를 바꾸면 색인이 끊긴다).
-RETITLE='2602=새 제목' 형식, 여러 건은 '||'로 구분.
+RETITLE='2602=새 제목' 형식, 여러 건은 '||'로 구분. '2602=slug:new-slug'면 슬러그 교체(옛 주소는 WP가 301).
 """
 import base64
 import json
@@ -42,8 +42,11 @@ def main():
         g = requests.get(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=20,
                          params={"context": "edit", "_fields": "id,title,slug"})
         old = (g.json().get("title") or {}).get("raw", "") if g.ok else "?"
-        r = requests.post(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=20,
-                          json={"title": new_t})          # slug는 그대로 둔다(색인 보호)
+        if new_t.startswith("slug:"):   # 2026-10-08: 슬러그 교체 — WP가 옛 slug를 보관해 옛 주소는 301된다
+            payload = {"slug": new_t[5:].strip()}
+        else:
+            payload = {"title": new_t}    # 제목만: slug는 그대로(색인 보호)
+        r = requests.post(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=20, json=payload)
         if r.ok:
             done.append(f"#{pid}\n   전: {old}\n   후: {new_t}")
             print(f"  ✓ #{pid}\n     전: {old}\n     후: {new_t}")

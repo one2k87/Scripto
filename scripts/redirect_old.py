@@ -25,6 +25,11 @@ from urllib.parse import unquote
 import requests
 
 PIVOT_DAY = "2026-09-12"      # 이 날 이전 발행분 = 옛 주제(초안으로 내려가 있음)
+try:                          # topic_pivot.py가 전환일을 기록해 두면 그걸 따른다(재전환 대비)
+    PIVOT_DAY = json.load(open("dashboard/data/pivot_marker.json", encoding="utf-8")).get("pivot_day") or PIVOT_DAY
+except Exception:
+    pass
+PIVOT_DAY = os.getenv("PIVOT_DAY") or PIVOT_DAY
 TOP_N = 12                    # 라운드로빈 대상(강한 글)
 
 
@@ -100,10 +105,15 @@ def main():
     if dry:
         return 0
 
-    ok, fail = 0, []
+    ok, fail, skipped = 0, [], 0
+    UA = {"User-Agent": "Mozilla/5.0 (ScriptoBot)"}
     for slug, _t, q in jobs:
         pid, orig = q["id"], q["slug"]
         try:
+            # 이미 301이면 손대지 않는다 — 매일 자가치유로 돌려도 글의 수정일이 매번 바뀌지 않게
+            pre = requests.get(f"{base}/{slug}/", headers=UA, timeout=20, allow_redirects=False)
+            if pre.status_code in (301, 302):
+                skipped += 1; continue
             r1 = requests.post(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=20, json={"slug": slug})
             r2 = requests.post(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=20, json={"slug": orig})
             if not (r1.ok and r2.ok):
@@ -120,7 +130,9 @@ def main():
             fail.append(f"{slug}: {type(e).__name__}")
         time.sleep(0.3)
 
-    msg = (f"↪️ 옛 URL 301 적용 — 성공 {ok}/{len(jobs)}"
+    if not ok and not fail:
+        print(f"옛 URL 301 — 이미 전부 적용됨({skipped}건), 할 일 없음"); return 0
+    msg = (f"↪️ 옛 URL 301 적용 — 성공 {ok}/{len(jobs)-skipped}" + (f" (기적용 {skipped})" if skipped else "")
            + (f"\n⚠️ 실패 {len(fail)}:\n" + "\n".join("· " + f for f in fail[:8]) if fail else "")
            + "\n※ 죽은 색인이 새 글 크롤 경로로 바뀜. 구글이 옛 URL을 다시 확인할 때 효과")
     print(msg)
