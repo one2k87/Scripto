@@ -71,9 +71,14 @@ def main():
     # 실측(10/8): 조건 없이 잡으면 '발행된 적 없는 생성 초안' 수백 편까지 걸려 40분 넘게 돈다.
     # 구글이 색인에 들고 있을 수 있는 건 '한 번이라도 공개됐던 글'뿐 — WP는 그런 글에만
     # date_gmt를 남긴다(발행 전 초안은 null). 그걸로 거른다.
-    old = [p for p in _all(base, H, "draft,trash,private", "id,slug,title,date,date_gmt,status")
-           if (p.get("date") or "")[:10] < PIVOT_DAY and p.get("date_gmt")]
-    print(f"공개된 적 있는 옛 글 {len(old)}편 선별")
+    # 실측(10/8 #3, 1h56m·427건): 휴지통 글은 slug에 '__trashed'가 붙어 있어 구글이 색인한 적이
+    # 없다 — 전부 헛일. 그리고 전환으로 '초안'이 된 글은 아직 원래 slug를 쥐고 있어서, 새 글에
+    # 같은 slug를 주면 WP가 '-2'를 붙여 저장한다 → 진짜 옛 주소와 안 맞아 404 그대로였다
+    # (WP에 없던 유령 URL만 성공한 게 증거). 그래서 ①초안만 ②__trashed 제외 ③옛 초안의
+    # slug를 먼저 비워준 뒤 새 글에 넘긴다.
+    old = [p for p in _all(base, H, "draft", "id,slug,title,date,status")
+           if (p.get("date") or "")[:10] < PIVOT_DAY and not (p.get("slug") or "").endswith("__trashed")]
+    print(f"전환으로 내려간 옛 초안 {len(old)}편 선별")
     new = _all(base, H, "publish", "id,slug,title,date,content")
     if not new:
         print("공개 글 0편 — 중단"); return 1
@@ -98,35 +103,41 @@ def main():
                 best, score = q, s
         if score < 2:                         # 겹침이 빈약하면 강한 글에 고르게
             best = top[rr % len(top)]; rr += 1
-        jobs.append((slug, ((p.get("title") or {}).get("raw") or "")[:30], best))
+        jobs.append((slug, ((p.get("title") or {}).get("raw") or "")[:30], best, p.get("id")))
     for slug in extra:                        # WP에 없는 유령 URL(옛날 옛적 글)도 같은 방식
         best = top[rr % len(top)]; rr += 1
-        jobs.append((unquote(slug).strip("/"), "(유령)", best))
+        jobs.append((unquote(slug).strip("/"), "(유령)", best, None))
 
     print(f"옛 글 {len(old)}편 + 추가 {len(extra)} → 리다이렉트 {len(jobs)}건 {'(드라이런)' if dry else ''}")
-    for slug, t, q in jobs:
+    for slug, t, q, _oid in jobs:
         print(f"  /{slug[:34]}  ←{t:30}→  #{q['id']} /{q['slug']}")
     if dry:
         return 0
 
     ok, fail, skipped = 0, [], 0
     UA = {"User-Agent": "Mozilla/5.0 (ScriptoBot)"}
-    for slug, _t, q in jobs:
+    for slug, _t, q, oid in jobs:
         pid, orig = q["id"], q["slug"]
         try:
             # 이미 301이면 손대지 않는다 — 매일 자가치유로 돌려도 글의 수정일이 매번 바뀌지 않게
-            pre = requests.get(f"{base}/{slug}/", headers=UA, timeout=20, allow_redirects=False)
+            pre = requests.get(f"{base}/{slug}/?nc=1", headers=UA, timeout=20, allow_redirects=False)
             if pre.status_code in (301, 302):
                 skipped += 1; continue
+            # 옛 초안이 slug를 쥐고 있으면 먼저 비운다. ⚠️ slug를 '바꾸면' 그 초안에도
+            # _wp_old_slug가 남아 리다이렉트가 초안(?p=ID) 쪽으로 샐 수 있다. 휴지통으로 보내면
+            # WP가 slug에 __trashed를 붙여 비우되 old_slug 메타는 남기지 않는다(복구 가능).
+            if oid:
+                requests.delete(f"{base}/wp-json/wp/v2/posts/{oid}", headers=H, timeout=20)   # force 없음 = 휴지통
             r1 = requests.post(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=20, json={"slug": slug})
             r2 = requests.post(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=20, json={"slug": orig})
             if not (r1.ok and r2.ok):
                 fail.append(f"{slug}: {r1.status_code}/{r2.status_code}"); continue
             # WP가 요청 slug를 정규화(sanitize_title)할 수 있어, 실제로 저장됐던 slug로 검증
             saved = r1.json().get("slug") or slug
+            if saved != slug and saved.rstrip("-0123456789") != slug:
+                print(f"  ⚠️ WP가 slug를 바꿔 저장: {slug[:30]} → {saved[:30]}", flush=True)
             print(f"  · {slug[:30]} → #{pid}", flush=True)
-            chk = requests.get(f"{base}/{saved}/", headers={"User-Agent": "Mozilla/5.0 (ScriptoBot)"},
-                               timeout=20, allow_redirects=False)
+            chk = requests.get(f"{base}/{slug}/?nc=2", headers=UA, timeout=20, allow_redirects=False)
             if chk.status_code in (301, 302) and f"/{orig}/" in (chk.headers.get("Location") or ""):
                 ok += 1
             else:
