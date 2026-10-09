@@ -1247,6 +1247,32 @@
       "intent": "evergreen",
       "date": "2026-10-08",
       "series_id": ""
+    },
+    {
+      "title": "2026년 10월, 우리 부모님 디지털 교육, 어디서부터 시작해야 할까요?",
+      "slug": "senior-digital-education-2026-october",
+      "url": "https://wontheland.com/senior-digital-education-2026-october/",
+      "post_id": 2737,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "년",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-10-09",
+      "series_id": ""
+    },
+    {
+      "title": "2026년 11월 시니어 스마트폰 공동인증서, 더 간편한 발급",
+      "slug": "senior-smartphone-joint-certificate-2026-11",
+      "url": "https://wontheland.com/?p=2739",
+      "post_id": 2739,
+      "status": "예약발행",
+      "kind": "long",
+      "keyword": "년 11월, 시니어 스마트폰 공인인증서 없어지고 더 쉬운 공동인증서 발급 절차입니다",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-10-09",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
