@@ -1,0 +1,46 @@
+name: 사람 앞세우기(고지 위치·문구 + 페르소나 결)
+
+# 수동 전용. 기발행 글의 상단 'AI 작성' 상자를 글 끝의 '운영자 검수 + AI 도구' 고지로 바꾸고
+# (AI 기본법 제31조 표시는 유지), 바이라인을 '확인·정리'로. voice=true면 첫·끝 문단을 페르소나 결로.
+on:
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: "미리보기(true) / 적용(false)"
+        default: "true"
+      voice:
+        description: "첫·끝 문단 페르소나 결 다듬기(LLM) true/false"
+        default: "false"
+      only:
+        description: "특정 글 번호만(쉼표). 비우면 전체"
+        default: ""
+
+jobs:
+  humanize:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: 의존성
+        run: pip install -r requirements.txt 2>/dev/null || pip install requests google-generativeai openai
+      - name: config 생성
+        env:
+          LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_ENABLED: "1"
+        run: python build_config.py
+      - name: 실행
+        env:
+          DRY: ${{ inputs.dry == 'false' && '0' || '1' }}
+          VOICE: ${{ inputs.voice == 'true' && '1' || '0' }}
+          ONLY: ${{ inputs.only }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/humanize.py

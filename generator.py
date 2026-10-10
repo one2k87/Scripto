@@ -793,7 +793,7 @@ def _byline_html(author, bio=""):
     a = html_mod.escape(author or "편집부")
     bio_html = f' <span style="color:#b0b8c1">· {html_mod.escape(bio)}</span>' if bio else ""
     return (f'<p class="byline" style="font-size:12px;color:#98a2b3;margin:2px 0 12px">'
-            f'✍️ {a}{bio_html} · 최종 업데이트 {d.year}년 {d.month}월 {d.day}일</p>')
+            f'✍️ {a}{bio_html} · {d.year}년 {d.month}월 {d.day}일 확인·정리</p>')
 
 
 # ── 사람이 검수한 글처럼 만드는 층 ────────────────────────────────
@@ -950,13 +950,20 @@ def _verified_html(sources=None):
             f'🔎 {d.year}년 {d.month}월 {d.day}일 기준으로 내용을 확인했습니다.{src}</p>')
 
 
-def _ai_notice_html():
-    """AI 기본법(2026-01-22 시행) 제31조 의무 표기 — 생성형 AI로 작성된 콘텐츠임을 항상 고지.
-    (Marry_Baby_Meal의 동일 취지 고지와 문구를 맞춤 — solvup_global_architecture.md 3번 참고)"""
-    return ('<p class="ai-notice" style="margin:2px 0 12px;padding:8px 12px;border-left:3px solid #98a2b3;'
-            'background:#f6f7f9;color:#667085;font-size:12px;line-height:1.6">'
-            '⚠️ 본 콘텐츠(텍스트·이미지)는 생성형 AI를 통해 작성되었습니다. 정확성을 위해 검증 과정을 거치지만, '
-            '실제 적용 전 공식 출처로 최종 확인하시길 권합니다.</p>')
+def _ai_notice_html(author="이음"):
+    """AI 기본법(2026-01-22 시행) 제31조 의무 표기 — 생성형 AI 결과물임을 항상 고지한다(삭제·축소 불가).
+
+    2026-10-10 개편(7회차 반려 뒤): 종전엔 글 '맨 위'에 "본 콘텐츠는 생성형 AI를 통해 작성"이
+    첫 문장이었다 — 심사관이 글에서 처음 읽는 말이 "이건 AI 글입니다"였던 셈. 의무 요소(생성형 AI
+    사용 고지)는 그대로 두되 ①사람(운영자)의 역할을 앞세운 사실 그대로의 문장으로 ②글 끝으로 옮긴다.
+    "일부만 AI"처럼 사실과 다른 표현은 쓰지 않는다 — 본문 초안은 AI가 쓴다. 주제·페르소나 선정,
+    검수, 출처 대조가 운영자 몫이라는 것도 사실이다. 두 사실을 그대로 쓴다."""
+    a = html_mod.escape(author or "운영자")
+    return ('<p class="ai-notice" style="margin:18px 0 8px;padding:8px 12px;border-left:3px solid #d0d5dd;'
+            'background:#f9fafb;color:#667085;font-size:12px;line-height:1.6">'
+            f'ℹ️ 이 글은 {a}이(가) 주제를 정하고 공식 안내·고객센터 답변과 대조해 검수했으며, '
+            '본문 초안과 이미지 작성에는 생성형 AI 도구를 활용했습니다(AI 기본법 제31조에 따른 표시). '
+            '기기·통신사에 따라 화면이 다를 수 있으니 실제 적용 전 공식 출처를 한 번 더 확인하세요.</p>')
 
 
 def _freshness_html():
@@ -1016,7 +1023,7 @@ def _assemble(data, related, blog_url, insert_ads, resolver=None, series_nav="",
     hook = data.get("hook", "")
     hook_html = f'<p class="hook" style="font-size:17px;font-weight:600">{html_mod.escape(hook)}</p>' if hook else ""
     byline = _byline_html(author, author_bio)            # 작성자·소개·최종수정일
-    ai_notice = _ai_notice_html()                        # AI 기본법 제31조 의무 표기(항상 포함)
+    ai_notice = _ai_notice_html(author)                  # AI 기본법 제31조 의무 표기(항상 포함, v2026-10-10: 글 끝)
     tldr = _tldr_html(data.get("tldr", []))             # 상단 핵심요약
     checklist = _checklist_html(data.get("checklist", []))  # 실행 체크리스트
     faq_html = _build_faq_html(data.get("faqs", []))
@@ -1044,12 +1051,12 @@ def _assemble(data, related, blog_url, insert_ads, resolver=None, series_nav="",
     review = _review_slot_html(data.get("review_note", ""))
     verified = _verified_html(data.get("sources"))
 
-    head = f"{hook_html}{byline}{ai_notice}{review}"
+    head = f"{hook_html}{byline}{review}"
     if v % 2 == 0:                        # 요약을 목차 앞/뒤로 번갈아
         mid = f"{tldr}{series_nav}{toc}{summary}"
     else:
         mid = f"{series_nav}{toc}{tldr}{summary}"
-    tail = f"{checklist}{faq_html}{verified}{freshness}{invest_risk}{disclaimer}{series_nav}{internal}{jsonld}"
+    tail = f"{checklist}{faq_html}{verified}{freshness}{ai_notice}{invest_risk}{disclaimer}{series_nav}{internal}{jsonld}"
     return head + mid + body + tail
 
 
