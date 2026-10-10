@@ -23,9 +23,9 @@ MARK = "<!--orig:v1-->"
 # ── 하위 영역 slug → 어떤 블록을 쓰는가 ───────────────────────────────────
 PLAN = {
     "senior-telecom":         {"table": "mvnohub_senior", "widget": "plan_fit",   "shot": "mvnohub"},
-    "senior-scam-prevention": {"table": None,             "widget": "scam_check", "shot": "counterscam"},
+    "senior-scam-prevention": {"table": None,             "widget": "scam_check", "shot": None},   # counterscam112 캡처 실패(10/10)
     "senior-smartphone-guide":{"table": None,             "widget": "setup_list", "shot": None},
-    "senior-gov-apps":        {"table": None,             "widget": "gov_ready",  "shot": "gov24"},
+    "senior-gov-apps":        {"table": None,             "widget": "gov_ready",  "shot": None},   # 정부24는 해외 IP 헤드리스 차단(10/10 실측)
     "senior-kiosk":           {"table": None,             "widget": "kiosk_drill","shot": None},
 }
 
@@ -39,8 +39,7 @@ SOURCES = {
 }
 SHOTS = {
     "mvnohub":     {"url": "https://www.mvnohub.kr/product/products.do?themeTagIds=270", "label": "알뜰폰허브 시니어 요금제 목록"},
-    "gov24":       {"url": "https://www.gov.kr/", "label": "정부24 첫 화면"},
-    "counterscam": {"url": "https://www.counterscam112.go.kr/", "label": "경찰청 보이스피싱 지킴이"},
+
 }
 
 

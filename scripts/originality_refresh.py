@@ -92,6 +92,12 @@ def refresh_shots():
             try:
                 pg.goto(meta["url"], wait_until="networkidle", timeout=45000)
                 pg.wait_for_timeout(1500)
+                # 차단·오류 페이지 감지(실측 10/10: 정부24가 해외 IP 헤드리스에 'MBUSTER 접속 차단' 페이지를
+                # 돌려줬고 그게 그대로 글에 들어갈 뻔했다). 본문이 짧거나 차단 문구가 있으면 버린다.
+                body = (pg.inner_text("body") or "")
+                if len(body) < 300 or re.search(r"차단되었습니다|접속이 차단|Access Denied|blocked|403 Forbidden|MBUSTER", body, re.I):
+                    print(f"[orig] ⛔ {k} 차단/오류 페이지 — 캡처 폐기 ({body[:40]!r})")
+                    shots.pop(k, None); continue
                 path = f"/tmp/shot_{k}.png"
                 pg.screenshot(path=path, full_page=False)
                 url = upload_media(path, wp, alt=f"{meta['label']} 실제 화면") if wp.get("site_url") else None
