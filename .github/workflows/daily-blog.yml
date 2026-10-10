@@ -196,6 +196,14 @@ jobs:
       - name: 프롬프트 조립 무연기 시험(생성 전 크래시 차단)
         run: python scripts/smoke_prompt.py
 
+      # 독창성 층 원재료(2026-10-10): 공공 출처 실측 표 + 공공 사이트 실제 화면(7일 캐시).
+      # 실패해도 생성은 진행(그 블록만 빠진다).
+      - name: 독창성 층 갱신 (실측 표·공공 화면)
+        continue-on-error: true
+        run: |
+          pip install playwright -q && python -m playwright install chromium --with-deps >/dev/null 2>&1 || true
+          python scripts/originality_refresh.py
+
       - name: 블로그 생성 실행
         if: steps.dup.outputs.skip != 'true'
         run: python -u main.py
@@ -238,7 +246,7 @@ jobs:
         run: |
           git config user.name "blog-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add dashboard/data/*.json 2>/dev/null || true
+          git add dashboard/data/*.json dashboard/data/originality/*.json 2>/dev/null || true
           git commit -m "자동 생성: $(date -u '+%Y-%m-%d %H:%M')" || { echo "변경 없음"; exit 0; }
           # push 경쟁 재시도 루프(2026-09-01): '1회 rebase 후 push || echo'는 rebase나 push가
           # 실패하면 결과가 조용히 사라졌다(#100에서 재현 — 사용자 push와 경쟁해 점검 결과 유실).

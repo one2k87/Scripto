@@ -1,0 +1,50 @@
+name: 독창성 층 소급 (표·도구·공공 화면)
+
+# 수동 전용. 먼저 원재료를 갱신한 뒤 기발행 글에 끼운다. dry=true면 대상만 출력.
+on:
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: "미리보기(true) / 적용(false)"
+        default: "true"
+
+permissions:
+  contents: write
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: 의존성
+        run: |
+          pip install -r requirements.txt -q
+          pip install playwright -q && python -m playwright install chromium --with-deps >/dev/null 2>&1 || true
+      - name: config 생성
+        env:
+          LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_ENABLED: "1"
+        run: python build_config.py
+      - name: 원재료 갱신
+        run: python scripts/originality_refresh.py
+      - name: 소급 적용
+        env:
+          DRY: ${{ inputs.dry == 'false' && '0' || '1' }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/originality_backfill.py
+      - name: 원재료 커밋
+        if: always()
+        run: |
+          git config user.name scripto-bot && git config user.email bot@scripto
+          git add dashboard/data/originality/*.json 2>/dev/null || true
+          git commit -m "독창성 원재료 갱신 $(date +%F)" 2>/dev/null && git push || echo "변경 없음"

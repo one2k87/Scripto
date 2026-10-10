@@ -549,6 +549,14 @@ def _run_category(cfg, cat, hist, auto_publish, img_budget=None):
                 a["wp_parent_slug"] = cat.get("wp_slug", "")
                 a["wp_category"] = _sub["name"]
                 a["wp_category_slug"] = _sub.get("slug", "")
+            # 독창성 층(2026-10-10): 하위 영역에 맞는 실측 표·도구·공공 화면을 본문에 끼운다.
+            # 네트워크 없이 dashboard/data/originality/*.json만 읽으므로 생성 속도에 영향 없음.
+            try:
+                import originality as _orig
+                a["html"], _oc = _orig.enrich_html(a.get("html", ""), a.get("wp_category_slug", ""))
+                if _oc: print(f"  · 독창성 층 삽입 [{a.get('wp_category_slug')}]")
+            except Exception as _e:
+                print("  ⚠️ 독창성 층 건너뜀:", _e)
             a["volume"] = kw.get("volume")
             a["competition"] = kw.get("competition", "")
             a["steadiness"] = kw.get("steadiness")
