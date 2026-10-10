@@ -1,1 +1,12 @@
-{}
+{
+ "mvnohub": {
+  "url": "https://wontheland.com/wp-content/uploads/2026/10/shot_mvnohub.png",
+  "taken": "2026-10-10",
+  "src": "https://www.mvnohub.kr/product/products.do?themeTagIds=270"
+ },
+ "gov24": {
+  "url": "https://wontheland.com/wp-content/uploads/2026/10/shot_gov24.png",
+  "taken": "2026-10-10",
+  "src": "https://www.gov.kr/"
+ }
+}
