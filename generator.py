@@ -961,7 +961,7 @@ def _ai_notice_html(author="이음"):
     a = html_mod.escape(author or "운영자")
     return ('<p class="ai-notice" style="margin:18px 0 8px;padding:8px 12px;border-left:3px solid #d0d5dd;'
             'background:#f9fafb;color:#667085;font-size:12px;line-height:1.6">'
-            f'ℹ️ 이 글은 {a}이(가) 주제를 정하고 공식 안내·고객센터 답변과 대조해 검수했으며, '
+            f'ℹ️ 이 글은 운영자({a})가 주제를 정하고 공식 안내·고객센터 답변과 대조해 검수했으며, '
             '본문 초안과 이미지 작성에는 생성형 AI 도구를 활용했습니다(AI 기본법 제31조에 따른 표시). '
             '기기·통신사에 따라 화면이 다를 수 있으니 실제 적용 전 공식 출처를 한 번 더 확인하세요.</p>')
 
