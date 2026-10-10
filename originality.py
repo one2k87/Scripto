@@ -17,7 +17,7 @@ import re
 from datetime import date
 
 DATA_DIR = os.path.join("dashboard", "data", "originality")
-MARK = "<!--orig:v2-->"
+MARK = "<!--orig:v3-->"
 
 
 # ── 하위 영역 slug → 어떤 블록을 쓰는가 ───────────────────────────────────
@@ -72,7 +72,8 @@ def table_html(table_key):
 
 
 # ── ② 인터랙티브 도구(자급자족 HTML — 외부 스크립트 없음) ──────────────────
-# ⚠️ 워드프레스 함정(10/10 실측): 본문의 onclick="…'…'…" 안 따옴표를 wptexturize가 둥근따옴표로 바꿔
+# ⚠️ 워드프레스 함정 2개(10/10 실측): ①스크립트 본문에 '<' 비교가 있으면 WP가 태그 시작으로 보고 뒤의 &&를
+#    &#038;로 바꿔 문법 오류 → 스크립트에 '<' 문자를 절대 쓰지 않는다(아래 자가검사). ②본문의 onclick="…'…'…" 안 따옴표를 wptexturize가 둥근따옴표로 바꿔
 #    JS가 깨진다. 그래서 속성 안에 JS를 두지 않는다. 메시지는 숨은 <span data-min> 요소로, 동작은
 #    글당 1회 붙는 <script> 한 줄(스크립트 안은 texturize 대상 아님, 줄바꿈 없이 써서 wpautop도 피함)
 TOOL_SCRIPT = ('<script>(function(){if(window.__origTool)return;window.__origTool=1;'
@@ -80,12 +81,14 @@ TOOL_SCRIPT = ('<script>(function(){if(window.__origTool)return;window.__origToo
                'var r=b.closest(".orig-tool");if(!r)return;var act=b.getAttribute("data-act");'
                'if(act==="check"){var s=0,n=0,t=0;r.querySelectorAll("input[type=checkbox]").forEach(function(i){t++;if(i.checked){s+=parseInt(i.getAttribute("data-w")||"1",10);n++;}});'
                'var mode=r.getAttribute("data-mode")||"score";var best=null,bv=-1;r.querySelectorAll(".m").forEach(function(m){var mn=m.getAttribute("data-min");'
-               'if(mode==="count"){if(mn==="all"&&n===t){best=m;bv=999;}else if(mn==="rest"&&n<t&&bv<1){best=m;bv=1;}}'
+               'if(mode==="count"){if(mn==="all"&&n===t){best=m;bv=999;}else if(mn==="rest"&&n!==t&&bv===-1){best=m;bv=1;}}'
                'else{var v=parseInt(mn,10);if(s>=v&&v>bv){best=m;bv=v;}}});'
                'var o=r.querySelector(".out");if(o){o.innerHTML=best?best.innerHTML.replace("{rest}",String(t-n)):"";}}'
                'if(act==="step"){var st=parseInt(r.getAttribute("data-step")||"0",10);var steps=r.querySelectorAll(".st");var q=r.querySelector(".q");'
                'if(st>=steps.length){r.setAttribute("data-step","0");q.innerHTML=r.getAttribute("data-q0");b.textContent=r.getAttribute("data-b0");return;}'
                'q.innerHTML=steps[st].innerHTML;b.textContent=steps[st].getAttribute("data-b");r.setAttribute("data-step",String(st+1));}});})();</script>')
+
+assert "<" not in TOOL_SCRIPT.replace("<script>","").replace("</script>",""), "TOOL_SCRIPT에 '<' 금지(WP texturize가 &&를 깨뜨림)"
 
 _BTN = '<button type="button" data-act="{act}" style="margin-top:10px;padding:8px 14px;border-radius:8px;border:0;background:#4f46e5;color:#fff;font-weight:600;cursor:pointer">{label}</button>'
 
@@ -152,8 +155,9 @@ def enrich_html(html, subtopic_slug):
     if not html or MARK in html:
         return html, False
     # v1(onclick 방식, WP texturize로 깨짐) 잔재는 걷어내고 다시 넣는다
-    if "<!--orig:v1-->" in html:
-        html = re.sub(r"<!--orig:v1-->", "", html)
+    if "<!--orig:v1-->" in html or "<!--orig:v2-->" in html:
+        html = re.sub(r"<!--orig:v[12]-->", "", html)
+        html = re.sub(r"<script>\(function\(\)\{if\(window\.__origTool\).*?</script>", "", html, count=1, flags=re.S)
         html = re.sub(r'<div class="orig-tool".*?</div>\s*</div>', "", html, count=1, flags=re.S)
         html = re.sub(r'<div class="orig-table".*?</table></div>.*?</div>', "", html, count=1, flags=re.S)
         html = re.sub(r'<figure[^>]*>\s*<img src="[^"]*shot_[a-z0-9]+\.png".*?</figure>', "", html, count=1, flags=re.S)
