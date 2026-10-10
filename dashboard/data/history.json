@@ -1273,6 +1273,32 @@
       "intent": "evergreen",
       "date": "2026-10-09",
       "series_id": ""
+    },
+    {
+      "title": "진짜 자녀 문자 메시지 vs 사칭 문자, 2026년 10월 부모님 안전은 이렇게 지키세요",
+      "slug": "senior-digital-fraud-prevention-202610",
+      "url": "https://wontheland.com/senior-digital-fraud-prevention-202610/",
+      "post_id": 2745,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "시니어 부모님 자녀 사칭 문자 구별하고 안전하게 대처하는 5가지 방법",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-10-10",
+      "series_id": ""
+    },
+    {
+      "title": "병원 키오스크 진료비 영수증, 출력 안 됐다고 그냥 가면 안 되는 이유",
+      "slug": "hospital-kiosk-receipt-issue",
+      "url": "https://wontheland.com/?p=2747",
+      "post_id": 2747,
+      "status": "예약발행",
+      "kind": "long",
+      "keyword": "병원 키오스크 이용 후 진료비 영수증",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-10-10",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
