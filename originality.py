@@ -17,7 +17,7 @@ import re
 from datetime import date
 
 DATA_DIR = os.path.join("dashboard", "data", "originality")
-MARK = "<!--orig:v3-->"
+MARK = "<!--orig:v4-->"
 
 
 # ── 하위 영역 slug → 어떤 블록을 쓰는가 ───────────────────────────────────
@@ -150,20 +150,47 @@ def shot_html(shot_key):
 
 
 # ── 글에 끼우기 ─────────────────────────────────────────────────────────────
-def enrich_html(html, subtopic_slug):
-    """하위 영역에 맞는 표·도구·화면을 본문에 넣는다. 이미 들어간 글(MARK)은 건드리지 않는다."""
-    if not html or MARK in html:
+def _strip_block(html, open_re):
+    """open_re로 시작하는 <div…> 블록을 div 균형을 세어 통째로 제거(전부). 중첩·단일 모두 안전."""
+    out = html
+    while True:
+        m = re.search(open_re, out)
+        if not m:
+            return out
+        i = m.start(); depth = 0; j = i
+        for t in re.finditer(r"<div\b|</div>", out[i:]):
+            depth += 1 if t.group(0).startswith("<div") else -1
+            if depth == 0:
+                j = i + t.end(); break
+        else:
+            return out[:i]          # 닫힘이 없으면 그 뒤를 통째로 버리지 말고 여기서 멈춘다
+        out = out[:j] + out[j:]      # no-op for clarity
+        out = out[:i] + out[j:]
+
+
+def strip_originality(html):
+    """이전에 넣은 독창성 블록(버전 무관)을 전부 걷어낸다 — 재삽입·중복 제거용."""
+    html = re.sub(r"<!--orig:v\d+-->", "", html)
+    html = re.sub(r"<script>\(function\(\)\{if\(window\.__origTool\).*?</script>", "", html, flags=re.S)
+    html = _strip_block(html, r'<div class="orig-tool"')
+    html = _strip_block(html, r'<div class="orig-table"')
+    html = re.sub(r'<figure[^>]*>\s*<img src="[^"]*/shot_[a-z0-9]+\.png"[^>]*>.*?</figure>', "", html, flags=re.S)
+    return html
+
+
+def enrich_html(html, subtopic_slug, force=False):
+    """하위 영역에 맞는 표·도구·화면을 본문에 넣는다. 최신 MARK가 이미 있으면 건드리지 않는다.
+    옛 버전 블록이 있으면 전부 걷어내고 다시 넣는다(10/10 실측: count=1 제거로 위젯이 2개 들어간 글 발생)."""
+    if not html:
         return html, False
-    # v1(onclick 방식, WP texturize로 깨짐) 잔재는 걷어내고 다시 넣는다
-    if "<!--orig:v1-->" in html or "<!--orig:v2-->" in html:
-        html = re.sub(r"<!--orig:v[12]-->", "", html)
-        html = re.sub(r"<script>\(function\(\)\{if\(window\.__origTool\).*?</script>", "", html, count=1, flags=re.S)
-        html = re.sub(r'<div class="orig-tool".*?</div>\s*</div>', "", html, count=1, flags=re.S)
-        html = re.sub(r'<div class="orig-table".*?</table></div>.*?</div>', "", html, count=1, flags=re.S)
-        html = re.sub(r'<figure[^>]*>\s*<img src="[^"]*shot_[a-z0-9]+\.png".*?</figure>', "", html, count=1, flags=re.S)
+    if MARK in html and not force:
+        return html, False
+    had_old = ("orig-tool" in html) or ("orig-table" in html) or ("orig:v" in html)
+    if had_old:
+        html = strip_originality(html)
     plan = PLAN.get(subtopic_slug or "")
     if not plan:
-        return html, False
+        return html, had_old
     blocks = []
     if plan.get("widget"):
         blocks.append(widget_html(plan["widget"]))
@@ -173,9 +200,8 @@ def enrich_html(html, subtopic_slug):
         blocks.append(shot_html(plan["shot"]))
     blocks = [b for b in blocks if b]
     if not blocks:
-        return html, False
+        return html, had_old
     ins = MARK + "".join(blocks)
-    # 위치: 두 번째 H2 앞(도입 뒤, 본문 중간) — 없으면 FAQ 앞, 그것도 없으면 끝
     hs = [m.start() for m in re.finditer(r"<h2[\s>]", html)]
     if len(hs) >= 2:
         at = hs[1]
