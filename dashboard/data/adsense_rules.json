@@ -1,5 +1,5 @@
 {
- "version": "2026-09-11",
+ "version": "2026-10-10",
  "updated": "2026-08-31",
  "updated_by": "Claude(Cowork) + 강경원",
  "review_note": "구글은 애드센스 심사 기준을 공식 문서로 전부 공개하지 않고, 세부 판정은 수시로 바뀝니다. 이 파일이 그 완충 장치입니다 — 기준이 바뀌면 앱 코드를 고치지 말고 이 파일만 갱신하세요. 앱은 실행할 때마다 GitHub에서 이 파일을 새로 읽습니다.",
@@ -279,6 +279,24 @@
     "robots.txt가 구글봇을 막고 있지 않은지 확인",
     "호스팅 방화벽/보안 플러그인이 구글봇을 차단하지 않는지 확인(Cloudways 방화벽 포함)"
    ]
+  }
+ ],
+ "rules": [
+  {
+   "id": "real_audience_required",
+   "added": "2026-10-10",
+   "confidence": "high",
+   "evidence": "스크립토 1·2회차(사이트 6·7회차) — 콘텐츠 변수 6개를 바꿔도 결과 동일, 방문자 0이 공통",
+   "rule": "실제 유입(비구글 포함 월 300+)·GSC 클릭 10+·댓글/반응이 없으면 신청하지 않는다. '가치 없는 콘텐츠'는 콘텐츠가 아니라 관심 부재를 가리킨다.",
+   "check": "insights.json GA4 views·GSC clicks + index_status.post_indexed"
+  },
+  {
+   "id": "index_before_apply",
+   "added": "2026-10-10",
+   "confidence": "high",
+   "evidence": "7회차는 색인 1/36으로 신청 → 심사관이 볼 페이지가 홈뿐",
+   "rule": "글 색인(홈 제외) 20편 미만이면 신청 금지",
+   "check": "index_status.post_indexed>=20"
   }
  ]
 }
