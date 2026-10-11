@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-11T09:35:29",
+ "updated_at": "2026-10-11T10:56:22",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 11,
@@ -25,7 +25,7 @@
   {
    "url": "https://wontheland.com/hospital-pharmacy-kiosk-payment-guide/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -73,13 +73,13 @@
   {
    "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-digital-phone-payment-phishing-block/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -97,7 +97,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-unexpected-charges/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
