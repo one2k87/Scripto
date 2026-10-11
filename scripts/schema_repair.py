@@ -121,6 +121,42 @@ def build_jsonld(post, faqs, author, bio):
     return "".join(f'<script type="application/ld+json">{s}</script>' for s in scripts)
 
 
+TAIL_CUT_RE = re.compile(r'<p class="verified"|<p class="freshness"|<p class="ai-notice"|<p class="disclaimer"'
+                         r'|<div class="disclaimer"|<h2[^>]*>함께 보면 좋은 글</h2>|<script type="application/ld\+json">')
+
+
+def rebuild_tail(html, author):
+    """꼬리(기준일·고지·면책·관련 글)를 결정적으로 다시 만든다. (새 HTML, 바뀜 여부)
+    실측(#2596): 옛 잘림이 '함께 보면 좋은 글' 목록 중간에서 끊겨 <a>·<ul>이 안 닫힌 채 남고, 그 뒤에
+    보강 블록이 또 붙어 제목이 2개가 됐다. 꼬리는 생성 규칙이 고정돼 있으니 부분 수선보다 재조립이 안전하다."""
+    import generator, integrity
+    m = TAIL_CUT_RE.search(html)
+    if not m:
+        return html, False
+    head, seg = html[:m.start()], html[m.start():]
+    seg_wo_ld = LD_RE.sub("", seg)
+    dup_related = len(re.findall(r"함께 보면 좋은 글", seg_wo_ld)) > 1
+    broken = bool(integrity.tag_balance(seg_wo_ld))
+    missing = any(k not in seg_wo_ld for k in ('class="verified"', 'class="freshness"', 'class="ai-notice"'))
+    if not (dup_related or broken or missing):
+        return html, False
+    # 관련 글 링크 회수(사이트 내부 링크만, 중복 제거, 3개)
+    links, seen = [], set()
+    for href, txt in re.findall(r'<a href="([^"]+)"[^>]*>([^<]{2,150})</a>', seg_wo_ld):
+        if "wontheland.com" in href and href not in seen and _text(txt):
+            seen.add(href); links.append((href, _text(txt)))
+    related = ""
+    if links:
+        lis = "".join(f'<li><a href="{h}">{html_mod.escape(t)}</a></li>' for h, t in links[:3])
+        related = f'<h2>함께 보면 좋은 글</h2><ul class="related">{lis}</ul>'
+    # 면책 문단은 온전히 닫힌 것만 재사용
+    dm = re.search(r'<p class="disclaimer"[^>]*>.*?</p>', seg_wo_ld, re.S)
+    disclaimer = dm.group(0) if dm else ""
+    tail = (generator._verified_html() + generator._freshness_html() + generator._ai_notice_html(author)
+            + disclaimer + related)
+    return head.rstrip() + tail, True
+
+
 def repair(post, author, bio):
     """(새 HTML, 변경 사유 목록). 변경 없으면 사유 []."""
     raw = (post.get("content") or {}).get("raw") or ""
@@ -155,6 +191,10 @@ def repair(post, author, bio):
     html, faq_changed = strip_empty_faq(html)
     if faq_changed:
         why.append("빈 FAQ 블록 제거")
+
+    html, tail_rebuilt = rebuild_tail(html, author)
+    if tail_rebuilt:
+        why.append("꼬리 재조립(깨진 관련글/중복/누락)")
 
     html = LD_RE.sub("", html).rstrip()
 
