@@ -632,10 +632,11 @@ def _run_category(cfg, cat, hist, auto_publish, img_budget=None):
                 "- 실측형 수치 4개 이상(규격·가격대·시간·개수). 원문에 없는 수치는 범위로\n"
                 "- 분량 절대 기준: 본문 텍스트 1,800자 이상(원문이 짧아도 반드시 늘릴 것), H2 소제목 4개 이상\n"
                 "- 소제목(h2/h3)·이미지·광고 자리(<div class=\"ad-slot\">)는 그대로 유지\n"
-                "[출력] 순수 HTML 본문만. 코드블록 금지. <p>로 시작.\n\n[원문]\n" + a.get("html", ""))
+                "[출력] 순수 HTML 본문만. 코드블록 금지. <p>로 시작.\n\n[원문]\n" + __import__("integrity").split_tail(a.get("html", ""))[0])
             neo = chat(fix_prompt, cfg["llm"], max_tokens=16000, temperature=0.7)
-            neo = _re.sub(r"^```html?\s*|\s*```$", "", (neo or "").strip())
-            if neo and neo.lstrip().startswith("<"):
+            import integrity as _integ
+            neo = _integ.rewrite_guard(a.get("html", ""), neo)   # 잘림·플레이스홀더면 None, 채택 시 원문 꼬리 복원
+            if neo:
                 trial = dict(a); trial["html"] = neo
                 ok3, reason3 = quality.check(trial, [b["html"] for b in generated if b is not a], safety)
                 if ok3:
@@ -904,6 +905,11 @@ def _save_status_and_notify(cfg, all_articles, start_t, ok=True, error=""):
                          f"🕖 {monitor.now_kst()}\n"
                          "생성 루프가 돌았지만 글이 하나도 나오지 않았습니다. "
                          "Actions 로그의 '[오류] … 글 생성 실패(건너뜀)' 줄을 확인하세요.")
+    # 무결성 보류(2026-10-12): 발행 직전 관문이 깨진 글을 초안으로 돌린 경우 — 사람이 앱에서 확인 후 공개
+    _held = [a for a in (all_articles or []) if a.get("integrity_hold")]
+    if _held:
+        notify.send(cfg, "🧬 <b>무결성 보류 → 초안</b>\n" + "\n".join(
+            f"· {a.get('title','')[:40]} — {'; '.join(a['integrity_hold'][:3])}" for a in _held))
     if snap["llm_calls"] >= FREE_LLM_DAILY * 0.8:
         notify.send(cfg, f"⚠️ 오늘 LLM 호출 {snap['llm_calls']}회 — 무료 한도({FREE_LLM_DAILY}) 근접")
     return status

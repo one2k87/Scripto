@@ -144,14 +144,21 @@ if AUTO_REPAIR and fails:
 
     for f in fails[:REPAIR_CAP]:
         try:
-            r = requests.get(f"{site}/wp-json/wp/v2/posts/{f['id']}?_fields=content", timeout=30)
-            orig = r.json().get("content", {}).get("rendered", "")
+            # 2026-10-12: rendered(플러그인 목차·wpautop 포함)가 아니라 raw를 읽고, 꼬리(FAQ·고지·JSON-LD)는
+            # LLM에 보내지 않으며, 잘린 출력은 integrity.rewrite_guard가 버린다.
+            import integrity
+            from publisher import _auth_header
+            _ah = {**_auth_header(wp["username"], wp["app_password"])} if wp.get("username") else {}
+            r = requests.get(f"{site}/wp-json/wp/v2/posts/{f['id']}?_fields=content&context=edit",
+                             headers=_ah, timeout=30)
+            orig = (r.json().get("content", {}) or {}).get("raw") or r.json().get("content", {}).get("rendered", "")
+            body, _tail = integrity.split_tail(orig)
             prompt = (f"아래 한국어 블로그 글 HTML을 '가치 있는 실전 글'로 다시 쓰세요. "
-                      f"현재 감점 사유: {', '.join(f['issues'][:5])}\n\n{RULES}\n\n[원문]\n{orig}")
+                      f"현재 감점 사유: {', '.join(f['issues'][:5])}\n\n{RULES}\n\n[원문]\n{body}")
             neo = chat(prompt, cfg["llm"], max_tokens=16000, temperature=0.7)
-            neo = re.sub(r"^```html?\s*|\s*```$", "", (neo or "").strip())
-            nsc, nis, nlen = score_post(neo)
-            if nsc >= 70 and nlen >= max(1100, int(f["len"] * 0.85)) and neo.lstrip().startswith("<"):
+            neo = integrity.rewrite_guard(orig, neo) or ""
+            nsc, nis, nlen = score_post(neo) if neo else (0, [], 0)
+            if neo and nsc >= 70 and nlen >= max(1100, int(f["len"] * 0.85)) and not integrity.critical(integrity.check(neo)):
                 if update_post_content(wp, f["id"], neo):
                     repaired.append(f"{f['title'][:24]} {f['score']}→{nsc}점")
                 else:

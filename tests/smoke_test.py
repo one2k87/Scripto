@@ -57,4 +57,19 @@ print()
 if fails:
     print(f"❌ 스모크 테스트 실패 {len(fails)}건: {fails}")
     sys.exit(1)
+# ── 무결성 관문(2026-10-12) ──────────────────────────────────────────
+def _test_integrity():
+    import integrity as I
+    orig = "<p>" + "원문 " * 300 + "</p>" + I.TAIL_MARK + '<p class="freshness">f</p>'
+    assert I.rewrite_guard(orig, "<p>" + "새 " * 300 + "</p>").endswith('<p class="freshness">f</p>')
+    assert I.rewrite_guard(orig, "<p>" + "새 " * 300 + "<h2>잘림") is None
+    h = '<p>x</p><h3></h3><table><tr><td>a</td></tr><script type="application/ld+json">{"a":'
+    fixed, done = I.fix(h)
+    assert "ld+json" not in fixed and "</table>" in fixed and "<h3></h3>" not in fixed, done
+    assert I.critical(I.check('<p>본문</p><script type="application/ld+json">{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"","acceptedAnswer":{"@type":"Answer","text":""}}]}</script>'))
+    print("  OK  무결성 관문(rewrite_guard·fix·check)")
+
+
+_test_integrity()
+
 print("✅ 스모크 테스트 전체 통과")

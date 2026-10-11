@@ -26,3 +26,7 @@ pytrends>=4.9
 # Google Ads 키워드플래너 (선택, metrics.provider=google_ads)
 # google-ads>=25.0
 # 네이버 검색광고 API(metrics.provider=naver)는 표준 라이브러리만 사용 → 추가 설치 불필요
+
+# 발행물 무결성(안 닫힌 태그 정리, integrity.py) — 2026-10-12
+beautifulsoup4>=4.12
+html5lib>=1.1

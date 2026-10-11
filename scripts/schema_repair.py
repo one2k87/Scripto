@@ -28,7 +28,7 @@ import requests
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 LD_RE = re.compile(r'<script type="application/ld\+json">[\s\S]*?(?:</script>|\Z)')
-FAQ_H2 = "<h2>자주 묻는 질문</h2>"
+FAQ_H2_RE = re.compile(r"<h2[^>]*>자주 묻는 질문</h2>")   # _slugify_headings가 id를 붙이므로 속성 허용
 TAIL_ANCHOR_RE = re.compile(r'<h2>함께 보면 좋은 글</h2>')
 STRAY_RE = re.compile(r'<script type="application/ld\+json">\s*$')  # 잔재
 
@@ -59,10 +59,10 @@ def _text(s):
 
 def extract_faqs(html):
     """'자주 묻는 질문' h2 뒤의 h3/p 쌍. 다음 h2 또는 꼬리 블록(class=verified/freshness/ai-notice)에서 멈춘다."""
-    i = html.find(FAQ_H2)
-    if i < 0:
+    mh = FAQ_H2_RE.search(html)
+    if not mh:
         return []
-    seg = html[i + len(FAQ_H2):]
+    seg = html[mh.end():]
     m = re.search(r'<h2[\s>]|<p class="(?:verified|freshness|ai-notice|disclaimer)"', seg)
     if m:
         seg = seg[:m.start()]
@@ -76,10 +76,10 @@ def extract_faqs(html):
 
 def strip_empty_faq(html):
     """질문이 하나도 없는 FAQ 블록을 통째로 제거. 일부만 비었으면 빈 쌍만 제거."""
-    i = html.find(FAQ_H2)
-    if i < 0:
+    mh = FAQ_H2_RE.search(html)
+    if not mh:
         return html, False
-    seg_start = i + len(FAQ_H2)
+    i, seg_start = mh.start(), mh.end()
     seg = html[seg_start:]
     m = re.search(r'<h2[\s>]|<p class="(?:verified|freshness|ai-notice|disclaimer)"|<script type="application/ld', seg)
     end = seg_start + (m.start() if m else len(seg))
@@ -126,6 +126,8 @@ def repair(post, author, bio):
     raw = (post.get("content") or {}).get("raw") or ""
     html, why = raw, []
 
+    import integrity
+    has_img = bool(re.search(r"<img\s", html))
     lds = LD_RE.findall(html)
     bad = 0
     for s in lds:
@@ -135,12 +137,20 @@ def repair(post, author, bio):
             if o.get("@type") == "FAQPage" and any(not q.get("name") or not (q.get("acceptedAnswer") or {}).get("text")
                                                    for q in o.get("mainEntity", [])):
                 bad += 1
+            if o.get("@type") == "BlogPosting" and has_img and not o.get("image"):
+                bad += 1
         except Exception:
             bad += 1
     if not lds:
         why.append("JSON-LD 없음")
     elif bad:
-        why.append(f"JSON-LD 깨짐/빈 FAQ {bad}건")
+        why.append(f"JSON-LD 깨짐/빈 FAQ/이미지 누락 {bad}건")
+
+    # 기계 수리(빈 제목·빈 문단·안 닫힌 태그) — integrity.fix가 단일 기준
+    html, done = integrity.fix(html)
+    done = [d for d in done if "JSON-LD" not in d and "FAQ" not in d]   # JSON-LD·FAQ는 아래서 다시 만든다
+    if done:
+        why.append("/".join(sorted(set(done))))
 
     html, faq_changed = strip_empty_faq(html)
     if faq_changed:
@@ -150,6 +160,8 @@ def repair(post, author, bio):
 
     import generator
     added = []
+    if 'class="verified"' not in html:
+        added.append(generator._verified_html())
     if 'class="freshness"' not in html:
         added.append(generator._freshness_html())
     if 'class="ai-notice"' not in html:
@@ -166,6 +178,9 @@ def repair(post, author, bio):
     if not why:
         # JSON-LD가 멀쩡했고 구조 변화도 없으면 재작성하지 않는다(수정일 보존).
         return raw, []
+    crit = integrity.critical(integrity.check(html))
+    if crit:
+        raise RuntimeError(f"수리 후에도 치명 문제 {crit}")
     return html, why
 
 
@@ -189,13 +204,17 @@ def main():
     if only:
         posts = [p for p in posts if p["id"] in only]
 
-    done, fail, touched = 0, [], []
+    done, fail, touched, warns = 0, [], [], {}
+    import integrity
     for p in posts:
         pid = p["id"]
         try:
             new, why = repair(p, author, bio)
         except Exception as e:
             fail.append(f"#{pid} repair {e}"); continue
+        w = [m for lv, m in integrity.check(new) if lv == "warn"]
+        if w:
+            warns[pid] = w
         if not why:
             continue
         touched.append(f"#{pid} {', '.join(why)}")
@@ -209,6 +228,14 @@ def main():
         time.sleep(0.4)
 
     head = f"🧬 구조화 데이터 자가치유 — 대상 {len(posts)}편, 수리 {len(touched)}편" + (" (드라이런)" if dry else f", 적용 {done}편")
+    try:   # 대시보드·기록용 일일 무결성 감사 결과
+        from datetime import datetime
+        os.makedirs("dashboard/data", exist_ok=True)
+        json.dump({"at": datetime.now().strftime("%Y-%m-%d %H:%M"), "total": len(posts), "dry": dry,
+                   "repaired": touched, "failed": fail, "warnings": {str(k): v for k, v in warns.items()}},
+                  open("dashboard/data/integrity_audit.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    except Exception as e:
+        print("감사 기록 실패:", e)
     print(head)
     for t in touched:
         print("  ", t)

@@ -722,7 +722,7 @@ def normalize_faqs(faqs):
     return out
 
 
-TAIL_MARK = "<!--tail-->"   # 본문/꼬리 경계. accuracy.revise가 이 뒤를 LLM에 보내지 않고 보존한다.
+from integrity import TAIL_MARK   # 본문/꼬리 경계(integrity.py가 단일 기준). LLM 재작성 경로는 이 뒤를 보존한다.
 
 
 def _build_faq_html(faqs):

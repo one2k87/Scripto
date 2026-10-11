@@ -203,6 +203,21 @@ def publish_to_wordpress(article, wp_cfg):
     allow_tags = bool((wp_cfg.get("safety") or {}).get("allow_tags"))
     tag_ids = ensure_tags(base_url, headers, article.get("tags", [])) if allow_tags else []
 
+    # 무결성 관문(2026-10-12): 발행 직전에 깨진 JSON-LD·빈 제목·안 닫힌 태그를 고치고,
+    # 치명 항목이 남으면 공개 대신 초안으로 올린다(깨진 글이 색인되는 것보다 하루 늦는 게 낫다).
+    try:
+        import integrity as _integ
+        fixed, _done = _integ.fix(article["html"])
+        if _done:
+            print(f"[integrity] 발행 전 수리: {', '.join(_done)}")
+            article["html"] = fixed
+        _crit = _integ.critical(_integ.check(article["html"]))
+        if _crit:
+            print(f"[integrity] 🚫 치명 문제 → 초안으로 발행: {_crit}")
+            article["integrity_hold"] = _crit
+    except Exception as _e:
+        print(f"[integrity] 점검 건너뜀: {_e}")
+
     payload = {
         "title": article["title"],
         "content": article["html"],
@@ -213,6 +228,9 @@ def publish_to_wordpress(article, wp_cfg):
     if article.get("_schedule_date"):
         payload["date"] = article["_schedule_date"]
         payload["status"] = "future"
+    if article.get("integrity_hold"):
+        payload["status"] = "draft"
+        payload.pop("date", None)
     if article.get("slug"):
         payload["slug"] = article["slug"]           # SEO 친화 URL
     if tag_ids:
