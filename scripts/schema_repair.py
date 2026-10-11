@@ -140,7 +140,6 @@ def rebuild_tail(html, author):
     missing = any(k not in seg_wo_ld for k in ('class="verified"', 'class="freshness"', 'class="ai-notice"'))
     if not (dup_related or broken or missing):
         return html, False
-    print(f"  [tail] dup={dup_related} broken={integrity.tag_balance(seg_wo_ld) if broken else ''} missing={missing} seg={seg_wo_ld[:160]!r}")
     # 관련 글 링크 회수(사이트 내부 링크만, 중복 제거, 3개)
     links, seen = [], set()
     for href, txt in re.findall(r'<a href="([^"]+)"[^>]*>([^<]{1,150})</a>', seg_wo_ld):
@@ -150,12 +149,21 @@ def rebuild_tail(html, author):
     if links:
         lis = "".join(f'<li><a href="{h}">{html_mod.escape(t)}</a></li>' for h, t in links[:3])
         related = f'<h2>함께 보면 좋은 글</h2><ul class="related">{lis}</ul>'
-    # 면책 문단은 온전히 닫힌 것만 재사용
-    dm = re.search(r'<p class="disclaimer"[^>]*>.*?</p>', seg_wo_ld, re.S)
-    disclaimer = dm.group(0) if dm else ""
+    # 면책 문단은 온전히 닫혔고 면책 문구로 보이는 것만 재사용(#2700: 잘린 본문 조각이 면책 상자에 들어가 있었다)
+    dm = re.search(r'<p class="disclaimer"[^>]*>(.*?)</p>', seg_wo_ld, re.S)
+    disclaimer = ""
+    if dm and len(dm.group(1)) < 400 and re.search(r"정보 제공|참고용|일반적인 안내|권유하지", dm.group(1)):
+        disclaimer = dm.group(0)
+    # 본문(head)이 잘려 태그가 열린 채면 본문 범위 안에서 닫는다 — 안 그러면 파서가 꼬리 뒤에서 닫아
+    # 다음 날 또 '깨진 꼬리'로 보여 매일 재작성하는 루프가 된다(#2596·#2700 실측).
+    head = head.rstrip()
+    if integrity.tag_balance(LD_RE.sub("", head)):
+        head2, changed = integrity._tidy(head)
+        if changed:
+            head = head2.rstrip()
     tail = (generator._verified_html() + generator._freshness_html() + generator._ai_notice_html(author)
             + disclaimer + related)
-    return head.rstrip() + tail, True
+    return head + tail, True
 
 
 def repair(post, author, bio):

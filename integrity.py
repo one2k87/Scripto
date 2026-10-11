@@ -144,8 +144,16 @@ def check(html, require_tail=True, min_chars=1800, min_images=1):
         if "<" in s or "&#8217;" in s or "&#8221;" in s or "&#038;" in s:
             out.append(("crit", "인라인 스크립트 변형(WP 필터)"))
             break
+    if re.search(r'<a\s+href="(?!https?://|/|#|mailto:)[^"]*"', h):
+        out.append(("warn", "가짜/깨진 링크 href"))
     if len(re.findall(r"<!--orig:v\d+-->", h)) > 1:
         out.append(("warn", "독창성 블록 중복"))
+    # 본문 잘림 의심: 꼬리 직전의 마지막 글자가 문장부호/닫힘이 아니면(LLM 출력이 중간에 끊긴 흔적)
+    body, _ = split_tail(h)
+    btxt = re.sub(r"<script[\s\S]*?</script>|<[^>]+>", " ", body)
+    btxt = re.sub(r"\s+", " ", btxt).strip()
+    if btxt and btxt[-1] not in ".!?。)）]」』*\"'…:;" and not re.search(r"(다|요|죠|까|니다|세요|습니다)$", btxt[-4:]):
+        out.append(("warn", f"본문 잘림 의심(끝: …{btxt[-20:]})"))
     if re.search(r"<p[^>]*>\s*본 콘텐츠는 생성형", h):
         out.append(("warn", "옛 상단 AI 고지 잔존"))
     return out
@@ -205,6 +213,15 @@ def fix(html):
     if m:
         html = html[:m.start()] + html[m.end():]
         done.append("빈 FAQ 제목 제거")
+    # 옛 잘림 때 본문 목록 안으로 끌려 들어간 '🔎 …기준으로 내용을 확인했습니다' 조각 제거
+    html, k = re.subn(r"<li[^>]*>\s*🔎[^<]*</li>\s*", "", html)
+    if k:
+        done.append("끌려 들어간 확인 문구 제거")
+    # 모델이 지어낸 가짜 내부 링크(href가 한글 슬러그·상대경로 아님) → 링크만 벗기고 글자는 남긴다(404 링크 방지)
+    n1 = len(html)
+    html = re.sub(r'<a\s+href="(?!https?://|/|#|mailto:)[^"]*"[^>]*>(.*?)</a>', r"\1", html, flags=re.S)
+    if len(html) != n1:
+        done.append("가짜 링크 제거")
     # 안 닫힌 태그
     if tag_balance(html):
         html2, changed = _tidy(html)

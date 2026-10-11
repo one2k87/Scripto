@@ -118,6 +118,20 @@ for p in posts:
     scored.append({"id": p["id"], "title": strip_tags(p["title"]["rendered"])[:60],
                    "link": p.get("link", ""), "score": sc, "len": ln, "issues": issues})
 fails = [x for x in scored if x["score"] < 60]
+# 2026-10-12: 본문이 중간에 잘린 글(integrity 감사 '본문 잘림 의심') 또는 REPAIR_FORCE 지정 글은 점수와 무관하게 재작성 대상
+_force = {int(x) for x in os.getenv("REPAIR_FORCE", "").replace(" ", ",").split(",") if x.strip().isdigit()}
+try:
+    _aud = json.load(open("dashboard/data/integrity_audit.json", encoding="utf-8"))
+    _force |= {int(k) for k, v in (_aud.get("warnings") or {}).items() if any("잘림 의심" in m for m in v)}
+except Exception:
+    pass
+if _force:
+    _by = {x["id"]: x for x in scored}
+    for _id in _force:
+        if _id in _by and _by[_id] not in fails:
+            _by[_id]["issues"] = ["본문이 중간에 잘려 있음(문장을 끝까지 완성하고 빠진 뒷부분을 채울 것)"] + _by[_id]["issues"]
+            fails.append(_by[_id])
+    AUTO_REPAIR = True
 avg = round(sum(x["score"] for x in scored) / len(scored)) if scored else 0
 print(f"[check] {len(scored)}편 채점 — 평균 {avg}점 · 미달 {len(fails)}편")
 
