@@ -255,6 +255,10 @@ def main():
             new, why = repair(p, author, bio)
         except Exception as e:
             fail.append(f"#{pid} repair {e}"); continue
+        if os.getenv("DUMP_RAW") and str(pid) in os.getenv("DUMP_RAW", "").split(","):
+            os.makedirs("dashboard/data/tmp", exist_ok=True)
+            open(f"dashboard/data/tmp/raw_{pid}.html", "w", encoding="utf-8").write((p.get("content") or {}).get("raw") or "")
+            open(f"dashboard/data/tmp/new_{pid}.html", "w", encoding="utf-8").write(new)
         w = [m for lv, m in integrity.check(new) if lv == "warn"]
         if w:
             warns[pid] = w
