@@ -227,4 +227,8 @@ def fix(html):
         html2, changed = _tidy(html)
         if changed and not tag_balance(html2):
             html = html2; done.append("안 닫힌 태그 정리")
+            # 태그를 닫고 나서야 드러나는 조각(열린 <li> 안의 🔎 문구)을 한 번 더 정리
+            html, k = re.subn(r"<li[^>]*>\s*🔎[^<]*</li>\s*", "", html)
+            if k and "끌려 들어간 확인 문구 제거" not in done:
+                done.append("끌려 들어간 확인 문구 제거")
     return html, done
