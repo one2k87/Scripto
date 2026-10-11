@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TZ: Asia/Seoul
-      PUSH_DRY: "0"   # push 기동 시 드라이런 여부(0=적용)
+      PUSH_DRY: "1"   # push 기동 시 드라이런 여부(0=적용). 10/12 적용 완료 후 드라이런으로 복귀
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
