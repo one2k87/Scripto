@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TZ: Asia/Seoul
-      PUSH_DRY: "1"   # push 기동 시 드라이런 여부(0=적용)
+      PUSH_DRY: "0"   # push 기동 시 드라이런 여부(0=적용)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -38,7 +38,7 @@ jobs:
         run: python build_config.py
       - name: 실행
         env:
-          DRY: ${{ (inputs.dry == 'false' || github.event_name == 'push') && env.PUSH_DRY || '1' }}
+          DRY: ${{ inputs.dry == 'false' && '0' || (github.event_name == 'push' && env.PUSH_DRY || '1') }}
           ONLY: ${{ inputs.only }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
