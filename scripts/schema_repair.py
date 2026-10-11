@@ -142,7 +142,7 @@ def rebuild_tail(html, author):
         return html, False
     # 관련 글 링크 회수(사이트 내부 링크만, 중복 제거, 3개)
     links, seen = [], set()
-    for href, txt in re.findall(r'<a href="([^"]+)"[^>]*>([^<]{2,150})</a>', seg_wo_ld):
+    for href, txt in re.findall(r'<a href="([^"]+)"[^>]*>([^<]{1,150})</a>', seg_wo_ld):
         if "wontheland.com" in href and href not in seen and _text(txt):
             seen.add(href); links.append((href, _text(txt)))
     related = ""
