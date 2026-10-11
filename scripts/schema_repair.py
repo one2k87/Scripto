@@ -140,6 +140,7 @@ def rebuild_tail(html, author):
     missing = any(k not in seg_wo_ld for k in ('class="verified"', 'class="freshness"', 'class="ai-notice"'))
     if not (dup_related or broken or missing):
         return html, False
+    print(f"  [tail] dup={dup_related} broken={integrity.tag_balance(seg_wo_ld) if broken else ''} missing={missing} seg={seg_wo_ld[:160]!r}")
     # 관련 글 링크 회수(사이트 내부 링크만, 중복 제거, 3개)
     links, seen = [], set()
     for href, txt in re.findall(r'<a href="([^"]+)"[^>]*>([^<]{1,150})</a>', seg_wo_ld):
@@ -188,10 +189,11 @@ def repair(post, author, bio):
         why.append("꼬리 재조립(깨진 관련글/중복/누락)")
 
     # 기계 수리(빈 제목·빈 문단·안 닫힌 태그) — integrity.fix가 단일 기준
+    _bal_before = integrity.tag_balance(LD_RE.sub("", html))
     html, done = integrity.fix(html)
     done = [d for d in done if "JSON-LD" not in d and "FAQ" not in d]   # JSON-LD·FAQ는 아래서 다시 만든다
     if done:
-        why.append("/".join(sorted(set(done))))
+        why.append("/".join(sorted(set(done))) + (f" {_bal_before}" if _bal_before else ""))
 
     html, faq_changed = strip_empty_faq(html)
     if faq_changed:
