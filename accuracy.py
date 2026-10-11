@@ -147,6 +147,23 @@ def revise(article, chat, llm_cfg, today=None):
     if not html or (not issues and article.get("accuracy") == "ok"):
         return False
 
+    # 꼬리(체크리스트·FAQ·기준일·고지·JSON-LD)는 LLM에 보내지 않고 그대로 붙인다.
+    # 2026-10-12 실측: 전체 HTML을 보내면 출력이 max_tokens(6000)에 잘려 JSON-LD가 중간에 끊기거나
+    # 꼬리 블록이 통째로 사라진 채 '절반 이상 길이' 안전장치를 통과해 발행됐다.
+    tail = ""
+    try:
+        from generator import TAIL_MARK
+    except Exception:
+        TAIL_MARK = "<!--tail-->"
+    if TAIL_MARK in html:
+        html, tail = html.split(TAIL_MARK, 1)
+        tail = TAIL_MARK + tail
+    else:
+        m = re.search(r'(<h2>실행 체크리스트</h2>|<h2>자주 묻는 질문</h2>|<p class="verified"|<p class="freshness"'
+                      r'|<p class="ai-notice"|<script type="application/ld\+json">)', html)
+        if m:
+            html, tail = html[:m.start()], html[m.start():]
+
     issue_txt = "\n".join(f"- {i}" for i in issues) or "- 최신성/정확성 표현 보완"
     prompt = f"""오늘은 {today.year}년 {today.month}월입니다. 아래 블로그 글(HTML)을 '최신성·정확성'만 고쳐서 다시 쓰세요.
 
@@ -167,15 +184,19 @@ def revise(article, chat, llm_cfg, today=None):
 
 수정된 '완성 HTML 본문'만 출력하세요(설명·코드블록 표시 없이, <로 시작)."""
     try:
-        out = chat(prompt, llm_cfg, max_tokens=6000, temperature=0.3)
+        out = chat(prompt, llm_cfg, max_tokens=10000, temperature=0.3)
         out = (out or "").strip()
         out = re.sub(r"^```[a-zA-Z]*\s*|\s*```$", "", out).strip()
         # 안전장치: HTML 형태이고, 원문의 절반 이상 길이일 때만 채택(붕괴 방지)
-        if out.startswith("<") and len(out) >= max(300, int(len(html) * 0.5)):
-            article["html"] = out
+        # 잘림 감지: 닫는 태그로 끝나지 않거나(출력이 토큰 한도에 걸림) 블록 태그 짝이 안 맞으면 폐기.
+        truncated = (not out.endswith(">")) or any(
+            len(re.findall(rf"<{t}\b", out)) != len(re.findall(rf"</{t}>", out))
+            for t in ("p", "h2", "h3", "ul", "ol", "table", "figure", "div", "script"))
+        if out.startswith("<") and not truncated and len(out) >= max(300, int(len(html) * 0.5)):
+            article["html"] = out + tail
             article["revised"] = True
             return True
-        print("[accuracy] 재작성 결과가 부실해 원문 유지")
+        print(f"[accuracy] 재작성 결과가 부실해 원문 유지(truncated={truncated}, len={len(out)}/{len(html)})")
     except Exception as e:
         print(f"[accuracy] 재작성 실패(원문 유지): {e}")
     return False

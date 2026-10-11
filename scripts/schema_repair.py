@@ -1,0 +1,230 @@
+"""schema_repair.py — 기발행 글의 구조화 데이터(JSON-LD)·FAQ 블록 자가치유 (2026-10-12).
+
+GSC 메일 "파싱할 수 없는 구조화된 데이터 — 파싱 오류: ':' 누락"(#2618)에서 출발해 전수 실측한 결과:
+  (a) FAQ JSON-LD가 중간에 잘린 채 </script> 없이 끝남 — accuracy.revise 출력이 max_tokens에 잘림 (#2618·#2737)
+  (b) FAQ JSON-LD 파싱 오류 (#2580)
+  (c) '자주 묻는 질문' 제목 아래 빈 h3/p 4쌍 + 질문·답이 ""인 FAQPage — 모델이 q/a 대신 다른 키로 돌려줌 (8편)
+  (d) JSON-LD·기준일·고지 꼬리 블록이 통째로 없음 — 같은 잘림 (#2712·#2965 등 5편)
+
+하는 일(멱등, 매일 daily-blog에서 DRY=0으로 돌려도 안전):
+  1. 모든 <script type="application/ld+json"> 제거(닫히지 않은 것은 본문 끝까지 통째로).
+  2. 빈 FAQ 블록 제거, 살아있는 FAQ(h3+p)는 그대로 두고 JSON-LD 재료로 씀.
+  3. 기준일·AI 고지(제31조)가 없으면 '함께 보면 좋은 글' 앞에 넣는다.
+  4. BlogPosting(+FAQPage) JSON-LD를 글 제목·발행일·수정일·대표이미지·페르소나로 다시 만들어 끝에 붙인다.
+  5. 결과 JSON-LD를 json.loads로 자가검증한 뒤에만 저장.
+
+DRY=1(기본): 바뀔 글 목록과 이유만 출력. DRY=0: 적용. ONLY=2618,2737 처럼 특정 글만도 가능.
+"""
+import base64
+import html as html_mod
+import json
+import os
+import re
+import sys
+import time
+
+import requests
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+LD_RE = re.compile(r'<script type="application/ld\+json">[\s\S]*?(?:</script>|\Z)')
+FAQ_H2 = "<h2>자주 묻는 질문</h2>"
+TAIL_ANCHOR_RE = re.compile(r'<h2>함께 보면 좋은 글</h2>')
+STRAY_RE = re.compile(r'<script type="application/ld\+json">\s*$')  # 잔재
+
+
+def _auth():
+    cfg = json.load(open("config.json", encoding="utf-8"))
+    wp = cfg.get("wordpress", {}) or {}
+    if not (wp.get("site_url") and wp.get("username") and wp.get("app_password")):
+        print("WP 자격 부족"); sys.exit(1)
+    base = wp["site_url"].rstrip("/")
+    tok = base64.b64encode(f"{wp['username']}:{wp['app_password']}".encode()).decode()
+    return cfg, base, {"User-Agent": "Mozilla/5.0 (ScriptoBot)", "Authorization": f"Basic {tok}",
+                       "Content-Type": "application/json"}
+
+
+def _persona(cfg):
+    try:
+        p = json.load(open("data/persona.json", encoding="utf-8"))
+        pa = p.get(p.get("mode", "auto")) or p.get("auto") or {}
+    except Exception:
+        pa = {}
+    return (pa.get("pen_name") or cfg.get("author") or "운영자"), (pa.get("bio") or pa.get("intro") or "")
+
+
+def _text(s):
+    return html_mod.unescape(re.sub(r"<[^>]+>", "", s or "")).strip()
+
+
+def extract_faqs(html):
+    """'자주 묻는 질문' h2 뒤의 h3/p 쌍. 다음 h2 또는 꼬리 블록(class=verified/freshness/ai-notice)에서 멈춘다."""
+    i = html.find(FAQ_H2)
+    if i < 0:
+        return []
+    seg = html[i + len(FAQ_H2):]
+    m = re.search(r'<h2[\s>]|<p class="(?:verified|freshness|ai-notice|disclaimer)"', seg)
+    if m:
+        seg = seg[:m.start()]
+    out = []
+    for q, a in re.findall(r"<h3[^>]*>(.*?)</h3>\s*<p[^>]*>(.*?)</p>", seg, re.S):
+        q, a = _text(q), _text(a)
+        if q and a:
+            out.append({"q": q, "a": a})
+    return out
+
+
+def strip_empty_faq(html):
+    """질문이 하나도 없는 FAQ 블록을 통째로 제거. 일부만 비었으면 빈 쌍만 제거."""
+    i = html.find(FAQ_H2)
+    if i < 0:
+        return html, False
+    seg_start = i + len(FAQ_H2)
+    seg = html[seg_start:]
+    m = re.search(r'<h2[\s>]|<p class="(?:verified|freshness|ai-notice|disclaimer)"|<script type="application/ld', seg)
+    end = seg_start + (m.start() if m else len(seg))
+    block = html[seg_start:end]
+    cleaned = re.sub(r"<h3[^>]*>\s*</h3>\s*<p[^>]*>\s*</p>\s*", "", block)
+    if not re.search(r"<h3[^>]*>\s*\S", cleaned):          # 살아있는 질문 없음 → 제목까지 제거
+        return html[:i] + html[end:], True
+    if cleaned != block:
+        return html[:seg_start] + cleaned + html[end:], True
+    return html, False
+
+
+def build_jsonld(post, faqs, author, bio):
+    title = _text((post.get("title") or {}).get("raw") or (post.get("title") or {}).get("rendered") or "")
+    html = (post.get("content") or {}).get("raw") or ""
+    desc = _text((post.get("excerpt") or {}).get("raw") or "")
+    if not desc or len(desc) < 40:
+        m = re.search(r'<p class="hook"[^>]*>(.*?)</p>', html, re.S) or re.search(r"<p(?![^>]*class)[^>]*>(.*?)</p>", html, re.S)
+        desc = _text(m.group(1))[:155] if m else title
+    img = re.search(r'<img[^>]+src="([^"]+)"', html)
+    author_obj = {"@type": "Person", "name": author}
+    if bio:
+        author_obj["description"] = bio
+    blog = {"@context": "https://schema.org", "@type": "BlogPosting",
+            "headline": title, "description": desc, "inLanguage": "ko",
+            "datePublished": post.get("date_gmt", "") + "Z" if post.get("date_gmt") else post.get("date", ""),
+            "dateModified": post.get("modified_gmt", "") + "Z" if post.get("modified_gmt") else post.get("modified", ""),
+            "author": author_obj, "mainEntityOfPage": {"@type": "WebPage", "@id": post.get("link", "")}}
+    if img:
+        blog["image"] = [img.group(1)]
+    scripts = [json.dumps(blog, ensure_ascii=False)]
+    if faqs:
+        faq = {"@context": "https://schema.org", "@type": "FAQPage",
+               "mainEntity": [{"@type": "Question", "name": f["q"],
+                               "acceptedAnswer": {"@type": "Answer", "text": f["a"]}} for f in faqs]}
+        scripts.append(json.dumps(faq, ensure_ascii=False))
+    for s in scripts:                      # 자가검증 — 깨진 JSON은 절대 올리지 않는다
+        json.loads(s)
+    return "".join(f'<script type="application/ld+json">{s}</script>' for s in scripts)
+
+
+def repair(post, author, bio):
+    """(새 HTML, 변경 사유 목록). 변경 없으면 사유 []."""
+    raw = (post.get("content") or {}).get("raw") or ""
+    html, why = raw, []
+
+    lds = LD_RE.findall(html)
+    bad = 0
+    for s in lds:
+        body = re.sub(r"^<script[^>]*>|</script>$", "", s)
+        try:
+            o = json.loads(body)
+            if o.get("@type") == "FAQPage" and any(not q.get("name") or not (q.get("acceptedAnswer") or {}).get("text")
+                                                   for q in o.get("mainEntity", [])):
+                bad += 1
+        except Exception:
+            bad += 1
+    if not lds:
+        why.append("JSON-LD 없음")
+    elif bad:
+        why.append(f"JSON-LD 깨짐/빈 FAQ {bad}건")
+
+    html, faq_changed = strip_empty_faq(html)
+    if faq_changed:
+        why.append("빈 FAQ 블록 제거")
+
+    html = LD_RE.sub("", html).rstrip()
+
+    import generator
+    added = []
+    if 'class="freshness"' not in html:
+        added.append(generator._freshness_html())
+    if 'class="ai-notice"' not in html:
+        added.append(generator._ai_notice_html(author))
+    if added:
+        why.append("기준일/고지 보강")
+        ins = "".join(added)
+        m = TAIL_ANCHOR_RE.search(html)
+        html = (html[:m.start()] + ins + html[m.start():]) if m else html + ins
+
+    faqs = extract_faqs(html)
+    html = html + build_jsonld(post, faqs, author, bio)
+
+    if not why:
+        # JSON-LD가 멀쩡했고 구조 변화도 없으면 재작성하지 않는다(수정일 보존).
+        return raw, []
+    return html, why
+
+
+def main():
+    dry = os.getenv("DRY", "1") != "0"
+    only = {int(x) for x in os.getenv("ONLY", "").replace(" ", ",").split(",") if x.strip().isdigit()}
+    cfg, base, H = _auth()
+    author, bio = _persona(cfg)
+
+    posts, pg = [], 1
+    while True:
+        r = requests.get(f"{base}/wp-json/wp/v2/posts", headers=H, timeout=60,
+                         params={"per_page": 50, "page": pg, "status": "publish", "context": "edit",
+                                 "_fields": "id,title,content,excerpt,date,date_gmt,modified,modified_gmt,link"})
+        if not r.ok:
+            break
+        b = r.json(); posts += b
+        if len(b) < 50:
+            break
+        pg += 1
+    if only:
+        posts = [p for p in posts if p["id"] in only]
+
+    done, fail, touched = 0, [], []
+    for p in posts:
+        pid = p["id"]
+        try:
+            new, why = repair(p, author, bio)
+        except Exception as e:
+            fail.append(f"#{pid} repair {e}"); continue
+        if not why:
+            continue
+        touched.append(f"#{pid} {', '.join(why)}")
+        if dry:
+            continue
+        u = requests.post(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=60, json={"content": new})
+        if u.ok:
+            done += 1
+        else:
+            fail.append(f"#{pid} {u.status_code}")
+        time.sleep(0.4)
+
+    head = f"🧬 구조화 데이터 자가치유 — 대상 {len(posts)}편, 수리 {len(touched)}편" + (" (드라이런)" if dry else f", 적용 {done}편")
+    print(head)
+    for t in touched:
+        print("  ", t)
+    if fail:
+        print("  실패:", fail)
+    if touched and not dry:
+        msg = head + "\n" + "\n".join(touched[:12]) + ("\n…" if len(touched) > 12 else "") + \
+              ("\n⚠️ 실패 " + ", ".join(fail) if fail else "")
+        t, c = os.getenv("TELEGRAM_TOKEN", ""), os.getenv("TELEGRAM_CHAT_ID", "")
+        if t and c:
+            try:
+                requests.post(f"https://api.telegram.org/bot{t}/sendMessage", data={"chat_id": c, "text": msg}, timeout=20)
+            except Exception:
+                pass
+    return 1 if fail else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

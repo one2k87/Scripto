@@ -1,0 +1,42 @@
+name: 구조화 데이터 자가치유(JSON-LD·FAQ)
+
+# 기발행 글의 깨진/잘린/빈 JSON-LD와 빈 FAQ 블록을 고치고, 없는 기준일·고지를 보강한다(멱등).
+# 2026-10-12 GSC "파싱할 수 없는 구조화된 데이터" 메일 대응. daily-blog에도 같은 스크립트가 매일 돈다.
+on:
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: "미리보기(true) / 적용(false)"
+        default: "true"
+      only:
+        description: "특정 글 번호만(쉼표). 비우면 전체"
+        default: ""
+
+jobs:
+  schema-repair:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: 의존성
+        run: pip install -r requirements.txt 2>/dev/null || pip install requests google-generativeai openai
+      - name: config 생성
+        env:
+          LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_ENABLED: "1"
+        run: python build_config.py
+      - name: 실행
+        env:
+          DRY: ${{ inputs.dry == 'false' && '0' || '1' }}
+          ONLY: ${{ inputs.only }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/schema_repair.py

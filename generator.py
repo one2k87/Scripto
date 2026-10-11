@@ -702,7 +702,31 @@ def _build_toc(items):
     return f'<nav class="toc" aria-label="목차"><strong>목차</strong><ul>{lis}</ul></nav>'
 
 
+def normalize_faqs(faqs):
+    """FAQ 정규화(2026-10-12). 실측: 모델이 q/a 대신 question/answer·name/text 키로 돌려주면
+    기존 코드가 빈 문자열로 받아 '자주 묻는 질문' 제목 아래 빈 h3/p 4쌍 + 빈 FAQPage JSON-LD가
+    발행됐다(8편). 키를 모두 받고, 질문·답 둘 중 하나라도 비면 버린다. 빈 목록이면 FAQ 블록·JSON-LD 자체를 넣지 않는다."""
+    out = []
+    for f in faqs or []:
+        if isinstance(f, str):
+            continue
+        if not isinstance(f, dict):
+            continue
+        q = str(f.get("q") or f.get("question") or f.get("name") or f.get("Q") or "").strip()
+        a = f.get("a") or f.get("answer") or f.get("text") or f.get("A") or f.get("acceptedAnswer") or ""
+        if isinstance(a, dict):
+            a = a.get("text") or a.get("a") or ""
+        a = str(a).strip()
+        if q and a:
+            out.append({"q": q, "a": a})
+    return out
+
+
+TAIL_MARK = "<!--tail-->"   # 본문/꼬리 경계. accuracy.revise가 이 뒤를 LLM에 보내지 않고 보존한다.
+
+
 def _build_faq_html(faqs):
+    faqs = normalize_faqs(faqs)
     if not faqs:
         return ""
     blocks = "".join(
@@ -999,6 +1023,7 @@ def _build_jsonld(title, meta, faqs, author="편집부", lang="ko", author_type=
     if image_url:
         blog["image"] = [image_url]
     scripts = [json.dumps(blog, ensure_ascii=False)]
+    faqs = normalize_faqs(faqs)
     if faqs:
         faq = {"@context": "https://schema.org", "@type": "FAQPage",
                "mainEntity": [{"@type": "Question", "name": f.get("q", ""),
@@ -1057,7 +1082,10 @@ def _assemble(data, related, blog_url, insert_ads, resolver=None, series_nav="",
     else:
         mid = f"{series_nav}{toc}{tldr}{summary}"
     tail = f"{checklist}{faq_html}{verified}{freshness}{ai_notice}{invest_risk}{disclaimer}{series_nav}{internal}{jsonld}"
-    return head + mid + body + tail
+    # TAIL_MARK: 최신성 재작성(accuracy.revise)이 꼬리를 LLM에 보내지 않도록 경계 표시.
+    # 실측(2026-10-12): 재작성 출력이 max_tokens에 잘려 FAQ JSON-LD가 중간에 끊긴 채 발행(#2618·#2737),
+    # 꼬리 블록 전체 소실(#2712·#2965 등 5편) → GSC '파싱할 수 없는 구조화된 데이터' 경고.
+    return head + mid + body + TAIL_MARK + tail
 
 
 def _gen_one(keyword, kind, llm_cfg, category, links, related, blog_url,
