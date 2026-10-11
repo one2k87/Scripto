@@ -182,6 +182,11 @@ def repair(post, author, bio):
     elif bad:
         why.append(f"JSON-LD 깨짐/빈 FAQ/이미지 누락 {bad}건")
 
+    # 꼬리 재조립은 tidy(html5lib) 전에 — 안 닫힌 <a>를 파서가 뒤 블록까지 감싸 버리기 전에 원문에서 링크를 회수
+    html, tail_rebuilt = rebuild_tail(html, author)
+    if tail_rebuilt:
+        why.append("꼬리 재조립(깨진 관련글/중복/누락)")
+
     # 기계 수리(빈 제목·빈 문단·안 닫힌 태그) — integrity.fix가 단일 기준
     html, done = integrity.fix(html)
     done = [d for d in done if "JSON-LD" not in d and "FAQ" not in d]   # JSON-LD·FAQ는 아래서 다시 만든다
@@ -191,10 +196,6 @@ def repair(post, author, bio):
     html, faq_changed = strip_empty_faq(html)
     if faq_changed:
         why.append("빈 FAQ 블록 제거")
-
-    html, tail_rebuilt = rebuild_tail(html, author)
-    if tail_rebuilt:
-        why.append("꼬리 재조립(깨진 관련글/중복/누락)")
 
     html = LD_RE.sub("", html).rstrip()
 
