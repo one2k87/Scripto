@@ -51,4 +51,8 @@ jobs:
           git config user.name "blog-bot"; git config user.email "bot@users.noreply.github.com"
           git add dashboard/data/integrity_audit.json 2>/dev/null || true
           git commit -m "무결성 감사: $(date '+%Y-%m-%d %H:%M')" || exit 0
-          git pull --rebase -q && git push -q
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin main && git push && exit 0
+            sleep $((i*7))
+          done
+          echo "::warning::감사 결과 push 실패"
