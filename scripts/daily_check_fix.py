@@ -127,11 +127,14 @@ except Exception:
     pass
 if _force:
     _by = {x["id"]: x for x in scored}
-    for _id in _force:
-        if _id in _by and _by[_id] not in fails:
+    _forced = []
+    for _id in sorted(_force, reverse=True):          # 최신 글부터
+        if _id in _by:
             _by[_id]["issues"] = ["본문이 중간에 잘려 있음(문장을 끝까지 완성하고 빠진 뒷부분을 채울 것)"] + _by[_id]["issues"]
-            fails.append(_by[_id])
+            _forced.append(_by[_id])
+    fails = _forced + [x for x in fails if x not in _forced]   # 잘린 글이 하루 캡(5편)을 먼저 쓴다
     AUTO_REPAIR = True
+    print(f"[check] 본문 잘림 재작성 대상 {len(_forced)}편 (하루 {REPAIR_CAP}편씩)")
 avg = round(sum(x["score"] for x in scored) / len(scored)) if scored else 0
 print(f"[check] {len(scored)}편 채점 — 평균 {avg}점 · 미달 {len(fails)}편")
 
