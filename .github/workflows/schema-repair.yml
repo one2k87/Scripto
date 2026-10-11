@@ -4,7 +4,7 @@ name: 구조화 데이터 자가치유(JSON-LD·FAQ)
 # 2026-10-12 GSC "파싱할 수 없는 구조화된 데이터" 메일 대응. daily-blog에도 같은 스크립트가 매일 돈다.
 on:
   push:
-    paths: [".github/workflows/schema-repair.yml"]   # 임시: 브라우저 로그아웃 상태라 push로 기동(10/12, 4차 적용)
+    paths: [".github/workflows/schema-repair.yml"]   # 임시: 브라우저 로그아웃 상태라 push로 기동(10/12, 5차 적용)
   workflow_dispatch:
     inputs:
       dry:

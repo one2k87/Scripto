@@ -213,15 +213,15 @@ def fix(html):
     if m:
         html = html[:m.start()] + html[m.end():]
         done.append("빈 FAQ 제목 제거")
-    # 옛 잘림 때 본문 목록 안으로 끌려 들어간 '🔎 …기준으로 내용을 확인했습니다' 조각 제거
-    html, k = re.subn(r"<li[^>]*>\s*🔎[^<]*</li>\s*", "", html)
-    if k:
-        done.append("끌려 들어간 확인 문구 제거")
     # 모델이 지어낸 가짜 내부 링크(href가 한글 슬러그·상대경로 아님) → 링크만 벗기고 글자는 남긴다(404 링크 방지)
     n1 = len(html)
     html = re.sub(r'<a\s+href="(?!https?://|/|#|mailto:)[^"]*"[^>]*>(.*?)</a>', r"\1", html, flags=re.S)
     if len(html) != n1:
         done.append("가짜 링크 제거")
+    # 옛 잘림 때 본문 목록 안으로 끌려 들어간 '🔎 …기준으로 내용을 확인했습니다' 조각 제거
+    html, k = re.subn(r"<li[^>]*>\s*🔎[^<]*</li>\s*", "", html)
+    if k:
+        done.append("끌려 들어간 확인 문구 제거")
     # 안 닫힌 태그
     if tag_balance(html):
         html2, changed = _tidy(html)
