@@ -90,6 +90,10 @@ def main():
                             requests.post(f"{base}/wp-json/wp/v2/media/{mid}", headers=H,
                                           json={"alt_text": alt.group(1)}, timeout=20)
                         print(f"  · #{p['id']} 미디어 레코드 없음 → 재업로드 media {mid}")
+                    else:
+                        print(f"  · #{p['id']} 재업로드 거부 {up.status_code}: {up.text[:160]}")
+                else:
+                    print(f"  · #{p['id']} 원본 내려받기 실패 {img.status_code}")
             except Exception as e:
                 print(f"  · #{p['id']} 재업로드 실패: {e}")
         if not mid:
