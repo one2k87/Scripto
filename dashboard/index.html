@@ -2361,7 +2361,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=159;
+const APP_BUILD=160;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 
@@ -8005,7 +8005,22 @@ function _briefHtml(b){
   return `<div class="bk">지금</div><div class="bt">${b.now}</div>${b.sub?`<div class="bs">${b.sub}</div>`:""}
     <div class="bk" style="margin-top:8px">다음</div><div class="bn">${b.next}</div>${act?`<div class="ba">${act}</div>`:""}`;
 }
-let _LISTRUN=null, _IDX=null;
+let _LISTRUN=null, _IDX=null, _INTEG=null;
+// 무결성 한 줄(2026-10-12): 잘린 본문 21편이 두 달간 화면 어디에도 안 보였다 — 감사 결과를 첫 화면에 올린다
+async function loadIntegrity(){
+  if(_INTEG) return _INTEG;
+  try{ const r=await fetch("data/integrity_audit.json?nc="+Date.now(),{cache:"no-store"}); if(r.ok){ _INTEG=await r.json(); } }catch(e){}
+  return _INTEG;
+}
+function _integLine(){
+  const a=_INTEG; if(!a) return "";
+  const ageDays=a.at?Math.floor((Date.now()-new Date(String(a.at).replace(" ","T")).getTime())/864e5):null;
+  if(ageDays!==null&&ageDays>=7) return ` · <span style="color:var(--danger);font-weight:600">무결성 감사 ${ageDays}일째 침묵</span>`;
+  const w=a.warnings?Object.keys(a.warnings).length:0, cut=a.warnings?Object.values(a.warnings).filter(v=>v.some(m=>String(m).includes("잘림 의심"))).length:0;
+  const rep=(a.repaired||[]).length, fail=(a.failed||[]).length;
+  const bad=fail>0||cut>0;
+  return ` · <span style="${bad?"color:var(--warn,#b45309);font-weight:600":""}">무결성 ${a.total||0}편 점검${rep?` · 수리 ${rep}`:""}${cut?` · 잘린 본문 ${cut}`:""}${fail?` · 실패 ${fail}`:""}${!rep&&!cut&&!fail?" · 결함 0":""}</span>`;
+}
 async function loadIndexStatus(){
   if(_IDX) return _IDX;
   try{ const r=await fetch("data/index_status.json?nc="+Date.now(),{cache:"no-store"}); if(r.ok){ _IDX=await r.json(); } }catch(e){}
@@ -8021,6 +8036,7 @@ function _idxLine(){
 }
 function renderBriefing(which){
   if(!_IDX){ loadIndexStatus().then(d=>{ if(d) try{ renderBriefing(which); }catch(e){} }); }
+  if(!_INTEG){ loadIntegrity().then(d=>{ if(d) try{ renderBriefing(which); }catch(e){} }); }
   if(which==="adsSheet"){
     const el=document.getElementById("brief-adsSheet"); if(!el) return;
     const st=adsStage(); let b;
@@ -8089,10 +8105,10 @@ function renderBriefing(which){
       const idxStuck=_IDX&&(_IDX.posts_n||0)>=5&&((typeof _IDX.post_indexed==="number"?_IDX.post_indexed:(_IDX.indexed||0)-1)<=0);
       if(ran){
         b={now:`오늘 ${L.published||0}편 발행`,
-           sub:`생성 ${L.articles||0} · 게시 ${L.published||0} · 초안 ${L.draft||0} · 보류 ${L.held||0}${L.failed?` · 실패 ${L.failed}`:""} — ${String(L.at).slice(11,16)} 가동${_idxLine()}`,
-           next:idxStuck?"구글이 새 글을 안 가져갑니다 — GSC에서 '색인 생성 요청' (하루 ~10개, 승인 탭 안내)":held?`보류 ${held}편을 아래에서 확인 (이유가 적혀 있습니다)`:"내일 06:43 자동 — 할 일 없음"};
+           sub:`생성 ${L.articles||0} · 게시 ${L.published||0} · 초안 ${L.draft||0} · 보류 ${L.held||0}${L.failed?` · 실패 ${L.failed}`:""} — ${String(L.at).slice(11,16)} 가동${_idxLine()}${_integLine()}`,
+           next:idxStuck?"구글이 새 글을 안 가져갑니다 — GSC에서 '색인 생성 요청' (하루 ~10개, 승인 탭 안내)":held?`보류 ${held}편을 아래에서 확인 (이유가 적혀 있습니다)`:(_INTEG&&Object.values(_INTEG.warnings||{}).some(v=>v.some(m=>String(m).includes("잘림 의심")))?"잘린 본문은 매일 5편씩 자동 재작성 중 — 할 일 없음":"내일 06:43 자동 — 할 일 없음")};
       }else{
-        b={now:"오늘 아직 가동 전", sub:(L.at?`최근 ${String(L.at).slice(5,16).replace("T"," ")} — 게시 ${L.published||0}편`:"")+_idxLine(),
+        b={now:"오늘 아직 가동 전", sub:(L.at?`최근 ${String(L.at).slice(5,16).replace("T"," ")} — 게시 ${L.published||0}편`:"")+_idxLine()+_integLine(),
            next:idxStuck?"구글이 새 글을 안 가져갑니다 — GSC에서 '색인 생성 요청' (하루 ~10개)":"06:43 크론이 깨우면 자동으로 2편 — 보통 3시간 안에 도착"};
       }
       if(held) b.actions=[{label:`⏸ 보류 ${held}편 보기`,on:"document.querySelector('#statusTabs .st[data-k=\\'held\\']')?.click()"}];
