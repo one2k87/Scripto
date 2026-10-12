@@ -34,11 +34,11 @@ jobs:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           LLM_MODEL: ${{ secrets.LLM_MODEL }}
           BLOG_URL: ${{ secrets.BLOG_URL }}
-          WP_ENABLED: ${{ secrets.WP_ENABLED }}
+          WP_ENABLED: "1"   # 2026-10-12: 시크릿 "true"가 로그의 true를 전부 ***로 가려 진단을 막았다 → 상수
           WP_SITE: ${{ secrets.WP_SITE }}
           WP_USER: ${{ secrets.WP_USER }}
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
-          WP_STATUS: ${{ secrets.WP_STATUS }}
+          WP_STATUS: ${{ vars.WP_STATUS || 'publish' }}
         run: python build_config.py
       - name: 정리 + 재구성 실행
         env:
