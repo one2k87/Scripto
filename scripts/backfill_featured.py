@@ -72,7 +72,7 @@ def main():
                         mid = m2["id"]; break
             except Exception:
                 pass
-        if not mid and url.startswith(base + "/wp-content/uploads/"):
+        if not mid and "/wp-content/uploads/" in url:
             # 2026-10-12(#2628): 파일은 uploads에 있는데 미디어 라이브러리 레코드가 없는 경우 → 같은 파일을
             # 미디어로 다시 올려 레코드를 만든다(본문 URL은 그대로 두므로 글은 안 바뀐다).
             try:
@@ -94,7 +94,7 @@ def main():
                 print(f"  · #{p['id']} 재업로드 실패: {e}")
         if not mid:
             skip += 1
-            print(f"  · 건너뜀 #{p['id']} — 본문 이미지의 미디어 id 없음")
+            print(f"  · 건너뜀 #{p['id']} — 본문 이미지의 미디어 id 없음 ({url[:90] or '이미지 없음'})")
             continue
         u = requests.post(f"{base}/wp-json/wp/v2/posts/{p['id']}", headers=H,
                           json={"featured_media": int(mid)}, timeout=20)
