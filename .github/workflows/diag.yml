@@ -1,0 +1,32 @@
+name: 진단 스크립트 실행(수동)
+
+# 사이트 쪽 원인을 Actions 러너에서 직접 확인할 때(크롬·샌드박스가 못 보는 헤더·플러그인 목록 등).
+on:
+  workflow_dispatch:
+    inputs:
+      script:
+        description: "scripts/ 아래 실행할 진단 파일명"
+        default: "diag_robots.py"
+
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install requests
+      - name: config 생성
+        env:
+          LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_ENABLED: "1"
+        run: python build_config.py
+      - name: 실행
+        run: python scripts/${{ inputs.script }}
