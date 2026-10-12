@@ -13,6 +13,10 @@ on:
         description: "true면 계획만 출력(수정 없음)"
         default: "false"
         required: false
+      only:
+        description: "특정 글 번호만(쉼표) — 지정 시 강제 재생성"
+        default: ""
+        required: false
       force:
         description: "true면 이미 교체한 글(imgv2)도 다시 교체"
         default: "false"
@@ -48,6 +52,7 @@ jobs:
           REIMAGE_LIMIT: ${{ github.event.inputs.limit }}
           REIMAGE_DRY: ${{ github.event.inputs.dry_run }}
           REIMAGE_FORCE: ${{ github.event.inputs.force }}
+          REIMAGE_ONLY: ${{ github.event.inputs.only }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python scripts/reimage_posts.py

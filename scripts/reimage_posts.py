@@ -82,6 +82,9 @@ def main():
     limit = int(os.getenv("REIMAGE_LIMIT") or "100")
     dry = (os.getenv("REIMAGE_DRY") or "").lower() == "true"
     force = (os.getenv("REIMAGE_FORCE") or "").lower() == "true"   # imgv2 마커 무시하고 재교체
+    only = {int(x) for x in (os.getenv("REIMAGE_ONLY") or "").replace(" ", ",").split(",") if x.strip().isdigit()}
+    if only:
+        force = True   # 특정 글 지정은 곧 '다시 만들어라'
 
     base = wp["site_url"].rstrip("/")
     headers = _auth_header(wp["username"], wp["app_password"])
@@ -102,6 +105,8 @@ def main():
     print(f"발행 글 {len(posts)}개 발견 (limit={limit}, dry={dry})")
 
     done = skipped = failed = 0
+    if only:
+        posts = [p for p in posts if p["id"] in only]
     for p in posts:
         if done >= limit:
             break
@@ -143,6 +148,21 @@ def main():
                 new = content.replace("</h2>", "</h2>" + fig, 1)
             else:
                 new = fig + content
+        # 2026-10-12(#2628): 파일이 서버에서 사라진(404) 나머지 이미지는 깨진 그림으로 남기지 않고 figure째 뺀다
+        for fm in re.finditer(r"<figure\b[^>]*>.*?</figure>", new, flags=re.S):
+            blk = fm.group(0)
+            if url in blk:
+                continue
+            sm = re.search(r'<img[^>]+src="([^"]+)"', blk)
+            if not sm:
+                continue
+            try:
+                st = requests.head(sm.group(1), timeout=15, allow_redirects=True).status_code
+            except Exception:
+                st = 0
+            if st == 404:
+                new = new.replace(blk, "", 1)
+                print(f"  · 404 이미지 figure 제거: {sm.group(1)[-40:]}")
         r = requests.post(f"{base}/wp-json/wp/v2/posts/{pid}",
                           headers={**headers, "Content-Type": "application/json"},
                           json={"content": new}, timeout=60)
