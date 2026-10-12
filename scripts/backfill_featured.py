@@ -61,6 +61,17 @@ def main():
         m = re.search(r'<img[^>]+src="([^"]+)"', body)
         url = m.group(1) if m else ""
         mid = media.get(url)
+        if not mid and url:
+            # 2026-10-12: 목록 사전에 없으면 파일명으로 검색(-scaled·크기 접미사·목록 페이지 누락 대비)
+            stem = re.sub(r"(-\d+x\d+|-scaled)?\.[a-z]+$", "", url.rsplit("/", 1)[-1])
+            try:
+                sr = requests.get(f"{base}/wp-json/wp/v2/media", headers=H, timeout=30,
+                                  params={"search": stem, "per_page": 5, "_fields": "id,source_url"})
+                for m2 in (sr.json() if sr.ok else []):
+                    if stem in (m2.get("source_url") or ""):
+                        mid = m2["id"]; break
+            except Exception:
+                pass
         if not mid:
             skip += 1
             print(f"  · 건너뜀 #{p['id']} — 본문 이미지의 미디어 id 없음")
