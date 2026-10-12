@@ -36,9 +36,12 @@ def submit_indexnow(urls, key, site_url, key_location=None):
     if not key or not urls:
         return False
     host = urlparse(site_url).netloc
-    # keyLocation은 같은 호스트면 어디든 허용(IndexNow 스펙) — 루트에 파일을 못 놓는
-    # 환경(호스팅 파일관리자 없음)을 위해 미디어 업로드 URL을 쓸 수 있게 했다(2026-08-31)
+    # ⚠️ 2026-10-12 정정(마크토 실측 422): IndexNow는 keyLocation의 **디렉터리 하위 URL만** 수리한다.
+    # 8/31의 "같은 호스트면 어디든"은 틀렸고, uploads 경로 키로는 루트 글이 전부 422로 조용히 실패했다.
+    # 키 파일은 루트(테마 functions.php 가상 경로)에 두고, 422/4xx는 아래서 눈에 띄게 남긴다.
     key_loc = key_location or f"{site_url.rstrip('/')}/{key}.txt"
+    if "/wp-content/" in key_loc:
+        print(f"[indexnow] ⚠️ keyLocation이 루트가 아님({key_loc}) — 루트 글은 422로 거부됨. site_categories.json indexnow.key_location 확인")
     payload = {"host": host, "key": key, "keyLocation": key_loc, "urlList": urls}
     ok = False
     for ep in _INDEXNOW_ENDPOINTS:

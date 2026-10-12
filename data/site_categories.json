@@ -67,7 +67,8 @@
   "_ban_설명": "주제 선정 단계 금지어(단일 소스). desc의 '금지' 서술만으로는 못 막는 혼입(예: '하자보수 비용 보험 처리' 공개 발행 사고 2026-08-31)을 키워드 차단으로 원천 차단. safety.blocklist_extra에 병합된다.",
   "indexnow": {
     "key": "edad166e85cf27f3fa370ef1d1350577",
-    "key_location": "https://wontheland.com/wp-content/uploads/2026/08/edad166e85cf27f3fa370ef1d1350577.txt"
+    "key_location": "https://wontheland.com/edad166e85cf27f3fa370ef1d1350577.txt",
+    "_note": "2026-10-12 마크토 실측: keyLocation 디렉터리 하위 URL만 수리 → 루트로 이동(테마 functions.php 가상 경로). 응답 코드는 publisher 로그 확인"
   },
   "_indexnow_설명": "네이버·빙·얀덱스 즉시 색인(IndexNow). 키는 공개 값(키 파일 URL로 검증). 루트에 파일을 못 놓는 환경을 위해 미디어 업로드 URL을 keyLocation으로 쓴다. 구글은 불참 — 구글 쪽은 WebSub(RSS 푸시)+사이트맵이 담당.",
   "auto_repair": true,
