@@ -293,6 +293,20 @@ def main():
             fail.append(f"#{pid} {u.status_code}")
         time.sleep(0.4)
 
+    # 2026-10-12: robots.txt 직접 서빙은 부모 테마 functions.php에 있어 테마 업데이트로 사라질 수 있다 — 매일 200인지 본다
+    site_warn = []
+    try:
+        rr = requests.get(f"{base}/robots.txt", headers={"User-Agent": "Mozilla/5.0 (ScriptoBot)"}, timeout=20, allow_redirects=False)
+        if rr.status_code != 200 or "Sitemap:" not in rr.text:
+            site_warn.append(f"robots.txt {rr.status_code} (리디렉션/본문 이상) — 테마 functions.php의 Scripto 2026-10-12 블록 확인")
+        rs = requests.get(f"{base}/wp-sitemap.xml", headers={"User-Agent": "Mozilla/5.0 (ScriptoBot)"}, timeout=20, allow_redirects=False)
+        if rs.status_code != 200:
+            site_warn.append(f"wp-sitemap.xml {rs.status_code}")
+    except Exception as e:
+        site_warn.append(f"robots/sitemap 확인 실패: {e}")
+    if site_warn:
+        fail.extend(["🌐 " + w for w in site_warn])
+
     head = f"🧬 구조화 데이터 자가치유 — 대상 {len(posts)}편, 수리 {len(touched)}편" + (" (드라이런)" if dry else f", 적용 {done}편")
     try:   # 대시보드·기록용 일일 무결성 감사 결과
         from datetime import datetime
@@ -307,7 +321,7 @@ def main():
         print("  ", t)
     if fail:
         print("  실패:", fail)
-    if touched and not dry:
+    if (touched or site_warn) and not dry:
         msg = head + "\n" + "\n".join(touched[:12]) + ("\n…" if len(touched) > 12 else "") + \
               ("\n⚠️ 실패 " + ", ".join(fail) if fail else "")
         t, c = os.getenv("TELEGRAM_TOKEN", ""), os.getenv("TELEGRAM_CHAT_ID", "")
