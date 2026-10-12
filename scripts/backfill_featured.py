@@ -72,6 +72,26 @@ def main():
                         mid = m2["id"]; break
             except Exception:
                 pass
+        if not mid and url.startswith(base + "/wp-content/uploads/"):
+            # 2026-10-12(#2628): 파일은 uploads에 있는데 미디어 라이브러리 레코드가 없는 경우 → 같은 파일을
+            # 미디어로 다시 올려 레코드를 만든다(본문 URL은 그대로 두므로 글은 안 바뀐다).
+            try:
+                img = requests.get(url, timeout=30)
+                if img.ok and img.content:
+                    fname = url.rsplit("/", 1)[-1]
+                    alt = re.search(r'alt="([^"]*)"', m.group(0) if m else "") 
+                    hdr = {"User-Agent": H["User-Agent"], "Authorization": H["Authorization"],
+                           "Content-Type": img.headers.get("Content-Type", "image/jpeg"),
+                           "Content-Disposition": f'attachment; filename="featured-{fname}"'}
+                    up = requests.post(f"{base}/wp-json/wp/v2/media", headers=hdr, data=img.content, timeout=60)
+                    if up.ok:
+                        mid = up.json().get("id")
+                        if alt and alt.group(1):
+                            requests.post(f"{base}/wp-json/wp/v2/media/{mid}", headers=H,
+                                          json={"alt_text": alt.group(1)}, timeout=20)
+                        print(f"  · #{p['id']} 미디어 레코드 없음 → 재업로드 media {mid}")
+            except Exception as e:
+                print(f"  · #{p['id']} 재업로드 실패: {e}")
         if not mid:
             skip += 1
             print(f"  · 건너뜀 #{p['id']} — 본문 이미지의 미디어 id 없음")
