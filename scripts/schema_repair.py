@@ -245,7 +245,7 @@ def main():
     while True:
         r = requests.get(f"{base}/wp-json/wp/v2/posts", headers=H, timeout=60,
                          params={"per_page": 50, "page": pg, "status": "publish", "context": "edit",
-                                 "_fields": "id,title,content,excerpt,date,date_gmt,modified,modified_gmt,link"})
+                                 "_fields": "id,title,content,excerpt,date,date_gmt,modified,modified_gmt,link,featured_media"})
         if not r.ok:
             break
         b = r.json(); posts += b
@@ -268,6 +268,17 @@ def main():
             open(f"dashboard/data/tmp/raw_{pid}.html", "w", encoding="utf-8").write((p.get("content") or {}).get("raw") or "")
             open(f"dashboard/data/tmp/new_{pid}.html", "w", encoding="utf-8").write(new)
         w = [m for lv, m in integrity.check(new) if lv == "warn"]
+        # 2026-10-12(#2628): 본문 이미지 파일이 서버에서 사라진(404) 글 — HEAD 1회/이미지, 깨진 그림은 심사·독자 둘 다에 치명
+        try:
+            for src in re.findall(r'<img[^>]+src="([^"]+)"', new)[:3]:
+                if "/wp-content/uploads/" in src:
+                    st = requests.head(src, timeout=15, allow_redirects=True).status_code
+                    if st == 404:
+                        w.append(f"이미지 404: …{src[-40:]}"); break
+        except Exception:
+            pass
+        if not (p.get("featured_media") or 0):
+            w.append("대표이미지 없음")
         if w:
             warns[pid] = w
         if not why:
