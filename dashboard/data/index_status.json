@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-10-13T11:50:34",
+ "updated_at": "2026-10-13T12:37:48",
  "site": "https://wontheland.com",
  "checked": 30,
- "indexed": 9,
+ "indexed": 8,
  "ghosts": [
   "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
   "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/",
@@ -12,7 +12,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-10-13T11:46:36\",\"link\":\"https:\\/\\/wontheland.com\\/senior-parents-overseas-travel-currency-exchange-mo"
+  "body_head": "[{\"modified\":\"2026-10-13T11:55:40\",\"link\":\"https:\\/\\/wontheland.com\\/senior-hospital-kiosk-registration\\/\"},{\"modified\":"
  },
  "posts_n": 30,
  "results": [
@@ -23,6 +23,36 @@
    "lastCrawl": "2026-09-19"
   },
   {
+   "url": "https://wontheland.com/senior-hospital-kiosk-registration/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-10-10"
+  },
+  {
+   "url": "https://wontheland.com/2026-10-senior-smartphone-airplane-mode-communication/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/smart-phone-dark-screen-solution-2026-10/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-phone-micro-payment-limit-check-reduce/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-hospital-mobile-registration-tips/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-10-10"
+  },
+  {
    "url": "https://wontheland.com/senior-parents-overseas-travel-currency-exchange-mobile-guide/",
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
@@ -31,7 +61,7 @@
   {
    "url": "https://wontheland.com/senior-digital-education-2026-october/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -49,7 +79,7 @@
   {
    "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -91,13 +121,13 @@
   {
    "url": "https://wontheland.com/senior-phone-data-saving-2026-10/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/alt-phone-customer-service-number-202610/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -127,7 +157,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-spam-block-report-2026-10/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -145,7 +175,7 @@
   {
    "url": "https://wontheland.com/senior-digital-fraud-prevention-202610/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -157,41 +187,11 @@
   {
    "url": "https://wontheland.com/senior-digital-assistance-2026-09/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/2026-september-senior-data-usage-check/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-10"
-  },
-  {
-   "url": "https://wontheland.com/senior-hospital-mobile-registration-tips/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-10"
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/smishing-text-message-distinction-for-seniors-2026/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-08"
-  },
-  {
-   "url": "https://wontheland.com/senior-affordable-phone-plan-comparison-2026-09/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/boice-phishing-prevention-senior-2026-september/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-10-10"
@@ -231,9 +231,9 @@
   {
    "d": "2026-10-13",
    "posts": 30,
-   "indexed": 9,
+   "indexed": 8,
    "checked": 30
   }
  ],
- "post_indexed": 8
+ "post_indexed": 7
 }
