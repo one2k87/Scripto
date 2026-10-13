@@ -1351,6 +1351,32 @@
       "intent": "evergreen",
       "date": "2026-10-12",
       "series_id": ""
+    },
+    {
+      "title": "시니어 디지털 블로그, 2026년 10월에 시작했는데 수익이 안 나면 어떻게 해야 할까요?",
+      "slug": "senior-digital-blog-failure-recovery",
+      "url": "",
+      "post_id": null,
+      "status": "폐기",
+      "kind": "long",
+      "keyword": "다음은 '시니어 디지털' 블로그를 위한 5가지 주제입니다.",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-10-13",
+      "series_id": ""
+    },
+    {
+      "title": "해외여행 떠나는 부모님, 모바일로 환전 신청하는 3단계로 준비물 걱정 줄이는 법",
+      "slug": "senior-parents-overseas-travel-currency-exchange-mobile-guide",
+      "url": "https://wontheland.com/senior-parents-overseas-travel-currency-exchange-mobile-guide/",
+      "post_id": 3071,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "시니어 부모님 해외여행 준비물, 모바일로 환전 신청하는 3단계 방법",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-10-13",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
