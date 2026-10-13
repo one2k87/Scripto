@@ -213,6 +213,13 @@ def fix(html):
     if m:
         html = html[:m.start()] + html[m.end():]
         done.append("빈 FAQ 제목 제거")
+    # 모델이 본문 끝에 직접 쓴 '함께 보면 좋은 글' 블록(지어낸 외부 주소·우리 제목) 제거 — 시스템 블록이 꼬리에 따로 있다
+    body0, tail0 = split_tail(html)
+    n2 = len(body0)
+    body0 = re.sub(r"<h[23][^>]*>\s*함께 보면 좋은 글\s*</h[23]>\s*<ul[^>]*>[\s\S]*?</ul>\s*", "", body0)
+    body0 = re.sub(r"<h[23][^>]*>\s*함께 보면 좋은 글\s*</h[23]>\s*(?=<h2|$)", "", body0)
+    if len(body0) != n2:
+        html = body0 + tail0; done.append("본문 속 가짜 관련글 블록 제거")
     # 모델이 지어낸 가짜 내부 링크(href가 한글 슬러그·상대경로 아님) → 링크만 벗기고 글자는 남긴다(404 링크 방지)
     n1 = len(html)
     html = re.sub(r'<a\s+href="(?!https?://|/|#|mailto:)[^"]*"[^>]*>(.*?)</a>', r"\1", html, flags=re.S)
