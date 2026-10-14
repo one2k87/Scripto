@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-13T12:37:48",
+ "updated_at": "2026-10-14T09:44:46",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 8,
@@ -12,7 +12,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-10-13T11:55:40\",\"link\":\"https:\\/\\/wontheland.com\\/senior-hospital-kiosk-registration\\/\"},{\"modified\":"
+  "body_head": "[{\"modified\":\"2026-10-14T09:40:38\",\"link\":\"https:\\/\\/wontheland.com\\/post-e702c935\\/\"},{\"modified\":\"2026-10-13T12:41:52\""
  },
  "posts_n": 30,
  "results": [
@@ -23,6 +23,30 @@
    "lastCrawl": "2026-09-19"
   },
   {
+   "url": "https://wontheland.com/post-e702c935/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-smartphone-document-pdf-send-method/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/2026-september-senior-data-usage-check/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-10-10"
+  },
+  {
+   "url": "https://wontheland.com/senior-international-call-block/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-10-08"
+  },
+  {
    "url": "https://wontheland.com/senior-hospital-kiosk-registration/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
@@ -31,7 +55,7 @@
   {
    "url": "https://wontheland.com/2026-10-senior-smartphone-airplane-mode-communication/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -43,7 +67,7 @@
   {
    "url": "https://wontheland.com/senior-phone-micro-payment-limit-check-reduce/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -61,7 +85,7 @@
   {
    "url": "https://wontheland.com/senior-digital-education-2026-october/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -109,19 +133,13 @@
   {
    "url": "https://wontheland.com/senior-mobile-drivers-license-guide/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-international-call-block/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-08"
   },
   {
    "url": "https://wontheland.com/senior-phone-data-saving-2026-10/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -145,7 +163,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-video-call-seamless-free/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -163,7 +181,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-joint-certificate-2026-11/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -175,26 +193,8 @@
   {
    "url": "https://wontheland.com/senior-digital-fraud-prevention-202610/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/mobile-id-bank-confusion-2026/",
-   "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
    "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-digital-assistance-2026-09/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/2026-september-senior-data-usage-check/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-10"
   }
  ],
  "history": [
@@ -230,6 +230,12 @@
   },
   {
    "d": "2026-10-13",
+   "posts": 30,
+   "indexed": 8,
+   "checked": 30
+  },
+  {
+   "d": "2026-10-14",
    "posts": 30,
    "indexed": 8,
    "checked": 30

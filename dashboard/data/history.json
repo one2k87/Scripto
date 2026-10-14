@@ -1377,6 +1377,32 @@
       "intent": "evergreen",
       "date": "2026-10-13",
       "series_id": ""
+    },
+    {
+      "title": "매달 나가는 통신비 부담, 2026년 10월 시니어 휴대폰 약정은 어떻게 확인하고 해지해야 할까요?",
+      "slug": "senior-digital-phone-contract-check-cancel-202610",
+      "url": "",
+      "post_id": null,
+      "status": "폐기",
+      "kind": "long",
+      "keyword": "매달 나가는 통신비 부담, 시니어 휴대폰 약정 기간 확인하고 해지하는 방법",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-10-14",
+      "series_id": ""
+    },
+    {
+      "title": "스미싱 문자 돈 요구, 가족 약속 정, 신청 전에 확인해야 할 조건",
+      "slug": "post-e702c935",
+      "url": "https://wontheland.com/post-e702c935/",
+      "post_id": 3085,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "스미싱 문자 돈 요구, 가족 약속 정",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-10-14",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
