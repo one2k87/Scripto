@@ -109,7 +109,7 @@ def collect_lane(cfg, cat, lane, n_slots, exclude):
     raw = chat(topics.build_topic_prompt(cat["name"], cat["desc"], lane, pool, exclude=exclude,
                                          winners=cfg.get("_insight_hints"),
                                          intent=cfg.get("_today_intent")),
-               cfg["llm"], max_tokens=900, temperature=0.9)
+               cfg["llm"], max_tokens=1400, temperature=0.9)   # 2026-10-14: 900이면 마지막 줄이 잘려 깨진 주제가 들어갔다
     cand = topics.parse_topics(raw, pool)
     # 백로그 주제 재고 합류(#49, 2026-09-07): 옛 초안에서 추출한 주제를 후보의 절반까지 공급.
     # 재고 주제도 이후의 모든 검증(금지·기업 필터 → 저경쟁/시즌 판별 → 네이버 실측 →

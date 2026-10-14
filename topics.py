@@ -235,6 +235,7 @@ META_HINTS = [
     "애드센스", "구글 광고 수익", "제휴 마케팅", "쿠팡 파트너스", "수익률 비교",
     "수익화", "부업으로", "온라인 부업", "재택 부업", "조회수 늘리", "방문자 늘리",
     "트래픽 늘리", "키워드 발굴", "상위노출 하는 법", "SEO 하는 법", "콘텐츠 마케팅",
+    "블로그를 위한", "블로그, 2026", "시작했는데 수익", "블로그 글감",
 ]
 
 
@@ -243,11 +244,24 @@ def is_meta_topic(keyword):
     return any(h and h in kw for h in META_HINTS)
 
 
+_PREAMBLE_RE = re.compile(r"(다음은|아래는|주제입니다|주제 목록|제안합니다|추천합니다|을 위한 \d+가지|개의 주제|^주제\s*[:：]|[:：]$)")
+
+
 def parse_topics(text, count):
+    """모델 출력에서 주제 줄만 뽑는다.
+    2026-10-14 실측 2건: ①서문("다음은 '시니어 디지털' 블로그를 위한 5가지 주제입니다.")이 주제로 들어가
+    메타 주제 글이 생성·폐기됨 ②max_tokens에 잘린 마지막 줄("…가족 약속 정")이 주제로 들어가
+    제목·슬러그가 깨진 글(#3085)이 공개됨. 서문·잘린 꼬리·너무 짧은 줄은 버린다."""
     out = []
     seen = set()
-    for line in (text or "").splitlines():
+    lines = (text or "").splitlines()
+    # 출력이 줄 중간에서 끊겼으면(끝이 개행·마침표·닫는 괄호가 아님) 마지막 줄은 잘렸을 수 있다 → 버림
+    if lines and not (text or "").endswith(("\n", ".", "。", ")", "）", "?", "!", "\"")):
+        lines = lines[:-1]
+    for line in lines:
         line = re.sub(r"^[\-\*\d\.\)\s\"'·•]+", "", line.strip()).strip().strip('"').strip()
+        if len(line) < 8 or _PREAMBLE_RE.search(line):
+            continue
         key = re.sub(r"\s+", "", line)
         if line and key not in seen:
             seen.add(key)

@@ -215,6 +215,12 @@ def publish_to_wordpress(article, wp_cfg):
             print(f"[integrity] 발행 전 수리: {', '.join(_done)}")
             article["html"] = fixed
         _crit = _integ.critical(_integ.check(article["html"]))
+        # 2026-10-14(#3085): 슬러그가 md5 대체값이면 제목이 깨진 글(잘린 주제)일 확률이 높다 → 초안
+        import re as _re2
+        if _re2.fullmatch(r"post-[0-9a-f]{8}", str(article.get("slug") or "")):
+            _crit.append("슬러그 생성 실패(제목 깨짐 의심)")
+        if not (article.get("meta") or "").strip():
+            _crit.append("메타 설명 없음")
         if _crit:
             print(f"[integrity] 🚫 치명 문제 → 초안으로 발행: {_crit}")
             article["integrity_hold"] = _crit
