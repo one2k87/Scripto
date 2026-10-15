@@ -1,13 +1,10 @@
 {
- "at": "2026-10-14 10:59",
+ "at": "2026-10-15 09:14",
  "total": 49,
  "dry": false,
  "repaired": [],
  "failed": [],
  "warnings": {
-  "3085": [
-   "BlogPosting description 없음"
-  ],
   "2663": [
    "본문 잘림 의심(끝: …사 변경 후 데이터 사용량 확인 방법)"
   ]
