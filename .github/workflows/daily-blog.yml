@@ -250,6 +250,11 @@ jobs:
         if: always()
         run: python scripts/daily_check_fix.py || true
 
+      - name: 쇼츠 원고 공급 (C 캐스토 → OneShorts, 2026-10-16)
+        if: always()
+        continue-on-error: true
+        run: python scripts/shorts_feed.py
+
       - name: 결과 커밋 (대시보드가 읽음)
         if: always()   # 생성 일부 실패해도 만들어진 결과는 커밋
         run: |
