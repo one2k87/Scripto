@@ -174,12 +174,14 @@ def _tidy(html):
     # 스크립트·JSON-LD는 파서가 건드리지 않도록 잠시 빼둔다
     keep = []
     def _hold(m):
-        keep.append(m.group(0)); return f"\x00K{len(keep)-1}\x00"
+        keep.append(m.group(0)); return f"\uE000K{len(keep)-1}\uE001"
     tmp = re.sub(r"<script[\s\S]*?</script>|<!--[\s\S]*?-->", _hold, html)
     soup = BeautifulSoup(tmp, "html5lib")
     body = soup.body
     out = "".join(str(x) for x in body.contents) if body else str(soup)
-    out = re.sub(r"\x00K(\d+)\x00", lambda m: keep[int(m.group(1))], out)
+    out = re.sub(r"\uE000K(\d+)\uE001", lambda m: keep[int(m.group(1))], out)
+    if re.search(r"\uE000|\uE001|K\d+K\d+", out):   # 복원 실패 흔적이 있으면 원문 유지
+        return html, False
     return out, out != html
 
 

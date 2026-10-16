@@ -475,7 +475,14 @@ def _run_category(cfg, cat, hist, auto_publish, img_budget=None):
     # 이 카테고리의 과거 글만으로 중복방지 + 내부링크
     cat_hist = [a for a in hist["articles"] if a.get("category") == name]
     exclude = [a["title"] for a in cat_hist] + [a.get("keyword", "") for a in cat_hist]
-    related_pool = list(reversed(cat_hist))[:6]
+    # 2026-10-16(#3105): 관련글에 폐기·초안(md5 슬러그, ?p= 주소) 글이 섞여 404 링크가 생겼다 → 공개된 글만
+    def _live(a):
+        st = str(a.get("status") or "")
+        u = str(a.get("post_url") or a.get("url") or "")
+        sl = str(a.get("slug") or "")
+        return (st in ("게시됨", "publish", "published") and u.startswith("http") and "?p=" not in u
+                and not re.fullmatch(r"post-[0-9a-f]{8}", sl) and not a.get("integrity_hold"))
+    related_pool = [a for a in reversed(cat_hist) if _live(a)][:6]
 
     print(f"\n########## [{name}] ##########")
     slots = _plan_slots(cfg, cat)

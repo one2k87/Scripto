@@ -221,6 +221,8 @@ def publish_to_wordpress(article, wp_cfg):
             _crit.append("슬러그 생성 실패(제목 깨짐 의심)")
         if not (article.get("meta") or "").strip():
             _crit.append("메타 설명 없음")
+        if article.get("_title_fallback"):
+            _crit.append("제목 폴백(생성 출력 잘림)")
         if _crit:
             print(f"[integrity] 🚫 치명 문제 → 초안으로 발행: {_crit}")
             article["integrity_hold"] = _crit

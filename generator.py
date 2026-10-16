@@ -1094,7 +1094,7 @@ def _gen_one(keyword, kind, llm_cfg, category, links, related, blog_url,
     intent_ctx = search_intent(keyword, category, llm_cfg)   # 검색의도 선행 분석(실패 무해)
     prompt = _article_prompt(keyword, kind, category, links, related, insert_ads, competitive,
                              intent_ctx=intent_ctx)
-    raw = chat(prompt, llm_cfg, system=SYSTEM, max_tokens=6000, temperature=0.7)
+    raw = chat(prompt, llm_cfg, system=SYSTEM, max_tokens=12000, temperature=0.7)   # 2026-10-16: 6000이면 본문·JSON이 잘려 제목 폴백·잘린 본문 발생
     data = _parse_output(raw)
     body = data.get("html_body", "")
     # 파싱 실패/본문 유실 시: JSON 원문을 본문에 넣지 않고 HTML만 건져 안전 처리
@@ -1113,6 +1113,7 @@ def _gen_one(keyword, kind, llm_cfg, category, links, related, blog_url,
     if _bad:
         # 폴백 제목도 상투어를 쓰지 않는다(품질 게이트가 잡는 표현이므로)
         title = f"{keyword}, 신청 전에 확인해야 할 조건"
+        data["_title_fallback"] = True   # 모델 출력이 잘렸다는 신호 — 발행 관문이 초안으로 돌린다
     title, _t_chg = sanitize_title(title)
     if _t_chg:
         print(f"  · 제목 상투어 자동 치환({', '.join(_t_chg)}) → {title}")
@@ -1128,6 +1129,7 @@ def _gen_one(keyword, kind, llm_cfg, category, links, related, blog_url,
         "focus_keyword": data.get("focus_keyword", keyword),
         "tags": data.get("tags", []), "faqs": data.get("faqs", []),
         "html": full_html, "links": links,
+        "_title_fallback": bool(data.get("_title_fallback")),
     }
 
 
