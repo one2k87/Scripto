@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-16T08:56:15",
+ "updated_at": "2026-10-16T10:24:03",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 11,
@@ -12,7 +12,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-10-15T10:35:39\",\"link\":\"https:\\/\\/wontheland.com\\/2026-september-senior-data-usage-check\\/\"},{\"modifi"
+  "body_head": "[{\"modified\":\"2026-10-16T08:58:24\",\"link\":\"https:\\/\\/wontheland.com\\/2026-september-senior-data-usage-check\\/\"},{\"modifi"
  },
  "posts_n": 30,
  "results": [
@@ -145,7 +145,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -169,7 +169,7 @@
   {
    "url": "https://wontheland.com/alt-phone-customer-service-number-202610/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -187,7 +187,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-video-call-seamless-free/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
