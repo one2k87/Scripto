@@ -1455,6 +1455,32 @@
       "intent": "evergreen",
       "date": "2026-10-16",
       "series_id": ""
+    },
+    {
+      "title": "시니어 카카오톡 영상통화, 연결 안 될 때 재시도부터 하면 안 됩니다",
+      "slug": "senior-kakaotalk-videocall-troubleshooting",
+      "url": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
+      "post_id": 3116,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "시니어 스마트폰에서 카카오톡으로 영상통화 걸고 받는 3단계 방법",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-10-17",
+      "series_id": ""
+    },
+    {
+      "title": "정부24 초본 등본 무료 발급, 쉬운 절차",
+      "slug": "government24-certificate-free-easy-steps",
+      "url": "https://wontheland.com/?p=3118",
+      "post_id": 3118,
+      "status": "예약발행",
+      "kind": "long",
+      "keyword": "정부24에서 초본/등본 무료로 발급받는 쉬운 절차와 준비물",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-10-17",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"

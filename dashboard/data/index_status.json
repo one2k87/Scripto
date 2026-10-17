@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-16T10:24:03",
+ "updated_at": "2026-10-17T09:00:47",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 11,
@@ -12,7 +12,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-10-16T08:58:24\",\"link\":\"https:\\/\\/wontheland.com\\/2026-september-senior-data-usage-check\\/\"},{\"modifi"
+  "body_head": "[{\"modified\":\"2026-10-17T08:56:35\",\"link\":\"https:\\/\\/wontheland.com\\/senior-kakaotalk-videocall-troubleshooting\\/\"},{\"mo"
  },
  "posts_n": 30,
  "results": [
@@ -23,10 +23,22 @@
    "lastCrawl": "2026-09-19"
   },
   {
+   "url": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
    "url": "https://wontheland.com/2026-september-senior-data-usage-check/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-10-10"
+  },
+  {
+   "url": "https://wontheland.com/senior-smartphone-photo-backup-google-naver-2026/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-digital-suspicious-payment-sms-202610/",
@@ -127,7 +139,7 @@
   {
    "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -180,18 +192,6 @@
   },
   {
    "url": "https://wontheland.com/senior-digital-photo-print-organize-202610/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-video-call-seamless-free/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-photo-tips/",
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
    "lastCrawl": ""
@@ -248,6 +248,12 @@
   },
   {
    "d": "2026-10-16",
+   "posts": 30,
+   "indexed": 11,
+   "checked": 30
+  },
+  {
+   "d": "2026-10-17",
    "posts": 30,
    "indexed": 11,
    "checked": 30
