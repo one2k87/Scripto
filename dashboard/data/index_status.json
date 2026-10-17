@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-17T10:24:08",
+ "updated_at": "2026-10-18T08:30:13",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 11,
@@ -12,7 +12,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-10-17T08:56:35\",\"link\":\"https:\\/\\/wontheland.com\\/senior-kakaotalk-videocall-troubleshooting\\/\"},{\"mo"
+  "body_head": "[{\"modified\":\"2026-10-18T08:26:00\",\"link\":\"https:\\/\\/wontheland.com\\/lower-senior-phone-bill-2026\\/\"},{\"modified\":\"2026-"
  },
  "posts_n": 30,
  "results": [
@@ -23,7 +23,7 @@
    "lastCrawl": "2026-09-19"
   },
   {
-   "url": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
+   "url": "https://wontheland.com/lower-senior-phone-bill-2026/",
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
    "lastCrawl": ""
@@ -33,6 +33,18 @@
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-10-10"
+  },
+  {
+   "url": "https://wontheland.com/government24-certificate-free-easy-steps/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-smartphone-photo-backup-google-naver-2026/",
@@ -97,13 +109,13 @@
   {
    "url": "https://wontheland.com/smart-phone-dark-screen-solution-2026-10/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-phone-micro-payment-limit-check-reduce/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -175,25 +187,13 @@
   {
    "url": "https://wontheland.com/senior-phone-data-saving-2026-10/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/alt-phone-customer-service-number-202610/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/hospital-pharmacy-kiosk-payment-guide/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-digital-photo-print-organize-202610/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   }
  ],
@@ -254,6 +254,12 @@
   },
   {
    "d": "2026-10-17",
+   "posts": 30,
+   "indexed": 11,
+   "checked": 30
+  },
+  {
+   "d": "2026-10-18",
    "posts": 30,
    "indexed": 11,
    "checked": 30

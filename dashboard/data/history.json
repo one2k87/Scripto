@@ -1481,6 +1481,32 @@
       "intent": "evergreen",
       "date": "2026-10-17",
       "series_id": ""
+    },
+    {
+      "title": "2만 원대로 부모님 휴대폰 요금 낮추기, 2026년 알뜰폰 요금제 비교",
+      "slug": "lower-senior-phone-bill-2026",
+      "url": "https://wontheland.com/lower-senior-phone-bill-2026/",
+      "post_id": 3125,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "우리 부모님 휴대폰 요금제, 지금 바로 확인하고 더 저렴하게 바꾸는 방법",
+      "category": "시니어 디지털",
+      "intent": "revenue",
+      "date": "2026-10-18",
+      "series_id": ""
+    },
+    {
+      "title": "스마트폰에 구글 계정이 여러 개라면, 시니어 어르신은 어떤 것을 주 계정으로 둘지 고민됩니다",
+      "slug": "senior-smartphone-google-account-main-setting",
+      "url": "https://wontheland.com/?p=3127",
+      "post_id": 3127,
+      "status": "예약발행",
+      "kind": "long",
+      "keyword": "시니어 스마트폰 구글 계정 여러 개일 때, 어떤 것을 주계정으로 설정해야 할까요?",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-10-18",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
