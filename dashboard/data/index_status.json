@@ -1,10 +1,9 @@
 {
- "updated_at": "2026-10-18T10:05:36",
+ "updated_at": "2026-10-19T08:43:59",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 11,
  "ghosts": [
-  "https://wontheland.com/청년-구직활동수당-이행보고서-작성-방법-반드시-알/",
   "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/",
   "https://wontheland.com/서울-노원구-공릉동-도깨비시장-점포-대상-무선-화재/",
   "https://wontheland.com/시니어-전문-자격증-실버-보드게임-지도사-노인-일자/",
@@ -12,7 +11,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-10-18T08:32:37\",\"link\":\"https:\\/\\/wontheland.com\\/2026-september-senior-data-usage-check\\/\"},{\"modifi"
+  "body_head": "[{\"modified\":\"2026-10-19T08:39:48\",\"link\":\"https:\\/\\/wontheland.com\\/senior-low-cost-phone-usim-change\\/\"},{\"modified\":\""
  },
  "posts_n": 30,
  "results": [
@@ -23,10 +22,22 @@
    "lastCrawl": "2026-09-19"
   },
   {
+   "url": "https://wontheland.com/senior-low-cost-phone-usim-change/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
    "url": "https://wontheland.com/2026-september-senior-data-usage-check/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-10"
+   "lastCrawl": "2026-10-18"
+  },
+  {
+   "url": "https://wontheland.com/senior-smartphone-google-account-main-setting/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/lower-senior-phone-bill-2026/",
@@ -49,7 +60,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-photo-backup-google-naver-2026/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -115,7 +126,7 @@
   {
    "url": "https://wontheland.com/senior-phone-micro-payment-limit-check-reduce/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -151,7 +162,7 @@
   {
    "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -175,25 +186,13 @@
   {
    "url": "https://wontheland.com/smartphone-photo-google-photos-backup-senior/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-mobile-drivers-license-guide/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-phone-data-saving-2026-10/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/alt-phone-customer-service-number-202610/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   }
  ],
@@ -260,6 +259,12 @@
   },
   {
    "d": "2026-10-18",
+   "posts": 30,
+   "indexed": 11,
+   "checked": 30
+  },
+  {
+   "d": "2026-10-19",
    "posts": 30,
    "indexed": 11,
    "checked": 30
