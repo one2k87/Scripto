@@ -255,6 +255,11 @@ jobs:
         continue-on-error: true
         run: python scripts/shorts_feed.py
 
+      - name: 가이드 허브·도구 페이지 자동 갱신 (2026-10-19)
+        if: always()
+        continue-on-error: true
+        run: python scripts/hub_pages.py
+
       - name: 결과 커밋 (대시보드가 읽음)
         if: always()   # 생성 일부 실패해도 만들어진 결과는 커밋
         run: |
