@@ -106,9 +106,16 @@ def collect_lane(cfg, cat, lane, n_slots, exclude):
     # (2026-09-16: 슬롯 2인데 1편만 생산된 건의 원인 후보 — 후보 수를 로그로 남겨 내일 판정)
     pool = max(4, n_slots + 3)
 
+    _lt = []
+    if lane == "long" and "시니어" in str(cat.get("name", "")):
+        try:
+            _lt = topics.longtail_seeds(exclude=exclude)
+            print(f"  · 기종+증상 자동완성 후보 {len(_lt)}개" + (f" (예: {_lt[0]})" if _lt else ""))
+        except Exception as e:
+            print(f"  · 자동완성 건너뜀: {e}")
     raw = chat(topics.build_topic_prompt(cat["name"], cat["desc"], lane, pool, exclude=exclude,
                                          winners=cfg.get("_insight_hints"),
-                                         intent=cfg.get("_today_intent")),
+                                         intent=cfg.get("_today_intent"), longtail=_lt),
                cfg["llm"], max_tokens=1400, temperature=0.9)   # 2026-10-14: 900이면 마지막 줄이 잘려 깨진 주제가 들어갔다
     cand = topics.parse_topics(raw, pool)
     # 백로그 주제 재고 합류(#49, 2026-09-07): 옛 초안에서 추출한 주제를 후보의 절반까지 공급.

@@ -56,8 +56,69 @@ INTENT_GUIDE = {
 }
 
 
+# ── 기종+증상 롱테일 (2026-10-19) ─────────────────────────────────────
+# 근거: GSC 28일 노출 7회 — "시니어 스마트폰 ○○" 같은 넓은 주제는 신생 도메인이 순위에 못 든다.
+# 부모님 세대는 기종명과 증상을 그대로 검색한다("갤럭시 A15 글씨 크게"). 경쟁 글이 적은 이 질문들을
+# 검색 자동완성(구글·네이버)에서 매일 실측해 주제 후보로 준다. 실패하면 조용히 빈 목록(기존 동작 유지).
+LONGTAIL_DEVICES = ["갤럭시 A15", "갤럭시 A25", "갤럭시 A35", "갤럭시 S24", "갤럭시 퀀텀",
+                    "갤럭시 폴더폰", "아이폰 13", "아이폰 15", "아이폰 SE", "효도폰"]
+LONGTAIL_SYMPTOMS = ["글씨 크게", "소리 안 들림", "카톡 안됨", "배터리 빨리 닳음", "화면 꺼짐",
+                     "벨소리 작음", "사진 옮기기", "데이터 차단", "업데이트 안함", "와이파이 연결 안됨",
+                     "전화 안 받아짐", "문자 안 옴"]
+
+
+def _suggest(q, timeout=6):
+    """구글·네이버 자동완성. 네트워크·형식 오류는 빈 목록."""
+    import json as _json
+    import urllib.parse as _up
+    import urllib.request as _ur
+    out = []
+    urls = [
+        ("g", "https://suggestqueries.google.com/complete/search?client=firefox&hl=ko&q=" + _up.quote(q)),
+        ("n", "https://ac.search.naver.com/nx/ac?st=100&r_format=json&r_enc=UTF-8&q_enc=UTF-8&q=" + _up.quote(q)),
+    ]
+    for src, u in urls:
+        try:
+            req = _ur.Request(u, headers={"User-Agent": "Mozilla/5.0"})
+            raw = _ur.urlopen(req, timeout=timeout).read().decode("utf-8", "ignore")
+            d = _json.loads(raw)
+            if src == "g":
+                out += [x for x in (d[1] if len(d) > 1 else []) if isinstance(x, str)]
+            else:
+                for grp in d.get("items", []):
+                    for it in grp:
+                        if it and isinstance(it[0], str):
+                            out.append(it[0])
+        except Exception:
+            continue
+    return out
+
+
+def longtail_seeds(n=24, today=None, exclude=None):
+    """오늘의 기종×증상 자동완성 후보. 날짜로 회전해 매일 다른 조합을 본다."""
+    today = today or date.today()
+    exclude_key = {re.sub(r"\s+", "", e) for e in (exclude or [])}
+    k = today.toordinal()
+    devs = [LONGTAIL_DEVICES[(k + i) % len(LONGTAIL_DEVICES)] for i in range(3)]
+    syms = [LONGTAIL_SYMPTOMS[(k * 3 + i) % len(LONGTAIL_SYMPTOMS)] for i in range(4)]
+    seen, out = set(), []
+    for d in devs:
+        for q in [d] + [f"{d} {s}" for s in syms]:
+            for sug in _suggest(q):
+                sug = sug.strip()
+                key = re.sub(r"\s+", "", sug)
+                if len(sug) < 6 or key in seen or key in exclude_key:
+                    continue
+                if not any(t in sug for t in ("갤럭시", "아이폰", "효도폰", "폴더폰", "핸드폰", "휴대폰", "카톡", "폰")):
+                    continue
+                seen.add(key); out.append(sug)
+                if len(out) >= n:
+                    return out
+    return out
+
+
 def build_topic_prompt(category, category_desc, kind, count, exclude=None, today=None,
-                       winners=None, intent=None):
+                       winners=None, intent=None, longtail=None):
     exclude = exclude or []
     ex_text = "\n".join(f"- {t}" for t in exclude[:60]) or "(없음)"
     winners = winners or []
@@ -126,7 +187,14 @@ def build_topic_prompt(category, category_desc, kind, count, exclude=None, today
   (나쁜 예: 너무 좁아 아무도 안 찾는 "○○동 △△은행 무직자 소액대출 후기" 류)
 """
 
-    return common + intent_text + win_text + extra + f"""
+    lt_text = ""
+    if longtail and kind != "season":
+        lt_text = ("\n[오늘의 실제 검색 자동완성 — 기종+증상 (구글·네이버 실측)]\n"
+                   + "\n".join(f"- {q}" for q in longtail[:24])
+                   + "\n→ 주제의 **절반 이상은 위 목록에서 골라** 만든다. 기종명과 증상을 주제 문장에 **그대로** 넣는다"
+                     "(예: '갤럭시 A15 글씨 크게 하는 법, 부모님 폰 3단계'). 목록에 없는 기종·증상을 지어내지 않는다."
+                     " 신생 블로그는 넓은 주제로는 검색에 노출되지 않으므로, 이렇게 좁고 실제로 검색되는 질문이 우선이다.\n")
+    return common + intent_text + win_text + lt_text + extra + f"""
 출력은 줄바꿈으로 구분된 한국어 주제 문장 정확히 {count}개만. 번호/설명/따옴표 없이.
 각 주제는 그대로 블로그 제목 키워드로 쓸 수 있게 구체적으로."""
 
