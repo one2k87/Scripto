@@ -62,9 +62,12 @@ INTENT_GUIDE = {
 # 검색 자동완성(구글·네이버)에서 매일 실측해 주제 후보로 준다. 실패하면 조용히 빈 목록(기존 동작 유지).
 LONGTAIL_DEVICES = ["갤럭시 A15", "갤럭시 A25", "갤럭시 A35", "갤럭시 S24", "갤럭시 퀀텀",
                     "갤럭시 폴더폰", "아이폰 13", "아이폰 15", "아이폰 SE", "효도폰"]
-LONGTAIL_SYMPTOMS = ["글씨 크게", "소리 안 들림", "카톡 안됨", "배터리 빨리 닳음", "화면 꺼짐",
-                     "벨소리 작음", "사진 옮기기", "데이터 차단", "업데이트 안함", "와이파이 연결 안됨",
-                     "전화 안 받아짐", "문자 안 옴"]
+# 자동완성은 짧은 어간에서 잘 나온다(10/19 실측: "갤럭시 A15 글씨 크게"→0, "아이폰 15 소리"→6)
+LONGTAIL_SYMPTOMS = ["글씨", "소리", "카톡", "배터리", "화면", "벨소리", "사진", "데이터",
+                     "업데이트", "와이파이", "전화", "문자", "알림", "잠금"]
+# 기종만 넣으면 케이스·출시일·디시 같은 쇼핑/잡담 자동완성이 쏟아진다(10/19 실측) → 걸러냄
+_LT_JUNK = ("케이스", "출시", "디시", "가격", "색감", "쓰레기", "공기계", "스펙", "중고", "사전예약",
+            "할인", "리뷰", "언박싱", "필름", "갤럭시탭", "자급제", "성지", "비교", "색상", "크기", "무게")
 
 
 def _suggest(q, timeout=6):
@@ -100,14 +103,16 @@ def longtail_seeds(n=24, today=None, exclude=None):
     exclude_key = {re.sub(r"\s+", "", e) for e in (exclude or [])}
     k = today.toordinal()
     devs = [LONGTAIL_DEVICES[(k + i) % len(LONGTAIL_DEVICES)] for i in range(3)]
-    syms = [LONGTAIL_SYMPTOMS[(k * 3 + i) % len(LONGTAIL_SYMPTOMS)] for i in range(4)]
+    syms = [LONGTAIL_SYMPTOMS[(k * 3 + i) % len(LONGTAIL_SYMPTOMS)] for i in range(5)]
     seen, out = set(), []
     for d in devs:
-        for q in [d] + [f"{d} {s}" for s in syms]:
+        for q in [f"{d} {s}" for s in syms]:
             for sug in _suggest(q):
                 sug = sug.strip()
                 key = re.sub(r"\s+", "", sug)
-                if len(sug) < 6 or key in seen or key in exclude_key:
+                if len(sug) < 6 or key in seen or key in exclude_key or any(j in sug for j in _LT_JUNK):
+                    continue
+                if len(sug.split()) < 3:          # "아이폰 15 소리"처럼 증상이 비어 있는 건 버림
                     continue
                 if not any(t in sug for t in ("갤럭시", "아이폰", "효도폰", "폴더폰", "핸드폰", "휴대폰", "카톡", "폰")):
                     continue
