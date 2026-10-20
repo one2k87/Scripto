@@ -1,6 +1,34 @@
 {
- "updated_at": "2026-10-19 10:22",
+ "updated_at": "2026-10-20 09:47",
  "items": [
+  {
+   "post_id": 3136,
+   "url": "https://wontheland.com/kakao-talk-phishing-prevention-senior/",
+   "date": "2026-10-19",
+   "title": "부모님 카카오톡 친구 사칭 돈 요구, 메신저 피싱 구별 3가지 약속으로 막습니다.",
+   "hook": "부모님께 갑자기 '친구인데 돈 좀 빌려달라'는 카카오톡 메시지가 왔다면 어떻게 하시겠어요?",
+   "lines": [
+    "부모님 카카오톡 친구 사칭, 왜 속을 수밖에 없을까요?",
+    "메신저 피싱 구별 3가지 약속, 이렇게 알려드리세요",
+    "이미 돈을 보냈다면? 즉시 해야 할 대처와 자녀가 도와줄 일"
+   ],
+   "cta": "자세한 순서는 프로필 링크 · 원더랜드 블로그에서 확인하세요",
+   "used": false
+  },
+  {
+   "post_id": 3151,
+   "url": "https://wontheland.com/galaxy-a25-battery-drain-replacement-comparison/",
+   "date": "2026-10-20",
+   "title": "갤럭시 A25 배터리 빨리 닳을 때, 정품 교체 시기와 용량 비교로 고민을 줄입니다",
+   "hook": "새로 산 갤럭시 A25 배터리가 벌써 빨리 닳는 것 같아 걱정되시나요?",
+   "lines": [
+    "새로 산 갤럭시 A25 배터리가 벌써 닳는다면?",
+    "갤럭시 A25 정품 배터리 용량과 교체 시기는 어떻게 되나요?",
+    "갤럭시 A25 배터리 교체, 정품 서비스센터와 사설 수리점 중 무엇을 고를까요?"
+   ],
+   "cta": "자세한 순서는 프로필 링크 · 원더랜드 블로그에서 확인하세요",
+   "used": false
+  },
   {
    "post_id": 3127,
    "url": "https://wontheland.com/senior-smartphone-google-account-main-setting/",
