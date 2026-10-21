@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-10-21T09:14:42",
+ "updated_at": "2026-10-21T10:35:16",
  "site": "https://wontheland.com",
- "checked": 30,
- "indexed": 11,
+ "checked": 1,
+ "indexed": 1,
  "ghosts": [
   "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/",
   "https://wontheland.com/서울-노원구-공릉동-도깨비시장-점포-대상-무선-화재/",
@@ -10,190 +10,15 @@
   "https://wontheland.com/청년-주거-안심-패키지-사업-전세보증금-이자-지원-및/"
  ],
  "posts_diag": {
-  "http": 200,
-  "body_head": "[{\"modified\":\"2026-10-21T09:10:33\",\"link\":\"https:\\/\\/wontheland.com\\/galaxy-a15-battery-drain-senior-fix\\/\"},{\"modified\""
+  "err": "Expecting value: line 1 column 1 (char 0)"
  },
- "posts_n": 30,
+ "posts_n": 0,
  "results": [
   {
    "url": "https://wontheland.com/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-10-19"
-  },
-  {
-   "url": "https://wontheland.com/galaxy-a15-battery-drain-senior-fix/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/2026-september-senior-data-usage-check/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-18"
-  },
-  {
-   "url": "https://wontheland.com/galaxy-a25-battery-drain-replacement-comparison/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/kakao-talk-phishing-prevention-senior/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-low-cost-phone-usim-change/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-google-account-main-setting/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/lower-senior-phone-bill-2026/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/government24-certificate-free-easy-steps/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-photo-backup-google-naver-2026/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-digital-suspicious-payment-sms-202610/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/smishing-text-message-distinction-for-seniors-2026/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-13"
-  },
-  {
-   "url": "https://wontheland.com/boice-phishing-prevention-senior-2026-september/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-19"
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-google-account-password-reset/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-digital-low-cost-unlimited-plan-202609/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-12"
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-document-pdf-send-method/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-international-call-block/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-08"
-  },
-  {
-   "url": "https://wontheland.com/senior-hospital-kiosk-registration/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-10"
-  },
-  {
-   "url": "https://wontheland.com/2026-10-senior-smartphone-airplane-mode-communication/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/smart-phone-dark-screen-solution-2026-10/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-phone-micro-payment-limit-check-reduce/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-hospital-mobile-registration-tips/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-10"
-  },
-  {
-   "url": "https://wontheland.com/senior-parents-overseas-travel-currency-exchange-mobile-guide/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-digital-education-2026-october/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/government24-mobile-id-senior-digital-guide/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-08"
-  },
-  {
-   "url": "https://wontheland.com/senior-digital-mvno-portability-guide/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-08"
-  },
-  {
-   "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-train-ticket-app-reservation/",
-   "verdict": "NEUTRAL",
-   "state": "Crawled - currently not indexed",
-   "lastCrawl": "2026-10-08"
-  },
-  {
-   "url": "https://wontheland.com/senior-express-bus-app-destination-check-2026/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-08"
   }
  ],
  "history": [
@@ -277,10 +102,10 @@
   },
   {
    "d": "2026-10-21",
-   "posts": 30,
-   "indexed": 11,
-   "checked": 30
+   "posts": 0,
+   "indexed": 1,
+   "checked": 1
   }
  ],
- "post_indexed": 10
+ "post_indexed": 0
 }
