@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-22T09:17:42",
+ "updated_at": "2026-10-22T10:34:13",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 9,
@@ -9,7 +9,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-10-22T09:13:35\",\"link\":\"https:\\/\\/wontheland.com\\/galaxy-s24-ringtone-notification-volume-settings\\/\""
+  "body_head": "[{\"modified\":\"2026-10-22T09:19:59\",\"link\":\"https:\\/\\/wontheland.com\\/2026-september-senior-data-usage-check\\/\"},{\"modifi"
  },
  "posts_n": 30,
  "results": [
@@ -20,9 +20,15 @@
    "lastCrawl": "2026-10-19"
   },
   {
+   "url": "https://wontheland.com/2026-september-senior-data-usage-check/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-10-18"
+  },
+  {
    "url": "https://wontheland.com/galaxy-s24-ringtone-notification-volume-settings/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -30,12 +36,6 @@
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
    "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/2026-september-senior-data-usage-check/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-18"
   },
   {
    "url": "https://wontheland.com/galaxy-a25-battery-drain-replacement-comparison/",
@@ -52,13 +52,13 @@
   {
    "url": "https://wontheland.com/senior-low-cost-phone-usim-change/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-smartphone-google-account-main-setting/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -76,7 +76,7 @@
   {
    "url": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -88,7 +88,7 @@
   {
    "url": "https://wontheland.com/senior-digital-suspicious-payment-sms-202610/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -106,7 +106,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-google-account-password-reset/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -118,7 +118,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-document-pdf-send-method/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -131,7 +131,7 @@
    "url": "https://wontheland.com/senior-hospital-kiosk-registration/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-10"
+   "lastCrawl": "2026-10-22"
   },
   {
    "url": "https://wontheland.com/2026-10-senior-smartphone-airplane-mode-communication/",
@@ -142,13 +142,13 @@
   {
    "url": "https://wontheland.com/smart-phone-dark-screen-solution-2026-10/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-phone-micro-payment-limit-check-reduce/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -160,13 +160,13 @@
   {
    "url": "https://wontheland.com/senior-parents-overseas-travel-currency-exchange-mobile-guide/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-digital-education-2026-october/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -184,7 +184,7 @@
   {
    "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
