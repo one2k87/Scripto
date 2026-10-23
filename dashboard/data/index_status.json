@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-22T10:34:13",
+ "updated_at": "2026-10-23T09:16:37",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 9,
@@ -9,7 +9,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-10-22T09:19:59\",\"link\":\"https:\\/\\/wontheland.com\\/2026-september-senior-data-usage-check\\/\"},{\"modifi"
+  "body_head": "[{\"modified\":\"2026-10-23T09:12:27\",\"link\":\"https:\\/\\/wontheland.com\\/galaxy-s24-wifi-senior-settings\\/\"},{\"modified\":\"20"
  },
  "posts_n": 30,
  "results": [
@@ -20,15 +20,27 @@
    "lastCrawl": "2026-10-19"
   },
   {
+   "url": "https://wontheland.com/galaxy-s24-wifi-senior-settings/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
    "url": "https://wontheland.com/2026-september-senior-data-usage-check/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-10-18"
   },
   {
-   "url": "https://wontheland.com/galaxy-s24-ringtone-notification-volume-settings/",
+   "url": "https://wontheland.com/galaxy-a35-photo-transfer-senior/",
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/galaxy-s24-ringtone-notification-volume-settings/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -95,7 +107,7 @@
    "url": "https://wontheland.com/smishing-text-message-distinction-for-seniors-2026/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-13"
+   "lastCrawl": "2026-10-23"
   },
   {
    "url": "https://wontheland.com/boice-phishing-prevention-senior-2026-september/",
@@ -118,7 +130,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-document-pdf-send-method/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -160,7 +172,7 @@
   {
    "url": "https://wontheland.com/senior-parents-overseas-travel-currency-exchange-mobile-guide/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -180,27 +192,9 @@
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-10-08"
-  },
-  {
-   "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-train-ticket-app-reservation/",
-   "verdict": "NEUTRAL",
-   "state": "Crawled - currently not indexed",
-   "lastCrawl": "2026-10-08"
   }
  ],
  "history": [
-  {
-   "d": "2026-10-09",
-   "posts": 30,
-   "indexed": 5,
-   "checked": 30
-  },
   {
    "d": "2026-10-10",
    "posts": 30,
@@ -275,6 +269,12 @@
   },
   {
    "d": "2026-10-22",
+   "posts": 30,
+   "indexed": 9,
+   "checked": 30
+  },
+  {
+   "d": "2026-10-23",
    "posts": 30,
    "indexed": 9,
    "checked": 30
