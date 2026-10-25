@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-25T10:13:33",
+ "updated_at": "2026-10-26T08:38:07",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 8,
@@ -28,7 +28,7 @@
   {
    "url": "https://wontheland.com/galaxy-s24-wifi-senior-settings/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -46,7 +46,7 @@
   {
    "url": "https://wontheland.com/galaxy-s24-ringtone-notification-volume-settings/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -76,7 +76,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-google-account-main-setting/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -94,7 +94,7 @@
   {
    "url": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -154,7 +154,7 @@
   {
    "url": "https://wontheland.com/2026-10-senior-smartphone-airplane-mode-communication/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -166,7 +166,7 @@
   {
    "url": "https://wontheland.com/senior-phone-micro-payment-limit-check-reduce/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -195,12 +195,6 @@
   }
  ],
  "history": [
-  {
-   "d": "2026-10-12",
-   "posts": 30,
-   "indexed": 8,
-   "checked": 27
-  },
   {
    "d": "2026-10-13",
    "posts": 30,
@@ -275,6 +269,12 @@
   },
   {
    "d": "2026-10-25",
+   "posts": 30,
+   "indexed": 8,
+   "checked": 30
+  },
+  {
+   "d": "2026-10-26",
    "posts": 30,
    "indexed": 8,
    "checked": 30
