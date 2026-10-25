@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-25T08:45:50",
+ "updated_at": "2026-10-25T10:13:33",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 8,
@@ -22,7 +22,7 @@
   {
    "url": "https://wontheland.com/galaxy-a35-overheat-settings-2026-10/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -46,7 +46,7 @@
   {
    "url": "https://wontheland.com/galaxy-s24-ringtone-notification-volume-settings/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -124,7 +124,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-google-account-password-reset/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -154,7 +154,7 @@
   {
    "url": "https://wontheland.com/2026-10-senior-smartphone-airplane-mode-communication/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
