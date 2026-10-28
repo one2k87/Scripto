@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-10-27T11:09:10",
+ "updated_at": "2026-10-28T09:46:31",
  "site": "https://wontheland.com",
- "checked": 30,
- "indexed": 8,
+ "checked": 20,
+ "indexed": 4,
  "ghosts": [
   "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/",
   "https://wontheland.com/서울-노원구-공릉동-도깨비시장-점포-대상-무선-화재/"
@@ -52,7 +52,7 @@
   {
    "url": "https://wontheland.com/galaxy-a15-battery-drain-senior-fix/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -88,7 +88,7 @@
   {
    "url": "https://wontheland.com/government24-certificate-free-easy-steps/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -100,7 +100,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-photo-backup-google-naver-2026/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -124,7 +124,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-google-account-password-reset/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -132,75 +132,9 @@
    "verdict": "NEUTRAL",
    "state": "Crawled - currently not indexed",
    "lastCrawl": "2026-10-21"
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-document-pdf-send-method/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-international-call-block/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-08"
-  },
-  {
-   "url": "https://wontheland.com/senior-hospital-kiosk-registration/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-22"
-  },
-  {
-   "url": "https://wontheland.com/2026-10-senior-smartphone-airplane-mode-communication/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/smart-phone-dark-screen-solution-2026-10/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-phone-micro-payment-limit-check-reduce/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-hospital-mobile-registration-tips/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-10"
-  },
-  {
-   "url": "https://wontheland.com/senior-parents-overseas-travel-currency-exchange-mobile-guide/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-digital-education-2026-october/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/government24-mobile-id-senior-digital-guide/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-21"
   }
  ],
  "history": [
-  {
-   "d": "2026-10-14",
-   "posts": 30,
-   "indexed": 11,
-   "checked": 30
-  },
   {
    "d": "2026-10-15",
    "posts": 30,
@@ -278,7 +212,13 @@
    "posts": 30,
    "indexed": 8,
    "checked": 30
+  },
+  {
+   "d": "2026-10-28",
+   "posts": 30,
+   "indexed": 4,
+   "checked": 20
   }
  ],
- "post_indexed": 7
+ "post_indexed": 3
 }
