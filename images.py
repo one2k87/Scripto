@@ -181,8 +181,16 @@ def generate_image(desc, cfg_images, out_dir, idx=0, category=""):
         # 무료 우선: ①Gemini 무료 생성(키 있을 때) ②스톡 ③코드 썸네일. 항상 무언가는 나옴.
         # (2026-08-30: 옛 순서는 스톡→썸네일뿐이라 CI에 스톡 키·Pillow가 없으면 전부 None
         #  → '이미지 1장' 요건에서 글이 통째로 폐기되던 원인)
-        if cfg_images.get("api_key"):
+        # 2026-10-30: Gemini 이미지 모델은 무료 등급 '사용 불가'(공식 가격표 실측) — 유료 키일 때만 성공.
+        # 429/한도가 한 번 나면 이번 실행 동안은 건너뛰고 ②Cloudflare FLUX(무료 일 10,000 뉴런)로.
+        if cfg_images.get("api_key") and not _GEMINI_OFF[0]:
             data = _gemini(build_prompt(desc, category, style), cfg_images)
+            if data: LAST_KIND = "ai"
+            elif "429" in str(globals().get("LAST_ERR", "")) or "403" in str(globals().get("LAST_ERR", "")):
+                _GEMINI_OFF[0] = True
+                print("[images] Gemini 이미지 무료 불가/한도 → 이번 실행은 Cloudflare FLUX로 전환")
+        if not data and _cf_ready(cfg_images):
+            data = _cloudflare(build_prompt(desc, category, style), cfg_images, size)
             if data: LAST_KIND = "ai"
         if not data:
             data = _stock(desc, category, cfg_images, size) or _thumbnail(desc, category, size)
@@ -205,7 +213,8 @@ def generate_image(desc, cfg_images, out_dir, idx=0, category=""):
             tries += 1
             extra = NO_TEXT_RETRY if tries == 1 else (NO_TEXT_RETRY + REFRAME_RETRY)
             print(f"[images] 🔍 글자 깨짐 감지 → 대체 생성 {tries}/2")
-            d2 = _gemini(build_prompt(desc, category, style) + extra, cfg_images)
+            _p2 = build_prompt(desc, category, style) + extra
+            d2 = (None if _GEMINI_OFF[0] else _gemini(_p2, cfg_images)) or (_cloudflare(_p2, cfg_images, size) if _cf_ready(cfg_images) else None)
             if not d2:
                 break
             data, v = d2, _check_text(d2, cfg_images)
@@ -433,6 +442,63 @@ def _openai(prompt, cfg, size):
     except Exception as e:
         print(f"[images] openai 생성 실패: {e}")
         return None
+
+
+_GEMINI_OFF = [False]
+
+
+def _cf_ready(cfg):
+    return bool((cfg.get("cf_account_id") or os.getenv("CF_ACCOUNT_ID"))
+                and (cfg.get("cf_api_token") or os.getenv("CF_API_TOKEN")))
+
+
+def _fit(img_bytes, size):
+    """정사각 생성물을 블로그 규격(기본 1200x675, 디스커버 1200px 이상)으로 중앙 크롭·확대."""
+    try:
+        from PIL import Image
+        import io
+        w, h = (int(x) for x in str(size or "1200x675").lower().split("x"))
+        im = Image.open(io.BytesIO(img_bytes)).convert("RGB")
+        sc = max(w / im.width, h / im.height)
+        im = im.resize((round(im.width * sc), round(im.height * sc)), Image.LANCZOS)
+        l, t = (im.width - w) // 2, (im.height - h) // 2
+        out = io.BytesIO()
+        im.crop((l, t, l + w, t + h)).save(out, "PNG", optimize=True)
+        return out.getvalue()
+    except Exception as e:
+        print(f"[images] 크기 맞춤 생략: {e}")
+        return img_bytes
+
+
+def _cloudflare(prompt, cfg, size=None):
+    """Cloudflare Workers AI — FLUX.1 schnell(무료 플랜 일 10,000 뉴런, 2026-10-30 도입).
+    Gemini 이미지가 무료 등급에서 '사용 불가'라 무료로 AI 이미지를 유지하는 경로."""
+    try:
+        import requests as _rq
+        acc = cfg.get("cf_account_id") or os.getenv("CF_ACCOUNT_ID")
+        tok = cfg.get("cf_api_token") or os.getenv("CF_API_TOKEN")
+        model = cfg.get("cf_model") or os.getenv("CF_IMAGE_MODEL") or "@cf/black-forest-labs/flux-1-schnell"
+        r = _rq.post(f"https://api.cloudflare.com/client/v4/accounts/{acc}/ai/run/{model}",
+                     headers={"Authorization": f"Bearer {tok}"},
+                     json={"prompt": prompt[:2048], "steps": 8}, timeout=120)
+        if r.status_code != 200:
+            globals()["LAST_ERR"] = f"cloudflare HTTP {r.status_code}: {r.text[:150]}"
+            print(f"[images] {globals()['LAST_ERR']}")
+            return None
+        if r.headers.get("content-type", "").startswith("image/"):
+            raw = r.content
+        else:
+            b64 = ((r.json() or {}).get("result") or {}).get("image")
+            if not b64:
+                print("[images] cloudflare 응답에 이미지 없음")
+                return None
+            raw = base64.b64decode(b64)
+        print("[images] Cloudflare FLUX 생성 성공")
+        return _fit(raw, size)
+    except Exception as e:
+        globals()["LAST_ERR"] = f"cloudflare 예외: {str(e)[:150]}"
+        print(f"[images] cloudflare 생성 실패: {e}")
+    return None
 
 
 def _gemini(prompt, cfg):

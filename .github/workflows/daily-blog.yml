@@ -127,6 +127,8 @@ jobs:
           IMAGE_API_KEY: ${{ secrets.IMAGE_API_KEY }}
           IMAGE_ENABLED: ${{ github.event.inputs.images }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
           METRICS_PROVIDER: ${{ secrets.METRICS_PROVIDER }}
           NAVER_API_KEY: ${{ secrets.NAVER_API_KEY }}

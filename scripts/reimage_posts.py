@@ -125,8 +125,11 @@ def main():
             done += 1
             continue
         path = images.generate_image(f"{style}|{desc}",
-                                     {"provider": "gemini", "api_key": img_key},
+                                     {"provider": "free", "api_key": img_key, "size": "1200x675"},
                                      "output/reimg", pid, category="")
+        if path and images.LAST_KIND != "ai":     # 2026-10-30: 재생성은 AI 이미지(Gemini 유료 또는 Cloudflare 무료)만 채택
+            print("  ✗ AI 이미지 경로 없음(스톡/썸네일은 교체하지 않음)"); failed += 1
+            continue
         if not path:
             print(f"  ✗ 생성 실패: {images.LAST_ERR[:100]}"); failed += 1
             time.sleep(8); continue

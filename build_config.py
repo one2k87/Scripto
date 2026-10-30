@@ -186,6 +186,8 @@ cfg = {
         "size": envs("IMAGE_SIZE", "1200x675"),                        # 디스커버/SNS 규격
         "max_per_run": envi("IMAGE_MAX_PER_RUN", 20),                   # 비용 상한(유료)
         "api_key": envs("IMAGE_API_KEY", ""),
+        "cf_account_id": envs("CF_ACCOUNT_ID", ""),                    # 무료 AI 이미지(Cloudflare FLUX)
+        "cf_api_token": envs("CF_API_TOKEN", ""),
     },
     "llm": {
         "provider": envs("LLM_PROVIDER", "gemini"),
