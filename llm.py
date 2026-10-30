@@ -123,9 +123,35 @@ def _anthropic(prompt, cfg, model, system, max_tokens, temperature):
 
 
 def _gemini(prompt, cfg, model, system, max_tokens, temperature):
-    import google.generativeai as genai
-    genai.configure(api_key=cfg["api_key"])
-    gm = genai.GenerativeModel(model or DEFAULT_MODEL, system_instruction=system or None)
-    resp = gm.generate_content(
-        prompt, generation_config={"max_output_tokens": max_tokens, "temperature": temperature})
-    return resp.text
+    """Gemini REST 직접 호출(2026-10-30). 옛 google.generativeai SDK는 지원 종료 + 3.x 사고(thinking)
+    토큰이 max_output_tokens 를 먹어 빈 응답(finish_reason=MAX_TOKENS)이 났다(10/30 #229 실측).
+    → thinkingLevel=low + 사고 여유분 4096 토큰 가산, 타임아웃 180초."""
+    import requests
+    model = model or DEFAULT_MODEL
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+    gen = {"maxOutputTokens": min(int(max_tokens) + 4096, 65536), "temperature": temperature}
+    body = {"contents": [{"role": "user", "parts": [{"text": prompt}]}], "generationConfig": gen}
+    if system:
+        body["systemInstruction"] = {"parts": [{"text": system}]}
+    if not model.startswith("gemini-2."):
+        gen["thinkingConfig"] = {"thinkingLevel": "low"}
+    h = {"x-goog-api-key": cfg["api_key"], "Content-Type": "application/json"}
+    r = requests.post(url, json=body, headers=h, timeout=180)
+    if r.status_code == 400 and "thinking" in r.text.lower() and "thinkingConfig" in gen:
+        gen.pop("thinkingConfig")                     # 사고 설정을 모르는 모델이면 빼고 재시도
+        r = requests.post(url, json=body, headers=h, timeout=180)
+    if r.status_code != 200:
+        try:
+            m = r.json().get("error", {}).get("message", "")
+        except Exception:
+            m = r.text[:300]
+        raise RuntimeError(f"{r.status_code} {m} (model {model})")
+    j = r.json()
+    cands = j.get("candidates") or []
+    if not cands:
+        raise RuntimeError(f"빈 응답(차단?) promptFeedback={j.get('promptFeedback')}")
+    parts = (cands[0].get("content") or {}).get("parts") or []
+    text = "".join(p.get("text", "") for p in parts if not p.get("thought"))
+    if not text:
+        raise RuntimeError(f"503 temporarily empty text, finishReason={cands[0].get('finishReason')}")
+    return text
