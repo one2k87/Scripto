@@ -16,6 +16,22 @@ import time
 _RETRYABLE = ("rate limit", "429", "resource has been exhausted", "unavailable",
               "overloaded", "timeout", "deadline", "503", "500", "temporarily")
 _exhausted = set()   # 오늘 일일 한도 소진된 모델
+DEFAULT_MODEL = "gemini-3.8-flash"   # 2026-10-30 현행(ai.google.dev deprecations 실측)
+
+
+def classify_error(msg):
+    """LLM 오류 분류(대시보드 '결제·모델 상태' 경보용, 2026-10-30).
+    billing = 선불 크레딧 소진·결제 문제(재시도 무의미) / model = 모델명 없음·종료 /
+    quota = 무료 일일 한도 / other."""
+    m = str(msg).lower()
+    if ("prepayment" in m or "credits are depleted" in m or "billing" in m
+            or "402" in m or "payment" in m):
+        return "billing"
+    if ("404" in m and "model" in m) or "is not found" in m or "not supported for generatecontent" in m:
+        return "model"
+    if _is_daily_quota(m) or "quota" in m:
+        return "quota"
+    return "other"
 
 
 def _is_daily_quota(msg):
@@ -30,7 +46,7 @@ def _models(cfg):
     for m in seq:
         if m and m not in seen:
             seen.add(m); out.append(m)
-    return out or [cfg.get("model") or "gemini-2.5-flash-lite"]
+    return out or [DEFAULT_MODEL]
 
 
 def chat(prompt, cfg, system=None, max_tokens=4000, temperature=0.7, retries=3):
@@ -52,6 +68,13 @@ def chat(prompt, cfg, system=None, max_tokens=4000, temperature=0.7, retries=3):
             except Exception as e:
                 last = e
                 msg = str(e)
+                kind = classify_error(msg)
+                if kind == "billing":                         # 결제 문제 → 모델을 바꿔도 같음, 즉시 중단
+                    raise
+                if kind == "model":                           # 없는/종료된 모델 → 다음 모델로
+                    print(f"[llm] '{model}' 사용 불가(모델 없음/종료) → 다른 모델로 전환")
+                    _exhausted.add(model)
+                    break
                 if _is_daily_quota(msg):                      # 일일 한도 → 다음 모델로
                     if model not in _exhausted:
                         print(f"[llm] '{model}' 오늘 무료 한도 소진 → 다른 모델로 전환")
@@ -102,7 +125,7 @@ def _anthropic(prompt, cfg, model, system, max_tokens, temperature):
 def _gemini(prompt, cfg, model, system, max_tokens, temperature):
     import google.generativeai as genai
     genai.configure(api_key=cfg["api_key"])
-    gm = genai.GenerativeModel(model or "gemini-2.5-flash-lite", system_instruction=system or None)
+    gm = genai.GenerativeModel(model or DEFAULT_MODEL, system_instruction=system or None)
     resp = gm.generate_content(
         prompt, generation_config={"max_output_tokens": max_tokens, "temperature": temperature})
     return resp.text

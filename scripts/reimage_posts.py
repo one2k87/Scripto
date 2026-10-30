@@ -77,7 +77,7 @@ def main():
     if not (wp.get("enabled") and wp.get("site_url")):
         print("WP 설정 없음 — 종료"); return
     llm_key = (cfg.get("llm") or {}).get("api_key", "")
-    llm_model = (cfg.get("llm") or {}).get("model") or "gemini-2.5-flash"
+    llm_model = (cfg.get("llm") or {}).get("model") or "gemini-3.8-flash"
     img_key = (cfg.get("images") or {}).get("api_key") or llm_key
     limit = int(os.getenv("REIMAGE_LIMIT") or "100")
     dry = (os.getenv("REIMAGE_DRY") or "").lower() == "true"

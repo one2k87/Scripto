@@ -2361,7 +2361,7 @@ document.getElementById("pauseBtn").onclick=togglePause;
    원칙: ①감지는 앱이 한다(사용자가 문제를 발견하게 두지 않는다)
         ②반복 작업(점검·수리)은 자동화한다 ③수동은 1회성·3클릭 이내로.
    여기서: 새 버전 감지 배너 / 24시간 지난 점검 자동 실행 / (옵트인) 자동 수리 / 할 일 인박스 */
-const APP_BUILD=160;
+const APP_BUILD=161;
 // 사용자에게 보이는 제품 버전 — 규칙·이력은 저장소 CHANGELOG.md (v0 여정은 docs/버전0_개발기.md)
 const SCRIPTO_VER="1.4";
 
@@ -7080,9 +7080,9 @@ async function loadStatus(dataUrl,force){
   const bad=(L.health_bad||[]).length;
   const runIcon=L.ok?"✅":"⚠️";
   const runAt=(L.at||"").slice(5,16).replace("T"," ");
-  const cost=U.est_cost_krw||0;
-  const llmToday=U.llm_today||0, llmMax=U.free_llm_daily||1000;
-  const costColor=cost>0?"#ffd479":"#33c27f";
+  const llmToday=U.llm_today||0;
+  const AL=s.llm_alarm;   // 2026-10-30 결제·모델 상태 경보
+  const alKind={billing:"결제·선불 크레딧 소진",model:"모델 없음/종료",quota:"무료 한도"};
   PANEL_HAS.status=true;
   box.innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
@@ -7093,9 +7093,9 @@ async function loadStatus(dataUrl,force){
     <div style="display:flex;gap:14px;flex-wrap:wrap;color:var(--muted)">
       <span>📝 생성 ${L.articles||0} · 게시 ${L.published||0} · 초안 ${L.draft||0} · 보류 ${L.held||0}</span>
       <span>⏱ ${L.duration_s||0}초</span>
-      <span>💸 이번 달 예상 <b style="color:${costColor}">₩${(cost||0).toLocaleString()}</b></span>
-      <span>🔢 오늘 호출 ${llmToday}/${llmMax}</span>
+      <span>🔢 오늘 LLM 호출 ${llmToday}</span>
     </div>
+    ${AL?`<div style="margin-top:8px;color:#ff6b4a;font-weight:600">💳 결제·모델 상태: ${alKind[AL.kind]||AL.kind} — ${String(AL.since||"").slice(5,10)}부터 생성 중단 (파이프라인 정상, 외부 원인)</div>`:""}
     ${bad?`<div style="margin-top:8px;color:#ff6b4a">🔴 점검필요: ${(L.health_bad||[]).join(", ")}</div>`:""}`;
   applyPanels();
 }
@@ -8111,12 +8111,14 @@ function renderBriefing(which){
         b={now:"오늘 아직 가동 전", sub:(L.at?`최근 ${String(L.at).slice(5,16).replace("T"," ")} — 게시 ${L.published||0}편`:"")+_idxLine()+_integLine(),
            next:idxStuck?"구글이 새 글을 안 가져갑니다 — GSC에서 '색인 생성 요청' (하루 ~10개)":"06:43 크론이 깨우면 자동으로 2편 — 보통 3시간 안에 도착"};
       }
+      if(window._LLMAL){ const k={billing:"결제·선불 크레딧 소진",model:"모델 없음/종료",quota:"무료 한도"}[_LLMAL.kind]||_LLMAL.kind;
+        b.now=`💳 생성 중단 — ${k}`; b.next=_LLMAL.kind==="billing"?"AI Studio에서 결제 충전 또는 무료 키로 LLM_API_KEY 교체 (파이프라인 정상)":"LLM_MODEL 시크릿을 비우면 현행 기본 모델 사용"; }
       if(held) b.actions=[{label:`⏸ 보류 ${held}편 보기`,on:"document.querySelector('#statusTabs .st[data-k=\\'held\\']')?.click()"}];
       el.innerHTML=_briefHtml(b);
     };
     if(_LISTRUN){ draw(_LISTRUN); return; }
     draw(null);
-    fetch("data/status.json?nc="+Date.now(),{cache:"no-store"}).then(r=>r.json()).then(sj=>{ _LISTRUN=(sj&&sj.last_run)||{}; draw(_LISTRUN); }).catch(()=>{});
+    fetch("data/status.json?nc="+Date.now(),{cache:"no-store"}).then(r=>r.json()).then(sj=>{ _LISTRUN=(sj&&sj.last_run)||{}; window._LLMAL=(sj&&sj.llm_alarm)||null; draw(_LISTRUN); }).catch(()=>{});
   }
 }
 // 힌트 다이어트: 첫 문장만 보이고 나머지는 ⓘ 뒤로. 마크업이 든 힌트는 손대지 않는다(링크·강조 보존).

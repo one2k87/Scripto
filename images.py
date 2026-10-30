@@ -117,7 +117,7 @@ def _check_text(img_bytes, cfg):
         import base64 as _b64
         import requests as _rq
         url = ("https://generativelanguage.googleapis.com/v1beta/models/"
-               "gemini-2.5-flash:generateContent")
+               "gemini-3.8-flash:generateContent")
         body = {"contents": [{"parts": [
             {"inline_data": {"mime_type": "image/png",
                              "data": _b64.b64encode(img_bytes).decode()}},
@@ -443,7 +443,7 @@ def _gemini(prompt, cfg):
     try:
         import requests as _rq
         model = cfg.get("model") or "gemini-3.1-flash-image"
-        if model.startswith("imagen"):          # 옛 기본값이 시크릿에 남아 있어도 동작하게
+        if model.startswith(("imagen", "gemini-2.")):   # 옛·종료 예정 모델이 시크릿에 남아 있어도 현행으로
             model = "gemini-3.1-flash-image"
         url = ("https://generativelanguage.googleapis.com/v1beta/models/"
                f"{model}:generateContent?key={cfg.get('api_key','')}")

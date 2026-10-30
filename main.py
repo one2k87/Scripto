@@ -33,7 +33,7 @@ import monitor
 import notify
 import insights
 import supabase_client
-from llm import chat
+from llm import chat, classify_error
 import generator                      # AD_CODE 배선용(모듈 전역을 세팅해야 하므로 모듈째 import)
 from generator import generate_article, generate_series
 from publisher import (publish_to_wordpress, upload_media, add_update_banner,
@@ -837,7 +837,42 @@ def _relink_old_posts(new_articles, hist, wp_cfg):
 
 
 STATUS_FILE = os.path.join(DASH_DATA, "status.json")
-FREE_LLM_DAILY = 1000        # 무료 티어 하루 호출 여유(대략)
+
+
+def _save_llm_alarm(cfg, kind, msg):
+    """'결제·모델 상태' 경보(2026-10-30, F 지시). 402/429(선불 소진)/404(모델) 를
+    status.json 의 llm_alarm 에 기록 → 대시보드 빨간 줄. 정상이면 지운다.
+    10/24~ 실패가 '파이프라인 고장'으로 오인되지 않게 외부 원인을 분리해 보여준다."""
+    try:
+        st = json.load(open(STATUS_FILE, encoding="utf-8"))
+    except Exception:
+        st = {}
+    prev = st.get("llm_alarm") or {}
+    if kind:
+        st["llm_alarm"] = {"kind": kind, "msg": msg[:200],
+                           "since": prev.get("since") if prev.get("kind") == kind else monitor.now_kst(),
+                           "at": monitor.now_kst()}
+        lr = dict(st.get("last_run") or {})
+        lr.update({"at": monitor.now_kst(), "ok": False, "articles": 0, "published": 0, "failed": 1})
+        st["last_run"] = lr
+        st["updated_at"] = monitor.now_kst()
+    else:
+        if not prev:
+            return
+        st.pop("llm_alarm", None)
+    try:
+        os.makedirs(DASH_DATA, exist_ok=True)
+        json.dump(st, open(STATUS_FILE, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"[status] 경보 저장 실패: {e}")
+    if kind and prev.get("kind") != kind:      # 상태가 바뀔 때만 1회 알림(매일 스팸 방지)
+        label = {"billing": "결제·선불 크레딧 소진", "model": "모델 없음/종료", "quota": "무료 한도"}.get(kind, "LLM 오류")
+        try:
+            notify.send(cfg, f"💳 <b>Scripto 생성 중단 — {label}</b>\n파이프라인 정상, 외부 원인입니다.\n{msg[:200]}")
+        except Exception:
+            pass
+
+
 USD_KRW = 1400               # 대략 환율(예상비용 표시용)
 IMAGEN_USD = 0.02            # 유료 이미지 1장(Imagen Fast)
 
@@ -867,7 +902,7 @@ def _save_status_and_notify(cfg, all_articles, start_t, ok=True, error=""):
     usage["llm_calls"] += snap["llm_calls"]
     usage["image_paid"] += snap["image_paid"]
     usage["image_free"] += snap["image_free"]
-    cost_krw = int(usage["image_paid"] * IMAGEN_USD * USD_KRW)   # 텍스트는 무료 티어 가정=0
+    cost_krw = int(usage["image_paid"] * IMAGEN_USD * USD_KRW)   # 유료 이미지만(텍스트 비용은 AI Studio가 정답)
 
     # 어떤 연동이 '오늘 기대됐는데 실패'인지
     today = monitor.now_kst()[:10]
@@ -896,10 +931,11 @@ def _save_status_and_notify(cfg, all_articles, start_t, ok=True, error=""):
         "updated_at": monitor.now_kst(),
         "last_run": stats,
         "health": health,
-        "usage": {**usage, "est_cost_krw": cost_krw,
-                  "free_llm_daily": FREE_LLM_DAILY,
-                  "llm_today": snap["llm_calls"]},
+        # 2026-10-30: est_cost_krw=0·free_llm_daily=1000 가정 삭제(실제론 선불 결제였음 — 오해 유발)
+        "usage": {**usage, "llm_today": snap["llm_calls"]},
     }
+    if prev.get("llm_alarm"):
+        status["llm_alarm"] = prev["llm_alarm"]
     try:
         os.makedirs(DASH_DATA, exist_ok=True)
         with open(STATUS_FILE, "w", encoding="utf-8") as f:
@@ -924,8 +960,6 @@ def _save_status_and_notify(cfg, all_articles, start_t, ok=True, error=""):
     if _held:
         notify.send(cfg, "🧬 <b>무결성 보류 → 초안</b>\n" + "\n".join(
             f"· {a.get('title','')[:40]} — {'; '.join(a['integrity_hold'][:3])}" for a in _held))
-    if snap["llm_calls"] >= FREE_LLM_DAILY * 0.8:
-        notify.send(cfg, f"⚠️ 오늘 LLM 호출 {snap['llm_calls']}회 — 무료 한도({FREE_LLM_DAILY}) 근접")
     return status
 
 
@@ -1021,10 +1055,16 @@ def run():
         print("[치명적] LLM 호출 실패 — 키 또는 모델명을 확인하세요.")
         print(f"  provider={lcfg.get('provider')}  model={lcfg.get('model')}")
         print(f"  오류: {e}")
-        print("  힌트: 모델을 'gemini-2.5-flash' → 'gemini-1.5-flash' 로 바꿔보거나,")
-        print("        LLM_API_KEY 가 올바른 Gemini API 키(AIza...)인지 확인하세요.")
+        kind = classify_error(e)
+        print(f"  분류: {kind} — " + {
+            "billing": "결제·선불 크레딧 문제. 코드·모델 문제 아님 → AI Studio 결제 또는 무료 키 교체",
+            "model": "모델명이 없거나 종료됨 → LLM_MODEL 시크릿을 비우면 현행 기본값 사용",
+            "quota": "무료 일일 한도 → 내일 자동 복구",
+        }.get(kind, "LLM_API_KEY 가 올바른 Gemini API 키인지 확인"))
         print("=" * 64)
+        _save_llm_alarm(cfg, kind, str(e))
         raise SystemExit(1)
+    _save_llm_alarm(cfg, None, "")
 
     hist = load_history()
 

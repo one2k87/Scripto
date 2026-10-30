@@ -8,6 +8,17 @@ build_config.py - 환경변수(GitHub Actions 시크릿)에서 config.json 생�
 import os, json
 
 
+
+_DEAD_MODEL = ("gemini-1.", "gemini-2.0", "gemini-pro", "gemini-3.1-flash-lite-preview", "gemini-3-pro-preview")
+
+
+def _live_model(m):
+    """종료된 Gemini 모델명 → 현행 모델(2026-10-30)."""
+    m = (m or "").strip()
+    if any(m.startswith(d) for d in _DEAD_MODEL):
+        return "gemini-3.8-flash"
+    return m
+
 def envs(name, default=""):
     """환경변수 문자열: 없거나 빈 값이면 default."""
     v = os.getenv(name)
@@ -179,11 +190,12 @@ cfg = {
     "llm": {
         "provider": envs("LLM_PROVIDER", "gemini"),
         "api_key": envs("LLM_API_KEY", ""),
-        # 무료 등급: 2.5-flash 는 하루 20회로 축소됨 → flash-lite 를 기본
-        "model": envs("LLM_MODEL", "gemini-2.5-flash"),   # 품질 위해 flash(유료). 무료면 flash-lite 권장
-        # 한도에 걸리면 아래 순서로 자동 전환
-        "fallback_models": [s.strip() for s in envs(
-            "FALLBACK_MODELS", "gemini-2.5-flash-lite,gemini-2.0-flash").split(",") if s.strip()],
+        # 2026-10-30: 현행 모델로 교체(ai.google.dev/gemini-api/docs/deprecations 실측).
+        # 종료된 1.x·2.0 계열이 시크릿에 남아 있어도 현행 모델로 자동 치환한다.
+        "model": _live_model(envs("LLM_MODEL", "gemini-3.8-flash")),
+        # 한도·모델 오류 시 아래 순서로 자동 전환
+        "fallback_models": [_live_model(s.strip()) for s in envs(
+            "FALLBACK_MODELS", "gemini-3.5-flash-lite,gemini-3.1-flash-lite").split(",") if s.strip()],
     },
     "metrics": {
         "provider": envs("METRICS_PROVIDER", "naver"),
