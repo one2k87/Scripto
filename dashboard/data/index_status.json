@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-30T11:38:22",
+ "updated_at": "2026-10-30T16:28:56",
  "site": "https://wontheland.com",
  "checked": 15,
  "indexed": 2,
@@ -70,7 +70,7 @@
   {
    "url": "https://wontheland.com/senior-low-cost-phone-usim-change/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -82,13 +82,13 @@
   {
    "url": "https://wontheland.com/lower-senior-phone-bill-2026/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/government24-certificate-free-easy-steps/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -100,7 +100,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-photo-backup-google-naver-2026/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   }
  ],
