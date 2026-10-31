@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-10-30T16:28:56",
+ "updated_at": "2026-10-31T10:14:53",
  "site": "https://wontheland.com",
- "checked": 15,
+ "checked": 16,
  "indexed": 2,
  "ghosts": [
   "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/",
@@ -9,7 +9,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-10-23T09:12:39\",\"link\":\"https:\\/\\/wontheland.com\\/galaxy-a35-overheat-settings-2026-10\\/\"},{\"modified"
+  "body_head": "[{\"modified\":\"2026-10-30T16:42:50\",\"link\":\"https:\\/\\/wontheland.com\\/parents-voice-phishing-remote-app-citizen-conan-gui"
  },
  "posts_n": 30,
  "results": [
@@ -20,6 +20,18 @@
    "lastCrawl": "2026-10-19"
   },
   {
+   "url": "https://wontheland.com/parents-voice-phishing-remote-app-citizen-conan-guide/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/galaxy-a15-screen-capture-senior-guide/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
    "url": "https://wontheland.com/galaxy-a35-overheat-settings-2026-10/",
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
@@ -28,7 +40,7 @@
   {
    "url": "https://wontheland.com/galaxy-s24-wifi-senior-settings/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -52,7 +64,7 @@
   {
    "url": "https://wontheland.com/galaxy-a15-battery-drain-senior-fix/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -76,19 +88,19 @@
   {
    "url": "https://wontheland.com/senior-smartphone-google-account-main-setting/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/lower-senior-phone-bill-2026/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/government24-certificate-free-easy-steps/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -96,21 +108,9 @@
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
    "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-photo-backup-google-naver-2026/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
   }
  ],
  "history": [
-  {
-   "d": "2026-10-17",
-   "posts": 30,
-   "indexed": 11,
-   "checked": 30
-  },
   {
    "d": "2026-10-18",
    "posts": 30,
@@ -188,6 +188,12 @@
    "posts": 30,
    "indexed": 2,
    "checked": 15
+  },
+  {
+   "d": "2026-10-31",
+   "posts": 30,
+   "indexed": 2,
+   "checked": 16
   }
  ],
  "post_indexed": 1
