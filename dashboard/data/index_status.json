@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-01T09:41:15",
+ "updated_at": "2026-11-01T11:15:40",
  "site": "https://wontheland.com",
  "checked": 15,
  "indexed": 2,
@@ -70,7 +70,7 @@
   {
    "url": "https://wontheland.com/galaxy-a15-battery-drain-senior-fix/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -82,7 +82,7 @@
   {
    "url": "https://wontheland.com/kakao-talk-phishing-prevention-senior/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -94,13 +94,13 @@
   {
    "url": "https://wontheland.com/senior-smartphone-google-account-main-setting/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/lower-senior-phone-bill-2026/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   }
  ],
