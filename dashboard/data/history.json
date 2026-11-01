@@ -1624,6 +1624,32 @@
       "intent": "evergreen",
       "date": "2026-10-23",
       "series_id": ""
+    },
+    {
+      "title": "갤럭시 A35 소프트웨어 업데이트 방법과 자동 설치 끄는 설정 절차",
+      "slug": "galaxy-a35-software-update-auto-off-guide",
+      "url": "https://wontheland.com/galaxy-a35-software-update-auto-off-guide/",
+      "post_id": 3227,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "갤럭시 A35 소프트웨어 업데이트 방법과 자동 설치 끄는 설정 절차",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-11-01",
+      "series_id": ""
+    },
+    {
+      "title": "갤럭시 S24 집 와이파이 자꾸 끊길 때 네트워크 설정 건드리는 순서",
+      "slug": "galaxy-s24-wifi-disconnect-network-reset",
+      "url": "https://wontheland.com/?p=3229",
+      "post_id": 3229,
+      "status": "예약발행",
+      "kind": "long",
+      "keyword": "갤럭시 S24 와이파이 끊김 현상 해결하는 네트워크 재설정 방법",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-11-01",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
