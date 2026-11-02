@@ -3,11 +3,14 @@ name: 제목 교체(발행 글)
 # 수동 전용. 부검의 '기계 제목' 지표 등을 신청 직전에 맞출 때 쓴다.
 # 슬러그는 건드리지 않는다 — 바꾸면 색인이 끊긴다.
 on:
+  push:
+    branches: [main]
+    paths: ["data/retitle_queue.txt"]   # 2026-11-02: 대기열 파일을 push하면 자동 실행
   workflow_dispatch:
     inputs:
       retitle:
-        description: "ID=새 제목 (여러 건은 || 로 구분)"
-        required: true
+        description: "ID=새 제목 (여러 건은 || 로 구분). 비우면 data/retitle_queue.txt 사용"
+        required: false
 
 jobs:
   retitle:

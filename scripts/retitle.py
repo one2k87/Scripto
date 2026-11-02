@@ -17,6 +17,10 @@ import requests
 
 def main():
     raw = os.getenv("RETITLE", "").strip()
+    if not raw and os.path.exists("data/retitle_queue.txt"):
+        # 2026-11-02 famto: 대량 교체는 파일로(입력칸 길이·오타 위험 회피). '#' 줄은 주석.
+        raw = "||".join(l.strip() for l in open("data/retitle_queue.txt", encoding="utf-8")
+                        if l.strip() and not l.startswith("#"))
     if not raw:
         print("RETITLE 비어 있음"); return 1
     jobs = []
