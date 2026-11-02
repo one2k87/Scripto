@@ -18,7 +18,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import requests
 
 import images
-from publisher import _auth_header, upload_media
+from publisher import _auth_header, upload_media, MEDIA_ID_BY_URL
+from llm import chat as _chat
 
 MARK = "<!--imgv2-->"
 NOTES = {"diagram": "이해를 돕기 위한 도해입니다",
@@ -32,6 +33,9 @@ RE_SLOT = re.compile(r'<div[^>]*>\s*📷 이미지 삽입:.*?</div>', re.S)
 
 def strip_html(s):
     return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", s or "")).strip()
+
+
+LLM_CFG = {}
 
 
 def llm_pick(title, text, key, model):
@@ -48,12 +52,7 @@ def llm_pick(title, text, key, model):
         "이미지 안에 글자·숫자·가격 표기·간판·라벨 문구를 그리라는 묘사는 금지 — 글자 없이 사물과 장면만으로 전달.\n"
         '순수 JSON만 출력: {"style":"photo","desc":"...","subject":"핵심 소재 명사"}')
     try:
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
-        r = requests.post(url, headers={"x-goog-api-key": key, "Content-Type": "application/json"},
-                          json={"contents": [{"parts": [{"text": prompt}]}],
-                                "generationConfig": {"maxOutputTokens": 300, "temperature": 0.6}},
-                          timeout=60)
-        t = r.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
+        t = str(_chat(prompt, LLM_CFG, max_tokens=400, temperature=0.6)).strip()   # 11/2: 예비 모델 폴백 포함
         t = re.sub(r"^```(json)?\s*|\s*```$", "", t, flags=re.M).strip()
         # 정규식 추출 우선 — LLM이 JSON 규격(이스케이프·줄바꿈)을 자주 어겨 json.loads가 깨진다(9/4 실측)
         ms = re.search(r'"style"\s*:\s*"(\w+)"', t)
@@ -78,6 +77,9 @@ def main():
         print("WP 설정 없음 — 종료"); return
     llm_key = (cfg.get("llm") or {}).get("api_key", "")
     llm_model = (cfg.get("llm") or {}).get("model") or "gemini-3.8-flash"
+    global LLM_CFG
+    LLM_CFG = cfg.get("llm") or {}
+    images.LLM_CFG = LLM_CFG
     img_key = (cfg.get("images") or {}).get("api_key") or llm_key
     limit = int(os.getenv("REIMAGE_LIMIT") or "100")
     dry = (os.getenv("REIMAGE_DRY") or "").lower() == "true"
@@ -173,6 +175,12 @@ def main():
                           json={"content": new}, timeout=60)
         if r.status_code in (200, 201):
             print("  ✓ 교체 완료"); done += 1
+            _mid = MEDIA_ID_BY_URL.get(url)
+            if _mid:   # 11/2: 본문만 바뀌고 대표이미지는 옛 썸네일로 남던 문제
+                fr = requests.post(f"{base}/wp-json/wp/v2/posts/{pid}",
+                                   headers={**headers, "Content-Type": "application/json"},
+                                   json={"featured_media": int(_mid)}, timeout=30)
+                print(f"  · 대표이미지 {'교체' if fr.ok else '교체 실패'} ← media {_mid}")
         else:
             print(f"  ✗ 글 수정 실패 {r.status_code}: {r.text[:120]}"); failed += 1
         time.sleep(8)   # 무료 등급 이미지 모델 분당 한도 보호

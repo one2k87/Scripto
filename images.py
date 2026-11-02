@@ -190,7 +190,7 @@ def generate_image(desc, cfg_images, out_dir, idx=0, category=""):
                 _GEMINI_OFF[0] = True
                 print("[images] Gemini 이미지 무료 불가/한도 → 이번 실행은 Cloudflare FLUX로 전환")
         if not data and _cf_ready(cfg_images):
-            data = _cloudflare(build_prompt(desc, category, style), cfg_images, size)
+            data = _cloudflare(build_prompt(_en_scene(desc), category, style), cfg_images, size)
             if data: LAST_KIND = "ai"
         if not data:
             data = _stock(desc, category, cfg_images, size)
@@ -217,7 +217,7 @@ def generate_image(desc, cfg_images, out_dir, idx=0, category=""):
             extra = NO_TEXT_RETRY if tries == 1 else (NO_TEXT_RETRY + REFRAME_RETRY)
             print(f"[images] 🔍 글자 깨짐 감지 → 대체 생성 {tries}/2")
             _p2 = build_prompt(desc, category, style) + extra
-            d2 = (None if _GEMINI_OFF[0] else _gemini(_p2, cfg_images)) or (_cloudflare(_p2, cfg_images, size) if _cf_ready(cfg_images) else None)
+            d2 = (None if _GEMINI_OFF[0] else _gemini(_p2, cfg_images)) or (_cloudflare(build_prompt(_en_scene(desc), category, style) + extra, cfg_images, size) if _cf_ready(cfg_images) else None)
             if not d2:
                 break
             data, v = d2, _check_text(d2, cfg_images)
@@ -449,6 +449,28 @@ def _openai(prompt, cfg, size):
 
 _GEMINI_OFF = [False]
 THUMB_TITLE = ""   # generator가 글마다 설정
+LLM_CFG = {}       # main/reimage가 설정 — FLUX용 영어 장면 번역에 사용
+
+
+def _en_scene(desc):
+    """FLUX는 한국어 묘사를 거의 못 알아듣는다(11/2 실측: 'A35 업데이트' 글에 커피머신 사진).
+    한국어면 LLM으로 짧은 영어 장면 묘사로 바꾼다. 실패 시 원문."""
+    d = str(desc or "")
+    if not re.search(r"[가-힣]", d) or not LLM_CFG.get("api_key"):
+        return d
+    try:
+        from llm import chat
+        out = chat("Rewrite this Korean blog image description as ONE concise English scene for a "
+                   "photorealistic image generator (max 45 words). Keep the key object exactly "
+                   "(e.g. the specific smartphone model as 'a modern Samsung Galaxy smartphone'), "
+                   "people as Korean seniors when relevant, no text or logos in the image. "
+                   "Output only the English sentence.\n\n" + d[:400],
+                   LLM_CFG, max_tokens=200, temperature=0.3)
+        out = re.sub(r"\s+", " ", str(out or "")).strip().strip('"')
+        return out if len(out) > 10 else d
+    except Exception as e:
+        print(f"[images] 영어 장면 변환 실패(원문 사용): {str(e)[:80]}")
+        return d
 
 
 def _cf_ready(cfg):

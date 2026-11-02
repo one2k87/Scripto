@@ -243,6 +243,11 @@ def make_image_resolver(cfg, auto_publish, category="", budget=None):
         imgcfg["api_key"] = cfg["llm"].get("api_key", "")   # Gemini 키 재사용(free도 도해 1순위)
     wp_cfg = cfg.get("wordpress", {})
     out = os.path.join(OUT_DIR, "images")
+    try:
+        import images as _im
+        _im.LLM_CFG = cfg.get("llm", {}) or {}
+    except Exception:
+        pass
 
     if imgcfg.get("provider", "none") in ("none", None, ""):
         return None
