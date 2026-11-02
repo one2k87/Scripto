@@ -107,9 +107,19 @@ def collect_lane(cfg, cat, lane, n_slots, exclude):
     pool = max(4, n_slots + 3)
 
     _lt = []
+    # 검색어 갭(2026-11-02, serp_loop): 실제로 구글에 노출됐는데 맞는 글이 없는 검색어 = 검증된 수요.
+    # 자동완성보다 앞에 둔다(자동완성은 '있을 법한' 수요, 갭은 '우리에게 이미 노출된' 수요).
+    try:
+        _gq = json.load(open(os.path.join(DASH_DATA, "query_gaps.json"), encoding="utf-8")).get("queries", [])
+        _gq = [q for q in _gq if not topics.ds_dup(q, exclude) and q not in exclude]
+        if _gq:
+            print(f"  · 검색어 갭(GSC 실측) {len(_gq)}개 우선 반영 (예: {_gq[0]})")
+            _lt = _gq[:8]
+    except Exception:
+        pass
     if lane == "long" and "시니어" in str(cat.get("name", "")):
         try:
-            _lt = topics.longtail_seeds(exclude=exclude)
+            _lt = _lt + topics.longtail_seeds(exclude=exclude)
             print(f"  · 기종+증상 자동완성 후보 {len(_lt)}개" + (f" (예: {_lt[0]})" if _lt else ""))
         except Exception as e:
             print(f"  · 자동완성 건너뜀: {e}")

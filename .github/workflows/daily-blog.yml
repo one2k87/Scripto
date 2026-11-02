@@ -262,6 +262,13 @@ jobs:
         continue-on-error: true
         run: python scripts/hub_pages.py
 
+      # 검색 상위노출·클릭 루프(2026-11-02): GSC 검색어×페이지 실측 → CTR 미달 제목 교체 / 순위 정체 글
+      # 검색어 Q&A 보강 / 검색어 갭 → 다음 날 주제 / 14일 뒤 전후 비교로 유지·원복. 하루 수정 상한 2편.
+      - name: 검색 상위노출 루프 (측정→수정→검증)
+        if: always()
+        continue-on-error: true
+        run: python scripts/serp_loop.py
+
       - name: 결과 커밋 (대시보드가 읽음)
         if: always()   # 생성 일부 실패해도 만들어진 결과는 커밋
         run: |
