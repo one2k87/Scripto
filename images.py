@@ -193,7 +193,10 @@ def generate_image(desc, cfg_images, out_dir, idx=0, category=""):
             data = _cloudflare(build_prompt(desc, category, style), cfg_images, size)
             if data: LAST_KIND = "ai"
         if not data:
-            data = _stock(desc, category, cfg_images, size) or _thumbnail(desc, category, size)
+            data = _stock(desc, category, cfg_images, size)
+        if not data and idx <= 1:
+            # 글자 썸네일은 대표 1장만, 글 제목으로(본문에 같은 제목 카드를 반복하면 오히려 저품질 신호)
+            data = _thumbnail(THUMB_TITLE or desc, category, size)
     elif provider in ("stock", "pexels", "unsplash"):
         data = _stock(desc, category, cfg_images, size)
     elif provider in ("thumbnail", "thumb", "code"):
@@ -445,6 +448,7 @@ def _openai(prompt, cfg, size):
 
 
 _GEMINI_OFF = [False]
+THUMB_TITLE = ""   # generator가 글마다 설정
 
 
 def _cf_ready(cfg):

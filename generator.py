@@ -593,6 +593,11 @@ def _convert_markers(html_body, insert_ads, resolver=None, fallback_desc="",
                      fallback_hero=""):
     """[[IMG:..]] / [[AD]] 마커를 실제 이미지/광고 자리로 치환. 부족하면 자동 보충."""
     counter = [0]
+    try:   # 코드 썸네일에 '이미지 묘사문' 대신 글 제목을 얹는다(2026-11-02 실측: 묘사문이 그대로 찍혀 나감)
+        import images as _im
+        _im.THUMB_TITLE = fallback_desc or ""
+    except Exception:
+        pass
 
     def img_repl(m):
         counter[0] += 1
