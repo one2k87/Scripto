@@ -92,6 +92,8 @@ def check(html, require_tail=True, min_chars=1800, min_images=1):
     text = re.sub(r"\s+", " ", text).strip()
     if len(text) < min_chars:
         out.append(("warn", f"본문 {len(text)}자 < {min_chars}"))
+    if re.search(r"(?:>|^)\s*K\d{1,2}\s*(?=<)", h, flags=re.M):
+        out.append(("warn", "자리표시자 잔재(K숫자) 노출"))
     if is_truncated(h):
         out.append(("crit", f"잘림/태그 짝 불일치 {tag_balance(h)}"))
     if PLACEHOLDER_RE.search(h):
@@ -227,6 +229,10 @@ def fix(html):
     html = re.sub(r'<a\s+href="(?!https?://|/|#|mailto:)[^"]*"[^>]*>(.*?)</a>', r"\1", html, flags=re.S)
     if len(html) != n1:
         done.append("가짜 링크 제거")
+    # 옛 _tidy(NUL 자리표시자, 10/12) 잔재: 태그 사이에 홀로 남은 'K0'·'K12' 글자 — 화면에 그대로 보인다(11/2 실측 13편)
+    html, k0 = re.subn(r"(?:(?<=>)|^)[ \t]*\n?[ \t]*K\d{1,2}[ \t]*(?=\s*<)", "", html, flags=re.M)
+    if k0:
+        done.append(f"자리표시자 잔재 K숫자 {k0}건 제거")
     # 옛 잘림 때 본문 목록 안으로 끌려 들어간 '🔎 …기준으로 내용을 확인했습니다' 조각 제거
     html, k = re.subn(r"<li[^>]*>\s*🔎[^<]*</li>\s*", "", html)
     if k:
