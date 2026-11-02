@@ -1650,6 +1650,32 @@
       "intent": "evergreen",
       "date": "2026-11-01",
       "series_id": ""
+    },
+    {
+      "title": "갤럭시 S24 전화 안됨 현상, 무작정 센터 가기 전에 확인해야 할 3가지",
+      "slug": "galaxy-s24-call-error-fix",
+      "url": "https://wontheland.com/galaxy-s24-call-error-fix/",
+      "post_id": 3266,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "갤럭시 S24 전화 안됨 현상 당황하지 않고 해결하는 3단계 설정",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-11-02",
+      "series_id": ""
+    },
+    {
+      "title": "3만 원으로 끝내는 통신사 부가서비스 확인, 매달 나가는 숨은 요금 해지 절차",
+      "slug": "carrier-additional-service-cancel",
+      "url": "",
+      "post_id": null,
+      "status": "폐기",
+      "kind": "long",
+      "keyword": "통신사 부가서비스 확인하고 매달 나가는 숨은 요금 해지하는 방법",
+      "category": "시니어 디지털",
+      "intent": "revenue",
+      "date": "2026-11-02",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"

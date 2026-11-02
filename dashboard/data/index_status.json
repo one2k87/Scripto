@@ -1,7 +1,7 @@
 {
- "updated_at": "2026-11-01T11:15:40",
+ "updated_at": "2026-11-02T11:38:35",
  "site": "https://wontheland.com",
- "checked": 15,
+ "checked": 16,
  "indexed": 2,
  "ghosts": [
   "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/",
@@ -9,7 +9,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-11-01T09:38:34\",\"link\":\"https:\\/\\/wontheland.com\\/galaxy-a35-software-update-auto-off-guide\\/\"},{\"mod"
+  "body_head": "[{\"modified\":\"2026-11-02T11:35:58\",\"link\":\"https:\\/\\/wontheland.com\\/galaxy-s24-call-error-fix\\/\"},{\"modified\":\"2026-11-"
  },
  "posts_n": 30,
  "results": [
@@ -20,7 +20,13 @@
    "lastCrawl": "2026-10-19"
   },
   {
-   "url": "https://wontheland.com/galaxy-a35-software-update-auto-off-guide/",
+   "url": "https://wontheland.com/galaxy-s24-call-error-fix/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/galaxy-a15-screen-capture-senior-guide/",
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
    "lastCrawl": ""
@@ -32,7 +38,25 @@
    "lastCrawl": ""
   },
   {
-   "url": "https://wontheland.com/galaxy-a15-screen-capture-senior-guide/",
+   "url": "https://wontheland.com/2026-september-senior-data-usage-check/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-10-18"
+  },
+  {
+   "url": "https://wontheland.com/galaxy-s24-wifi-disconnect-network-reset/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/galaxy-a35-software-update-auto-off-guide/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/galaxy-s24-phone-call-error-network-reset/",
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
    "lastCrawl": ""
@@ -50,12 +74,6 @@
    "lastCrawl": ""
   },
   {
-   "url": "https://wontheland.com/2026-september-senior-data-usage-check/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-18"
-  },
-  {
    "url": "https://wontheland.com/galaxy-a35-photo-transfer-senior/",
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
@@ -64,7 +82,7 @@
   {
    "url": "https://wontheland.com/galaxy-s24-ringtone-notification-volume-settings/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -82,7 +100,7 @@
   {
    "url": "https://wontheland.com/kakao-talk-phishing-prevention-senior/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -90,27 +108,9 @@
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
    "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-google-account-main-setting/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/lower-senior-phone-bill-2026/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
   }
  ],
  "history": [
-  {
-   "d": "2026-10-19",
-   "posts": 30,
-   "indexed": 11,
-   "checked": 30
-  },
   {
    "d": "2026-10-20",
    "posts": 30,
@@ -188,6 +188,12 @@
    "posts": 30,
    "indexed": 2,
    "checked": 15
+  },
+  {
+   "d": "2026-11-02",
+   "posts": 30,
+   "indexed": 2,
+   "checked": 16
   }
  ],
  "post_indexed": 1
