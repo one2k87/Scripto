@@ -1,0 +1,55 @@
+name: 본문 문장 수정(발행 글)
+
+# 수동 전용(2026-11-02). 사용자 승인된 문장 1건을 정확 치환한다. 일치 횟수가 기대와 다르면 아무것도 안 바꾼다.
+# 수정 전 원문은 data/patch_backup/ 에 커밋된다(되돌리기용).
+on:
+  workflow_dispatch:
+    inputs:
+      post_id: { description: "글 ID (예: 2555)", required: true }
+      find: { description: "찾을 문장(본문 원문 그대로)", required: true }
+      replace: { description: "바꿀 문장(비우면 삭제)", required: false, default: "" }
+      count: { description: "기대 일치 횟수", required: false, default: "1" }
+      dry_run: { description: "true면 미리보기만", required: false, default: "true" }
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install requests beautifulsoup4 html5lib
+      - name: config 생성(시크릿에서)
+        env:
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+        run: |
+          python - <<'PY'
+          import json, os
+          json.dump({"wordpress": {"site_url": os.getenv("WP_SITE",""), "username": os.getenv("WP_USER",""),
+                                    "app_password": os.getenv("WP_APP_PASSWORD","")}}, open("config.json","w"))
+          PY
+      - name: 치환
+        env:
+          PATCH_ID: ${{ inputs.post_id }}
+          PATCH_FIND: ${{ inputs.find }}
+          PATCH_REPLACE: ${{ inputs.replace }}
+          PATCH_COUNT: ${{ inputs.count }}
+          PATCH_DRY: ${{ inputs.dry_run }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/post_patch.py
+      - name: 백업 커밋
+        if: success() && inputs.dry_run != 'true'
+        run: |
+          git config user.name blog-bot; git config user.email bot@users.noreply.github.com
+          git add data/patch_backup || true
+          git diff --cached --quiet && exit 0
+          git commit -m "본문 수정 백업 #${{ inputs.post_id }}"
+          for i in 1 2 3; do git pull --rebase --autostash && git push && break; sleep 5; done
