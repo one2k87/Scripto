@@ -15,6 +15,23 @@ import sys
 import requests
 
 
+def _tag_ids(base, H, names):
+    """태그 이름 → ID(없으면 생성). publisher.ensure_tags와 같은 규칙."""
+    ids = []
+    for name in names:
+        try:
+            r = requests.get(f"{base}/wp-json/wp/v2/tags", params={"search": name}, headers=H, timeout=20)
+            f = next((t for t in r.json() if t.get("name", "").lower() == name.lower()), None)
+            if f:
+                ids.append(f["id"]); continue
+            c = requests.post(f"{base}/wp-json/wp/v2/tags", json={"name": name}, headers=H, timeout=20)
+            if c.status_code in (200, 201):
+                ids.append(c.json()["id"])
+        except Exception as e:
+            print(f"  태그 실패({name}): {e}")
+    return ids
+
+
 def main():
     raw = os.getenv("RETITLE", "").strip()
     if not raw and os.path.exists("data/retitle_queue.txt"):
@@ -43,16 +60,24 @@ def main():
 
     done, fail = [], []
     for pid, new_t in jobs:
+        tags = []
+        if "##" in new_t:   # 2026-11-02 famto: 'ID=제목##검색어1,검색어2' → 검색어는 태그+포커스 키워드로
+            new_t, tg = new_t.split("##", 1)
+            new_t, tags = new_t.strip(), [x.strip() for x in tg.split(",") if x.strip()]
         g = requests.get(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=20,
-                         params={"context": "edit", "_fields": "id,title,slug"})
+                         params={"context": "edit", "_fields": "id,title,slug,tags"})
         old = (g.json().get("title") or {}).get("raw", "") if g.ok else "?"
         if new_t.startswith("slug:"):   # 2026-10-08: 슬러그 교체 — WP가 옛 slug를 보관해 옛 주소는 301된다
             payload = {"slug": new_t[5:].strip()}
         else:
             payload = {"title": new_t}    # 제목만: slug는 그대로(색인 보호)
+            if tags:
+                cur = (g.json().get("tags") or []) if g.ok else []
+                payload["tags"] = sorted(set(cur) | set(_tag_ids(base, H, tags)))
+                payload["meta"] = {"rank_math_focus_keyword": ",".join(tags)}
         r = requests.post(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=20, json=payload)
         if r.ok:
-            done.append(f"#{pid}\n   전: {old}\n   후: {new_t}")
+            done.append(f"#{pid}\n   전: {old}\n   후: {new_t}" + (f"\n   태그: {', '.join(tags)}" if tags else ""))
             print(f"  ✓ #{pid}\n     전: {old}\n     후: {new_t}")
         else:
             fail.append(f"#{pid} {r.status_code}")
