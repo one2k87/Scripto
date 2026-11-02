@@ -11,6 +11,7 @@ import base64
 import json
 import os
 import sys
+import time
 
 import requests
 
@@ -64,15 +65,27 @@ def main():
         if "##" in new_t:   # 2026-11-02 famto: 'ID=제목##검색어1,검색어2' → 검색어는 태그+포커스 키워드로
             new_t, tg = new_t.split("##", 1)
             new_t, tags = new_t.strip(), [x.strip() for x in tg.split(",") if x.strip()]
-        g = requests.get(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=20,
-                         params={"context": "edit", "_fields": "id,title,slug,tags"})
-        old = (g.json().get("title") or {}).get("raw", "") if g.ok else "?"
+        # 2026-11-02: 호스팅이 연속 요청에 JSON 대신 HTML(차단 페이지)을 줄 때가 있다 → 재시도·간격
+        gj = None
+        for k in range(4):
+            g = requests.get(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=30,
+                             params={"context": "edit", "_fields": "id,title,slug,tags"})
+            try:
+                gj = g.json() if g.ok else None
+                break
+            except ValueError:
+                print(f"  … #{pid} JSON 아님({g.status_code}, {g.text[:60]!r}) — {10*(k+1)}초 후 재시도")
+                time.sleep(10 * (k + 1))
+        if gj is None:
+            fail.append(f"#{pid} 조회 실패"); continue
+        time.sleep(2)
+        old = (gj.get("title") or {}).get("raw", "")
         if new_t.startswith("slug:"):   # 2026-10-08: 슬러그 교체 — WP가 옛 slug를 보관해 옛 주소는 301된다
             payload = {"slug": new_t[5:].strip()}
         else:
             payload = {"title": new_t}    # 제목만: slug는 그대로(색인 보호)
             if tags:
-                cur = (g.json().get("tags") or []) if g.ok else []
+                cur = gj.get("tags") or []
                 payload["tags"] = sorted(set(cur) | set(_tag_ids(base, H, tags)))
                 payload["meta"] = {"rank_math_focus_keyword": ",".join(tags)}
         r = requests.post(f"{base}/wp-json/wp/v2/posts/{pid}", headers=H, timeout=20, json=payload)
