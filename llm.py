@@ -24,13 +24,14 @@ def classify_error(msg):
     billing = 선불 크레딧 소진·결제 문제(재시도 무의미) / model = 모델명 없음·종료 /
     quota = 무료 일일 한도 / other."""
     m = str(msg).lower()
-    if ("prepayment" in m or "credits are depleted" in m or "billing" in m
-            or "402" in m or "payment" in m):
+    # 순서 중요(2026-11-02 정정): 무료 한도 429 문구에도 "check your plan and billing details"가
+    # 들어 있어 'billing'으로 오분류 → 예비 모델로 안 넘어가고 10/31 생성 0편. 한도 판정을 먼저 한다.
+    if _is_daily_quota(m) or "quota exceeded for metric" in m:
+        return "quota"
+    if "prepayment" in m or "credits are depleted" in m or m.startswith("402") or "billing account" in m:
         return "billing"
     if ("404" in m and "model" in m) or "is not found" in m or "not supported for generatecontent" in m:
         return "model"
-    if _is_daily_quota(m) or "quota" in m:
-        return "quota"
     return "other"
 
 

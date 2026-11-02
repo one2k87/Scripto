@@ -97,6 +97,32 @@ def _suggest(q, timeout=6):
     return out
 
 
+# 자기 사이트 '기종+주제' 중복 차단(2026-11-02 실측): 10/23 'S24 와이파이' ↔ 11/1 'S24 와이파이 끊김',
+# 10/30 'A15 화면 캡쳐' ↔ 10/31 'A15 화면 캡쳐' — 제목 문자열이 달라 기존 중복 회피를 통과했다.
+# 같은 기종 + 같은 1순위 주제어면 같은 글로 본다(얇은 중복 = 애드센스 '가치 낮은 콘텐츠' 신호).
+_DS_CONCEPTS = [("발열", ("발열", "뜨거", "열이")), ("캡처", ("캡쳐", "캡처", "스크린샷")),
+                ("녹화", ("녹화",)), ("와이파이", ("와이파이", "wifi", "와파")),
+                ("배터리", ("배터리", "충전")), ("벨소리", ("벨소리",)), ("소리", ("소리", "음량", "볼륨")),
+                ("글씨", ("글씨", "글자", "폰트")), ("카톡", ("카톡", "카카오톡")), ("사진", ("사진", "갤러리")),
+                ("데이터", ("데이터",)), ("업데이트", ("업데이트",)), ("알림", ("알림",)),
+                ("잠금", ("잠금", "비밀번호", "패턴")), ("문자", ("문자",)), ("전화", ("전화", "통화"))]
+
+
+def ds_key(text):
+    """제목 → (기종, 1순위 주제어). 기종이나 주제어가 없으면 None."""
+    t = re.sub(r"\s+", "", str(text)).lower()
+    dev = next((d for d in LONGTAIL_DEVICES if re.sub(r"\s+", "", d).lower() in t), None)
+    if not dev:
+        return None
+    con = next((c for c, ws in _DS_CONCEPTS if any(w in t for w in ws)), None)
+    return (dev, con) if con else None
+
+
+def ds_dup(text, titles):
+    k = ds_key(text)
+    return bool(k) and any(ds_key(x) == k for x in (titles or []))
+
+
 def longtail_seeds(n=24, today=None, exclude=None):
     """오늘의 기종×증상 자동완성 후보. 날짜로 회전해 매일 다른 조합을 본다."""
     today = today or date.today()
@@ -111,6 +137,8 @@ def longtail_seeds(n=24, today=None, exclude=None):
                 sug = sug.strip()
                 key = re.sub(r"\s+", "", sug)
                 if len(sug) < 6 or key in seen or key in exclude_key or any(j in sug for j in _LT_JUNK):
+                    continue
+                if ds_dup(sug, exclude) or ds_dup(sug, out):   # 같은 기종+주제 이미 있음
                     continue
                 if len(sug.split()) < 3:          # "아이폰 15 소리"처럼 증상이 비어 있는 건 버림
                     continue

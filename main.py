@@ -149,6 +149,16 @@ def collect_lane(cfg, cat, lane, n_slots, exclude):
     cand = [c for c in cand if not topics.is_offniche(c["keyword"])]
     if len(cand) < before:
         print(f"  · 니치 이탈 주제 {before - len(cand)}개 제외(현재 니치 고정)")
+    # 자기 사이트 기종+주제 중복 차단(2026-11-02): 문자열이 달라도 같은 기종·같은 주제면 제외
+    before = len(cand)
+    _kept = []
+    for c in cand:
+        if topics.ds_dup(c["keyword"], list(exclude or []) + [k["keyword"] for k in _kept]):
+            continue
+        _kept.append(c)
+    cand = _kept
+    if len(cand) < before:
+        print(f"  · 기종+주제 중복 {before - len(cand)}개 제외")
     # 형제 사이트(픽담) 동일 제목 회피(2026-09-08): 9/1 두 사이트가 완전히 같은 제목을
     # 생성한 실측 사고의 대칭 방어. 공개 제목만 사용, 회피 전용(내부링크 등 불사용).
     try:
