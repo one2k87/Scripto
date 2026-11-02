@@ -463,7 +463,8 @@ def _en_scene(desc):
         out = chat("Rewrite this Korean blog image description as ONE concise English scene for a "
                    "photorealistic image generator (max 45 words). Keep the key object exactly "
                    "(e.g. the specific smartphone model as 'a modern Samsung Galaxy smartphone'), "
-                   "people as Korean seniors when relevant, no text or logos in the image. "
+                   "people as Korean seniors when relevant, no text or logos in the image; any phone screen shows "
+                   "only simple blank colored shapes and icons, never readable words. "
                    "Output only the English sentence.\n\n" + d[:400],
                    LLM_CFG, max_tokens=200, temperature=0.3)
         out = re.sub(r"\s+", " ", str(out or "")).strip().strip('"')
