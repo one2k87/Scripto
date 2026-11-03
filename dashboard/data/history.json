@@ -1676,6 +1676,32 @@
       "intent": "revenue",
       "date": "2026-11-02",
       "series_id": ""
+    },
+    {
+      "title": "갤럭시 S24 잠금 화면 시계와 알림, 부모님 폰에서 3단계로 깔끔하게 숨기기",
+      "slug": "galaxy-s24-lock-screen-clean-setup",
+      "url": "",
+      "post_id": null,
+      "status": "폐기",
+      "kind": "long",
+      "keyword": "갤럭시 S24 잠금 화면 설정, 부모님 폰에서 안쓰는 시계와 알림 깔끔하게 없애는 3단계",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-11-03",
+      "series_id": ""
+    },
+    {
+      "title": "폴더폰에서 카톡이 사라질까 봐 걱정되시나요, 갤럭시 폴더폰 카톡 설치와 연동하는 실전 순서",
+      "slug": "galaxy-folder-phone-kakaotalk-install",
+      "url": "https://wontheland.com/galaxy-folder-phone-kakaotalk-install/",
+      "post_id": 3430,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "갤럭시 폴더폰 카톡 설치, 자녀가 옆에서 알려주듯 처음부터 끝까지 3단계로 시작하기",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-11-03",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"

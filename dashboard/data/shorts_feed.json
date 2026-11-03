@@ -1,6 +1,20 @@
 {
- "updated_at": "2026-11-03 12:14",
+ "updated_at": "2026-11-03 13:05",
  "items": [
+  {
+   "post_id": 3430,
+   "url": "https://wontheland.com/galaxy-folder-phone-kakaotalk-install/",
+   "date": "2026-11-03",
+   "title": "폴더폰에서 카톡이 사라질까 봐 걱정되시나요, 갤럭시 폴더폰 카톡 설치와 연동하는 실전 순서",
+   "hook": "새 스마트폰으로 바꿨는데 카카오톡마저 끊길까 봐 걱정되셨나요?",
+   "lines": [
+    "첫 번째 단계, 플레이스토어 찾아서 카카오톡 내려받기",
+    "두 번째 단계, 기존 계정으로 로그인하고 인증하기",
+    "실패할 때 대처하는 두 가지 방법"
+   ],
+   "cta": "자세한 순서는 프로필 링크 · 원더랜드 블로그에서 확인하세요",
+   "used": false
+  },
   {
    "post_id": 3246,
    "url": "https://wontheland.com/galaxy-s24-usb-notification-error-fix/",
