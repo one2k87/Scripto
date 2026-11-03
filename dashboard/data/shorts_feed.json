@@ -1,6 +1,20 @@
 {
- "updated_at": "2026-11-02 11:41",
+ "updated_at": "2026-11-03 12:14",
  "items": [
+  {
+   "post_id": 3246,
+   "url": "https://wontheland.com/galaxy-s24-usb-notification-error-fix/",
+   "date": "2026-11-02",
+   "title": "갤럭시 S24 USB 알림 계속 뜰 때 충전 오류 해결하는 확인 방법",
+   "hook": "새 폰에 충전기를 꽂았는데 1초마다 삑삑거리며 USB 연결 알림이 뜨면 깜짝 놀라시죠?",
+   "lines": [
+    "충전기를 꽂았는데 삑삑거리며 알림창이 닫히지 않을 때",
+    "설정에서 포트 캐시를 지우는 순서",
+    "집에서 해결하는 방식과 센터 방문의 차이"
+   ],
+   "cta": "자세한 순서는 프로필 링크 · 원더랜드 블로그에서 확인하세요",
+   "used": false
+  },
   {
    "post_id": 3229,
    "url": "https://wontheland.com/galaxy-s24-wifi-disconnect-network-reset/",

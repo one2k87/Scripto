@@ -1,0 +1,343 @@
+{
+ "updated_at": "2026-11-03T12:14",
+ "window": [
+  "2026-10-05",
+  "2026-11-01"
+ ],
+ "pages_with_impr": 22,
+ "queries": 0,
+ "total_impr": 44,
+ "total_clicks": 0,
+ "plan": [
+  {
+   "id": 2714,
+   "url": "https://wontheland.com/government24-senior-signup-guide",
+   "title": "정부24 회원가입, 주민센터 안 가고 차근차근 따라 하기",
+   "impr": 3,
+   "clicks": 0,
+   "ctr": 0.0,
+   "pos": 5,
+   "top_queries": []
+  },
+  {
+   "id": 2700,
+   "url": "https://wontheland.com/senior-hospital-mobile-registration-tips",
+   "title": "병원 모바일 접수, 오류 없이 미리 준비할 3가지",
+   "impr": 3,
+   "clicks": 0,
+   "ctr": 0.0,
+   "pos": 7,
+   "top_queries": []
+  },
+  {
+   "id": 2673,
+   "url": "https://wontheland.com/senior-hospital-kiosk-registration",
+   "title": "병원 키오스크 접수, 혼자서도 어렵지 않은 순서",
+   "impr": 3,
+   "clicks": 0,
+   "ctr": 0.0,
+   "pos": 6,
+   "top_queries": []
+  },
+  {
+   "id": 2671,
+   "url": "https://wontheland.com/senior-international-call-block",
+   "title": "갤럭시 국제전화 차단하는 법, 모르는 해외 번호 한 번에 막기",
+   "impr": 3,
+   "clicks": 0,
+   "ctr": 0.0,
+   "pos": 4,
+   "top_queries": []
+  },
+  {
+   "id": 2665,
+   "url": "https://wontheland.com/senior-digital-education-2026-september",
+   "title": "시니어 디지털 교육, 나에게 맞는 과정 찾는 법",
+   "impr": 3,
+   "clicks": 0,
+   "ctr": 0.0,
+   "pos": 8,
+   "top_queries": []
+  },
+  {
+   "id": 2663,
+   "url": "https://wontheland.com/2026-september-senior-data-usage-check",
+   "title": "휴대폰 데이터 사용량, 걱정 없이 확인하는 방법",
+   "impr": 3,
+   "clicks": 0,
+   "ctr": 0.0,
+   "pos": 9,
+   "top_queries": []
+  },
+  {
+   "id": 2557,
+   "url": "https://wontheland.com/senior-phone-suspicious-link-prevention-2026-09",
+   "title": "스미싱 링크를 눌렀을 때, 바로 할 대처와 예방 절차",
+   "impr": 2,
+   "clicks": 0,
+   "ctr": 0.0,
+   "pos": 1,
+   "top_queries": []
+  },
+  {
+   "id": 2648,
+   "url": "https://wontheland.com/mobile-id-screen-instead-of-photo",
+   "title": "모바일 신분증 캡처는 안 됩니다, 은행에서 진짜 화면 보여주는 법",
+   "impr": 1,
+   "clicks": 0,
+   "ctr": 0.0,
+   "pos": 11,
+   "top_queries": []
+  }
+ ],
+ "quiet": [
+  {
+   "id": 3071,
+   "url": "https://wontheland.com/senior-parents-overseas-travel-currency-exchange-mobile-guide",
+   "title": "모바일 환전 신청 방법, 해외여행 전 3단계로 준비합니다",
+   "age": 21
+  },
+  {
+   "id": 3041,
+   "url": "https://wontheland.com/mobile-id-bank-confusion-2026",
+   "title": "은행 창구에서 모바일 신분증을 직원이 헷갈려할 때 대처법",
+   "age": 22
+  },
+  {
+   "id": 3039,
+   "url": "https://wontheland.com/senior-smartphone-video-call-seamless-free",
+   "title": "영상통화가 자꾸 끊길 때, 끊김 없이 연결하는 설정",
+   "age": 22
+  },
+  {
+   "id": 2965,
+   "url": "https://wontheland.com/senior-digital-photo-print-organize-202610",
+   "title": "스마트폰에 쌓인 사진, 쉽고 안전하게 인화하고 정리하는 법",
+   "age": 22
+  },
+  {
+   "id": 2963,
+   "url": "https://wontheland.com/hospital-pharmacy-kiosk-payment-guide",
+   "title": "병원 키오스크·약국 결제 순서, 당황하지 않게 미리 확인하는 3단계",
+   "age": 23
+  },
+  {
+   "id": 2747,
+   "url": "https://wontheland.com/hospital-kiosk-receipt-issue",
+   "title": "병원 키오스크 영수증이 안 나왔을 때, 그냥 가면 안 되는 이유",
+   "age": 23
+  },
+  {
+   "id": 2745,
+   "url": "https://wontheland.com/senior-digital-fraud-prevention-202610",
+   "title": "자녀 사칭 문자와 진짜 자녀 문자, 이렇게 구별합니다",
+   "age": 24
+  },
+  {
+   "id": 2739,
+   "url": "https://wontheland.com/senior-smartphone-joint-certificate-2026-11",
+   "title": "스마트폰으로 공동인증서 발급, 더 간편해진 방법",
+   "age": 24
+  },
+  {
+   "id": 2737,
+   "url": "https://wontheland.com/senior-digital-education-2026-october",
+   "title": "어르신 디지털 교육, 어디서부터 시작하면 될까",
+   "age": 25
+  },
+  {
+   "id": 2725,
+   "url": "https://wontheland.com/2026-november-senior-smartphone-app-management",
+   "title": "안 쓰는 앱 숨기거나 삭제하는 가장 쉬운 방법",
+   "age": 25
+  },
+  {
+   "id": 2731,
+   "url": "https://wontheland.com/alt-phone-customer-service-number-202610",
+   "title": "알뜰폰 고객센터 전화번호, 3가지 방법으로 바로 찾기",
+   "age": 26
+  },
+  {
+   "id": 2723,
+   "url": "https://wontheland.com/senior-phone-data-saving-2026-10",
+   "title": "휴대폰 데이터가 부족할 때, 통신비 아끼는 데이터 절약 3단계",
+   "age": 26
+  },
+  {
+   "id": 2712,
+   "url": "https://wontheland.com/senior-smartphone-spam-block-report-2026-10",
+   "title": "모르는 전화가 자꾸 올 때, 스팸전화 차단과 신고 절차",
+   "age": 27
+  },
+  {
+   "id": 2706,
+   "url": "https://wontheland.com/senior-smartphone-photo-tips",
+   "title": "핸드폰 사진이 흔들릴 때, 선명하게 찍는 방법",
+   "age": 28
+  },
+  {
+   "id": 2698,
+   "url": "https://wontheland.com/senior-phone-micro-payment-limit-check-reduce",
+   "title": "휴대폰 소액결제 한도, 확인 안 하면 터지고 줄이면 안심입니다",
+   "age": 29
+  },
+  {
+   "id": 2688,
+   "url": "https://wontheland.com/senior-smartphone-touch-troubleshoot",
+   "title": "핸드폰 터치가 갑자기 안 될 때, 먼저 확인할 것과 해결 순서",
+   "age": 32
+  },
+  {
+   "id": 2682,
+   "url": "https://wontheland.com/smart-phone-dark-screen-solution-2026-10",
+   "title": "핸드폰 화면이 갑자기 어두워졌을 때, 밝기보다 먼저 볼 설정",
+   "age": 32
+  },
+  {
+   "id": 2680,
+   "url": "https://wontheland.com/2026-10-senior-smartphone-airplane-mode-communication",
+   "title": "비행기 모드를 몰래 해제하면 안 되는 이유와 올바른 대화법",
+   "age": 33
+  },
+  {
+   "id": 2656,
+   "url": "https://wontheland.com/mvno-data-usage-check-after-switch",
+   "title": "알뜰폰으로 바꾼 뒤 데이터 사용량 확인하는 법",
+   "age": 35
+  },
+  {
+   "id": 2654,
+   "url": "https://wontheland.com/senior-mobile-drivers-license-guide",
+   "title": "은행에서 모바일 신분증을 거절당했다면, 모바일 운전면허증 발급 절차",
+   "age": 36
+  },
+  {
+   "id": 2646,
+   "url": "https://wontheland.com/senior-smartphone-document-pdf-send-method",
+   "title": "핸드폰으로 서류 PDF 보내는 방법",
+   "age": 37
+  },
+  {
+   "id": 2640,
+   "url": "https://wontheland.com/smartphone-photo-google-photos-backup-senior",
+   "title": "스마트폰 사진, 구글 포토에 자동 백업하는 방법",
+   "age": 37
+  },
+  {
+   "id": 2638,
+   "url": "https://wontheland.com/senior-digital-kiosk-order-2026",
+   "title": "카페 키오스크 주문, 당황하지 않고 3단계로 성공합니다",
+   "age": 38
+  },
+  {
+   "id": 2628,
+   "url": "https://wontheland.com/senior-digital-assistance-2026-09",
+   "title": "새 스마트폰 설정이 복잡할 때, 보조 서비스로 쉽게 해결하는 법",
+   "age": 40
+  },
+  {
+   "id": 2626,
+   "url": "https://wontheland.com/senior-telecom-saving-mvno-2026-09",
+   "title": "통신비가 부담될 때, 쓰던 휴대폰으로 알뜰폰 요금제 바꾸는 법",
+   "age": 40
+  },
+  {
+   "id": 2620,
+   "url": "https://wontheland.com/senior-smartphone-notification-important-call-setting",
+   "title": "중요한 전화만 울리게 하는 설정, 방해금지 모드 활용법",
+   "age": 40
+  },
+  {
+   "id": 2618,
+   "url": "https://wontheland.com/senior-digital-low-cost-unlimited-plan-202609",
+   "title": "비싼 데이터 무제한 요금, 알뜰폰 무제한으로 바꾸는 법",
+   "age": 41
+  },
+  {
+   "id": 2612,
+   "url": "https://wontheland.com/senior-smartphone-google-account-password-reset",
+   "title": "구글 계정 비밀번호를 잊었을 때, 상황별 가장 쉬운 찾기 절차",
+   "age": 41
+  },
+  {
+   "id": 2610,
+   "url": "https://wontheland.com/senior-smartphone-ringtones-notifications",
+   "title": "전화 벨소리와 알림 소리, 따로 설정하는 방법",
+   "age": 42
+  },
+  {
+   "id": 2604,
+   "url": "https://wontheland.com/senior-smartphone-unexpected-charges",
+   "title": "휴대폰 요금이 많이 나왔을 때, 숨은 추가 요금 확인하는 법",
+   "age": 43
+  },
+  {
+   "id": 2602,
+   "url": "https://wontheland.com/senior-express-bus-app-destination-check-2026",
+   "title": "고속버스 예매 앱으로 표 끊고 목적지까지 확인하는 순서",
+   "age": 43
+  },
+  {
+   "id": 2596,
+   "url": "https://wontheland.com/senior-train-ticket-app-reservation",
+   "title": "기차표 예매 앱, 도움 없이 혼자 예매하는 방법",
+   "age": 43
+  },
+  {
+   "id": 2594,
+   "url": "https://wontheland.com/senior-digital-phone-payment-phishing-block",
+   "title": "수상한 결제 문자가 왔을 때, 피싱 구별하고 차단하는 5가지 방법",
+   "age": 44
+  },
+  {
+   "id": 2588,
+   "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel",
+   "title": "모르게 나가는 알뜰폰 부가서비스 요금, 이렇게 해지합니다",
+   "age": 45
+  },
+  {
+   "id": 2582,
+   "url": "https://wontheland.com/senior-digital-mvno-portability-guide",
+   "title": "알뜰폰 번호이동, 준비물 3가지로 유심 개통까지 끝냅니다",
+   "age": 46
+  },
+  {
+   "id": 2580,
+   "url": "https://wontheland.com/senior-pass-app-installation-guide",
+   "title": "PASS 앱 설치, 혼자서도 끝까지 하는 방법",
+   "age": 46
+  },
+  {
+   "id": 2574,
+   "url": "https://wontheland.com/government24-mobile-id-senior-digital-guide",
+   "title": "정부24 모바일 신분증, 급할 때 당황하지 않게 이것부터 확인하세요",
+   "age": 46
+  },
+  {
+   "id": 2555,
+   "url": "https://wontheland.com/boice-phishing-prevention-senior-2026-september",
+   "title": "기관 사칭 보이스피싱 전화를 받았을 때 대처법",
+   "age": 48
+  },
+  {
+   "id": 2543,
+   "url": "https://wontheland.com/senior-affordable-phone-plan-comparison-2026-09",
+   "title": "알뜰폰 요금제, 통신사 시니어 요금제와 비교하면 뭐가 나을까",
+   "age": 50
+  },
+  {
+   "id": 2541,
+   "url": "https://wontheland.com/smishing-text-message-distinction-for-seniors-2026",
+   "title": "스미싱 문자, 진짜와 가짜 이렇게 구별합니다",
+   "age": 50
+  }
+ ],
+ "gaps": [],
+ "acted": [],
+ "evaluated": 0,
+ "experiments": {
+  "total": 0,
+  "improved": 0,
+  "reverted": 0
+ }
+}

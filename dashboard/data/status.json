@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-02T11:36:09+09:00",
+  "updated_at": "2026-11-03T12:07:34+09:00",
   "last_run": {
-    "at": "2026-11-02T11:36:09+09:00",
-    "ok": true,
-    "articles": 2,
-    "published": 1,
+    "at": "2026-11-03T12:07:34+09:00",
+    "ok": false,
+    "articles": 0,
+    "published": 0,
     "draft": 0,
     "held": 1,
-    "failed": 0,
+    "failed": 1,
     "duration_s": 400,
     "cost": {
       "month_krw": 0,
@@ -35,5 +35,11 @@
     "image_paid": 0,
     "image_free": 8,
     "llm_today": 17
+  },
+  "llm_alarm": {
+    "kind": "other",
+    "msg": "HTTPSConnectionPool(host='generativelanguage.googleapis.com', port=443): Read timed out. (read timeout=180)",
+    "since": "2026-11-03T12:07:34+09:00",
+    "at": "2026-11-03T12:07:34+09:00"
   }
 }
