@@ -1702,6 +1702,32 @@
       "intent": "evergreen",
       "date": "2026-11-03",
       "series_id": ""
+    },
+    {
+      "title": "3만 원 아끼는 갤럭시 퀀텀 화면잠김 초기화방법, 시니어가 집에서 해결하는 3단계",
+      "slug": "galaxy-quantum-lock-reset-guide",
+      "url": "https://wontheland.com/galaxy-quantum-lock-reset-guide/",
+      "post_id": 3442,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "갤럭시 퀀텀 화면잠김 초기화방법, 시니어가 혼자 해결하는 3단계",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-11-04",
+      "series_id": ""
+    },
+    {
+      "title": "아이폰 13 카톡 알림 안옴 현상 해결하는 3가지 방법 (자녀가 알려드리는)",
+      "slug": "iphone-13-kakao-alarm-fix-3-ways",
+      "url": "https://wontheland.com/?p=3444",
+      "post_id": 3444,
+      "status": "예약발행",
+      "kind": "long",
+      "keyword": "아이폰 13 카톡 알림 안옴 현상 해결하는 3가지 방법 (자녀가 알려드리는)",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-11-04",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
