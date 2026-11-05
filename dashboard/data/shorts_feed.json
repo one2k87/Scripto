@@ -1,6 +1,20 @@
 {
- "updated_at": "2026-11-04 12:08",
+ "updated_at": "2026-11-05 10:53",
  "items": [
+  {
+   "post_id": 3444,
+   "url": "https://wontheland.com/iphone-13-kakao-alarm-fix-3-ways/",
+   "date": "2026-11-04",
+   "title": "아이폰 13 카톡 알림 안옴 현상 해결하는 3가지 방법 (자녀가 알려드리는)",
+   "hook": "중요한 카카오톡 알림이 자꾸 소리 없이 지나쳐서 답답하셨나요?",
+   "lines": [
+    "첫 번째 확인: 방해금지 모드와 집중 모드 끄기",
+    "두 번째 확인: 카카오톡 앱 자체 알림 권한 켜기",
+    "세 번째 확인: 카카오톡 내부 설정과 방 밖 알림"
+   ],
+   "cta": "자세한 순서는 프로필 링크 · 원더랜드 블로그에서 확인하세요",
+   "used": false
+  },
   {
    "post_id": 3442,
    "url": "https://wontheland.com/galaxy-quantum-lock-reset-guide/",

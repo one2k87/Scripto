@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-04T12:02:41+09:00",
+  "updated_at": "2026-11-05T10:46:51+09:00",
   "last_run": {
-    "at": "2026-11-04T12:02:41+09:00",
-    "ok": true,
-    "articles": 2,
-    "published": 1,
+    "at": "2026-11-05T10:46:51+09:00",
+    "ok": false,
+    "articles": 0,
+    "published": 0,
     "draft": 0,
     "held": 0,
-    "failed": 0,
+    "failed": 1,
     "duration_s": 120,
     "cost": {
       "month_krw": 0,
@@ -35,5 +35,11 @@
     "image_paid": 0,
     "image_free": 16,
     "llm_today": 15
+  },
+  "llm_alarm": {
+    "kind": "other",
+    "msg": "503 This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later. (model gemini-3.8-flash)",
+    "since": "2026-11-05T10:46:51+09:00",
+    "at": "2026-11-05T10:46:51+09:00"
   }
 }
