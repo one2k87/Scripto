@@ -1,15 +1,15 @@
 {
- "updated_at": "2026-11-06T10:52:09",
+ "updated_at": "2026-11-06T12:32:27",
  "site": "https://wontheland.com",
  "checked": 30,
- "indexed": 14,
+ "indexed": 13,
  "ghosts": [
   "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/",
   "https://wontheland.com/서울-노원구-공릉동-도깨비시장-점포-대상-무선-화재/"
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-11-05T12:36:23\",\"link\":\"https:\\/\\/wontheland.com\\/iphone-13-ringtone-change-guide\\/\"},{\"modified\":\"20"
+  "body_head": "[{\"modified\":\"2026-11-06T12:28:17\",\"link\":\"https:\\/\\/wontheland.com\\/iphone-13-wifi-fix\\/\"},{\"modified\":\"2026-11-05T12:3"
  },
  "posts_n": 30,
  "results": [
@@ -18,6 +18,12 @@
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-11-05"
+  },
+  {
+   "url": "https://wontheland.com/iphone-13-wifi-fix/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/iphone-13-ringtone-change-guide/",
@@ -34,13 +40,13 @@
   {
    "url": "https://wontheland.com/iphone-13-kakao-alarm-fix-3-ways/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/galaxy-quantum-lock-reset-guide/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -65,7 +71,7 @@
    "url": "https://wontheland.com/boice-phishing-prevention-senior-2026-september/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-19"
+   "lastCrawl": "2026-11-06"
   },
   {
    "url": "https://wontheland.com/senior-train-ticket-app-reservation/",
@@ -76,7 +82,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -106,7 +112,7 @@
   {
    "url": "https://wontheland.com/senior-phone-micro-payment-limit-check-reduce/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -118,13 +124,13 @@
   {
    "url": "https://wontheland.com/senior-smartphone-photo-tips/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-digital-fraud-prevention-202610/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -178,7 +184,7 @@
   {
    "url": "https://wontheland.com/senior-digital-phone-payment-phishing-block/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -186,12 +192,6 @@
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-11-03"
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-unexpected-charges/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-05"
   }
  ],
  "history": [
@@ -276,9 +276,9 @@
   {
    "d": "2026-11-06",
    "posts": 30,
-   "indexed": 14,
+   "indexed": 13,
    "checked": 30
   }
  ],
- "post_indexed": 13
+ "post_indexed": 12
 }
