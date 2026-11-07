@@ -1,5 +1,5 @@
 {
- "at": "2026-11-07T10:38:31",
+ "at": "2026-11-07T11:54:17",
  "n": 76,
  "avg": 99,
  "fails": [
@@ -15,7 +15,7 @@
  "auto_repair": true,
  "repaired": [],
  "repair_fail": [
-  "휴대폰 데이터 사용량, 걱정 없이 확(HTTPSConnectionPool(host='gene)"
+  "휴대폰 데이터 사용량, 걱정 없이 확(검증 100점)"
  ],
  "defaults": [],
  "noimgv2": {

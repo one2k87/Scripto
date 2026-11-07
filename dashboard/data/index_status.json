@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-07T10:33:33",
+ "updated_at": "2026-11-07T11:51:15",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 12,
@@ -106,13 +106,13 @@
   {
    "url": "https://wontheland.com/smart-phone-dark-screen-solution-2026-10/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -184,13 +184,13 @@
   {
    "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-digital-phone-payment-phishing-block/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   }
  ],
