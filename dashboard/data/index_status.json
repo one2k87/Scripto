@@ -1,11 +1,10 @@
 {
- "updated_at": "2026-11-07T11:51:15",
+ "updated_at": "2026-11-08T10:05:01",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 12,
  "ghosts": [
-  "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/",
-  "https://wontheland.com/서울-노원구-공릉동-도깨비시장-점포-대상-무선-화재/"
+  "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/"
  ],
  "posts_diag": {
   "http": 200,
@@ -64,7 +63,7 @@
   {
    "url": "https://wontheland.com/galaxy-folder-phone-kakaotalk-install/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -88,7 +87,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -130,7 +129,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-photo-tips/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -142,14 +141,14 @@
   {
    "url": "https://wontheland.com/senior-digital-photo-print-organize-202610/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-international-call-block/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-10-28"
+   "lastCrawl": "2026-11-07"
   },
   {
    "url": "https://wontheland.com/smishing-text-message-distinction-for-seniors-2026/",
@@ -184,7 +183,7 @@
   {
    "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -195,12 +194,6 @@
   }
  ],
  "history": [
-  {
-   "d": "2026-10-25",
-   "posts": 30,
-   "indexed": 8,
-   "checked": 30
-  },
   {
    "d": "2026-10-26",
    "posts": 30,
@@ -275,6 +268,12 @@
   },
   {
    "d": "2026-11-07",
+   "posts": 30,
+   "indexed": 12,
+   "checked": 30
+  },
+  {
+   "d": "2026-11-08",
    "posts": 30,
    "indexed": 12,
    "checked": 30
