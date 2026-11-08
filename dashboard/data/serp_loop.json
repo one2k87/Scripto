@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-08T10:07",
+ "updated_at": "2026-11-08T11:46",
  "window": [
   "2026-10-10",
   "2026-11-06"
@@ -132,6 +132,12 @@
  ],
  "quiet": [
   {
+   "id": 3127,
+   "url": "https://wontheland.com/senior-smartphone-google-account-main-setting",
+   "title": "구글 계정이 여러 개일 때, 스마트폰 주 계정 정하는 법",
+   "age": 21
+  },
+  {
    "id": 3125,
    "url": "https://wontheland.com/lower-senior-phone-bill-2026",
    "title": "휴대폰 요금 2만 원대로 낮추는 법, 알뜰폰 요금제 비교",
@@ -201,7 +207,7 @@
    "id": 2745,
    "url": "https://wontheland.com/senior-digital-fraud-prevention-202610",
    "title": "자녀 사칭 문자와 진짜 자녀 문자, 이렇게 구별합니다",
-   "age": 28
+   "age": 29
   },
   {
    "id": 2739,
@@ -213,7 +219,7 @@
    "id": 2737,
    "url": "https://wontheland.com/senior-digital-education-2026-october",
    "title": "어르신 디지털 교육, 어디서부터 시작하면 될까",
-   "age": 29
+   "age": 30
   },
   {
    "id": 2725,
@@ -225,13 +231,13 @@
    "id": 2731,
    "url": "https://wontheland.com/alt-phone-customer-service-number-202610",
    "title": "알뜰폰 고객센터 전화번호, 3가지 방법으로 바로 찾기",
-   "age": 30
+   "age": 31
   },
   {
    "id": 2723,
    "url": "https://wontheland.com/senior-phone-data-saving-2026-10",
    "title": "휴대폰 데이터가 부족할 때, 통신비 아끼는 데이터 절약 3단계",
-   "age": 30
+   "age": 31
   },
   {
    "id": 2712,
@@ -243,7 +249,7 @@
    "id": 2706,
    "url": "https://wontheland.com/senior-smartphone-photo-tips",
    "title": "핸드폰 사진이 흔들릴 때, 선명하게 찍는 방법",
-   "age": 32
+   "age": 33
   },
   {
    "id": 2698,
@@ -297,7 +303,7 @@
    "id": 2628,
    "url": "https://wontheland.com/senior-digital-assistance-2026-09",
    "title": "새 스마트폰 설정이 복잡할 때, 보조 서비스로 쉽게 해결하는 법",
-   "age": 44
+   "age": 45
   },
   {
    "id": 2626,
@@ -333,7 +339,7 @@
    "id": 2604,
    "url": "https://wontheland.com/senior-smartphone-unexpected-charges",
    "title": "휴대폰 요금이 많이 나왔을 때, 숨은 추가 요금 확인하는 법",
-   "age": 47
+   "age": 48
   },
   {
    "id": 2602,
@@ -363,12 +369,6 @@
    "id": 2582,
    "url": "https://wontheland.com/senior-digital-mvno-portability-guide",
    "title": "알뜰폰 번호이동, 준비물 3가지로 유심 개통까지 끝냅니다",
-   "age": 50
-  },
-  {
-   "id": 2580,
-   "url": "https://wontheland.com/senior-pass-app-installation-guide",
-   "title": "PASS 앱 설치, 혼자서도 끝까지 하는 방법",
    "age": 51
   }
  ],

@@ -1,46 +1,39 @@
 {
-  "updated_at": "2026-11-08T10:01:01+09:00",
+  "updated_at": "2026-11-08T11:39:51+09:00",
   "last_run": {
-    "at": "2026-11-08T10:01:01+09:00",
-    "ok": false,
-    "articles": 0,
-    "published": 0,
+    "at": "2026-11-08T11:39:51+09:00",
+    "ok": true,
+    "articles": 2,
+    "published": 1,
     "draft": 0,
     "held": 0,
-    "failed": 1,
-    "duration_s": 316,
+    "failed": 0,
+    "duration_s": 687,
     "cost": {
       "month_krw": 0,
-      "llm_calls": 98
+      "llm_calls": 113
     },
     "health_bad": [
-      "naver",
-      "wordpress"
+      "naver"
     ],
     "image_errors": []
   },
   "health": {
     "gemini": {
-      "last_ok": "2026-11-07T10:29:37+09:00"
+      "last_ok": "2026-11-08T11:39:49+09:00"
     },
     "wordpress": {
-      "last_ok": "2026-11-06T12:28:29+09:00"
+      "last_ok": "2026-11-08T11:39:45+09:00"
     },
     "indexnow": {
-      "last_ok": "2026-11-06T12:28:35+09:00"
+      "last_ok": "2026-11-08T11:39:51+09:00"
     }
   },
   "usage": {
     "month": "2026-11",
-    "llm_calls": 98,
+    "llm_calls": 113,
     "image_paid": 0,
-    "image_free": 24,
-    "llm_today": 3
-  },
-  "llm_alarm": {
-    "kind": "other",
-    "msg": "503 This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later. (model gemini-3.8-flash)",
-    "since": "2026-11-08T10:01:01+09:00",
-    "at": "2026-11-08T10:01:01+09:00"
+    "image_free": 28,
+    "llm_today": 15
   }
 }

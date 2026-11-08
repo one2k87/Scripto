@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-08T10:05:01",
+ "updated_at": "2026-11-08T11:43:48",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 12,
@@ -8,7 +8,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-11-06T12:28:28\",\"link\":\"https:\\/\\/wontheland.com\\/gov24-resident-registration-copy-senior\\/\"},{\"modif"
+  "body_head": "[{\"modified\":\"2026-11-08T11:39:37\",\"link\":\"https:\\/\\/wontheland.com\\/galaxy-a15-screenshot-guide-senior\\/\"},{\"modified\":"
  },
  "posts_n": 30,
  "results": [
@@ -17,6 +17,12 @@
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-11-05"
+  },
+  {
+   "url": "https://wontheland.com/galaxy-a15-screenshot-guide-senior/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/gov24-resident-registration-copy-senior/",
@@ -69,7 +75,7 @@
   {
    "url": "https://wontheland.com/senior-affordable-phone-plan-comparison-2026-09/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -87,7 +93,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -129,7 +135,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-photo-tips/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -141,7 +147,7 @@
   {
    "url": "https://wontheland.com/senior-digital-photo-print-organize-202610/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -183,13 +189,7 @@
   {
    "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-digital-phone-payment-phishing-block/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   }
  ],
