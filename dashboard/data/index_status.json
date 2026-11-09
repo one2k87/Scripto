@@ -1,14 +1,14 @@
 {
- "updated_at": "2026-11-08T11:43:48",
+ "updated_at": "2026-11-09T11:48:05",
  "site": "https://wontheland.com",
  "checked": 30,
- "indexed": 12,
+ "indexed": 11,
  "ghosts": [
   "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/"
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-11-08T11:39:37\",\"link\":\"https:\\/\\/wontheland.com\\/galaxy-a15-screenshot-guide-senior\\/\"},{\"modified\":"
+  "body_head": "[{\"modified\":\"2026-11-09T11:44:06\",\"link\":\"https:\\/\\/wontheland.com\\/galaxy-a25-screenshot-button-method\\/\"},{\"modified\""
  },
  "posts_n": 30,
  "results": [
@@ -19,6 +19,18 @@
    "lastCrawl": "2026-11-05"
   },
   {
+   "url": "https://wontheland.com/galaxy-a25-screenshot-button-method/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/galaxy-a15-screen-off-clock-setting/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
    "url": "https://wontheland.com/galaxy-a15-screenshot-guide-senior/",
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
@@ -27,7 +39,7 @@
   {
    "url": "https://wontheland.com/gov24-resident-registration-copy-senior/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -75,7 +87,7 @@
   {
    "url": "https://wontheland.com/senior-affordable-phone-plan-comparison-2026-09/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -135,7 +147,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-photo-tips/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -179,27 +191,9 @@
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-11-03"
-  },
-  {
-   "url": "https://wontheland.com/senior-digital-mvno-portability-guide/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-05"
-  },
-  {
-   "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
   }
  ],
  "history": [
-  {
-   "d": "2026-10-26",
-   "posts": 30,
-   "indexed": 8,
-   "checked": 30
-  },
   {
    "d": "2026-10-27",
    "posts": 30,
@@ -277,7 +271,13 @@
    "posts": 30,
    "indexed": 12,
    "checked": 30
+  },
+  {
+   "d": "2026-11-09",
+   "posts": 30,
+   "indexed": 11,
+   "checked": 30
   }
  ],
- "post_indexed": 11
+ "post_indexed": 10
 }

@@ -1,5 +1,60 @@
 {
   "updated_at": "2026-11-09",
+  "search_console": {
+    "queries": [],
+    "pages": [
+      {
+        "page": "https://wontheland.com/",
+        "clicks": 0,
+        "impressions": 3
+      },
+      {
+        "page": "https://wontheland.com/2026-september-senior-data-usage-check/",
+        "clicks": 0,
+        "impressions": 3
+      },
+      {
+        "page": "https://wontheland.com/category/senior-digital/",
+        "clicks": 0,
+        "impressions": 3
+      },
+      {
+        "page": "https://wontheland.com/galaxy-a35-overheat-settings-2026-10/",
+        "clicks": 0,
+        "impressions": 1
+      },
+      {
+        "page": "https://wontheland.com/galaxy-a35-software-update-auto-off-guide/",
+        "clicks": 0,
+        "impressions": 1
+      },
+      {
+        "page": "https://wontheland.com/galaxy-s24-wifi-senior-settings/",
+        "clicks": 0,
+        "impressions": 1
+      },
+      {
+        "page": "https://wontheland.com/government24-senior-signup-guide/",
+        "clicks": 0,
+        "impressions": 3
+      },
+      {
+        "page": "https://wontheland.com/guide/",
+        "clicks": 0,
+        "impressions": 3
+      },
+      {
+        "page": "https://wontheland.com/mobile-id-screen-instead-of-photo/",
+        "clicks": 0,
+        "impressions": 1
+      },
+      {
+        "page": "https://wontheland.com/senior-digital-education-2026-september/",
+        "clicks": 0,
+        "impressions": 3
+      }
+    ]
+  },
   "ga4": {
     "top_pages": [
       {
