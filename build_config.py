@@ -192,6 +192,7 @@ cfg = {
     "llm": {
         "provider": envs("LLM_PROVIDER", "gemini"),
         "api_key": envs("LLM_API_KEY", ""),
+        "api_key_paid": envs("LLM_API_KEY_PAID", ""),      # 품질 작업·넘침 처리용 유료 키(2026-11-09 키 분배)
         # 2026-10-30: 현행 모델로 교체(ai.google.dev/gemini-api/docs/deprecations 실측).
         # 종료된 1.x·2.0 계열이 시크릿에 남아 있어도 현행 모델로 자동 치환한다.
         "model": _live_model(envs("LLM_MODEL", "gemini-3.8-flash")),

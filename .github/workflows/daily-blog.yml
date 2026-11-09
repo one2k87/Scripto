@@ -110,6 +110,7 @@ jobs:
         env:
           LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_API_KEY_PAID: ${{ secrets.LLM_API_KEY_PAID }}
           LLM_MODEL: ${{ secrets.LLM_MODEL }}
           CATEGORIES_JSON: ${{ github.event.inputs.categories != '' && github.event.inputs.categories || secrets.CATEGORIES_JSON }}
           KEYWORD_STRATEGY: ${{ github.event.inputs.strategy != '' && github.event.inputs.strategy || secrets.KEYWORD_STRATEGY }}

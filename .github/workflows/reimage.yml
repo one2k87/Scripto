@@ -37,6 +37,7 @@ jobs:
         env:
           LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_API_KEY_PAID: ${{ secrets.LLM_API_KEY_PAID }}
           LLM_MODEL: ${{ secrets.LLM_MODEL }}
           IMAGE_PROVIDER: ${{ secrets.IMAGE_PROVIDER }}
           IMAGE_API_KEY: ${{ secrets.IMAGE_API_KEY }}

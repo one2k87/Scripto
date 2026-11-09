@@ -250,7 +250,7 @@ def make_image_resolver(cfg, auto_publish, category="", budget=None):
     budget={"used":n,"max":N} 로 실행 1회당 이미지 개수를 제한(비용 상한)."""
     imgcfg = dict(cfg.get("images", {}) or {})
     if imgcfg.get("provider") in ("gemini", "imagen", "google", "free") and not imgcfg.get("api_key"):
-        imgcfg["api_key"] = cfg["llm"].get("api_key", "")   # Gemini 키 재사용(free도 도해 1순위)
+        imgcfg["api_key"] = cfg["llm"].get("api_key_paid") or cfg["llm"].get("api_key", "")   # Gemini 키 재사용(free도 도해 1순위)
     wp_cfg = cfg.get("wordpress", {})
     out = os.path.join(OUT_DIR, "images")
     try:

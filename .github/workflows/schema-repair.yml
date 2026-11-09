@@ -29,7 +29,8 @@ jobs:
         env:
           LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
-          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+          LLM_API_KEY_PAID: ${{ secrets.LLM_API_KEY_PAID }}
+          LLM_MODEL: gemini-3.5-flash-lite   # 내부 작업은 Lite(무료 키 우선)
           WP_SITE: ${{ secrets.WP_SITE }}
           WP_USER: ${{ secrets.WP_USER }}
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}

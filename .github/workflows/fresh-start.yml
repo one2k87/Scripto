@@ -32,6 +32,7 @@ jobs:
         env:
           LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_API_KEY_PAID: ${{ secrets.LLM_API_KEY_PAID }}
           LLM_MODEL: ${{ secrets.LLM_MODEL }}
           BLOG_URL: ${{ secrets.BLOG_URL }}
           WP_ENABLED: "1"   # 2026-10-12: 시크릿 "true"가 로그의 true를 전부 ***로 가려 진단을 막았다 → 상수

@@ -15,7 +15,22 @@ import time
 # '일시적' 오류(분당 제한 등) → 잠깐 쉬었다 같은 모델로 재시도
 _RETRYABLE = ("rate limit", "429", "resource has been exhausted", "unavailable",
               "overloaded", "timeout", "deadline", "503", "500", "temporarily")
-_exhausted = set()   # 오늘 일일 한도 소진된 모델
+_exhausted = set()   # 오늘 한도 소진·모델 없음으로 판명된 (모델, 키)
+
+
+def _keys(cfg, model):
+    """키 순서(2026-11-09 키 분배): 모델 이름에 lite가 있으면 무료→유료, 아니면 유료→무료."""
+    free = str(cfg.get("api_key") or "").strip()
+    paid = str(cfg.get("api_key_paid") or "").strip()
+    out = []
+    for k in ([free, paid] if "lite" in str(model or "").lower() else [paid, free]):
+        if k and k not in out:
+            out.append(k)
+    return out or [""]
+
+
+def _who(cfg, key):
+    return "유료" if key and key == str(cfg.get("api_key_paid") or "").strip() else "무료"
 DEFAULT_MODEL = "gemini-3.8-flash"   # 2026-10-30 현행(ai.google.dev deprecations 실측)
 
 
@@ -51,42 +66,64 @@ def _models(cfg):
 
 
 def chat(prompt, cfg, system=None, max_tokens=4000, temperature=0.7, retries=3):
+    """모델마다 키를 순서대로 시도한다. 한도·모델 없음·결제·401/403·지속 429/503이면
+    같은 모델을 다른 키로 먼저 재시도하고, 그래도 안 되면 다음 모델로 넘어간다."""
     provider = cfg.get("provider", "openai").lower()
     models = _models(cfg)
-    avail = [m for m in models if m not in _exhausted] or models
     last = None
-    for model in avail:
-        for attempt in range(retries):
-            try:
-                out = _call(provider, prompt, cfg, model, system, max_tokens, temperature)
+    for model in models:
+        keys = [k for k in _keys(cfg, model) if (model, k) not in _exhausted]
+        for ki, key in enumerate(keys):
+            more = ki < len(keys) - 1
+            c = dict(cfg, api_key=key)
+            who = _who(cfg, key)
+            for attempt in range(retries):
                 try:
-                    import monitor
-                    monitor.bump_llm()
-                    monitor.mark(provider if provider != "google" else "gemini")
-                except Exception:
-                    pass
-                return out
-            except Exception as e:
-                last = e
-                msg = str(e)
-                kind = classify_error(msg)
-                if kind == "billing":                         # 결제 문제 → 모델을 바꿔도 같음, 즉시 중단
+                    out = _call(provider, prompt, c, model, system, max_tokens, temperature)
+                    try:
+                        import monitor
+                        monitor.bump_llm()
+                        monitor.mark(provider if provider != "google" else "gemini")
+                    except Exception:
+                        pass
+                    if ki > 0:
+                        print(f"[llm] '{model}' {who} 키로 성공")
+                    return out
+                except Exception as e:
+                    last = e
+                    msg = str(e)
+                    low = msg.lower()
+                    kind = classify_error(msg)
+                    if kind == "billing":                     # 결제 문제 → 다른 키가 있으면 그 키로, 없으면 중단
+                        if more:
+                            print(f"[llm] '{model}' {who} 키 결제 문제 → 다른 키로 같은 요청 재시도")
+                            break
+                        raise
+                    if kind == "model":                       # 없는/종료된 모델(키마다 다를 수 있음)
+                        print(f"[llm] '{model}' {who} 키로 사용 불가(모델 없음/종료) → 다음 키/모델로 전환")
+                        _exhausted.add((model, key))
+                        break
+                    if _is_daily_quota(msg):                  # 일일 한도 → 다음 키/모델로
+                        print(f"[llm] '{model}' {who} 키 오늘 한도 소진 → 다음 키/모델로 전환")
+                        _exhausted.add((model, key))
+                        break
+                    if low[:3] in ("401", "403"):             # 키 문제
+                        if more:
+                            print(f"[llm] {who} 키 인증 오류({low[:3]}) → 다른 키로 같은 요청 재시도")
+                            break
+                        raise
+                    if any(k in low for k in _RETRYABLE):
+                        if attempt < retries - 1:
+                            wait = 2 * (attempt + 1)
+                            print(f"[llm] 일시적 오류, {wait}s 후 재시도({attempt+1}): {msg[:80]}")
+                            time.sleep(wait)
+                            continue
+                        print(f"[llm] '{model}' {who} 키 지속 오류 → 다음 키/모델로 전환: {msg[:80]}")
+                        break
                     raise
-                if kind == "model":                           # 없는/종료된 모델 → 다음 모델로
-                    print(f"[llm] '{model}' 사용 불가(모델 없음/종료) → 다른 모델로 전환")
-                    _exhausted.add(model)
-                    break
-                if _is_daily_quota(msg):                      # 일일 한도 → 다음 모델로
-                    if model not in _exhausted:
-                        print(f"[llm] '{model}' 오늘 무료 한도 소진 → 다른 모델로 전환")
-                    _exhausted.add(model)
-                    break
-                if attempt < retries - 1 and any(k in msg.lower() for k in _RETRYABLE):
-                    wait = 2 * (attempt + 1)
-                    print(f"[llm] 일시적 오류, {wait}s 후 재시도({attempt+1}): {msg[:80]}")
-                    time.sleep(wait)
-                    continue
-                raise
+    if last is None:                                      # 전부 소진 표시뿐이면 표시를 비우고 한 번 더
+        _exhausted.clear()
+        return chat(prompt, cfg, system, max_tokens, temperature, retries)
     raise last
 
 
@@ -138,7 +175,7 @@ def _gemini(prompt, cfg, model, system, max_tokens, temperature):
         gen["thinkingConfig"] = {"thinkingLevel": "low"}
     h = {"x-goog-api-key": cfg["api_key"], "Content-Type": "application/json"}
     r = requests.post(url, json=body, headers=h, timeout=180)
-    if r.status_code == 400 and "thinking" in r.text.lower() and "thinkingConfig" in gen:
+    if r.status_code == 400 and "thinkingConfig" in gen:   # 사고 설정 거부는 문구 없이 'invalid argument'로도 온다(11/4 캐스토 실측)
         gen.pop("thinkingConfig")                     # 사고 설정을 모르는 모델이면 빼고 재시도
         r = requests.post(url, json=body, headers=h, timeout=180)
     if r.status_code != 200:
