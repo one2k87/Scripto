@@ -1,0 +1,58 @@
+name: 첫 문단·소제목에 검색어 배치(제목 v2 글)
+
+# 수동 전용(2026-11-09). 인계서 3-1. 기본은 DRY(미리보기)이며, 전/후 확인 후 dry_run=false로 적용한다.
+# 적용 전 원문은 data/keyword_intro_backup/ 에 커밋된다(되돌리기용).
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "특정 글 번호만(쉼표, 예: 3266,3243). 비우면 큐 순서대로"
+        required: false
+        default: ""
+      limit:
+        description: "이번 실행에서 처리할 최대 편수 (DRY 기본 3, 적용은 하루 10편 이하 권장)"
+        required: false
+        default: "3"
+      dry_run:
+        description: "true면 미리보기만"
+        required: false
+        default: "true"
+
+permissions:
+  contents: write
+
+jobs:
+  intro:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: 의존성
+        run: pip install -r requirements.txt 2>/dev/null || pip install requests google-generativeai openai beautifulsoup4 html5lib
+      - name: config 생성
+        env:
+          LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_ENABLED: "1"
+        run: python build_config.py
+      - name: 실행
+        env:
+          DRY: ${{ inputs.dry_run == 'false' && '0' || '1' }}
+          ONLY: ${{ inputs.only }}
+          LIMIT: ${{ inputs.limit }}
+        run: python scripts/keyword_intro.py
+      - name: 백업 커밋
+        if: success() && inputs.dry_run != 'true'
+        run: |
+          git config user.name blog-bot; git config user.email bot@users.noreply.github.com
+          git add data/keyword_intro_backup || true
+          git diff --cached --quiet && exit 0
+          git commit -m "첫 문단·소제목 검색어 배치 백업"
+          for i in 1 2 3; do git pull --rebase --autostash && git push && break; sleep 5; done

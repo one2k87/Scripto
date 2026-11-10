@@ -302,3 +302,22 @@ def check(article, other_texts, safety, recent=None):
             reasons.append("고정마무리문구")
 
     return (len(reasons) == 0, "; ".join(reasons))
+
+
+def intro_keyword_warnings(html, focus_keyword):
+    """첫 3문장·H2에 포커스 키워드가 있는지 '경고'만 돌려준다(글을 막지 않음, 2026-11-09).
+
+    인계서 3-1: 검색어가 힘을 쓰는 곳은 첫 문단과 소제목. check()의 차단 사유와 분리해 둔다.
+    """
+    kw = (focus_keyword or "").strip()
+    if not kw:
+        return []
+    warns = []
+    body = _text(html)
+    intro = " ".join(re.split(r"(?<=[.!?。])\s+", body)[:3])
+    if kw not in intro:
+        warns.append("첫3문장에 검색어 없음")
+    h2s = re.findall(r"<h2\b[^>]*>(.*?)</h2>", html or "", re.S)
+    if h2s and not any(kw in _text(h) for h in h2s):
+        warns.append("H2에 검색어 없음")
+    return warns
