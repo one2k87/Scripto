@@ -1,0 +1,10 @@
+name: vault-diag
+on: workflow_dispatch
+permissions: {}
+jobs:
+  d:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          S: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: '[ -n "$S" ] && echo present || echo empty'
