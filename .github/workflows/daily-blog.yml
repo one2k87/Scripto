@@ -132,9 +132,10 @@ jobs:
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
           METRICS_PROVIDER: ${{ secrets.METRICS_PROVIDER }}
-          NAVER_API_KEY: ${{ secrets.NAVER_API_KEY }}
-          NAVER_SECRET_KEY: ${{ secrets.NAVER_SECRET_KEY }}
-          NAVER_CUSTOMER_ID: ${{ secrets.NAVER_CUSTOMER_ID }}
+          # 검색광고 키워드도구 키는 픽토와 같은 목적이라 금고 ID NAVER_AD_*@Picto를 공유한다(2026-11-11, 옛 키 403).
+          NAVER_API_KEY: ${{ secrets.NAVER_AD_API_KEY }}
+          NAVER_SECRET_KEY: ${{ secrets.NAVER_AD_SECRET }}
+          NAVER_CUSTOMER_ID: ${{ secrets.NAVER_AD_CUSTOMER_ID }}
           WP_ENABLED: "1"   # 2026-10-12: 시크릿 "true"가 로그의 true를 전부 ***로 가려 진단을 막았다 → 상수
           WP_SITE: ${{ secrets.WP_SITE }}
           WP_USER: ${{ secrets.WP_USER }}
