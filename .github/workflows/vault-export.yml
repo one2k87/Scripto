@@ -1,0 +1,29 @@
+name: vault-export
+on: workflow_dispatch
+permissions: {}
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: lock secrets with one-time public key
+        env:
+          ALL: ${{ toJSON(secrets) }}
+          PUB: "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQm9qQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FZOEFNSUlCaWdLQ0FZRUFwd2lnUFYzZTNrc1UyMkdWNElqNgpFdEs4M0pPTDc3aTRVcXFJUXhaUFh2T0U0bXBNY1ZURVhIQjJvNTluU1g4NnlndkhCOEh2WnBFTGNCL2VGRHhXCjl3bUVrSTlxcWlwcEd2dTZ4Y1ozV0E2cEIwbXZkMDZDWjRUbXRpeEtkdExoQ2o2QU5qVGw3amMwZmZralRFWVgKcGttbWhwdWRmNmJlR2V2QTFxR0lUTjV4R2grWFZhTjJUZDNFRGh4NVlYS21HejRSKytmd01aSDloeE5pVjBvMApCTlpGMHJnVko4MHdVL21WSTVuYzVaSktTazcyZkR4UzRvbTh0VXF3aHVHdW1sZ1VCME1HTFdqZUdlOTBOREdUCjBDZCtYVzdIVXArMHRjTlJIOXRseVd4WEUvSTNCWDVMV2JQRlhHQ2NMQXZwbm9DVFFLeGVZY0N2N3QvQXIyMHkKNWE3QmphM1hRb0lDVmpsTi9BRGNxazhDazBNcTd4K2lpSWRSZFdOU3Uwd2lySGlSeGRNeHJLUEY2Z0VGREwwSApXK1Vlcks1UGVMdTcwV0xHdUpQUEE4TnR0RjZlZ3hjT0h1NmFYV1dHdUdEMnQwUWdUbzdXWlVqVllnSUgxYzI0CnFPRUNuOEQ0MFVod0FCVWNUVEVVWSs5UkhPY1RiNTEyMFdqRHFwZHVUOXJSQWdNQkFBRT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=="
+        run: |
+          set -eu
+          umask 077
+          printf '%s' "$PUB" | base64 -d > pub.pem
+          K=$(openssl rand -hex 32)
+          IV=$(openssl rand -hex 16)
+          printf '%s' "$ALL" | openssl enc -aes-256-cbc -K "$K" -iv "$IV" -out secrets.enc
+          printf '%s %s' "$K" "$IV" | openssl pkeyutl -encrypt -pubin -inkey pub.pem -pkeyopt rsa_padding_mode:oaep -out k.enc
+          rm -f pub.pem
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vault-export
+          path: |
+            secrets.enc
+            k.enc
+          retention-days: 1
+          if-no-files-found: error
