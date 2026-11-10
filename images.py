@@ -178,25 +178,24 @@ def generate_image(desc, cfg_images, out_dir, idx=0, category=""):
     global LAST_KIND
     LAST_KIND = "photo"
     if provider == "free":
-        # 무료 우선: ①Gemini 무료 생성(키 있을 때) ②스톡 ③코드 썸네일. 항상 무언가는 나옴.
-        # (2026-08-30: 옛 순서는 스톡→썸네일뿐이라 CI에 스톡 키·Pillow가 없으면 전부 None
-        #  → '이미지 1장' 요건에서 글이 통째로 폐기되던 원인)
-        # 2026-10-30: Gemini 이미지 모델은 무료 등급 '사용 불가'(공식 가격표 실측) — 유료 키일 때만 성공.
-        # 429/한도가 한 번 나면 이번 실행 동안은 건너뛰고 ②Cloudflare FLUX(무료 일 10,000 뉴런)로.
-        if cfg_images.get("api_key") and not _GEMINI_OFF[0]:
+        # 무료 우선(2026-11-10, 사용자 지시: 펙셀 제외·최대한 무료):
+        # ①Cloudflare FLUX(무료 일 10,000 뉴런) ②Pollinations(키 없음, IMAGE_FREE_POLLINATIONS=1일 때만)
+        # ③코드 썸네일(대표 1장) ④Gemini 이미지(IMAGE_ALLOW_PAID=1일 때만 — 유료 키 과금).
+        if _cf_ready(cfg_images):
+            data = _cloudflare(build_prompt(_en_scene(desc), category, style), cfg_images, size)
+            if data: LAST_KIND = "ai"
+        if not data and os.getenv("IMAGE_FREE_POLLINATIONS") == "1":
+            data = _pollinations(build_prompt(_en_scene(desc), category, style), size)
+            if data: LAST_KIND = "ai"
+        if not data and idx <= 1:
+            # 글자 썸네일은 대표 1장만, 글 제목으로(본문에 같은 제목 카드를 반복하면 오히려 저품질 신호)
+            data = _thumbnail(THUMB_TITLE or desc, category, size)
+        if not data and _image_paid_ok(cfg_images):
             data = _gemini(build_prompt(desc, category, style), cfg_images)
             if data: LAST_KIND = "ai"
             elif "429" in str(globals().get("LAST_ERR", "")) or "403" in str(globals().get("LAST_ERR", "")):
                 _GEMINI_OFF[0] = True
-                print("[images] Gemini 이미지 무료 불가/한도 → 이번 실행은 Cloudflare FLUX로 전환")
-        if not data and _cf_ready(cfg_images):
-            data = _cloudflare(build_prompt(_en_scene(desc), category, style), cfg_images, size)
-            if data: LAST_KIND = "ai"
-        if not data:
-            data = _stock(desc, category, cfg_images, size)
-        if not data and idx <= 1:
-            # 글자 썸네일은 대표 1장만, 글 제목으로(본문에 같은 제목 카드를 반복하면 오히려 저품질 신호)
-            data = _thumbnail(THUMB_TITLE or desc, category, size)
+                print("[images] Gemini 이미지 한도/권한 문제 → 이번 실행은 Gemini 건너뜀")
     elif provider in ("stock", "pexels", "unsplash"):
         data = _stock(desc, category, cfg_images, size)
     elif provider in ("thumbnail", "thumb", "code"):
@@ -209,7 +208,7 @@ def generate_image(desc, cfg_images, out_dir, idx=0, category=""):
     # 자동 확대검수(2026-09-16 개편): 글자가 멀쩡하면 그대로 쓰고, 깨졌으면 '대체'한다.
     # 종전 버그 — 재생성 결과를 다시 검수하지 않았고, 재생성이 실패하면 깨진 이미지를
     # 그대로 발행했다. 이제 통과할 때까지 교체하고, 끝내 안 되면 그 이미지는 버린다.
-    if data and LAST_KIND == "ai":
+    if data and LAST_KIND == "ai" and os.getenv("IMAGE_ALLOW_PAID") == "1":
         v = _check_text(data, cfg_images)
         tries = 0
         while v == "broken" and tries < 2:
@@ -217,13 +216,13 @@ def generate_image(desc, cfg_images, out_dir, idx=0, category=""):
             extra = NO_TEXT_RETRY if tries == 1 else (NO_TEXT_RETRY + REFRAME_RETRY)
             print(f"[images] 🔍 글자 깨짐 감지 → 대체 생성 {tries}/2")
             _p2 = build_prompt(desc, category, style) + extra
-            d2 = (None if _GEMINI_OFF[0] else _gemini(_p2, cfg_images)) or (_cloudflare(build_prompt(_en_scene(desc), category, style) + extra, cfg_images, size) if _cf_ready(cfg_images) else None)
+            d2 = (_gemini(_p2, cfg_images) if _image_paid_ok(cfg_images) else None) or (_cloudflare(build_prompt(_en_scene(desc), category, style) + extra, cfg_images, size) if _cf_ready(cfg_images) else None)
             if not d2:
                 break
             data, v = d2, _check_text(d2, cfg_images)
         if v == "broken":
             print("[images] ⚠️ 2회 대체에도 글자 깨짐 → AI 이미지 폐기, 대체 경로로")
-            alt = _stock(desc, category, cfg_images, size) or _thumbnail(desc, category, size)
+            alt = _thumbnail(desc, category, size)
             if alt:
                 data, LAST_KIND = alt, "photo"
             else:
@@ -525,6 +524,28 @@ def _cloudflare(prompt, cfg, size=None):
     except Exception as e:
         globals()["LAST_ERR"] = f"cloudflare 예외: {str(e)[:150]}"
         print(f"[images] cloudflare 생성 실패: {e}")
+    return None
+
+
+def _image_paid_ok(cfg):
+    """Gemini 이미지는 유료 키로 과금될 수 있어 IMAGE_ALLOW_PAID=1일 때만 쓴다(2026-11-10)."""
+    return os.getenv("IMAGE_ALLOW_PAID") == "1" and bool(cfg.get("api_key")) and not _GEMINI_OFF[0]
+
+
+def _pollinations(prompt, size=None):
+    """Pollinations 레거시 무료 엔드포인트(키 없음·익명 요청 속도 제한). 기본 꺼짐(IMAGE_FREE_POLLINATIONS=1).
+    정책·지속성은 공식 문서로 재확인 전이라 보조 경로로만 둔다(2026-11-10, 미확인 ❓)."""
+    try:
+        import requests as _rq
+        from urllib.parse import quote
+        w, h = (size or "1024x1024").split("x")
+        r = _rq.get("https://image.pollinations.ai/prompt/" + quote(prompt[:800]),
+                    params={"width": w, "height": h, "nologo": "true", "model": "flux"}, timeout=90)
+        if r.status_code == 200 and r.headers.get("content-type", "").startswith("image/") and len(r.content) > 5000:
+            return _fit(r.content, size)
+        globals()["LAST_ERR"] = f"pollinations HTTP {r.status_code}"
+    except Exception as e:
+        globals()["LAST_ERR"] = f"pollinations 예외: {str(e)[:150]}"
     return None
 
 
