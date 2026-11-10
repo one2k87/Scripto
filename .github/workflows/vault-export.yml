@@ -1,0 +1,57 @@
+name: vault-export
+on: workflow_dispatch
+permissions: {}
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: lock with one-time public key
+        env:
+          PUB: "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQm9qQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FZOEFNSUlCaWdLQ0FZRUEwQTZwTGU4d0cwN0FJL2pwMXBFWgp6R0VnK2ZObG9ISjNmNXZaaTJSVFRhcmsrZUpPWjRDMG5IdlI0UlJGRktHUWs1K2xaTTFQV3djbVpneFdFRHVYCnpnbjhKdzAvUXBJZmdwMVRra2ZnZ2xkK2h1eXhOU294azFEQzlHZHBqc1kzVWxXTUkzR09WUUNXdCtaQmd1VGIKVkt5TGpwS1NCZU1aa05TVlF2Tkc1dndlUzM4YjRyU0QrVHRkUXdlNGduMEJwVUs2QS9RZnhDVEg2d2hZUHBQcApJaU1aZlF0YkxBZWR0RlBYSGhTWGNZTGtTYURyd1B4VzF5aHkzTWpEYkh4cDZSTy8zZlpESXB0cGViTzNoUFozClp2RDBJSS9hZnR4Yk5PdmNobFVGUUgzTkhnSWhUZks2c1Z5ZVlZVFk0VEM0RDVPUUF3enlyTDFWd1RPcm56TVcKaG1IWVAxM0swNUJteDJKcUZSTHU1OXhDSDAxU2V0L1FHZUVPcnNzVTVpdU1nVDJPNVFLdFZpdDFXRXcwSkNabwp0dkpURDYyMkNLemJydHh3amh2c0Z1cnE4dFRzcGdrNnBZajh5YW5QTStYMUtLUzJuTTdmbkwwcWhDS2N3aTdwCnhxN1hEWlBJN2FTTlJXSTVSQ1ArWi9nbnNCRkhjQUxlaHhBQjdIZmdXQllyQWdNQkFBRT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=="
+          SVLT_BLOG_URL: ${{ secrets.BLOG_URL }}
+          SVLT_CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          SVLT_CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          SVLT_GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+          SVLT_GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          SVLT_IMAGE_MAX_PER_RUN: ${{ secrets.IMAGE_MAX_PER_RUN }}
+          SVLT_IMAGE_PROVIDER: ${{ secrets.IMAGE_PROVIDER }}
+          SVLT_LANGS: ${{ secrets.LANGS }}
+          SVLT_LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          SVLT_LLM_API_KEY_PAID: ${{ secrets.LLM_API_KEY_PAID }}
+          SVLT_LLM_MODEL: ${{ secrets.LLM_MODEL }}
+          SVLT_LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
+          SVLT_METRICS_PROVIDER: ${{ secrets.METRICS_PROVIDER }}
+          SVLT_NAVER_API_KEY: ${{ secrets.NAVER_API_KEY }}
+          SVLT_NAVER_CUSTOMER_ID: ${{ secrets.NAVER_CUSTOMER_ID }}
+          SVLT_NAVER_HUB_KEY: ${{ secrets.NAVER_HUB_KEY }}
+          SVLT_NAVER_HUB_KEY_ID: ${{ secrets.NAVER_HUB_KEY_ID }}
+          SVLT_NAVER_SECRET_KEY: ${{ secrets.NAVER_SECRET_KEY }}
+          SVLT_PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          SVLT_SC_SITE_URL: ${{ secrets.SC_SITE_URL }}
+          SVLT_SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SVLT_SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+          SVLT_TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SVLT_TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          SVLT_WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          SVLT_WP_ENABLED: ${{ secrets.WP_ENABLED }}
+          SVLT_WP_SITE: ${{ secrets.WP_SITE }}
+          SVLT_WP_USER: ${{ secrets.WP_USER }}
+        run: |
+          set -eu
+          umask 077
+          printf '%s' "$PUB" | base64 -d > pub.pem
+          jq -cn 'reduce (env|to_entries[]) as $e ({}; if ($e.key|startswith("SVLT_")) then .[$e.key[5:]]=$e.value else . end)' > payload.json
+          K=$(openssl rand -hex 32)
+          IV=$(openssl rand -hex 16)
+          openssl enc -aes-256-cbc -K "$K" -iv "$IV" -in payload.json -out secrets.enc
+          printf '%s %s' "$K" "$IV" | openssl pkeyutl -encrypt -pubin -inkey pub.pem -pkeyopt rsa_padding_mode:oaep -out k.enc
+          rm -f pub.pem payload.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vault-export
+          path: |
+            secrets.enc
+            k.enc
+          retention-days: 1
+          if-no-files-found: error
