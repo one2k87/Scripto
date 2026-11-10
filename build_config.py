@@ -202,7 +202,9 @@ cfg = {
     },
     "metrics": {
         "provider": envs("METRICS_PROVIDER", "naver"),
-        "low_volume_floor": envi("LOW_VOLUME_FLOOR", 1000),    # 수익 나는 최소 검색량
+        # 2026-11-11 실측: 원더랜드 실제 유입 검색어가 370·560·50 → 1000이면 전부 탈락해 하한이 무력화됐다.
+        # 20 = PC·모바일 모두 "<10"(사실상 0). 그 위만 통과시킨다.
+        "low_volume_floor": envi("LOW_VOLUME_FLOOR", 30),
         "low_volume_ceil": envi("LOW_VOLUME_CEIL", 30000),     # 이 이상은 대형(경쟁 과열) 제외
         "use_trends_steadiness": b("USE_TRENDS_STEADINESS", False),
         "naver": {
