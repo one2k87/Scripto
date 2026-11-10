@@ -36,5 +36,8 @@ jobs:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          NAVER_API_KEY: ${{ secrets.NAVER_AD_API_KEY }}
+          NAVER_SECRET_KEY: ${{ secrets.NAVER_AD_SECRET }}
+          NAVER_CUSTOMER_ID: ${{ secrets.NAVER_AD_CUSTOMER_ID }}
           SERP_DRY: "1"   # 진단 실행에서는 serp_loop가 글을 수정하지 않는다
         run: python scripts/${{ inputs.script }}

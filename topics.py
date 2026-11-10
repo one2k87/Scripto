@@ -254,10 +254,11 @@ def classify_topics(items, category, chat, llm_cfg, today=None):
 {lst}
 
 각 주제를 아래 JSON 배열로만 출력(설명 없이):
-[{{"n":1,"lane":"long|season","month":0,"reason":"짧은 근거"}}, ...]
-month는 season일 때 검색이 붙을 달(1~12), long이면 0."""
+[{{"n":1,"lane":"long|season","month":0,"q":"검색어","reason":"짧은 근거"}}, ...]
+month는 season일 때 검색이 붙을 달(1~12), long이면 0.
+q는 이 주제를 찾는 사람이 검색창에 실제로 칠 2~4어절 검색어(예: "갤럭시 국제전화 차단"). 부모님·시니어 같은 대상 수식어와 문장형 어미는 빼고, 기종·서비스명과 증상만 남깁니다."""
     try:
-        raw = chat(prompt, llm_cfg, max_tokens=700, temperature=0.2)
+        raw = chat(prompt, llm_cfg, max_tokens=1400, temperature=0.2)
         raw = _re.sub(r"^```[a-zA-Z]*|```$", "", (raw or "").strip()).strip()
         m = _re.search(r"\[.*\]", raw, _re.DOTALL)
         arr = _json.loads(m.group(0)) if m else []
@@ -267,6 +268,7 @@ month는 season일 때 검색이 붙을 달(1~12), long이면 0."""
             it["lane_ai"] = x.get("lane", "")
             it["lane_reason"] = x.get("reason", "")
             it["season_month"] = x.get("month", 0)
+            it["query"] = str(x.get("q") or "").strip()   # 검색량 측정용 짧은 검색어(2026-11-11)
     except Exception as e:
         print(f"[classify] 판별 실패(무시): {e}")
     return items

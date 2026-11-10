@@ -83,16 +83,21 @@ def naver_volumes(hints, ncfg):
             pass
     except Exception as e:
         print(f"[metrics] 네이버 API 실패: {e}")
+        return None                          # 측정 불가(키·네트워크) — '수요 없음'과 구분
     return out
 
 
 def _apply_naver(items, ncfg):
     """items(키워드 dict 리스트)에 네이버 실측 volume/comp를 채운다. 5개씩 배치."""
+    # 문장형 주제는 keywordstool 응답과 맞을 일이 없어 짧은 검색어(query)로 잰다(2026-11-11).
     for i in range(0, len(items), 5):
-        batch = [it["keyword"] for it in items[i:i + 5]]
+        batch = [(it.get("query") or it["keyword"]) for it in items[i:i + 5]]
         vol = naver_volumes(batch, ncfg)
+        if vol is None:
+            continue
         for it in items[i:i + 5]:
-            m = vol.get(_norm(it["keyword"]))
+            it["measured"] = True            # 응답은 왔음 → 빠진 키워드는 '등록조차 안 된 희귀어'
+            m = vol.get(_norm(it.get("query") or it["keyword"]))
             if m:
                 it["volume"] = m["volume"]
                 it["competition"] = m["comp"]

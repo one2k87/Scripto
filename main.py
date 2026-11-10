@@ -199,8 +199,8 @@ def collect_lane(cfg, cat, lane, n_slots, exclude):
     ratio = max(0, min(100, int(ratio)))
     traffic_set = set()
 
-    if lane == "long" and measured:
-        print(f"  · 저경쟁 후보 검색량 측정(네이버)… (검색량 비율={ratio}%)")
+    if measured:   # 2026-11-11: season 레인도 수요 검증
+        print(f"  · {lane} 후보 검색량 측정(네이버)… (검색량 비율={ratio}%)")
         metrics.enrich(ordered, mcfg, geo="KR", want_steadiness=True)
         floor = mcfg.get("low_volume_floor", 1000)
         comp_rank = {"낮음": 0, "중간": 1, "높음": 2, "": 1}
@@ -208,7 +208,10 @@ def collect_lane(cfg, cat, lane, n_slots, exclude):
         def v(x):
             return x.get("volume") if x.get("volume") is not None else (x.get("interest") or 0)
 
-        above = [x for x in ordered if (x.get("volume") is None or v(x) >= floor)] or ordered
+        # 측정 불가(응답 없음)만 통과시키고, 응답이 왔는데 빠진 키워드는 희귀어로 탈락(2026-11-11).
+        above = [x for x in ordered
+                 if (x.get("volume") is None and not x.get("measured")) or v(x) >= floor] or ordered
+        print(f"  · 수요 하한 {floor}: 측정 {sum(1 for x in ordered if x.get('measured'))}/{len(ordered)} · 통과 {len(above)}")
         n_traffic = round(n_slots * ratio / 100.0)          # 검색량 우선으로 뽑을 개수
         n_rank = n_slots - n_traffic                        # 상위노출(경쟁낮음) 우선 개수
         rank_sorted = sorted(above, key=lambda x: (comp_rank.get(str(x.get("competition", "")), 1), -v(x)))
@@ -230,7 +233,7 @@ def collect_lane(cfg, cat, lane, n_slots, exclude):
                 break
             if x not in picked:
                 picked.append(x)
-        print("  · 선별(검색량/경쟁):", [(p["keyword"], p.get("volume"), p.get("competition")) for p in picked[:n_slots]])
+        print("  · 선별(검색량/경쟁):", [(p.get("query") or p["keyword"], p.get("volume"), p.get("competition")) for p in picked[:n_slots]])
         ordered = picked
 
     sel = ordered[:n_slots]
