@@ -576,7 +576,8 @@ def _run_category(cfg, cat, hist, auto_publish, img_budget=None):
                                         category=name, related=related, blog_url=blog_url,
                                         insert_ads=insert_ads, image_resolver=resolver, author=author,
                                         author_bio=author_bio, author_type=author_type,
-                                        competitive=comp)
+                                        competitive=comp,
+                                        search_query=(kw.get("query") if kw.get("measured") else ""))
         except Exception as e:
             print(f"[오류] '{kw['keyword']}' 글 생성 실패(건너뜀): {e}")
             return []

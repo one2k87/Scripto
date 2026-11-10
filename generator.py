@@ -248,7 +248,8 @@ def _weighted_pick(weights, seed):
     return items[0][0]
 
 
-def _article_prompt(keyword, kind, category, links, related, insert_ads, competitive=False, intent_ctx=""):
+def _article_prompt(keyword, kind, category, links, related, insert_ads, competitive=False, intent_ctx="",
+                    search_query=""):
     from datetime import date
     today = date.today()
     nxt = today.month % 12 + 1
@@ -355,6 +356,13 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
         "깨진 글자를 걸러 다시 만듭니다). 다만 문장·문단·긴 목록은 넣지 마세요 — 깨집니다.\n"
         "예: [[IMG:photo|창가 식탁에서 어르신의 손이 스마트폰을 들고 있는 클로즈업, 옆에 돋보기와 찻잔]]")
 
+    # 2026-11-11 제목 v2: 실측 검색량이 있는 짧은 검색어를 제목 앞머리·포커스 키워드로(네이버 굵게 표시 → 클릭).
+    _query_rule = ""
+    if search_query:
+        _query_rule = (f"- [검색어 선두] 제목은 실제 검색어 '{search_query}'를 띄어쓰기 그대로 맨 앞에 둔다. "
+                       "배정 골격은 그 뒤 부분에 적용한다. (예: '갤럭시 국제전화 차단, 설정 두 군데만 바꾸면 됩니다')\n"
+                       "- 부모님·시니어·어르신·효도폰 같은 대상 수식어를 제목에 쓰지 않는다(검색어 자체에 있을 때만 예외). "
+                       "'요금 폭탄'처럼 겁주는 과장 표현도 쓰지 않는다. 사이트 성격은 본문 도입·예시에서 드러낸다.\n")
     seo_block = ("""
 [상위노출 강화 모드 — 검색량이 많고 경쟁이 있는 키워드]
 - 이 글은 경쟁이 있는 키워드다. 검색자의 모든 궁금증을 이 한 글에서 끝내는 '가장 완성도 높은 글(필러 콘텐츠)'로 작성.
@@ -373,10 +381,10 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
 [제목 절대 규칙]
 - 제목은 완성된 자연스러운 한국어 문장이어야 한다.
 - '○○', 'XX', 'N월', 'N개', 빈칸, 채우지 않은 자리표시자를 절대 쓰지 말 것.
-- 날짜는 '연·월'까지만 표기한다('{today.year}년 {today.month}월'처럼). 특정 '일자(며칠)'는 제목에 넣지 말 것.
-  (예: "월 출시 예정" ❌ → "{today.year}년 {today.month}월 개인사업자 혜택, 미리 준비할 5가지" ✅)
+- 제목에 연·월을 넣지 않는다(날짜는 본문에). 제도 시행·시즌 일정처럼 날짜가 핵심인 글만 '연·월'까지 허용하고, 특정 '일자(며칠)'는 금지.
+  (예: "월 출시 예정" ❌ → "{today.year}년 {today.month}월 개인사업자 혜택, 미리 준비할 5가지" ✅ — 제도 글일 때만)
 - 제목이 조사·기호(!, ,, ·)로 시작하지 말 것. 주어/키워드로 시작.
-
+{_query_rule}
 [본문 날짜 규칙]
 - 정확한 '일자(며칠)'는 확실히 아는 경우에만 표기한다. 확실치 않으면 지어내지 말고 '{today.month}월 중', '하반기', '연내' 등 범위로만.
 - 제도 시행일·신청 마감일 등 바뀔 수 있는 날짜를 단정하지 말고, "공식 발표 기준 확인 필요"처럼 여지를 둔다.
@@ -1095,10 +1103,10 @@ def _assemble(data, related, blog_url, insert_ads, resolver=None, series_nav="",
 
 def _gen_one(keyword, kind, llm_cfg, category, links, related, blog_url,
              insert_ads, image_resolver, series_nav="", author="편집부",
-             author_bio="", author_type="Organization", competitive=False):
+             author_bio="", author_type="Organization", competitive=False, search_query=""):
     intent_ctx = search_intent(keyword, category, llm_cfg)   # 검색의도 선행 분석(실패 무해)
     prompt = _article_prompt(keyword, kind, category, links, related, insert_ads, competitive,
-                             intent_ctx=intent_ctx)
+                             intent_ctx=intent_ctx, search_query=search_query)
     raw = chat(prompt, llm_cfg, system=SYSTEM, max_tokens=12000, temperature=0.7)   # 2026-10-16: 6000이면 본문·JSON이 잘려 제목 폴백·잘린 본문 발생
     data = _parse_output(raw)
     body = data.get("html_body", "")
@@ -1120,6 +1128,10 @@ def _gen_one(keyword, kind, llm_cfg, category, links, related, blog_url,
         title = f"{keyword}, 신청 전에 확인해야 할 조건"
         data["_title_fallback"] = True   # 모델 출력이 잘렸다는 신호 — 발행 관문이 초안으로 돌린다
     title, _t_chg = sanitize_title(title)
+    if search_query:   # 포커스 키워드 = 측정된 검색어(긴 문장 그대로 넣던 것 교정)
+        data["focus_keyword"] = search_query
+        if search_query.replace(" ", "") not in title.replace(" ", ""):
+            print(f"  · ⚠️ 제목에 검색어 '{search_query}' 없음: {title}")
     if _t_chg:
         print(f"  · 제목 상투어 자동 치환({', '.join(_t_chg)}) → {title}")
     data["title"] = title
@@ -1140,13 +1152,14 @@ def _gen_one(keyword, kind, llm_cfg, category, links, related, blog_url,
 
 def generate_article(keyword, kind, llm_cfg, category="", related=None,
                      blog_url="", insert_ads=True, context_news=None, image_resolver=None,
-                     author="편집부", author_bio="", author_type="Organization", competitive=False):
+                     author="편집부", author_bio="", author_type="Organization", competitive=False,
+                     search_query=""):
     """키워드 1개 → 수익형 한국어 글 dict 반환(리스트로 감싸 반환)."""
     related = related or []
     links = find_reference_links(keyword, max_results=2)
     art = _gen_one(keyword, kind, llm_cfg, category, links, related, blog_url,
                    insert_ads, image_resolver, author=author, author_bio=author_bio,
-                   author_type=author_type, competitive=competitive)
+                   author_type=author_type, competitive=competitive, search_query=search_query)
     return [art]
 
 
