@@ -1858,6 +1858,32 @@
       "intent": "evergreen",
       "date": "2026-11-10",
       "series_id": ""
+    },
+    {
+      "title": "갤럭시 s24 잠금화면 글자크기, 돋보기 없이 키울 수 있을까요?",
+      "slug": "galaxy-s24-lockscreen-clock-size-setting",
+      "url": "https://wontheland.com/galaxy-s24-lockscreen-clock-size-setting/",
+      "post_id": 3514,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "갤럭시 s24 잠금 화면 설정 시계와 위젯 글자 크기 키우는 방법 3단계",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-11-11",
+      "series_id": ""
+    },
+    {
+      "title": "원격제어 앱 사기 대처, 당장 전원부터 꺼야 할까요?",
+      "slug": "remote-control-app-scam-response",
+      "url": "https://wontheland.com/?p=3516",
+      "post_id": 3516,
+      "status": "예약발행",
+      "kind": "long",
+      "keyword": "부모님 폰 원격제어 앱 사기 예방과 수상한 설치 요구 대처 확인 절차",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-11-11",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
