@@ -211,11 +211,16 @@ def collect_lane(cfg, cat, lane, n_slots, exclude):
         # 측정 불가(응답 없음)만 통과시키고, 응답이 왔는데 빠진 키워드는 희귀어로 탈락(2026-11-11).
         above = [x for x in ordered
                  if (x.get("volume") is None and not x.get("measured")) or v(x) >= floor] or ordered
+        # 주제 검수(2026-11-11): 클릭 매력도 2 이하는 슬롯이 남을 때만 뺀다.
+        _weak = [x for x in above if 0 < (x.get("click") or 0) <= 2]
+        if _weak and len(above) - len(_weak) >= n_slots:
+            print(f"  · 클릭 매력 낮은 주제 {len(_weak)}건 제외: {[(x.get('query') or x['keyword'])[:20] for x in _weak]}")
+            above = [x for x in above if x not in _weak]
         print(f"  · 수요 하한 {floor}: 측정 {sum(1 for x in ordered if x.get('measured'))}/{len(ordered)} · 통과 {len(above)}")
         n_traffic = round(n_slots * ratio / 100.0)          # 검색량 우선으로 뽑을 개수
         n_rank = n_slots - n_traffic                        # 상위노출(경쟁낮음) 우선 개수
         rank_sorted = sorted(above, key=lambda x: (comp_rank.get(str(x.get("competition", "")), 1), -v(x)))
-        traffic_sorted = sorted(above, key=lambda x: -v(x))
+        traffic_sorted = sorted(above, key=lambda x: (-v(x), -(x.get("click") or 0)))
 
         picked = []
         for x in rank_sorted:                               # 상위노출 몫 먼저
@@ -233,7 +238,7 @@ def collect_lane(cfg, cat, lane, n_slots, exclude):
                 break
             if x not in picked:
                 picked.append(x)
-        print("  · 선별(검색량/경쟁):", [(p.get("query") or p["keyword"], p.get("volume"), p.get("competition")) for p in picked[:n_slots]])
+        print("  · 선별(검색어/검색량/경쟁/클릭):", [(p.get("query") or p["keyword"], p.get("volume"), p.get("competition"), p.get("click")) for p in picked[:n_slots]])
         ordered = picked
 
     sel = ordered[:n_slots]

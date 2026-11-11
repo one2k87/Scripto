@@ -362,7 +362,7 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
         _query_rule = (f"- [검색어 선두] 제목은 실제 검색어 '{search_query}'를 띄어쓰기 그대로 맨 앞에 둔다. "
                        "배정 골격은 그 뒤 부분에 적용한다. (예: '갤럭시 국제전화 차단, 설정 두 군데만 바꾸면 됩니다')\n"
                        "- 부모님·시니어·어르신·효도폰 같은 대상 수식어를 제목에 쓰지 않는다(검색어 자체에 있을 때만 예외). "
-                       "'요금 폭탄'처럼 겁주는 과장 표현도 쓰지 않는다. 사이트 성격은 본문 도입·예시에서 드러낸다.\n")
+                       "사이트 성격은 본문 도입·예시에서 드러낸다.\n")
     seo_block = ("""
 [상위노출 강화 모드 — 검색량이 많고 경쟁이 있는 키워드]
 - 이 글은 경쟁이 있는 키워드다. 검색자의 모든 궁금증을 이 한 글에서 끝내는 '가장 완성도 높은 글(필러 콘텐츠)'로 작성.
@@ -384,7 +384,13 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
 - 제목에 연·월을 넣지 않는다(날짜는 본문에). 제도 시행·시즌 일정처럼 날짜가 핵심인 글만 '연·월'까지 허용하고, 특정 '일자(며칠)'는 금지.
   (예: "월 출시 예정" ❌ → "{today.year}년 {today.month}월 개인사업자 혜택, 미리 준비할 5가지" ✅ — 제도 글일 때만)
 - 제목이 조사·기호(!, ,, ·)로 시작하지 말 것. 주어/키워드로 시작.
-{_query_rule}
+{_query_rule}- [클릭되는 제목] 검색 결과 10개 중 이 글을 누르게 만드는 것이 목적이다. 아래 중 1~2개를 담는다:
+  ① 걸려 있는 손해·이득(돈·데이터·시간·사진 유실 등) ② 구체 숫자(단계 수·시간·금액) ③ 의외성/흔한 실수("○○부터 하면 안 됩니다")
+  ④ 결과 약속("3분이면 끝", "다시 안 생깁니다").
+- 과장은 허용한다. 단 본문에 실제 근거가 있는 위험·손해만("업데이트 잘못 누르면 데이터 요금 폭탄" ✅ — 본문에서 실제로 설명할 때).
+  본문에 없는 내용, 사실과 다른 공포, 클릭 후 실망시키는 낚시는 금지.
+- title_options에 서로 다른 각도의 제목 후보 3개를 쓴다(손해형·숫자형·결과약속형 등). title은 그중 가장 클릭될 것.
+
 [본문 날짜 규칙]
 - 정확한 '일자(며칠)'는 확실히 아는 경우에만 표기한다. 확실치 않으면 지어내지 말고 '{today.month}월 중', '하반기', '연내' 등 범위로만.
 - 제도 시행일·신청 마감일 등 바뀔 수 있는 날짜를 단정하지 말고, "공식 발표 기준 확인 필요"처럼 여지를 둔다.
@@ -529,7 +535,7 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
 본문은 JSON이 아니라 그냥 HTML이므로 따옴표를 이스케이프하지 마세요.
 
 ===META===
-{{"title":"클릭 유도형 제목","meta":"120~155자 메타설명(키워드 포함)","slug":"english-hyphen-slug","focus_keyword":"{keyword}","tags":["태그1","태그2","태그3","태그4","태그5"],"hook":"3초 후킹 첫 문장","gain":"{_gain_key}","tldr":[],"checklist":[],"summary_table":{{"headers":[],"rows":[]}},"faqs":[]}}
+{{"title":"클릭 유도형 제목","title_options":["후보1","후보2","후보3"],"meta":"120~155자 메타설명(키워드 포함)","slug":"english-hyphen-slug","focus_keyword":"{keyword}","tags":["태그1","태그2","태그3","태그4","태그5"],"hook":"3초 후킹 첫 문장","gain":"{_gain_key}","tldr":[],"checklist":[],"summary_table":{{"headers":[],"rows":[]}},"faqs":[]}}
 (위 tldr·checklist·summary_table·faqs는 '배정된 것만' 채우고, 배정되지 않은 항목은 위처럼 빈 채로 두세요)
 ===BODY===
 <p>첫 문단(검색 의도에 바로 답, 키워드 포함)</p>
@@ -872,6 +878,41 @@ OPENING_MODES = [
 # 실측(2026-08, 발행 29편): 모든 제목이 "[공간] [부품] [문제], [방법]으로 [동작]"
 # 한 공식이었고 29편 전부 공간 명사로 시작했다. 단어는 다 달랐지만 골격이 같아
 # 목록을 훑는 순간 찍어낸 티가 났다. 그래서 글마다 골격 자체를 바꾼다.
+_STAKE = re.compile(r"(요금|비용|원|돈|손해|폭탄|유실|사라|날아|막|차단|안 ?되|끊|멈|실수|하면 안|위험|사기|피싱|해결|끝|바로|다시 안|무료|절약|아끼)")
+_TARGET = ("부모님", "시니어", "어르신", "효도폰", "노인")
+
+
+def title_score(t, q=""):
+    """클릭 가능성 점수(높을수록 좋음). 규칙 기반 — LLM 호출 없음."""
+    t = (t or "").strip()
+    if not t:
+        return -99
+    ns, qs = t.replace(" ", "").lower(), (q or "").replace(" ", "").lower()
+    sc = 0
+    if qs:
+        sc += 4 if ns.startswith(qs) else (1 if qs in ns else -3)
+    if re.search(r"\d", t):
+        sc += 1
+    if _STAKE.search(t):
+        sc += 2
+    n = len(t)
+    sc += 1 if 20 <= n <= 42 else (-2 if n < 14 or n > 55 else 0)
+    if any(w in t and w not in (q or "") for w in _TARGET):
+        sc -= 2
+    if any(b in t for b in TITLE_BANNED):
+        sc -= 3
+    if re.search(r"20\d\d년", t):
+        sc -= 1
+    return sc
+
+
+def pick_title(cands, q=""):
+    cands = [c.strip() for c in cands if isinstance(c, str) and c.strip()]
+    if not cands:
+        return ""
+    return max(cands, key=lambda c: (title_score(c, q), -cands.index(c)))
+
+
 TITLE_FORMS = [
     "질문형: 독자가 검색창에 칠 법한 질문 그대로. 물음표로 끝낸다. (예: '싱크대 배수구 냄새, 트랩만 갈면 될까요?')",
     "수치선두형: 숫자를 맨 앞에 놓는다. (예: '3만 원으로 끝내는 방충망 교체, 필요한 건 두 가지')",
@@ -1114,6 +1155,12 @@ def _gen_one(keyword, kind, llm_cfg, category, links, related, blog_url,
     if not body or "===META===" in body or body.lstrip().startswith("{") or '"html_body"' in body:
         body = _salvage_html(raw) or f"<p>{html_mod.escape(keyword)} 관련 정보를 정리한 글입니다.</p>"
         data["html_body"] = body
+    # 제목 후보 채점(2026-11-11): 검색어 선두·숫자·손해/결과 신호·길이로 가장 클릭될 후보를 고른다.
+    _cands = [data.get("title") or ""] + [t for t in (data.get("title_options") or []) if isinstance(t, str)]
+    _best = pick_title(_cands, search_query)
+    if _best and _best != (data.get("title") or ""):
+        print(f"  · 제목 후보 {len(_cands)}개 중 선택: {_best}")
+        data["title"] = _best
     # 제목 보정: 자리표시자·깨진 제목 감지 시 키워드 기반 완성 제목으로 교체
     title = (data.get("title") or "").strip()
     title = re.sub(r"^[\s!,.\-·…∼~•]+", "", title)   # 앞의 조사/기호 제거
@@ -1130,7 +1177,7 @@ def _gen_one(keyword, kind, llm_cfg, category, links, related, blog_url,
     title, _t_chg = sanitize_title(title)
     if search_query:   # 포커스 키워드 = 측정된 검색어(긴 문장 그대로 넣던 것 교정)
         data["focus_keyword"] = search_query
-        if search_query.replace(" ", "") not in title.replace(" ", ""):
+        if search_query.replace(" ", "").lower() not in title.replace(" ", "").lower():
             print(f"  · ⚠️ 제목에 검색어 '{search_query}' 없음: {title}")
     if _t_chg:
         print(f"  · 제목 상투어 자동 치환({', '.join(_t_chg)}) → {title}")
