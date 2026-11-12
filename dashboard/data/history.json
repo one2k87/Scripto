@@ -1884,6 +1884,32 @@
       "intent": "evergreen",
       "date": "2026-11-11",
       "series_id": ""
+    },
+    {
+      "title": "모바일 주민등록증 발급 방법, 5분 만에 끝내는 실물 확인 3단계",
+      "slug": "mobile-id-card-issuance-senior-guide",
+      "url": "https://wontheland.com/mobile-id-card-issuance-senior-guide/",
+      "post_id": 3526,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "모바일 주민등록증 발급 절차와 정부24 준비물 시니어 혼자 신청하는 법",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-11-12",
+      "series_id": ""
+    },
+    {
+      "title": "갤럭시 통화 소리 작음, 측면 버튼 백날 눌러도 안 커질 때 해결법",
+      "slug": "galaxy-s24-call-volume-boost-guide",
+      "url": "https://wontheland.com/?p=3528",
+      "post_id": 3528,
+      "status": "예약발행",
+      "kind": "long",
+      "keyword": "갤럭시 s24 소리 작음 문제 해결하는 통화 음량 증폭 설정 확인 방법",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-11-12",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
