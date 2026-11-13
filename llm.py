@@ -150,11 +150,19 @@ def _openai(prompt, cfg, model, system, max_tokens, temperature):
     return resp.choices[0].message.content
 
 
+def _claude_model(model):
+    """2026-11-13: 2024년 기본값 교체. Gemini 모델명이 넘어오면 Claude로 대응(lite→Haiku, 그 외→Sonnet)."""
+    m = (model or "").strip()
+    if m.startswith("claude"):
+        return m
+    return "claude-haiku-5-5" if "lite" in m else "claude-sonnet-5-5"
+
+
 def _anthropic(prompt, cfg, model, system, max_tokens, temperature):
     import anthropic
     client = anthropic.Anthropic(api_key=cfg["api_key"])
     resp = client.messages.create(
-        model=model or "claude-3-5-sonnet-20241022", max_tokens=max_tokens,
+        model=_claude_model(model), max_tokens=max_tokens,
         temperature=temperature, system=system or "",
         messages=[{"role": "user", "content": prompt}])
     return "".join(b.text for b in resp.content if getattr(b, "type", "") == "text")
