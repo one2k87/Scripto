@@ -51,7 +51,7 @@ def _new_notice(author):
 def _voice_pass(html, cfg, pa):
     """첫 문단·마지막 본문 문단만 페르소나 결로. 사실·숫자·단계는 바꾸지 않는다."""
     from llm import chat
-    paras = list(re.finditer(r"<p(?![^>]*class=\"(?:byline|ai-notice)\")[^>]*>(.*?)</p>", html, re.S))
+    paras = list(re.finditer(r"<p(?![^>]*class=\"(?:byline|ai-notice|author-box)\")[^>]*>(.*?)</p>", html, re.S))
     if len(paras) < 3:
         return html, False
     first = paras[0]

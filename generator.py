@@ -362,7 +362,9 @@ def _article_prompt(keyword, kind, category, links, related, insert_ads, competi
         _query_rule = (f"- [검색어 선두] 제목은 실제 검색어 '{search_query}'를 띄어쓰기 그대로 맨 앞에 둔다. "
                        "배정 골격은 그 뒤 부분에 적용한다. (예: '갤럭시 국제전화 차단, 설정 두 군데만 바꾸면 됩니다')\n"
                        "- 부모님·시니어·어르신·효도폰 같은 대상 수식어를 제목에 쓰지 않는다(검색어 자체에 있을 때만 예외). "
-                       "사이트 성격은 본문 도입·예시에서 드러낸다.\n")
+                       "사이트 성격은 본문 도입·예시에서 드러낸다.\n"
+                       f"- 본문의 핵심 키워드는 '{search_query}'다. 주제 문장('{keyword}')을 본문에 굵게 그대로 옮기지 말고, "
+                       "첫 3문장 안에 검색어를 1회 자연스럽게 넣는다. 첫 문장(hook)은 검색어의 증상·상황과 같은 내용이어야 한다.\n")
     seo_block = ("""
 [상위노출 강화 모드 — 검색량이 많고 경쟁이 있는 키워드]
 - 이 글은 경쟁이 있는 키워드다. 검색자의 모든 궁금증을 이 한 글에서 끝내는 '가장 완성도 높은 글(필러 콘텐츠)'로 작성.
@@ -834,9 +836,18 @@ def _byline_html(author, bio=""):
     from datetime import date
     d = date.today()
     a = html_mod.escape(author or "편집부")
-    bio_html = f' <span style="color:#b0b8c1">· {html_mod.escape(bio)}</span>' if bio else ""
+    # 2026-11-13: 첫 화면은 이름·날짜 한 줄만(독자가 답을 먼저 보게). 소개는 글 끝 author-box로.
     return (f'<p class="byline" style="font-size:12px;color:#98a2b3;margin:2px 0 12px">'
-            f'✍️ {a}{bio_html} · {d.year}년 {d.month}월 {d.day}일 확인·정리</p>')
+            f'✍️ {a} · {d.year}년 {d.month}월 {d.day}일 확인·정리</p>')
+
+
+def _author_box_html(author, bio=""):
+    """글 끝 작성자 소개(잘리지 않은 전문). bio가 없으면 빈 문자열."""
+    if not bio:
+        return ""
+    return (f'<p class="author-box" style="margin:18px 0 6px;padding:10px 12px;background:#f8f9fb;'
+            f'border-radius:10px;font-size:13px;color:#667085;line-height:1.6">'
+            f'✍️ <strong>{html_mod.escape(author or "편집부")}</strong> — {html_mod.escape(bio)}</p>')
 
 
 # ── 사람이 검수한 글처럼 만드는 층 ────────────────────────────────
@@ -1135,7 +1146,7 @@ def _assemble(data, related, blog_url, insert_ads, resolver=None, series_nav="",
         mid = f"{tldr}{series_nav}{toc}{summary}"
     else:
         mid = f"{series_nav}{toc}{tldr}{summary}"
-    tail = f"{checklist}{faq_html}{verified}{freshness}{ai_notice}{invest_risk}{disclaimer}{series_nav}{internal}{jsonld}"
+    tail = f"{checklist}{faq_html}{verified}{freshness}{_author_box_html(author, author_bio)}{ai_notice}{invest_risk}{disclaimer}{series_nav}{internal}{jsonld}"
     # TAIL_MARK: 최신성 재작성(accuracy.revise)이 꼬리를 LLM에 보내지 않도록 경계 표시.
     # 실측(2026-10-12): 재작성 출력이 max_tokens에 잘려 FAQ JSON-LD가 중간에 끊긴 채 발행(#2618·#2737),
     # 꼬리 블록 전체 소실(#2712·#2965 등 5편) → GSC '파싱할 수 없는 구조화된 데이터' 경고.

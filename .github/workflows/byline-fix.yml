@@ -1,0 +1,58 @@
+name: 바이라인 잘림 정리(소개는 글 끝으로)
+
+# 수동 전용(2026-11-13). 기본은 DRY(미리보기). 적용 전 원문은 data/byline_backup/ 에 커밋(되돌리기용).
+# 본문 문장은 건드리지 않고 바이라인 소개 span만 걷어 글 끝 author-box로 옮긴다. LLM 호출 없음.
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "특정 글 번호만(쉼표, 예: 3266,3243). 비우면 전체"
+        required: false
+        default: ""
+      limit:
+        description: "이번 실행에서 처리할 최대 편수 (0=전체)"
+        required: false
+        default: "0"
+      dry_run:
+        description: "true면 미리보기만"
+        required: false
+        default: "true"
+
+permissions:
+  contents: write
+
+jobs:
+  byline:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: 의존성
+        run: pip install -r requirements.txt 2>/dev/null || pip install requests google-generativeai openai beautifulsoup4 html5lib
+      - name: config 생성
+        env:
+          LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+          WP_SITE: ${{ secrets.WP_SITE }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_ENABLED: "1"
+        run: python build_config.py
+      - name: 실행
+        env:
+          DRY: ${{ inputs.dry_run == 'false' && '0' || '1' }}
+          ONLY: ${{ inputs.only }}
+          LIMIT: ${{ inputs.limit }}
+        run: python scripts/byline_fix.py
+      - name: 백업 커밋
+        if: success() && inputs.dry_run != 'true'
+        run: |
+          git config user.name blog-bot; git config user.email bot@users.noreply.github.com
+          git add data/byline_backup || true
+          git diff --cached --quiet && exit 0
+          git commit -m "바이라인 정리 백업"
+          for i in 1 2 3; do git pull --rebase --autostash && git push && break; sleep 5; done

@@ -490,7 +490,7 @@ def _run_category(cfg, cat, hist, auto_publish, img_budget=None):
         if not (_pj.get("mode") == "custom" and not _pa.get("pen_name")):
             if _pa.get("pen_name"):
                 author = _pa["pen_name"]
-                author_bio = (_pa.get("identity") or author_bio)[:120]
+                author_bio = (_pa.get("identity") or author_bio)   # 2026-11-13: [:120] 자르기가 문장 중간 잘림(71/79편)의 원인
                 author_type = "Person"
     except Exception:
         pass
