@@ -1910,6 +1910,32 @@
       "intent": "evergreen",
       "date": "2026-11-12",
       "series_id": ""
+    },
+    {
+      "title": "갤럭시 s24 화면 캡쳐, 길게 누르면 전원 꺼지는 이유와 해결책",
+      "slug": "galaxy-s24-screen-capture-button-guide",
+      "url": "https://wontheland.com/galaxy-s24-screen-capture-button-guide/",
+      "post_id": 3539,
+      "status": "게시됨",
+      "kind": "long",
+      "keyword": "갤럭시 s24 화면 캡쳐 방법 손날 캡처 안 될 때 버튼으로 해결하는 3단계 절차",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-11-13",
+      "series_id": ""
+    },
+    {
+      "title": "갤럭시 s24 배터리 교체 비용, 무상 보증일까 5만 원대 유상일까",
+      "slug": "galaxy-s24-battery-replacement-cost-and-checklist",
+      "url": "https://wontheland.com/?p=3541",
+      "post_id": 3541,
+      "status": "예약발행",
+      "kind": "long",
+      "keyword": "갤럭시 s24 배터리 교체 비용 확인과 서비스센터 방문 전 필수 준비물 3가지",
+      "category": "시니어 디지털",
+      "intent": "revenue",
+      "date": "2026-11-13",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"

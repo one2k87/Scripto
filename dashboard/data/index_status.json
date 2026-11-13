@@ -1,14 +1,14 @@
 {
- "updated_at": "2026-11-12T12:52:41",
+ "updated_at": "2026-11-13T11:14:13",
  "site": "https://wontheland.com",
  "checked": 30,
- "indexed": 8,
+ "indexed": 6,
  "ghosts": [
   "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/"
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-11-12T11:32:31\",\"link\":\"https:\\/\\/wontheland.com\\/mobile-id-card-issuance-senior-guide\\/\"},{\"modified"
+  "body_head": "[{\"modified\":\"2026-11-13T11:09:50\",\"link\":\"https:\\/\\/wontheland.com\\/galaxy-s24-screen-capture-button-guide\\/\"},{\"modifi"
  },
  "posts_n": 30,
  "results": [
@@ -19,9 +19,21 @@
    "lastCrawl": "2026-11-05"
   },
   {
+   "url": "https://wontheland.com/galaxy-s24-screen-capture-button-guide/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/galaxy-s24-call-volume-boost-guide/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
    "url": "https://wontheland.com/mobile-id-card-issuance-senior-guide/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -39,7 +51,7 @@
   {
    "url": "https://wontheland.com/galaxy-a25-screenshot-button-method/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -51,13 +63,13 @@
   {
    "url": "https://wontheland.com/galaxy-a15-screenshot-guide-senior/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/gov24-resident-registration-copy-senior/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -87,7 +99,7 @@
   {
    "url": "https://wontheland.com/galaxy-quantum-lock-reset-guide/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -123,7 +135,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -153,7 +165,7 @@
   {
    "url": "https://wontheland.com/senior-phone-micro-payment-limit-check-reduce/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -177,29 +189,11 @@
   {
    "url": "https://wontheland.com/senior-digital-photo-print-organize-202610/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-international-call-block/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-07"
-  },
-  {
-   "url": "https://wontheland.com/smishing-text-message-distinction-for-seniors-2026/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-04"
   }
  ],
  "history": [
-  {
-   "d": "2026-10-30",
-   "posts": 30,
-   "indexed": 2,
-   "checked": 15
-  },
   {
    "d": "2026-10-31",
    "posts": 30,
@@ -277,7 +271,13 @@
    "posts": 30,
    "indexed": 8,
    "checked": 30
+  },
+  {
+   "d": "2026-11-13",
+   "posts": 30,
+   "indexed": 6,
+   "checked": 30
   }
  ],
- "post_indexed": 7
+ "post_indexed": 5
 }
