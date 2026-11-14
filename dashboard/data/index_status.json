@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-14T10:50:46",
+ "updated_at": "2026-11-14T12:16:25",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 16,
@@ -57,7 +57,7 @@
   {
    "url": "https://wontheland.com/senior-digital-phone-payment-phishing-block/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -87,7 +87,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-google-account-password-reset/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
@@ -189,7 +189,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   }
  ],
