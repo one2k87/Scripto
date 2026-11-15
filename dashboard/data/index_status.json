@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-14T12:16:25",
+ "updated_at": "2026-11-15T10:24:32",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 16,
@@ -8,7 +8,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-11-13T14:42:46\",\"link\":\"https:\\/\\/wontheland.com\\/boice-phishing-prevention-senior-2026-september\\/\"}"
+  "body_head": "[{\"modified\":\"2026-11-15T10:20:26\",\"link\":\"https:\\/\\/wontheland.com\\/iphone13-call-reception-error-senior-guide\\/\"},{\"mo"
  },
  "posts_n": 30,
  "results": [
@@ -17,6 +17,12 @@
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-11-05"
+  },
+  {
+   "url": "https://wontheland.com/iphone13-call-reception-error-senior-guide/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/boice-phishing-prevention-senior-2026-september/",
@@ -87,7 +93,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-google-account-password-reset/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -177,7 +183,7 @@
   {
    "url": "https://wontheland.com/2026-10-senior-smartphone-airplane-mode-communication/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -185,21 +191,9 @@
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
    "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
   }
  ],
  "history": [
-  {
-   "d": "2026-11-01",
-   "posts": 30,
-   "indexed": 2,
-   "checked": 15
-  },
   {
    "d": "2026-11-02",
    "posts": 30,
@@ -274,6 +268,12 @@
   },
   {
    "d": "2026-11-14",
+   "posts": 30,
+   "indexed": 16,
+   "checked": 30
+  },
+  {
+   "d": "2026-11-15",
    "posts": 30,
    "indexed": 16,
    "checked": 30
