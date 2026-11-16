@@ -1,6 +1,34 @@
 {
- "updated_at": "2026-11-15 11:46",
+ "updated_at": "2026-11-16 10:32",
  "items": [
+  {
+   "post_id": 3642,
+   "url": "https://wontheland.com/iphone-call-drop-remote-fix-senior/",
+   "date": "2026-11-15",
+   "title": "아이폰 통화중 끊김 해결 3가지 말문 대본으로 5분 만에 끝내기",
+   "hook": "통화 시작 후 딱 10초 만에 뚝 끊어지는 전화, 기기 불량일까요?",
+   "lines": [
+    "당장 서비스센터부터 달려가면 안 되는 이유",
+    "어르신께 읽어드리는 3단계 통화 대본",
+    "자주 나는 2가지 실패와 되돌리는 복구법"
+   ],
+   "cta": "자세한 순서는 프로필 링크 · 원더랜드 블로그에서 확인하세요",
+   "used": false
+  },
+  {
+   "post_id": 3651,
+   "url": "https://wontheland.com/iphone-13-passcode-reset-without-data-loss/",
+   "date": "2026-11-16",
+   "title": "아이폰 비밀번호 분실 초기화, 무작정 누르면 손주 사진 5천 장 날아갑니다",
+   "hook": "손이 덜덜 떨리며 화면에 뜬 ‘보안상 사용할 수 없음’ 글자만 쳐다보고 계신가요?",
+   "lines": [
+    "비밀번호 바꾼 지 3일 안 됐다면? 데이터 보존의 유일한 창구",
+    "초기화와 데이터 복구 방식 한눈에 비교하기",
+    "화면에서 바로 끝내는 기기 재설정 3단계"
+   ],
+   "cta": "자세한 순서는 프로필 링크 · 원더랜드 블로그에서 확인하세요",
+   "used": false
+  },
   {
    "post_id": 3640,
    "url": "https://wontheland.com/iphone13-call-reception-error-senior-guide/",

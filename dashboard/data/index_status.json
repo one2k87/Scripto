@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-15T11:43:04",
+ "updated_at": "2026-11-16T10:29:36",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 16,
@@ -8,7 +8,7 @@
  ],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-11-15T10:20:26\",\"link\":\"https:\\/\\/wontheland.com\\/iphone13-call-reception-error-senior-guide\\/\"},{\"mo"
+  "body_head": "[{\"modified\":\"2026-11-16T10:25:30\",\"link\":\"https:\\/\\/wontheland.com\\/iphone-13-passcode-reset-without-data-loss\\/\"},{\"mo"
  },
  "posts_n": 30,
  "results": [
@@ -17,6 +17,18 @@
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-11-05"
+  },
+  {
+   "url": "https://wontheland.com/iphone-13-passcode-reset-without-data-loss/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/iphone-call-drop-remote-fix-senior/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
+   "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/iphone13-call-reception-error-senior-guide/",
@@ -82,7 +94,7 @@
    "url": "https://wontheland.com/senior-smartphone-unexpected-charges/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-05"
+   "lastCrawl": "2026-11-15"
   },
   {
    "url": "https://wontheland.com/senior-smartphone-ringtones-notifications/",
@@ -93,7 +105,7 @@
   {
    "url": "https://wontheland.com/senior-smartphone-google-account-password-reset/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -105,14 +117,14 @@
   {
    "url": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-telecom-saving-mvno-2026-09/",
    "verdict": "NEUTRAL",
    "state": "Crawled - currently not indexed",
-   "lastCrawl": "2026-10-21"
+   "lastCrawl": "2026-11-15"
   },
   {
    "url": "https://wontheland.com/senior-digital-assistance-2026-09/",
@@ -124,18 +136,18 @@
    "url": "https://wontheland.com/senior-digital-kiosk-order-2026/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-03"
+   "lastCrawl": "2026-11-16"
   },
   {
    "url": "https://wontheland.com/smartphone-photo-google-photos-backup-senior/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-smartphone-document-pdf-send-method/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -179,27 +191,9 @@
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-11-05"
-  },
-  {
-   "url": "https://wontheland.com/2026-10-senior-smartphone-airplane-mode-communication/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/smart-phone-dark-screen-solution-2026-10/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
   }
  ],
  "history": [
-  {
-   "d": "2026-11-02",
-   "posts": 30,
-   "indexed": 2,
-   "checked": 16
-  },
   {
    "d": "2026-11-03",
    "posts": 30,
@@ -274,6 +268,12 @@
   },
   {
    "d": "2026-11-15",
+   "posts": 30,
+   "indexed": 16,
+   "checked": 30
+  },
+  {
+   "d": "2026-11-16",
    "posts": 30,
    "indexed": 16,
    "checked": 30
