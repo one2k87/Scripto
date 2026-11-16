@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-16T10:29:36",
+ "updated_at": "2026-11-16T11:48:02",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 16,
@@ -141,7 +141,7 @@
   {
    "url": "https://wontheland.com/smartphone-photo-google-photos-backup-senior/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
