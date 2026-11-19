@@ -178,7 +178,25 @@ def strip_originality(html):
     return html
 
 
-def enrich_html(html, subtopic_slug, force=False):
+# 2026-11-17: 위젯·표·캡처는 글 제목이 그 도구 주제와 직접 맞을 때만 넣는다(88편 중 78편에 무관 위젯 실측).
+FIT_KW = {
+    "plan_fit": r"요금제|알뜰폰|통신비|데이터",
+    "scam_check": r"스미싱|피싱|사칭|사기|수상한|결제 ?문자|국제전화|차단|원격제어|악성",
+    "setup_list": r"글씨|글자|벨소리|소리|진동|잠금|화면 ?크기|쉬운 ?모드|간편 ?모드|접근성|듣기",
+    "gov_ready": r"신분증|주민등록|정부24|발급|면허|등본",
+    "kiosk_drill": r"키오스크",
+    "mvnohub_senior": r"요금제|알뜰폰",
+    "mvnohub": r"요금제|알뜰폰",
+}
+
+
+def fits(key, title):
+    """제목이 그 블록 주제와 맞는가. 제목을 모르면(빈 값) 넣지 않는다."""
+    pat = FIT_KW.get(key or "")
+    return bool(pat and title and re.search(pat, title))
+
+
+def enrich_html(html, subtopic_slug, force=False, title=""):
     """하위 영역에 맞는 표·도구·화면을 본문에 넣는다. 최신 MARK가 이미 있으면 건드리지 않는다.
     옛 버전 블록이 있으면 전부 걷어내고 다시 넣는다(10/10 실측: count=1 제거로 위젯이 2개 들어간 글 발생)."""
     if not html:
@@ -192,11 +210,11 @@ def enrich_html(html, subtopic_slug, force=False):
     if not plan:
         return html, had_old
     blocks = []
-    if plan.get("widget"):
+    if plan.get("widget") and fits(plan["widget"], title):
         blocks.append(widget_html(plan["widget"]))
-    if plan.get("table"):
+    if plan.get("table") and fits(plan["table"], title):
         blocks.append(table_html(plan["table"]))
-    if plan.get("shot"):
+    if plan.get("shot") and fits(plan["shot"], title):
         blocks.append(shot_html(plan["shot"]))
     blocks = [b for b in blocks if b]
     if not blocks:

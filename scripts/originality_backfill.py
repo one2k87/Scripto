@@ -32,7 +32,7 @@ def main():
         slugs = [cats.get(c, "") for c in p.get("categories", [])]
         sub = next((s for s in slugs if s in O.PLAN), None)
         raw = (p.get("content") or {}).get("raw") or ""
-        new, ch = O.enrich_html(raw, sub)
+        new, ch = O.enrich_html(raw, sub, title=(p.get("title") or {}).get("raw", ""))
         if not ch:
             skip += 1; continue
         by[sub] = by.get(sub, 0) + 1

@@ -601,7 +601,7 @@ def _run_category(cfg, cat, hist, auto_publish, img_budget=None):
             # 네트워크 없이 dashboard/data/originality/*.json만 읽으므로 생성 속도에 영향 없음.
             try:
                 import originality as _orig
-                a["html"], _oc = _orig.enrich_html(a.get("html", ""), a.get("wp_category_slug", ""))
+                a["html"], _oc = _orig.enrich_html(a.get("html", ""), a.get("wp_category_slug", ""), title=a.get("title", ""))
                 if _oc: print(f"  · 독창성 층 삽입 [{a.get('wp_category_slug')}]")
             except Exception as _e:
                 print("  ⚠️ 독창성 층 건너뜀:", _e)
