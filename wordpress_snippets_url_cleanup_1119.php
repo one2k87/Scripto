@@ -63,3 +63,18 @@ add_action('template_redirect', function () {
     }
 }, 1);
 /* === Scripto URL 정리 끝 === */
+
+/* === Scripto 아카이브 정리 (2026-11-19, s-url-plan) ===
+ * 카테고리·태그 목록 페이지는 noindex,follow / 사이트맵에서 분류·작성자 제외 → 사이트맵은 글·페이지만.
+ */
+add_filter('rank_math/frontend/robots', function ($robots) {
+    if (is_category() || is_tag() || is_date()) {
+        $robots['index'] = 'noindex';
+        $robots['follow'] = 'follow';
+    }
+    return $robots;
+});
+add_filter('wp_sitemaps_add_provider', function ($provider, $name) {
+    return in_array($name, array('taxonomies', 'users'), true) ? false : $provider;
+}, 10, 2);
+/* === Scripto 아카이브 정리 끝 === */
