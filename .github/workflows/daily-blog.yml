@@ -4,10 +4,10 @@ name: 매일 블로그 자동 생성
 # 백업 크론(8:30 KST): GitHub이 정기 크론을 조용히 건너뛰는 일이 실제로 있어(2026-09-01 실측)
 # 90분 뒤 한 번 더 깨운다. 아래 '중복 실행 가드'가 이미 생성된 날은 생성을 건너뛰므로 이중 발행은 없다.
 on:
-  # 2026-11-17~23 정리 주간 일시정지(famto 지시·사용자 결정). 11/24 새 형식으로 재개할 때 아래 3줄 주석 해제.
-  # schedule:
-  #   - cron: "43 21 * * *"   # 06:43 KST — 정시 회피(혼잡 시간대 지연 실측 9/3: 2.5h 지각)
-  #   - cron: "13 23 * * *"   # 백업 08:13 KST
+  # 2026-11-24 재개(로드맵 v3 — 하루 1편, 키트 가동 기록 1일차). 11/17~23은 정리 주간 일시정지였음.
+  schedule:
+    - cron: "43 21 * * *"   # 06:43 KST — 정시 회피(혼잡 시간대 지연 실측 9/3: 2.5h 지각)
+    - cron: "13 23 * * *"   # 백업 08:13 KST
   workflow_dispatch:      # 폰/깃허브에서 수동 실행
     inputs:
       images:
@@ -192,6 +192,9 @@ jobs:
           # 아직 같은 날)이 "이미 생성함"으로 오판해 하루를 통째로 건너뛰었다(2026-09-09 실측).
           # 잡 전체가 TZ=Asia/Seoul이므로 date도 generated_at(datetime.now)도 이미 KST다.
           today=$(date +%F)
+          if [[ "$today" < "2026-11-24" ]]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"; echo "재개일(11/24) 전 — 생성 건너뜀"; exit 0
+          fi
           gen=$(python3 -c "import json;print(json.load(open('dashboard/data/latest.json')).get('generated_at','')[:10])" 2>/dev/null || echo "")
           if [ "$gen" = "$today" ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
@@ -210,6 +213,7 @@ jobs:
           python scripts/originality_refresh.py
 
       - name: 블로그 생성 실행
+        id: gen
         if: steps.dup.outputs.skip != 'true'
         run: python -u main.py
 
@@ -233,8 +237,9 @@ jobs:
 
       # 점검·수리의 서버 이전(v1): 대시보드 채점을 매일 서버에서 수행,
       # auto_repair 켜진 사이트는 미달 글을 자동 재작성(캡 5편) — 앱을 안 열어도 관리되는 상태
+      # 2026-11-23 끔: 11/19 URL 정리(301 16·410 25, 41편 임시글)와 충돌 — 임시글 옛 주소를 새 글로 다시 잇는다.
       - name: 옛 URL 301 자가치유 (주제 전환으로 내린 글 → 새 글)
-        if: always()
+        if: false
         continue-on-error: true
         env:
           DRY: "0"
@@ -260,8 +265,9 @@ jobs:
         continue-on-error: true
         run: python scripts/shorts_feed.py
 
+      # 2026-11-23 끔: 도구 페이지에 금지 주제(알뜰폰 요금·보이스피싱)가 있어 사용자 판단 전까지 재생성하지 않음.
       - name: 가이드 허브·도구 페이지 자동 갱신 (2026-10-19)
-        if: always()
+        if: false
         continue-on-error: true
         run: python scripts/hub_pages.py
 
@@ -272,12 +278,40 @@ jobs:
         continue-on-error: true
         run: python scripts/serp_loop.py
 
+      # 키트 기술 게이트(로드맵 v3): 매일 자동 발행 성공/실패 한 줄. 스크립토 세션이 _Master_Context/kit_gate_log.md로 옮긴다.
+      - name: 키트 가동 기록
+        if: always() && github.event_name == 'schedule'
+        env:
+          GEN: ${{ steps.gen.outcome }}
+        run: |
+          python3 - <<'PY'
+          import json, os, datetime
+          gen = os.environ.get("GEN") or "skipped"
+          today = datetime.date.today().isoformat()
+          if today < "2026-11-24":
+              raise SystemExit(0)
+          try:
+              d = json.load(open("dashboard/data/latest.json", encoding="utf-8"))
+              arts = d.get("articles", []) if (d.get("generated_at") or "")[:10] == today else []
+          except Exception:
+              arts = []
+          pub = [a for a in arts if a.get("status") == "게시됨"]
+          ok = gen == "success" and len(pub) >= 1
+          what = ", ".join(f"#{a.get('post_id') or a.get('id') or '?'} {a.get('slug','')}" for a in pub) or (f"생성 단계 {gen}" if gen != "success" else "게시 0편(폐기·보류)")
+          line = f"{today} | {'성공' if ok else ('건너뜀' if gen == 'skipped' else '실패')} | {what} | \n"
+          p = "dashboard/data/kit_gate.tsv"
+          old = open(p, encoding="utf-8").read() if os.path.exists(p) else ""
+          if not any(l.startswith(today + " | 성공") for l in old.splitlines()):
+              open(p, "a", encoding="utf-8").write(line)
+          print(line)
+          PY
+
       - name: 결과 커밋 (대시보드가 읽음)
         if: always()   # 생성 일부 실패해도 만들어진 결과는 커밋
         run: |
           git config user.name "blog-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add dashboard/data/*.json dashboard/data/originality/*.json 2>/dev/null || true
+          git add dashboard/data/*.json dashboard/data/originality/*.json dashboard/data/kit_gate.tsv 2>/dev/null || true
           git commit -m "자동 생성: $(date -u '+%Y-%m-%d %H:%M')" || { echo "변경 없음"; exit 0; }
           # push 경쟁 재시도 루프(2026-09-01): '1회 rebase 후 push || echo'는 rebase나 push가
           # 실패하면 결과가 조용히 사라졌다(#100에서 재현 — 사용자 push와 경쟁해 점검 결과 유실).
