@@ -74,6 +74,40 @@ def missing_words(keyword, title):
     return [w for w in re.split(r"\s+", keyword.strip()) if len(norm(w)) >= 2 and norm(w) not in t]
 
 
+def guess_post(kw, posts):
+    """담당 글 추정 — **본문에서 그 말의 낱말이 얼마나 자주, 얼마나 드물게 나오는가**로 고른다.
+
+    2026-11-23 스크립토 실측: 예전 방식(본문에 조각이 들어 있는가 + 제목 가점)은 본문이 길면 거의 모든 글이
+    조각을 다 품어 동점이 되고, 결국 제목 낱말 하나('먹통')가 승부를 갈라 엉뚱한 글에 붙었다
+    (「휴대폰 터치 먹통」 → 전화 먹통 글). 그래서
+      · 낱말마다 본문 등장 횟수를 세고(많을수록 그 글의 주제다)
+      · 여러 글에 흔한 낱말('휴대폰')은 낮게, 드문 낱말('터치')은 높게 친다
+      · 검색어가 통째로 본문에 있으면 크게 더한다
+    제목은 동점을 가를 때만 아주 조금 본다(제목에 없는 것을 찾는 중이니까)."""
+    import math
+    toks = [norm(t) for t in re.split(r"\s+", kw.strip()) if len(norm(t)) >= 2] or [norm(kw)]
+    n = len(posts)
+    df = {t: sum(1 for x in posts if t in x["bt"]) for t in toks}
+    whole = norm(kw)
+
+    def score(x):
+        sc = 0.0
+        for t in toks:
+            tf = x["bt"].count(t)
+            if tf:
+                sc += math.log(1 + tf) * math.log(1 + n / (1 + df[t]))
+        if len(whole) >= 4 and whole in x["bt"]:
+            sc += 2.0
+        return sc + 0.5 * cover(kw, x["bg"]) + 0.05 * cover(kw, x["tg"])
+
+    best = max(posts, key=score, default=None)
+    if best is not None and score(best) > 0.5:
+        return best
+    # 붙여 쓴 검색어(「셀프싱크대문교체」)는 낱말로 쪼갤 수 없어 위 점수가 0 이다.
+    # 그럴 때만 두 글자 조각이 본문에 얼마나 들어 있는가로 고른다(제목은 동점 가르기).
+    return max(posts, key=lambda x: cover(kw, x["bg"]) + 0.05 * cover(kw, x["tg"]), default=None)
+
+
 def fetch_posts(domain):
     out, page = [], 1
     while page <= 10:
@@ -88,8 +122,9 @@ def fetch_posts(domain):
             break
         for p in rows:
             title = html.unescape(re.sub(r"<[^>]+>", "", (p.get("title") or {}).get("rendered") or ""))
+            body = (p.get("content") or {}).get("rendered") or ""
             out.append({"id": p.get("id"), "title": title, "link": p.get("link"),
-                        "tg": grams(title), "bg": grams((p.get("content") or {}).get("rendered") or "")})
+                        "tg": grams(title), "bg": grams(body), "bt": norm(body), "tt": norm(title)})
         if len(rows) < 100:
             break
         page += 1
@@ -116,9 +151,8 @@ def main():
         p = by_id.get(k.get("post_id"))
         how = "지정"
         if not p:
-            # 담당 글 추정: 본문에 그 말이 가장 온전히 든 글. 제목은 일부러 덜 본다(제목에 없는 것을 찾는 중이니까).
-            best = max(posts, key=lambda x: cover(kw, x["bg"]) + 0.3 * cover(kw, x["tg"]))
-            if cover(kw, best["bg"] | best["tg"]) >= 0.6:
+            best = guess_post(kw, posts)
+            if best is not None and cover(kw, best["bg"] | best["tg"]) >= 0.6:
                 p, how = best, "추정"
         if not p:
             rows.append({"keyword": kw, "impr": impr, "clicks": clicks, "post_id": None,
