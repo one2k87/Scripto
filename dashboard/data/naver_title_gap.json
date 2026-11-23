@@ -1,48 +1,31 @@
 {
- "at": "2026-11-23 12:05",
+ "at": "2026-11-23 12:34",
  "site": "wontheland.com",
  "seed_collected": "2026-11-23 (서치어드바이저 11/22 갱신분, 사용자 캡처)",
  "posts": [
   {
    "post_id": 3116,
-   "title": "카톡 영상통화가 안 될 때, 재시도보다 먼저 확인할 것",
+   "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
    "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
-   "impr": 101,
-   "clicks": 14,
-   "gap_impr": 96,
+   "impr": 104,
+   "clicks": 15,
+   "gap_impr": 54,
    "gap_keywords": [
-    {
-     "keyword": "영상통화 안될때 방법",
-     "impr": 23,
-     "cover": 0.62,
-     "missing": [
-      "방법"
-     ]
-    },
     {
      "keyword": "영상통화가 안될때 방법",
      "impr": 20,
      "cover": 0.78,
      "missing": [
-      "방법"
+      "영상통화가"
      ]
     },
     {
      "keyword": "카카오톡 영상통화 안됨",
      "impr": 13,
-     "cover": 0.44,
+     "cover": 0.56,
      "missing": [
       "카카오톡",
       "안됨"
-     ]
-    },
-    {
-     "keyword": "카톡 영상통화 화면 안나옴",
-     "impr": 11,
-     "cover": 0.5,
-     "missing": [
-      "화면",
-      "안나옴"
      ]
     },
     {
@@ -56,22 +39,13 @@
     {
      "keyword": "카카오톡 영상통화 끊김",
      "impr": 10,
-     "cover": 0.44,
+     "cover": 0.56,
      "missing": [
-      "카카오톡",
-      "끊김"
-     ]
-    },
-    {
-     "keyword": "카톡 영상통화 끊김",
-     "impr": 8,
-     "cover": 0.71,
-     "missing": [
-      "끊김"
+      "카카오톡"
      ]
     }
    ],
-   "gap_share": 0.95
+   "gap_share": 0.52
   },
   {
    "post_id": 3243,
@@ -88,42 +62,6 @@
      "missing": [
       "휴대폰",
       "터치"
-     ]
-    }
-   ],
-   "gap_share": 1.0
-  },
-  {
-   "post_id": 2671,
-   "title": "갤럭시 국제전화 차단하는 법, 모르는 해외 번호 한 번에 막기",
-   "link": "https://wontheland.com/senior-international-call-block/",
-   "impr": 18,
-   "clicks": 3,
-   "gap_impr": 18,
-   "gap_keywords": [
-    {
-     "keyword": "국제전화차단방법",
-     "impr": 7,
-     "cover": 0.71,
-     "missing": [
-      "국제전화차단방법"
-     ]
-    },
-    {
-     "keyword": "국제전화가 자꾸와요",
-     "impr": 6,
-     "cover": 0.38,
-     "missing": [
-      "국제전화가",
-      "자꾸와요"
-     ]
-    },
-    {
-     "keyword": "자꾸 국제전화",
-     "impr": 5,
-     "cover": 0.6,
-     "missing": [
-      "자꾸"
      ]
     }
    ],
@@ -191,6 +129,26 @@
    "gap_share": 0.88
   },
   {
+   "post_id": 2671,
+   "title": "국제전화 차단 방법, 해외 번호 전화가 자꾸 올 때 갤럭시에서 한 번에 막기",
+   "link": "https://wontheland.com/senior-international-call-block/",
+   "impr": 18,
+   "clicks": 3,
+   "gap_impr": 6,
+   "gap_keywords": [
+    {
+     "keyword": "국제전화가 자꾸와요",
+     "impr": 6,
+     "cover": 0.75,
+     "missing": [
+      "국제전화가",
+      "자꾸와요"
+     ]
+    }
+   ],
+   "gap_share": 0.33
+  },
+  {
    "post_id": 2682,
    "title": "핸드폰 화면이 갑자기 어두워졌을 때, 밝기보다 먼저 볼 설정",
    "link": "https://wontheland.com/smart-phone-dark-screen-solution-2026-10/",
@@ -210,25 +168,6 @@
    "gap_share": 0.6
   },
   {
-   "post_id": 3134,
-   "title": "알뜰폰 유심 교체, 새 휴대폰에 혼자서 3단계로 끝냅니다",
-   "link": "https://wontheland.com/senior-low-cost-phone-usim-change/",
-   "impr": 11,
-   "clicks": 3,
-   "gap_impr": 5,
-   "gap_keywords": [
-    {
-     "keyword": "알뜰폰 유심칩교체후등록하는법",
-     "impr": 5,
-     "cover": 0.38,
-     "missing": [
-      "유심칩교체후등록하는법"
-     ]
-    }
-   ],
-   "gap_share": 0.45
-  },
-  {
    "post_id": 3528,
    "title": "갤럭시 통화 소리 작음, 측면 버튼으로 안 커질 때 확인할 설정 3가지",
    "link": "https://wontheland.com/galaxy-s24-call-volume-boost-guide/",
@@ -240,9 +179,19 @@
   },
   {
    "post_id": 2688,
-   "title": "핸드폰 터치가 갑자기 안 될 때, 먼저 확인할 것과 해결 순서",
+   "title": "휴대폰 터치 먹통일 때, 갑자기 안 되는 터치 먼저 확인할 것과 해결 순서",
    "link": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
    "impr": 6,
+   "clicks": 3,
+   "gap_impr": 0,
+   "gap_keywords": [],
+   "gap_share": 0.0
+  },
+  {
+   "post_id": 3134,
+   "title": "알뜰폰 유심 교체 후 등록하는 법, 새 휴대폰에 혼자서 3단계로",
+   "link": "https://wontheland.com/senior-low-cost-phone-usim-change/",
+   "impr": 11,
    "clicks": 3,
    "gap_impr": 0,
    "gap_keywords": [],
@@ -266,12 +215,12 @@
    "clicks": 3,
    "post_id": 3116,
    "matched": "추정",
-   "title": "카톡 영상통화가 안 될 때, 재시도보다 먼저 확인할 것",
+   "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
    "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
    "cover": 0.78,
    "verdict": "일부만",
    "missing": [
-    "방법"
+    "영상통화가"
    ]
   },
   {
@@ -280,14 +229,11 @@
    "clicks": 3,
    "post_id": 3116,
    "matched": "추정",
-   "title": "카톡 영상통화가 안 될 때, 재시도보다 먼저 확인할 것",
+   "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
    "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
-   "cover": 0.5,
-   "verdict": "일부만",
-   "missing": [
-    "화면",
-    "안나옴"
-   ]
+   "cover": 0.9,
+   "verdict": "제목에 있음",
+   "missing": []
   },
   {
    "keyword": "특정 전화 소리 켜는법",
@@ -311,13 +257,11 @@
    "clicks": 2,
    "post_id": 3116,
    "matched": "추정",
-   "title": "카톡 영상통화가 안 될 때, 재시도보다 먼저 확인할 것",
+   "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
    "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
-   "cover": 0.62,
-   "verdict": "일부만",
-   "missing": [
-    "방법"
-   ]
+   "cover": 1.0,
+   "verdict": "제목에 있음",
+   "missing": []
   },
   {
    "keyword": "kt핸드폰터치가안되요",
@@ -325,10 +269,10 @@
    "clicks": 2,
    "post_id": 2688,
    "matched": "추정",
-   "title": "핸드폰 터치가 갑자기 안 될 때, 먼저 확인할 것과 해결 순서",
+   "title": "휴대폰 터치 먹통일 때, 갑자기 안 되는 터치 먼저 확인할 것과 해결 순서",
    "link": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
-   "cover": 0.5,
-   "verdict": "일부만",
+   "cover": 0.3,
+   "verdict": "제목에 없음",
    "missing": [
     "kt핸드폰터치가안되요"
    ]
@@ -369,9 +313,9 @@
    "clicks": 1,
    "post_id": 3116,
    "matched": "추정",
-   "title": "카톡 영상통화가 안 될 때, 재시도보다 먼저 확인할 것",
+   "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
    "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
-   "cover": 0.44,
+   "cover": 0.56,
    "verdict": "일부만",
    "missing": [
     "카카오톡",
@@ -398,7 +342,7 @@
    "clicks": 1,
    "post_id": 3116,
    "matched": "추정",
-   "title": "카톡 영상통화가 안 될 때, 재시도보다 먼저 확인할 것",
+   "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
    "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
    "cover": 0.33,
    "verdict": "제목에 없음",
@@ -412,13 +356,12 @@
    "clicks": 1,
    "post_id": 3116,
    "matched": "추정",
-   "title": "카톡 영상통화가 안 될 때, 재시도보다 먼저 확인할 것",
+   "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
    "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
-   "cover": 0.44,
+   "cover": 0.56,
    "verdict": "일부만",
    "missing": [
-    "카카오톡",
-    "끊김"
+    "카카오톡"
    ]
   },
   {
@@ -427,13 +370,11 @@
    "clicks": 1,
    "post_id": 3116,
    "matched": "추정",
-   "title": "카톡 영상통화가 안 될 때, 재시도보다 먼저 확인할 것",
+   "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
    "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
-   "cover": 0.71,
-   "verdict": "일부만",
-   "missing": [
-    "끊김"
-   ]
+   "cover": 0.86,
+   "verdict": "제목에 있음",
+   "missing": []
   },
   {
    "keyword": "병원 바코드결제",
@@ -456,13 +397,11 @@
    "clicks": 1,
    "post_id": 2671,
    "matched": "추정",
-   "title": "갤럭시 국제전화 차단하는 법, 모르는 해외 번호 한 번에 막기",
+   "title": "국제전화 차단 방법, 해외 번호 전화가 자꾸 올 때 갤럭시에서 한 번에 막기",
    "link": "https://wontheland.com/senior-international-call-block/",
-   "cover": 0.71,
-   "verdict": "일부만",
-   "missing": [
-    "국제전화차단방법"
-   ]
+   "cover": 1.0,
+   "verdict": "제목에 있음",
+   "missing": []
   },
   {
    "keyword": "휴대폰 알뜰요금제 전환 방법",
@@ -501,10 +440,10 @@
    "clicks": 1,
    "post_id": 2671,
    "matched": "추정",
-   "title": "갤럭시 국제전화 차단하는 법, 모르는 해외 번호 한 번에 막기",
+   "title": "국제전화 차단 방법, 해외 번호 전화가 자꾸 올 때 갤럭시에서 한 번에 막기",
    "link": "https://wontheland.com/senior-international-call-block/",
-   "cover": 0.38,
-   "verdict": "제목에 없음",
+   "cover": 0.75,
+   "verdict": "일부만",
    "missing": [
     "국제전화가",
     "자꾸와요"
@@ -516,13 +455,11 @@
    "clicks": 1,
    "post_id": 2671,
    "matched": "추정",
-   "title": "갤럭시 국제전화 차단하는 법, 모르는 해외 번호 한 번에 막기",
+   "title": "국제전화 차단 방법, 해외 번호 전화가 자꾸 올 때 갤럭시에서 한 번에 막기",
    "link": "https://wontheland.com/senior-international-call-block/",
-   "cover": 0.6,
-   "verdict": "일부만",
-   "missing": [
-    "자꾸"
-   ]
+   "cover": 0.8,
+   "verdict": "제목에 있음",
+   "missing": []
   },
   {
    "keyword": "알뜰폰 유심칩교체후등록하는법",
@@ -530,10 +467,10 @@
    "clicks": 1,
    "post_id": 3134,
    "matched": "추정",
-   "title": "알뜰폰 유심 교체, 새 휴대폰에 혼자서 3단계로 끝냅니다",
+   "title": "알뜰폰 유심 교체 후 등록하는 법, 새 휴대폰에 혼자서 3단계로",
    "link": "https://wontheland.com/senior-low-cost-phone-usim-change/",
-   "cover": 0.38,
-   "verdict": "제목에 없음",
+   "cover": 0.85,
+   "verdict": "제목에 있음",
    "missing": [
     "유심칩교체후등록하는법"
    ]
@@ -558,11 +495,12 @@
    "clicks": 1,
    "post_id": 2688,
    "matched": "추정",
-   "title": "핸드폰 터치가 갑자기 안 될 때, 먼저 확인할 것과 해결 순서",
+   "title": "휴대폰 터치 먹통일 때, 갑자기 안 되는 터치 먼저 확인할 것과 해결 순서",
    "link": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
-   "cover": 0.5,
-   "verdict": "일부만",
+   "cover": 0.1,
+   "verdict": "제목에 없음",
    "missing": [
+    "핸드폰",
     "일부분",
     "터치안될때"
    ]
@@ -593,10 +531,10 @@
    "clicks": 1,
    "post_id": 3134,
    "matched": "추정",
-   "title": "알뜰폰 유심 교체, 새 휴대폰에 혼자서 3단계로 끝냅니다",
+   "title": "알뜰폰 유심 교체 후 등록하는 법, 새 휴대폰에 혼자서 3단계로",
    "link": "https://wontheland.com/senior-low-cost-phone-usim-change/",
-   "cover": 0.29,
-   "verdict": "제목에 없음",
+   "cover": 0.57,
+   "verdict": "일부만",
    "missing": [
     "유심칩",
     "교체하는법"
@@ -608,7 +546,7 @@
    "clicks": 1,
    "post_id": 3116,
    "matched": "추정",
-   "title": "카톡 영상통화가 안 될 때, 재시도보다 먼저 확인할 것",
+   "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
    "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
    "cover": 0.43,
    "verdict": "일부만",
@@ -635,9 +573,16 @@
    "keyword": "이모영상전화는 폰화면나옴",
    "impr": 3,
    "clicks": 1,
-   "post_id": null,
-   "verdict": "담당 글 불명",
-   "cover": null
+   "post_id": 3116,
+   "matched": "추정",
+   "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
+   "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
+   "cover": 0.27,
+   "verdict": "제목에 없음",
+   "missing": [
+    "이모영상전화는",
+    "폰화면나옴"
+   ]
   },
   {
    "keyword": "캘럭시 z폴더7 앞화면 터치가 안되는데 조치방법",
@@ -653,7 +598,7 @@
    "clicks": 1,
    "post_id": 3134,
    "matched": "추정",
-   "title": "알뜰폰 유심 교체, 새 휴대폰에 혼자서 3단계로 끝냅니다",
+   "title": "알뜰폰 유심 교체 후 등록하는 법, 새 휴대폰에 혼자서 3단계로",
    "link": "https://wontheland.com/senior-low-cost-phone-usim-change/",
    "cover": 0.0,
    "verdict": "제목에 없음",
@@ -670,9 +615,9 @@
    "clicks": 1,
    "post_id": 3116,
    "matched": "추정",
-   "title": "카톡 영상통화가 안 될 때, 재시도보다 먼저 확인할 것",
+   "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
    "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
-   "cover": 0.07,
+   "cover": 0.14,
    "verdict": "제목에 없음",
    "missing": [
     "카카오톡",
