@@ -1,15 +1,13 @@
 {
- "at": "2026-11-23 11:57",
+ "at": "2026-11-23 12:00",
  "site": "wontheland.com",
  "rank_check": false,
  "count": {
-  "자료부족": 35,
-  "하락": 8,
-  "시즌형": 11,
+  "자료부족": 45,
+  "하락": 10,
   "에버그린": 8,
-  "이슈성": 3,
-  "급상승": 1,
-  "시즌진입": 2
+  "시즌형": 4,
+  "이슈성": 1
  },
  "rows": [
   {
@@ -25,16 +23,16 @@
    "source": "포커스 키워드",
    "post_id": 3243,
    "label": "하락",
-   "cv": 0.53,
-   "rise": 0.19,
+   "cv": 0.64,
+   "rise": 0.13,
    "yoy": 0.21,
    "peak_month": 12,
-   "peak_ratio": 1.25,
+   "peak_ratio": 1.4,
    "spike": 2.1,
-   "yoy4": 0.06,
-   "recur": null,
-   "recent": 4.6,
-   "n": 95,
+   "yoy4": 0.05,
+   "recur": 0.64,
+   "recent": 3.0,
+   "n": 104,
    "lane": "쓰지 않는다"
   },
   {
@@ -49,18 +47,9 @@
    "keyword": "갤럭시 와이파이 연결 안됨",
    "source": "포커스 키워드",
    "post_id": 3185,
-   "label": "시즌형",
-   "cv": 0.63,
-   "rise": 1.85,
-   "yoy": 0.03,
-   "peak_month": 2,
-   "peak_ratio": 1.6,
-   "spike": 1.7,
-   "yoy4": 0.02,
-   "recur": null,
-   "recent": 3.5,
-   "n": 71,
-   "lane": "철 1~2달 전에"
+   "label": "자료부족",
+   "n": 104,
+   "lane": "D 실험(수요 미확인)"
   },
   {
    "keyword": "갤럭시 a35 소프트웨어 업데이트",
@@ -74,25 +63,16 @@
    "keyword": "보이스피싱 원격제어",
    "source": "포커스 키워드",
    "post_id": 3215,
-   "label": "시즌형",
-   "cv": 0.82,
-   "rise": 0.89,
-   "yoy": null,
-   "peak_month": 6,
-   "peak_ratio": 1.92,
-   "spike": 3.9,
-   "yoy4": null,
-   "recur": null,
-   "recent": 16.0,
-   "n": 41,
-   "lane": "철 1~2달 전에"
+   "label": "자료부족",
+   "n": 104,
+   "lane": "D 실험(수요 미확인)"
   },
   {
    "keyword": "갤럭시 a15 캡쳐",
    "source": "포커스 키워드",
    "post_id": 3213,
    "label": "자료부족",
-   "n": 5,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
@@ -100,32 +80,32 @@
    "source": "포커스 키워드",
    "post_id": 3187,
    "label": "자료부족",
-   "n": 4,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
    "keyword": "갤럭시 사진 컴퓨터로 옮기기",
    "source": "포커스 키워드",
    "post_id": 3174,
-   "label": "시즌형",
-   "cv": 0.62,
-   "rise": 1.2,
-   "yoy": 0.66,
+   "label": "하락",
+   "cv": 0.81,
+   "rise": 1.38,
+   "yoy": 0.29,
    "peak_month": 11,
-   "peak_ratio": 1.72,
-   "spike": 3.3,
-   "yoy4": 0.57,
-   "recur": null,
-   "recent": 27.1,
-   "n": 88,
-   "lane": "철 1~2달 전에"
+   "peak_ratio": 1.78,
+   "spike": 4.1,
+   "yoy4": 0.07,
+   "recur": 0.11,
+   "recent": 19.9,
+   "n": 104,
+   "lane": "쓰지 않는다"
   },
   {
    "keyword": "갤럭시 s24 벨소리",
    "source": "포커스 키워드",
    "post_id": 3172,
    "label": "자료부족",
-   "n": 15,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
@@ -133,7 +113,7 @@
    "source": "포커스 키워드",
    "post_id": 3161,
    "label": "자료부족",
-   "n": 3,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
@@ -141,7 +121,7 @@
    "source": "포커스 키워드",
    "post_id": 3151,
    "label": "자료부족",
-   "n": 1,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
@@ -157,16 +137,16 @@
    "source": "포커스 키워드",
    "post_id": 3134,
    "label": "하락",
-   "cv": 2.31,
-   "rise": 1.07,
-   "yoy": 0.05,
+   "cv": 2.77,
+   "rise": 0.16,
+   "yoy": 0.07,
    "peak_month": 4,
-   "peak_ratio": 4.61,
-   "spike": 69.2,
-   "yoy4": 0.08,
-   "recur": null,
-   "recent": 0.8,
-   "n": 76,
+   "peak_ratio": 3.95,
+   "spike": 144.6,
+   "yoy4": 0.0,
+   "recur": -0.06,
+   "recent": 0.1,
+   "n": 104,
    "lane": "쓰지 않는다"
   },
   {
@@ -183,7 +163,7 @@
    "yoy4": 0.9,
    "recur": 0.46,
    "recent": 57.0,
-   "n": 105,
+   "n": 104,
    "lane": "B 에버그린"
   },
   {
@@ -200,7 +180,7 @@
    "yoy4": 0.89,
    "recur": 0.18,
    "recent": 19.6,
-   "n": 105,
+   "n": 104,
    "lane": "B 에버그린"
   },
   {
@@ -216,7 +196,7 @@
    "source": "포커스 키워드",
    "post_id": 3116,
    "label": "자료부족",
-   "n": 19,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
@@ -228,12 +208,12 @@
    "rise": 1.14,
    "yoy": 0.99,
    "peak_month": 2,
-   "peak_ratio": 1.22,
+   "peak_ratio": 1.23,
    "spike": 2.0,
    "yoy4": 1.19,
    "recur": -0.15,
    "recent": 48.3,
-   "n": 105,
+   "n": 104,
    "lane": "B 에버그린"
   },
   {
@@ -241,7 +221,7 @@
    "source": "포커스 키워드",
    "post_id": 3097,
    "label": "자료부족",
-   "n": 2,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
@@ -249,7 +229,7 @@
    "source": "포커스 키워드",
    "post_id": 3071,
    "label": "자료부족",
-   "n": 3,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
@@ -257,16 +237,16 @@
    "source": "포커스 키워드",
    "post_id": 3041,
    "label": "하락",
-   "cv": 0.74,
+   "cv": 0.73,
    "rise": 0.84,
    "yoy": 0.26,
    "peak_month": 1,
-   "peak_ratio": 1.41,
-   "spike": 4.7,
+   "peak_ratio": 1.43,
+   "spike": 4.8,
    "yoy4": 0.31,
    "recur": 0.48,
    "recent": 8.1,
-   "n": 105,
+   "n": 104,
    "lane": "쓰지 않는다"
   },
   {
@@ -274,7 +254,7 @@
    "source": "포커스 키워드",
    "post_id": 3039,
    "label": "자료부족",
-   "n": 14,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
@@ -282,41 +262,32 @@
    "source": "포커스 키워드",
    "post_id": 2965,
    "label": "시즌형",
-   "cv": 0.9,
+   "cv": 0.91,
    "rise": 0.97,
    "yoy": 0.44,
    "peak_month": 3,
-   "peak_ratio": 1.68,
+   "peak_ratio": 1.69,
    "spike": 5.5,
    "yoy4": 0.37,
    "recur": 0.56,
    "recent": 8.4,
-   "n": 105,
+   "n": 104,
    "lane": "철 1~2달 전에"
   },
   {
    "keyword": "약국 키오스크",
    "source": "포커스 키워드",
    "post_id": 2963,
-   "label": "이슈성",
-   "cv": 0.98,
-   "rise": 0.95,
-   "yoy": null,
-   "peak_month": 7,
-   "peak_ratio": 2.17,
-   "spike": 10.7,
-   "yoy4": null,
-   "recur": null,
-   "recent": 8.2,
-   "n": 46,
-   "lane": "C 핫이슈(터질 때만)"
+   "label": "자료부족",
+   "n": 104,
+   "lane": "D 실험(수요 미확인)"
   },
   {
    "keyword": "병원 진료비 영수증 발급",
    "source": "포커스 키워드",
    "post_id": 2747,
    "label": "자료부족",
-   "n": 18,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
@@ -324,57 +295,39 @@
    "source": "포커스 키워드",
    "post_id": 2745,
    "label": "자료부족",
-   "n": 2,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
    "keyword": "스마트폰 공동인증서 발급",
    "source": "포커스 키워드",
    "post_id": 2739,
-   "label": "하락",
-   "cv": 0.61,
-   "rise": 0.7,
-   "yoy": null,
-   "peak_month": 7,
-   "peak_ratio": 1.52,
-   "spike": 3.1,
-   "yoy4": null,
-   "recur": null,
-   "recent": 16.9,
-   "n": 41,
-   "lane": "쓰지 않는다"
+   "label": "자료부족",
+   "n": 104,
+   "lane": "D 실험(수요 미확인)"
   },
   {
    "keyword": "어르신 디지털 교육",
    "source": "포커스 키워드",
    "post_id": 2737,
    "label": "자료부족",
-   "n": 9,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
    "keyword": "앱 숨기기 갤럭시",
    "source": "포커스 키워드",
    "post_id": 2725,
-   "label": "하락",
-   "cv": 0.6,
-   "rise": 0.6,
-   "yoy": null,
-   "peak_month": 9,
-   "peak_ratio": 1.36,
-   "spike": 2.3,
-   "yoy4": null,
-   "recur": null,
-   "recent": 30.0,
-   "n": 35,
-   "lane": "쓰지 않는다"
+   "label": "자료부족",
+   "n": 104,
+   "lane": "D 실험(수요 미확인)"
   },
   {
    "keyword": "알뜰폰 고객센터 전화번호",
    "source": "포커스 키워드",
    "post_id": 2731,
    "label": "자료부족",
-   "n": 5,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
@@ -390,32 +343,23 @@
    "source": "포커스 키워드",
    "post_id": 2714,
    "label": "자료부족",
-   "n": 14,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
    "keyword": "스팸전화 차단 방법",
    "source": "포커스 키워드",
    "post_id": 2712,
-   "label": "시즌형",
-   "cv": 0.86,
-   "rise": 1.14,
-   "yoy": null,
-   "peak_month": 12,
-   "peak_ratio": 2.07,
-   "spike": 4.5,
-   "yoy4": null,
-   "recur": null,
-   "recent": 56.0,
-   "n": 44,
-   "lane": "철 1~2달 전에"
+   "label": "자료부족",
+   "n": 104,
+   "lane": "D 실험(수요 미확인)"
   },
   {
    "keyword": "사진 흔들림",
    "source": "포커스 키워드",
    "post_id": 2706,
    "label": "자료부족",
-   "n": 2,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
@@ -423,7 +367,7 @@
    "source": "포커스 키워드",
    "post_id": 2700,
    "label": "자료부족",
-   "n": 1,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
@@ -431,66 +375,48 @@
    "source": "포커스 키워드",
    "post_id": 2698,
    "label": "자료부족",
-   "n": 5,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
    "keyword": "핸드폰 터치 안됨",
    "source": "포커스 키워드",
    "post_id": 2688,
-   "label": "하락",
-   "cv": 0.67,
-   "rise": 0.3,
-   "yoy": null,
-   "peak_month": 6,
-   "peak_ratio": 2.09,
-   "spike": 2.8,
-   "yoy4": null,
-   "recur": null,
-   "recent": 10.0,
-   "n": 37,
-   "lane": "쓰지 않는다"
+   "label": "자료부족",
+   "n": 104,
+   "lane": "D 실험(수요 미확인)"
   },
   {
    "keyword": "핸드폰 화면 어두워짐",
    "source": "포커스 키워드",
    "post_id": 2682,
-   "label": "시즌형",
-   "cv": 0.65,
-   "rise": 2.92,
-   "yoy": 0.25,
+   "label": "하락",
+   "cv": 0.95,
+   "rise": 0.0,
+   "yoy": 0.18,
    "peak_month": 6,
-   "peak_ratio": 1.61,
-   "spike": 3.1,
-   "yoy4": 0.68,
-   "recur": null,
-   "recent": 36.5,
-   "n": 78,
-   "lane": "철 1~2달 전에"
+   "peak_ratio": 1.93,
+   "spike": 5.8,
+   "yoy4": 0.0,
+   "recur": 0.07,
+   "recent": 0.0,
+   "n": 104,
+   "lane": "쓰지 않는다"
   },
   {
    "keyword": "비행기 모드 해제",
    "source": "포커스 키워드",
    "post_id": 2680,
-   "label": "급상승",
-   "cv": 0.6,
-   "rise": 2.0,
-   "yoy": 0.42,
-   "peak_month": 4,
-   "peak_ratio": 1.23,
-   "spike": 3.2,
-   "yoy4": 1.5,
-   "recur": null,
-   "recent": 29.4,
-   "n": 68,
-   "lane": "C 핫이슈"
+   "label": "자료부족",
+   "n": 104,
+   "lane": "D 실험(수요 미확인)"
   },
   {
    "keyword": "병원 키오스크 접수",
    "source": "포커스 키워드",
    "post_id": 2673,
    "label": "자료부족",
-   "n": 10,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
@@ -501,31 +427,22 @@
    "cv": 0.53,
    "rise": 2.55,
    "yoy": 0.7,
-   "peak_month": 11,
-   "peak_ratio": 1.32,
-   "spike": 2.7,
+   "peak_month": 10,
+   "peak_ratio": 1.27,
+   "spike": 2.8,
    "yoy4": 1.11,
    "recur": -0.15,
    "recent": 45.1,
-   "n": 105,
+   "n": 104,
    "lane": "철 1~2달 전에"
   },
   {
    "keyword": "시니어 디지털 교육",
    "source": "포커스 키워드",
    "post_id": 2665,
-   "label": "시즌진입",
-   "cv": 0.69,
-   "rise": 1.32,
-   "yoy": null,
-   "peak_month": 6,
-   "peak_ratio": 2.03,
-   "spike": 3.8,
-   "yoy4": null,
-   "recur": null,
-   "recent": 28.9,
-   "n": 32,
-   "lane": "C 핫이슈(시즌 선점)"
+   "label": "자료부족",
+   "n": 104,
+   "lane": "D 실험(수요 미확인)"
   },
   {
    "keyword": "데이터 사용량 확인",
@@ -541,25 +458,25 @@
    "yoy4": 0.68,
    "recur": 0.25,
    "recent": 31.3,
-   "n": 105,
+   "n": 104,
    "lane": "B 에버그린"
   },
   {
    "keyword": "알뜰폰 데이터 사용량 조회",
    "source": "포커스 키워드",
    "post_id": 2656,
-   "label": "시즌형",
-   "cv": 0.87,
-   "rise": 0.83,
+   "label": "하락",
+   "cv": 1.84,
+   "rise": 0.23,
    "yoy": null,
    "peak_month": 1,
-   "peak_ratio": 2.4,
-   "spike": 5.8,
+   "peak_ratio": 3.71,
+   "spike": 200.0,
    "yoy4": null,
-   "recur": null,
-   "recent": 15.1,
-   "n": 42,
-   "lane": "철 1~2달 전에"
+   "recur": 0.18,
+   "recent": 2.6,
+   "n": 104,
+   "lane": "쓰지 않는다"
   },
   {
    "keyword": "모바일 운전면허증 발급",
@@ -570,12 +487,12 @@
    "rise": 0.91,
    "yoy": 0.67,
    "peak_month": 2,
-   "peak_ratio": 1.22,
+   "peak_ratio": 1.21,
    "spike": 1.5,
    "yoy4": 0.53,
    "recur": 0.39,
    "recent": 44.3,
-   "n": 105,
+   "n": 104,
    "lane": "B 에버그린"
   },
   {
@@ -583,7 +500,7 @@
    "source": "포커스 키워드",
    "post_id": 2648,
    "label": "자료부족",
-   "n": 8,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
@@ -598,18 +515,9 @@
    "keyword": "구글포토 자동 백업",
    "source": "포커스 키워드",
    "post_id": 2640,
-   "label": "이슈성",
-   "cv": 1.08,
-   "rise": 1.15,
-   "yoy": null,
-   "peak_month": 12,
-   "peak_ratio": 2.37,
-   "spike": 7.7,
-   "yoy4": null,
-   "recur": null,
-   "recent": 5.5,
-   "n": 54,
-   "lane": "C 핫이슈(터질 때만)"
+   "label": "자료부족",
+   "n": 104,
+   "lane": "D 실험(수요 미확인)"
   },
   {
    "keyword": "카페 키오스크 주문",
@@ -632,16 +540,16 @@
    "source": "포커스 키워드",
    "post_id": 2626,
    "label": "시즌형",
-   "cv": 0.46,
+   "cv": 0.47,
    "rise": 0.71,
    "yoy": 0.44,
    "peak_month": 1,
    "peak_ratio": 1.29,
-   "spike": 2.6,
+   "spike": 2.7,
    "yoy4": 0.39,
    "recur": 0.39,
    "recent": 15.1,
-   "n": 105,
+   "n": 104,
    "lane": "철 1~2달 전에"
   },
   {
@@ -658,7 +566,7 @@
    "yoy4": 0.74,
    "recur": 0.07,
    "recent": 53.7,
-   "n": 105,
+   "n": 104,
    "lane": "B 에버그린"
   },
   {
@@ -675,7 +583,7 @@
    "yoy4": 0.85,
    "recur": -0.04,
    "recent": 23.4,
-   "n": 105,
+   "n": 104,
    "lane": "B 에버그린"
   },
   {
@@ -692,7 +600,7 @@
    "yoy4": 0.73,
    "recur": 0.36,
    "recent": 42.0,
-   "n": 105,
+   "n": 104,
    "lane": "B 에버그린"
   },
   {
@@ -725,25 +633,25 @@
    "yoy4": 0.21,
    "recur": 0.27,
    "recent": 8.7,
-   "n": 105,
+   "n": 104,
    "lane": "쓰지 않는다"
   },
   {
    "keyword": "기차표 예매 앱",
    "source": "포커스 키워드",
    "post_id": 2596,
-   "label": "시즌형",
-   "cv": 0.55,
-   "rise": 1.04,
+   "label": "하락",
+   "cv": 1.18,
+   "rise": 0.0,
    "yoy": null,
-   "peak_month": 2,
-   "peak_ratio": 1.4,
-   "spike": 3.3,
-   "yoy4": 0.37,
-   "recur": null,
-   "recent": 27.2,
-   "n": 58,
-   "lane": "철 1~2달 전에"
+   "peak_month": 12,
+   "peak_ratio": 1.92,
+   "spike": 4.6,
+   "yoy4": null,
+   "recur": 0.0,
+   "recent": 0.0,
+   "n": 104,
+   "lane": "쓰지 않는다"
   },
   {
    "keyword": "결제 문자 피싱",
@@ -758,7 +666,7 @@
    "source": "포커스 키워드",
    "post_id": 2588,
    "label": "자료부족",
-   "n": 5,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
@@ -766,7 +674,7 @@
    "source": "포커스 키워드",
    "post_id": 2582,
    "label": "이슈성",
-   "cv": 0.84,
+   "cv": 0.85,
    "rise": 0.7,
    "yoy": 0.65,
    "peak_month": 7,
@@ -782,34 +690,34 @@
    "keyword": "pass 앱 설치",
    "source": "포커스 키워드",
    "post_id": 2580,
-   "label": "시즌진입",
-   "cv": 1.04,
-   "rise": 1.69,
-   "yoy": 5.04,
-   "peak_month": 1,
-   "peak_ratio": 1.99,
-   "spike": 9.3,
-   "yoy4": 0.76,
-   "recur": null,
-   "recent": 9.4,
-   "n": 84,
-   "lane": "C 핫이슈(시즌 선점)"
+   "label": "하락",
+   "cv": 1.25,
+   "rise": 0.44,
+   "yoy": 0.39,
+   "peak_month": 4,
+   "peak_ratio": 2.41,
+   "spike": 18.1,
+   "yoy4": 0.06,
+   "recur": -0.08,
+   "recent": 3.3,
+   "n": 104,
+   "lane": "쓰지 않는다"
   },
   {
    "keyword": "정부24 모바일 신분증",
    "source": "포커스 키워드",
    "post_id": 2574,
    "label": "시즌형",
-   "cv": 0.41,
+   "cv": 0.4,
    "rise": 0.8,
    "yoy": 0.6,
    "peak_month": 2,
-   "peak_ratio": 1.22,
+   "peak_ratio": 1.23,
    "spike": 2.9,
    "yoy4": 0.56,
    "recur": 0.38,
    "recent": 20.0,
-   "n": 105,
+   "n": 104,
    "lane": "철 1~2달 전에"
   },
   {
@@ -817,7 +725,7 @@
    "source": "포커스 키워드",
    "post_id": 2557,
    "label": "자료부족",
-   "n": 26,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   },
   {
@@ -833,7 +741,7 @@
    "source": "포커스 키워드",
    "post_id": 2543,
    "label": "하락",
-   "cv": 0.38,
+   "cv": 0.39,
    "rise": 0.15,
    "yoy": 0.34,
    "peak_month": 1,
@@ -842,7 +750,7 @@
    "yoy4": 0.07,
    "recur": -0.16,
    "recent": 4.7,
-   "n": 105,
+   "n": 104,
    "lane": "쓰지 않는다"
   },
   {
@@ -850,7 +758,7 @@
    "source": "포커스 키워드",
    "post_id": 2541,
    "label": "자료부족",
-   "n": 1,
+   "n": 104,
    "lane": "D 실험(수요 미확인)"
   }
  ]
