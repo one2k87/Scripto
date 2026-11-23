@@ -1,6 +1,157 @@
 {
   "_설명": "네이버 서치어드바이저 「검색 키워드 TOP 30」을 사람이 옮겨 적는 파일(통계 조회 API가 없다). 한 줄에 검색어·클릭·노출만 넣으면 되고 post_id 는 몰라도 된다 — scripts/naver_title_gap.py 가 본문을 보고 담당 글을 찾는다. 갱신하면 「네이버 신호 수집」 워크플로가 추이 판정과 제목 격차를 다시 낸다.",
-  "collected": "",
+  "collected": "2026-11-23 (서치어드바이저 11/22 갱신분, 사용자 캡처)",
   "period": "최근 30일",
-  "keywords": []
+  "keywords": [
+    {
+      "keyword": "영상통화가 안될때 방법",
+      "clicks": 3,
+      "impr": 20
+    },
+    {
+      "keyword": "카톡 영상통화 화면 안나옴",
+      "clicks": 3,
+      "impr": 11
+    },
+    {
+      "keyword": "특정 전화 소리 켜는법",
+      "clicks": 3,
+      "impr": 3
+    },
+    {
+      "keyword": "영상통화 안될때 방법",
+      "clicks": 2,
+      "impr": 23
+    },
+    {
+      "keyword": "kt핸드폰터치가안되요",
+      "clicks": 2,
+      "impr": 2
+    },
+    {
+      "keyword": "시니어폰으로 교체방법",
+      "clicks": 2,
+      "impr": 1
+    },
+    {
+      "keyword": "휴대폰 터치 먹통",
+      "clicks": 1,
+      "impr": 42
+    },
+    {
+      "keyword": "카카오톡 영상통화 안됨",
+      "clicks": 1,
+      "impr": 13
+    },
+    {
+      "keyword": "약국 키오스크",
+      "clicks": 1,
+      "impr": 12
+    },
+    {
+      "keyword": "아이폰영상통화카톡연결해제",
+      "clicks": 1,
+      "impr": 11
+    },
+    {
+      "keyword": "카카오톡 영상통화 끊김",
+      "clicks": 1,
+      "impr": 10
+    },
+    {
+      "keyword": "카톡 영상통화 끊김",
+      "clicks": 1,
+      "impr": 8
+    },
+    {
+      "keyword": "병원 바코드결제",
+      "clicks": 1,
+      "impr": 8
+    },
+    {
+      "keyword": "국제전화차단방법",
+      "clicks": 1,
+      "impr": 7
+    },
+    {
+      "keyword": "휴대폰 알뜰요금제 전환 방법",
+      "clicks": 1,
+      "impr": 7
+    },
+    {
+      "keyword": "폴더폰화면밝기조절",
+      "clicks": 1,
+      "impr": 6
+    },
+    {
+      "keyword": "국제전화가 자꾸와요",
+      "clicks": 1,
+      "impr": 6
+    },
+    {
+      "keyword": "자꾸 국제전화",
+      "clicks": 1,
+      "impr": 5
+    },
+    {
+      "keyword": "알뜰폰 유심칩교체후등록하는법",
+      "clicks": 1,
+      "impr": 5
+    },
+    {
+      "keyword": "핸폰바탕이갑자기어두워졌을때",
+      "clicks": 1,
+      "impr": 4
+    },
+    {
+      "keyword": "핸드폰 일부분 터치안될때",
+      "clicks": 1,
+      "impr": 4
+    },
+    {
+      "keyword": "병원 키오스크 접수",
+      "clicks": 1,
+      "impr": 4
+    },
+    {
+      "keyword": "처방전 키오스크",
+      "clicks": 1,
+      "impr": 4
+    },
+    {
+      "keyword": "유심칩 교체하는법",
+      "clicks": 1,
+      "impr": 3
+    },
+    {
+      "keyword": "와이파이 영상통화",
+      "clicks": 1,
+      "impr": 3
+    },
+    {
+      "keyword": "요모 요금제 데이터 확인",
+      "clicks": 1,
+      "impr": 3
+    },
+    {
+      "keyword": "이모영상전화는 폰화면나옴",
+      "clicks": 1,
+      "impr": 3
+    },
+    {
+      "keyword": "캘럭시 z폴더7 앞화면 터치가 안되는데 조치방법",
+      "clicks": 1,
+      "impr": 3
+    },
+    {
+      "keyword": "카카오톡 내가 걸면 안되요",
+      "clicks": 1,
+      "impr": 3
+    },
+    {
+      "keyword": "카카오톡 상대방 영상 안나오는 경우",
+      "clicks": 1,
+      "impr": 2
+    }
+  ]
 }
