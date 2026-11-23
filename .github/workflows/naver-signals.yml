@@ -10,7 +10,8 @@ on:
     - cron: "43 21 * * 0"        # 매주 월요일 06:43 KST
   push:
     branches: [main]
-    paths: ["data/naver_seed_keywords.json"]
+    # 유입 검색어를 갱신하거나 판정 코드를 고쳐 올리면 바로 다시 잰다
+    paths: ["data/naver_seed_keywords.json", "naver_hub.py", "scripts/naver_signals.py", "scripts/naver_title_gap.py"]
   workflow_dispatch:
     inputs:
       rank_check:

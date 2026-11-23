@@ -160,7 +160,29 @@ def search_trend(keywords, start=None, end=None, time_unit="week"):
     if j is None:
         return None
     res = (j.get("results") or [{}])[0].get("data") or []
-    return [(d.get("period"), float(d.get("ratio") or 0)) for d in res]
+    return _fill_weeks([(d.get("period"), float(d.get("ratio") or 0)) for d in res], start, end) \
+        if time_unit == "week" else [(d.get("period"), float(d.get("ratio") or 0)) for d in res]
+
+
+def _fill_weeks(series, start, end):
+    """빠진 주를 0 으로 채워 **연속된 주별 계열**로 만든다.
+    2026-11-23 원더랜드 첫 실측: 데이터랩은 검색이 없던 주를 아예 빼고 돌려준다. 그대로 두면
+    '52칸 앞 = 1년 전'이라는 계산이 어긋나 작년 비교가 엉뚱한 주끼리 붙는다."""
+    got = {}
+    for p, v in series:
+        try:
+            got[_dt.date.fromisoformat(p)] = v
+        except Exception:
+            pass
+    if not got:
+        return []
+    first = min(got)
+    d = first - _dt.timedelta(days=7 * ((first - start).days // 7))     # 요청 시작일 쪽으로 같은 요일을 되짚는다
+    out = []
+    while d <= end:
+        out.append((str(d), got.get(d, 0.0)))
+        d += _dt.timedelta(days=7)
+    return out
 
 
 def classify_trend(series, today=None):
@@ -176,7 +198,10 @@ def classify_trend(series, today=None):
       자료부족   검색이 너무 적어 추이가 잡히지 않는다
     """
     vals = [v for _, v in (series or [])]
-    if len(vals) < 30 or sum(1 for v in vals if v > 0) < 20:
+    last_year = vals[-52:]
+    if len(vals) < 30 or sum(1 for v in vals if v > 0) < 20 or \
+            sum(1 for v in last_year if v > 0) < len(last_year) * 0.5:
+        # 최근 1년의 절반 넘는 주에 검색이 0 이면 추이를 논할 수 없다(0 근처의 비율은 잡음이다)
         return {"label": "자료부족", "n": len(vals)}
     mean = _st.fmean(vals)
     cv = (_st.pstdev(vals) / mean) if mean else 9.9
