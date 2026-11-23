@@ -208,8 +208,14 @@ def classify_trend(series, today=None):
     recent = _st.fmean(vals[-4:])
     # 기준선과 작년 비교는 **중앙값**으로 잡는다. 2026-11-23 원더랜드 첫 실측에서, 검색이 적은 말은
     # 한 주짜리 봉우리(장애·뉴스)가 평균을 끌어올려 '작년의 7%' 같은 값이 나오고 15개가 하락으로 찍혔다.
-    base = _st.median(vals[-16:-4]) or 0.5
+    base_med = _st.median(vals[-16:-4])
+    base = base_med or 0.5
     rise = recent / base
+    # 직전 12주가 사실상 0 인 말은 최근 값이 조금만 생겨도 배율이 수십 배로 튄다
+    # (픽담 첫 실측: 「비데설치기사」 18배 — 실제로는 검색이 거의 없는 말이었다).
+    # 최근 4주가 2년 최고치의 30% 에도 못 미치면 '뜬 것'이 아니라 '없는 것'으로 본다.
+    if base_med < 2 and recent < 30:
+        return {"label": "자료부족", "n": len(vals), "why": "직전 12주 검색이 거의 없다"}
     yoy = None
     if len(vals) >= 66:
         ly = _st.median(vals[-64:-52])                  # 1년 전 같은 12주
