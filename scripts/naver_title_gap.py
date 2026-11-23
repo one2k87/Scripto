@@ -82,30 +82,35 @@ def guess_post(kw, posts):
     (「휴대폰 터치 먹통」 → 전화 먹통 글). 그래서
       · 낱말마다 본문 등장 횟수를 세고(많을수록 그 글의 주제다)
       · 여러 글에 흔한 낱말('휴대폰')은 낮게, 드문 낱말('터치')은 높게 친다
-      · 검색어가 통째로 본문에 있으면 크게 더한다
-    제목은 동점을 가를 때만 아주 조금 본다(제목에 없는 것을 찾는 중이니까)."""
+      · 제목이 검색어의 낱말을 전부 품고 있으면 그 글로 본다(그 경우 격차는 '없음'으로 나온다)
+    2차 실측(같은 날): 본문만 보면 「휴대폰 터치 먹통」의 임자(#2688)를 놓친다 — '먹통'이 제목에만 있었다.
+    그래서 제목도 본문과 함께 세고, 낱말이 안 맞는 합성어는 두 글자 조각으로 잇는다."""
     import math
     toks = [norm(t) for t in re.split(r"\s+", kw.strip()) if len(norm(t)) >= 2] or [norm(kw)]
     n = len(posts)
-    df = {t: sum(1 for x in posts if t in x["bt"]) for t in toks}
-    whole = norm(kw)
+    doc = lambda x: x["tt"] + " " + x["bt"]            # 제목도 그 글의 글자다(「터치 먹통」이 제목에만 있는 글이 있었다)
+    # 낱말 그대로 + 낱말 안의 두 글자 조각. 조각이 있어야 「알뜰요금제」가 「알뜰폰 요금제」 글을 찾고,
+    # 붙여 쓴 「셀프싱크대문교체」도 쪼개진다. 낱말 경계는 넘지 않는다(「폰터」 같은 헛조각 방지).
+    units = {}
+    for t in toks:
+        units[t] = 1.0
+        for i in range(len(t) - 1):
+            units.setdefault(t[i:i + 2], 0.5)
+    df = {u: sum(1 for x in posts if u in doc(x)) for u in units}
 
     def score(x):
+        d = doc(x)
         sc = 0.0
-        for t in toks:
-            tf = x["bt"].count(t)
+        for u, w in units.items():
+            tf = d.count(u)
             if tf:
-                sc += math.log(1 + tf) * math.log(1 + n / (1 + df[t]))
-        if len(whole) >= 4 and whole in x["bt"]:
-            sc += 2.0
-        return sc + 0.5 * cover(kw, x["bg"]) + 0.05 * cover(kw, x["tg"])
+                sc += w * math.log(1 + tf) * math.log(1 + n / (1 + df[u]))
+        if all(t in x["tt"] for t in toks):            # 제목이 검색어의 낱말을 전부 품었다 = 그 글이 맞다
+            sc += 3.0
+        return sc
 
     best = max(posts, key=score, default=None)
-    if best is not None and score(best) > 0.5:
-        return best
-    # 붙여 쓴 검색어(「셀프싱크대문교체」)는 낱말로 쪼갤 수 없어 위 점수가 0 이다.
-    # 그럴 때만 두 글자 조각이 본문에 얼마나 들어 있는가로 고른다(제목은 동점 가르기).
-    return max(posts, key=lambda x: cover(kw, x["bg"]) + 0.05 * cover(kw, x["tg"]), default=None)
+    return best if (best is not None and score(best) > 0.5) else None
 
 
 def fetch_posts(domain):
