@@ -1,0 +1,52 @@
+name: 네이버 신호 수집(추이·제목 격차)
+
+# 읽기 전용. 글을 고치지 않는다. (2026-11-23 픽토가 사용자 지시로 추가 — Picto 레포와 같은 코드)
+#  · 추이 판정: 데이터랩 검색어 트렌드 2년치 → 에버그린/급상승/시즌진입/시즌형/하락
+#  · 제목 격차: data/naver_seed_keywords.json 의 유입 검색어가 글 제목에 들어 있는지 대조
+# 서치어드바이저 노출·클릭은 API 가 없어 seed 파일을 사람이 갱신한다. 갱신해 push 하면 자동으로 돈다.
+# 제목을 실제로 바꾸는 일은 기존 경로(data/retitle_queue.txt → 제목 교체 워크플로)로, 사용자 승인 뒤에만.
+on:
+  schedule:
+    - cron: "43 21 * * 0"        # 매주 월요일 06:43 KST
+  push:
+    branches: [main]
+    paths: ["data/naver_seed_keywords.json"]
+  workflow_dispatch:
+    inputs:
+      rank_check:
+        description: "true면 웹문서 검색에서 내 사이트 순위도 본다(검색 API 약관 확인 뒤 켤 것)"
+        default: "false"
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  signals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      TZ: Asia/Seoul
+      SITE_DOMAIN: wontheland.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install requests
+      - name: 추이 판정
+        env:
+          NAVER_HUB_KEY_ID: ${{ secrets.NAVER_HUB_KEY_ID }}
+          NAVER_HUB_KEY: ${{ secrets.NAVER_HUB_KEY }}
+          RANK_CHECK: ${{ github.event.inputs.rank_check || 'false' }}
+        run: python scripts/naver_signals.py
+      - name: 제목 격차
+        run: python scripts/naver_title_gap.py
+      - name: 결과 커밋
+        run: |
+          git config user.name "blog-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add dashboard/data/naver_signals.json data/naver_signals.md \
+                  dashboard/data/naver_title_gap.json data/naver_title_gap.md 2>/dev/null || true
+          git diff --cached --quiet && exit 0
+          git commit -m "네이버 신호 수집 결과"
+          git pull --rebase --autostash origin main && git push
