@@ -172,6 +172,7 @@ def classify_trend(series, today=None):
       시즌진입   최근 4주가 올랐지만 작년에도 이때 올랐다           → C 갈래(시즌 선점)
       시즌형     봉우리가 뚜렷한데 지금은 철이 아니다                → peak_month 1~2달 전에 쓴다
       하락       최근이 직전·작년보다 모두 낮다                     → 새 글을 쓰지 않는다
+      이슈성     평소엔 조용하다가 사건이 나면 튄다                  → 터졌을 때만 C 갈래
       자료부족   검색이 너무 적어 추이가 잡히지 않는다
     """
     vals = [v for _, v in (series or [])]
@@ -180,12 +181,28 @@ def classify_trend(series, today=None):
     mean = _st.fmean(vals)
     cv = (_st.pstdev(vals) / mean) if mean else 9.9
     recent = _st.fmean(vals[-4:])
-    base = _st.fmean(vals[-16:-4]) or 0.01
+    # 기준선과 작년 비교는 **중앙값**으로 잡는다. 2026-11-23 원더랜드 첫 실측에서, 검색이 적은 말은
+    # 한 주짜리 봉우리(장애·뉴스)가 평균을 끌어올려 '작년의 7%' 같은 값이 나오고 15개가 하락으로 찍혔다.
+    base = _st.median(vals[-16:-4]) or 0.5
     rise = recent / base
     yoy = None
+    if len(vals) >= 66:
+        ly = _st.median(vals[-64:-52])                  # 1년 전 같은 12주
+        if ly > 0:
+            yoy = _st.median(vals[-12:]) / ly
+    yoy4 = None                                         # 급상승 판정용: 최근 4주 대 작년 같은 4주(중앙값)
     if len(vals) >= 58:
-        ly = _st.fmean(vals[-56:-52]) or 0.01          # 1년 전 같은 4주
-        yoy = recent / ly
+        ly4 = _st.median(vals[-56:-52])
+        if ly4 > 0:
+            yoy4 = _st.median(vals[-4:]) / ly4
+    spike = max(vals) / (_st.median(vals) or 0.5)       # 평소 대비 가장 높았던 주
+    # 해마다 같은 때 되풀이되는가 — 철을 타는 말(되풀이됨)과 사건을 타는 말(되풀이 안 됨)을 가른다
+    recur = None
+    if len(vals) >= 104:
+        try:
+            recur = _st.correlation(vals[-104:-52], vals[-52:])
+        except Exception:
+            recur = None
     # 봉우리 달: 주별 값을 달로 모아 평균이 가장 높은 달
     by_month = {}
     for p, v in series:
@@ -197,16 +214,18 @@ def classify_trend(series, today=None):
     peak_month = max(month_avg, key=month_avg.get) if month_avg else None
     peak_ratio = (max(month_avg.values()) / mean) if (month_avg and mean) else 1.0
 
-    # 순서가 중요하다. 작년의 절반도 안 되는 말은 최근 몇 주가 조금 올라도 '하락'이다
-    # (바닥에서의 잔물결을 시즌 진입으로 읽지 않도록 — 합성 자료 시험에서 실제로 오판했다).
-    if yoy is not None and yoy <= 0.5 and rise < 1.5:
+    # 순서가 중요하다. 작년 같은 철의 40%도 안 되는 말은 최근 몇 주가 조금 올라도 '하락'이다
+    # (바닥에서의 잔물결을 시즌 진입으로 읽지 않도록).
+    if yoy is not None and yoy <= 0.4 and rise < 1.5:
         label = "하락"
-    elif rise >= 1.5 and (yoy is None or yoy >= 1.3):
+    elif rise >= 1.5 and (yoy4 is None or yoy4 >= 1.3):
         label = "급상승"
     elif rise >= 1.3 and peak_ratio >= 1.4 and (yoy is None or yoy >= 0.7):
         label = "시즌진입"
     elif rise <= 0.7 and (yoy is None or yoy <= 0.8):
         label = "하락"
+    elif cv >= 0.8 and spike >= 6 and (recur is None or recur < 0.3):
+        label = "이슈성"          # 평소엔 조용하다가 사건(장애·뉴스)이 나면 튄다 — 철이 아니라 사건을 탄다
     elif cv <= 0.28 and peak_ratio < 1.4:
         label = "에버그린"
     elif peak_ratio >= 1.4:
@@ -215,7 +234,9 @@ def classify_trend(series, today=None):
         label = "에버그린" if cv <= 0.4 else "시즌형"
     return {"label": label, "cv": round(cv, 2), "rise": round(rise, 2),
             "yoy": None if yoy is None else round(yoy, 2),
-            "peak_month": peak_month, "peak_ratio": round(peak_ratio, 2),
+            "peak_month": peak_month, "peak_ratio": round(peak_ratio, 2), "spike": round(spike, 1),
+            "yoy4": None if yoy4 is None else round(yoy4, 2),
+            "recur": None if recur is None else round(recur, 2),
             "recent": round(recent, 1), "n": len(vals)}
 
 

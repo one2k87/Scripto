@@ -33,7 +33,7 @@ import naver_hub as nh
 OUT_JSON = os.path.join("dashboard", "data", "naver_signals.json")
 OUT_MD = os.path.join("data", "naver_signals.md")
 LANE = {"에버그린": "B 에버그린", "급상승": "C 핫이슈", "시즌진입": "C 핫이슈(시즌 선점)",
-        "시즌형": "철 1~2달 전에", "하락": "쓰지 않는다", "자료부족": "D 실험(수요 미확인)", "조회실패": "-"}
+        "시즌형": "철 1~2달 전에", "하락": "쓰지 않는다", "이슈성": "C 핫이슈(터질 때만)", "자료부족": "D 실험(수요 미확인)", "조회실패": "-"}
 
 
 def _load(path):
@@ -149,7 +149,7 @@ def main():
          "판정 분포: " + " · ".join(f"{k} {v}" for k, v in sorted(count.items(), key=lambda kv: -kv[1])), "",
          "| 키워드 | 판정 | 배분 | 최근/직전 | 작년 대비 | 봉우리 달 | 순위 | 출처 |",
          "|---|---|---|---:|---:|---:|---|---|"]
-    order = {"급상승": 0, "시즌진입": 1, "에버그린": 2, "시즌형": 3, "자료부족": 4, "하락": 5, "조회실패": 6}
+    order = {"급상승": 0, "시즌진입": 1, "에버그린": 2, "시즌형": 3, "이슈성": 4, "자료부족": 5, "하락": 6, "조회실패": 7}
     for r in sorted(rows, key=lambda x: (order.get(x["label"], 9), -(x.get("sa_impr") or x.get("volume") or 0))):
         L.append(f"| {r['keyword']} | {r['label']} | {r.get('lane', '-')} | {r.get('rise', '-')} | "
                  f"{r.get('yoy') if r.get('yoy') is not None else '-'} | {r.get('peak_month') or '-'} | "
