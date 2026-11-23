@@ -1,5 +1,5 @@
 {
- "at": "2026-11-23 12:34",
+ "at": "2026-11-23 13:32",
  "site": "wontheland.com",
  "seed_collected": "2026-11-23 (서치어드바이저 11/22 갱신분, 사용자 캡처)",
  "posts": [
@@ -68,11 +68,11 @@
    "gap_share": 1.0
   },
   {
-   "post_id": 2673,
-   "title": "병원 키오스크 접수, 혼자서도 어렵지 않은 순서",
-   "link": "https://wontheland.com/senior-hospital-kiosk-registration/",
-   "impr": 16,
-   "clicks": 2,
+   "post_id": 2638,
+   "title": "카페 키오스크 주문, 당황하지 않고 3단계로 성공합니다",
+   "link": "https://wontheland.com/senior-digital-kiosk-order-2026/",
+   "impr": 12,
+   "clicks": 1,
    "gap_impr": 12,
    "gap_keywords": [
     {
@@ -81,26 +81,6 @@
      "cover": 0.6,
      "missing": [
       "약국"
-     ]
-    }
-   ],
-   "gap_share": 0.75
-  },
-  {
-   "post_id": 2638,
-   "title": "카페 키오스크 주문, 당황하지 않고 3단계로 성공합니다",
-   "link": "https://wontheland.com/senior-digital-kiosk-order-2026/",
-   "impr": 8,
-   "clicks": 1,
-   "gap_impr": 8,
-   "gap_keywords": [
-    {
-     "keyword": "병원 바코드결제",
-     "impr": 8,
-     "cover": 0.0,
-     "missing": [
-      "병원",
-      "바코드결제"
      ]
     }
    ],
@@ -168,16 +148,6 @@
    "gap_share": 0.6
   },
   {
-   "post_id": 3528,
-   "title": "갤럭시 통화 소리 작음, 측면 버튼으로 안 커질 때 확인할 설정 3가지",
-   "link": "https://wontheland.com/galaxy-s24-call-volume-boost-guide/",
-   "impr": 3,
-   "clicks": 3,
-   "gap_impr": 0,
-   "gap_keywords": [],
-   "gap_share": 0.0
-  },
-  {
    "post_id": 2688,
    "title": "휴대폰 터치 먹통일 때, 갑자기 안 되는 터치 먼저 확인할 것과 해결 순서",
    "link": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
@@ -191,8 +161,18 @@
    "post_id": 3134,
    "title": "알뜰폰 유심 교체 후 등록하는 법, 새 휴대폰에 혼자서 3단계로",
    "link": "https://wontheland.com/senior-low-cost-phone-usim-change/",
-   "impr": 11,
-   "clicks": 3,
+   "impr": 8,
+   "clicks": 2,
+   "gap_impr": 0,
+   "gap_keywords": [],
+   "gap_share": 0.0
+  },
+  {
+   "post_id": 2673,
+   "title": "병원 키오스크 접수, 혼자서도 어렵지 않은 순서",
+   "link": "https://wontheland.com/senior-hospital-kiosk-registration/",
+   "impr": 4,
+   "clicks": 1,
    "gap_impr": 0,
    "gap_keywords": [],
    "gap_share": 0.0
@@ -239,17 +219,9 @@
    "keyword": "특정 전화 소리 켜는법",
    "impr": 3,
    "clicks": 3,
-   "post_id": 3528,
-   "matched": "추정",
-   "title": "갤럭시 통화 소리 작음, 측면 버튼으로 안 커질 때 확인할 설정 3가지",
-   "link": "https://wontheland.com/galaxy-s24-call-volume-boost-guide/",
-   "cover": 0.25,
-   "verdict": "제목에 없음",
-   "missing": [
-    "특정",
-    "전화",
-    "켜는법"
-   ]
+   "post_id": null,
+   "verdict": "담당 글 불명",
+   "cover": null
   },
   {
    "keyword": "영상통화 안될때 방법",
@@ -326,10 +298,10 @@
    "keyword": "약국 키오스크",
    "impr": 12,
    "clicks": 1,
-   "post_id": 2673,
+   "post_id": 2638,
    "matched": "추정",
-   "title": "병원 키오스크 접수, 혼자서도 어렵지 않은 순서",
-   "link": "https://wontheland.com/senior-hospital-kiosk-registration/",
+   "title": "카페 키오스크 주문, 당황하지 않고 3단계로 성공합니다",
+   "link": "https://wontheland.com/senior-digital-kiosk-order-2026/",
    "cover": 0.6,
    "verdict": "일부만",
    "missing": [
@@ -380,16 +352,9 @@
    "keyword": "병원 바코드결제",
    "impr": 8,
    "clicks": 1,
-   "post_id": 2638,
-   "matched": "추정",
-   "title": "카페 키오스크 주문, 당황하지 않고 3단계로 성공합니다",
-   "link": "https://wontheland.com/senior-digital-kiosk-order-2026/",
-   "cover": 0.0,
-   "verdict": "제목에 없음",
-   "missing": [
-    "병원",
-    "바코드결제"
-   ]
+   "post_id": null,
+   "verdict": "담당 글 불명",
+   "cover": null
   },
   {
    "keyword": "국제전화차단방법",
@@ -596,18 +561,9 @@
    "keyword": "카카오톡 내가 걸면 안되요",
    "impr": 3,
    "clicks": 1,
-   "post_id": 3134,
-   "matched": "추정",
-   "title": "알뜰폰 유심 교체 후 등록하는 법, 새 휴대폰에 혼자서 3단계로",
-   "link": "https://wontheland.com/senior-low-cost-phone-usim-change/",
-   "cover": 0.0,
-   "verdict": "제목에 없음",
-   "missing": [
-    "카카오톡",
-    "내가",
-    "걸면",
-    "안되요"
-   ]
+   "post_id": null,
+   "verdict": "담당 글 불명",
+   "cover": null
   },
   {
    "keyword": "카카오톡 상대방 영상 안나오는 경우",
