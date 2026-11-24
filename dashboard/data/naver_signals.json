@@ -1,7 +1,9 @@
 {
- "at": "2026-11-23 13:32",
+ "at": "2026-11-24 10:00",
  "site": "wontheland.com",
  "rank_check": false,
+ "rank_fails": 0,
+ "rank_err": "",
  "count": {
   "급상승": 2,
   "자료부족": 65,

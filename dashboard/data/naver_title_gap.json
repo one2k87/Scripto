@@ -1,5 +1,5 @@
 {
- "at": "2026-11-23 13:32",
+ "at": "2026-11-24 10:00",
  "site": "wontheland.com",
  "seed_collected": "2026-11-23 (서치어드바이저 11/22 갱신분, 사용자 캡처)",
  "posts": [
@@ -48,26 +48,6 @@
    "gap_share": 0.52
   },
   {
-   "post_id": 3243,
-   "title": "갤럭시 S24 전화가 먹통일 때, 통신망 재설정으로 해결합니다",
-   "link": "https://wontheland.com/galaxy-s24-phone-call-error-network-reset/",
-   "impr": 42,
-   "clicks": 1,
-   "gap_impr": 42,
-   "gap_keywords": [
-    {
-     "keyword": "휴대폰 터치 먹통",
-     "impr": 42,
-     "cover": 0.17,
-     "missing": [
-      "휴대폰",
-      "터치"
-     ]
-    }
-   ],
-   "gap_share": 1.0
-  },
-  {
    "post_id": 2638,
    "title": "카페 키오스크 주문, 당황하지 않고 3단계로 성공합니다",
    "link": "https://wontheland.com/senior-digital-kiosk-order-2026/",
@@ -85,28 +65,6 @@
     }
    ],
    "gap_share": 1.0
-  },
-  {
-   "post_id": 3151,
-   "title": "갤럭시 A25 배터리가 빨리 닳을 때, 정품 교체 시기와 용량 비교",
-   "link": "https://wontheland.com/galaxy-a25-battery-drain-replacement-comparison/",
-   "impr": 8,
-   "clicks": 3,
-   "gap_impr": 7,
-   "gap_keywords": [
-    {
-     "keyword": "휴대폰 알뜰요금제 전환 방법",
-     "impr": 7,
-     "cover": 0.0,
-     "missing": [
-      "휴대폰",
-      "알뜰요금제",
-      "전환",
-      "방법"
-     ]
-    }
-   ],
-   "gap_share": 0.88
   },
   {
    "post_id": 2671,
@@ -151,8 +109,18 @@
    "post_id": 2688,
    "title": "휴대폰 터치 먹통일 때, 갑자기 안 되는 터치 먼저 확인할 것과 해결 순서",
    "link": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
-   "impr": 6,
-   "clicks": 3,
+   "impr": 48,
+   "clicks": 4,
+   "gap_impr": 0,
+   "gap_keywords": [],
+   "gap_share": 0.0
+  },
+  {
+   "post_id": 3151,
+   "title": "갤럭시 A25 배터리가 빨리 닳을 때, 정품 교체 시기와 용량 비교",
+   "link": "https://wontheland.com/galaxy-a25-battery-drain-replacement-comparison/",
+   "impr": 1,
+   "clicks": 2,
    "gap_impr": 0,
    "gap_keywords": [],
    "gap_share": 0.0
@@ -268,16 +236,13 @@
    "keyword": "휴대폰 터치 먹통",
    "impr": 42,
    "clicks": 1,
-   "post_id": 3243,
+   "post_id": 2688,
    "matched": "추정",
-   "title": "갤럭시 S24 전화가 먹통일 때, 통신망 재설정으로 해결합니다",
-   "link": "https://wontheland.com/galaxy-s24-phone-call-error-network-reset/",
-   "cover": 0.17,
-   "verdict": "제목에 없음",
-   "missing": [
-    "휴대폰",
-    "터치"
-   ]
+   "title": "휴대폰 터치 먹통일 때, 갑자기 안 되는 터치 먼저 확인할 것과 해결 순서",
+   "link": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
+   "cover": 1.0,
+   "verdict": "제목에 있음",
+   "missing": []
   },
   {
    "keyword": "카카오톡 영상통화 안됨",
@@ -372,18 +337,9 @@
    "keyword": "휴대폰 알뜰요금제 전환 방법",
    "impr": 7,
    "clicks": 1,
-   "post_id": 3151,
-   "matched": "추정",
-   "title": "갤럭시 A25 배터리가 빨리 닳을 때, 정품 교체 시기와 용량 비교",
-   "link": "https://wontheland.com/galaxy-a25-battery-drain-replacement-comparison/",
-   "cover": 0.0,
-   "verdict": "제목에 없음",
-   "missing": [
-    "휴대폰",
-    "알뜰요금제",
-    "전환",
-    "방법"
-   ]
+   "post_id": null,
+   "verdict": "담당 글 불명",
+   "cover": null
   },
   {
    "keyword": "폴더폰화면밝기조절",
