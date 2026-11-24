@@ -107,6 +107,7 @@ def main():
     print(f"키워드 {len(rows)}개 · 도메인 {domain or '(없음)'} · 순위 확인 {'켬' if do_rank else '끔'}")
 
     fails = 0
+    rank_on, rank_fails, rank_err = do_rank, 0, ""
     for i, r in enumerate(rows):
         r.update(nh.trend_profile(r["keyword"]))
         if r["label"] == "조회실패":
@@ -124,6 +125,16 @@ def main():
                 p = prev.get(r["keyword"]) or {}
                 if "rank" in p:
                     r["rank_prev"] = p.get("rank")
+            else:
+                # 순위 조회 실패를 조용히 넘기지 않는다(11/24 첫 실행에서 78건이 전부 실패했는데 로그에 한 줄도 없었다).
+                rank_fails += 1
+                rank_err = rank_err or nh.LAST_ERR
+                if rank_fails == 1:
+                    print(f"::warning::순위 조회 실패 — {rank_err}")
+                if rank_fails >= 5 and rank_fails == i + 1:   # 처음부터 연달아 실패 = 키·등록 문제. 한도만 태우지 않는다
+                    print("::warning::순위 조회가 처음 5건 모두 실패해 이번 회차는 순위를 건너뜁니다. "
+                          "HUB 앱에 '검색' API 가 등록됐는지 확인하세요.")
+                    do_rank = False
         r["lane"] = LANE.get(r["label"], "-")
         time.sleep(0.15)
 
@@ -131,7 +142,7 @@ def main():
     for r in rows:
         count[r["label"]] = count.get(r["label"], 0) + 1
     out = {"at": dt.datetime.now().strftime("%Y-%m-%d %H:%M"), "site": domain,
-           "rank_check": do_rank, "count": count, "rows": rows}
+           "rank_check": rank_on, "rank_fails": rank_fails, "rank_err": rank_err, "count": count, "rows": rows}
     os.makedirs(os.path.dirname(OUT_JSON), exist_ok=True)
     json.dump(out, open(OUT_JSON, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
@@ -145,7 +156,8 @@ def main():
         return f"{cur} (이전 {'100위 밖' if pv is None else str(pv) + '위'})"
 
     L = [f"# 네이버 신호 — {out['at']}", "",
-         f"도메인 `{domain}` · 키워드 {len(rows)}개 · 순위 확인 {'켬' if do_rank else '끔'}", "",
+         f"도메인 `{domain}` · 키워드 {len(rows)}개 · 순위 확인 {'켬' if rank_on else '끔'}"
+         + (f" · 순위 조회 실패 {rank_fails}건({rank_err})" if rank_fails else ""), "",
          "판정 분포: " + " · ".join(f"{k} {v}" for k, v in sorted(count.items(), key=lambda kv: -kv[1])), "",
          "| 키워드 | 판정 | 배분 | 최근/직전 | 작년 대비 | 봉우리 달 | 순위 | 출처 |",
          "|---|---|---|---:|---:|---:|---|---|"]
