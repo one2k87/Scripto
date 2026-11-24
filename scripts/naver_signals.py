@@ -55,6 +55,26 @@ def site_domain():
     return ""
 
 
+def _slug_of(u):
+    """주소든 슬러그든 마지막 경로 조각만 남긴다."""
+    return (u or "").strip().rstrip("/").rsplit("/", 1)[-1].lower()
+
+
+def _dead_slugs():
+    """내린 글의 슬러그 — 발행 기록에서 status 가 '폐기'인 글과 data/removed_urls.json 에 적힌 주소. 파일이 없으면 빈 집합."""
+    dead = set()
+    hist = _load(os.path.join("dashboard", "data", "history.json")) or {}
+    for a in (hist.get("articles") if isinstance(hist, dict) else hist) or []:
+        if isinstance(a, dict) and a.get("status") == "폐기" and a.get("slug"):
+            dead.add(_slug_of(a.get("slug")))
+    rem = _load(os.path.join("data", "removed_urls.json"))
+    urls = rem if isinstance(rem, list) else (rem or {}).get("urls") or (rem or {}).get("removed") or []
+    for u in urls:
+        dead.add(_slug_of(u.get("url") if isinstance(u, dict) else u))
+    dead.discard("")
+    return dead
+
+
 def gather(domain, limit):
     rows, seen = [], set()
 
@@ -69,7 +89,10 @@ def gather(domain, limit):
         add(it.get("keyword"), source="서치어드바이저", post_id=it.get("post_id"),
             sa_impr=it.get("impr"), sa_clicks=it.get("clicks"))
     audit = _load(os.path.join("dashboard", "data", "keyword_volume_audit.json")) or {}
+    dead = _dead_slugs()      # 내린 글의 키워드는 재지 않는다(11/24: 휴지통 보낸 글의 키워드가 엉뚱한 글 순위로 찍혔다)
     for r in sorted(audit.get("rows") or [], key=lambda x: -(x.get("volume") or 0)):
+        if _slug_of(r.get("slug") or r.get("link")) in dead:
+            continue
         add(r.get("keyword"), source="글 대표 키워드", post_id=r.get("id"), volume=r.get("volume"))
     # 제목 교체 대기열에 적힌 포커스 키워드('글ID=새 제목##포커스 키워드'). 그 파일을 쓰는 레포에서만 잡힌다.
     try:
