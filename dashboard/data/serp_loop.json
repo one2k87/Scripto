@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-24T14:41",
+ "updated_at": "2026-11-24T16:03",
  "window": [
   "2026-10-26",
   "2026-11-22"
@@ -12,7 +12,7 @@
   {
    "id": 3541,
    "url": "https://wontheland.com/galaxy-s24-battery-replacement-cost-and-checklist",
-   "title": "s24 배터리 교체 비용, 무상 보증 기준과 서비스센터 수리 가격",
+   "title": "s24 배터리 교체 비용, 무상 수리 조건 2가지와 울트라 모델별 가격",
    "impr": 48,
    "clicks": 0,
    "ctr": 0.0,
@@ -290,7 +290,7 @@
    "id": 3246,
    "url": "https://wontheland.com/galaxy-s24-usb-notification-error-fix",
    "title": "갤럭시 S24 USB 알림 계속 뜰 때 충전 오류 해결하는 확인 방법",
-   "age": 21
+   "age": 22
   },
   {
    "id": 3243,
@@ -356,7 +356,7 @@
    "id": 2682,
    "url": "https://wontheland.com/smart-phone-dark-screen-solution-2026-10",
    "title": "핸드폰 화면이 갑자기 어두워졌을 때, 밝기보다 먼저 볼 설정",
-   "age": 53
+   "age": 54
   },
   {
    "id": 2663,
@@ -396,46 +396,7 @@
   }
  ],
  "gaps": [],
- "acted": [
-  {
-   "post_id": 3541,
-   "url": "https://wontheland.com/galaxy-s24-battery-replacement-cost-and-checklist",
-   "type": "title",
-   "at": "2026-11-24T14:41",
-   "before": {
-    "impr": 48,
-    "clicks": 0,
-    "ctr": 0.0,
-    "pos": 8.4
-   },
-   "queries": [
-    [
-     "s24 배터리 교체 비용",
-     5
-    ],
-    [
-     "갤럭시s24 배터리 교체비용",
-     3
-    ],
-    [
-     "갤럭시 s24 배터리 교체 비용",
-     2
-    ],
-    [
-     "s24 울트라 배터리 교체 비용",
-     1
-    ],
-    [
-     "s24u",
-     1
-    ]
-   ],
-   "old_title": "s24 배터리 교체 비용, 무상 보증 기준과 서비스센터 수리 가격",
-   "new_title": "s24 배터리 교체 비용, 무상 수리 조건 2가지와 울트라 모델별 가격",
-   "old_meta": "",
-   "new_meta": "갤럭시 s24 배터리 교체 비용은 모델별 약 5~6만 원대이며, 기본·플러스·울트라 전 기종의 수리비와 무상 교체 조건 2가지를 3단계로 정리해 드립니다."
-  }
- ],
+ "acted": [],
  "evaluated": 0,
  "experiments": {
   "total": 1,
