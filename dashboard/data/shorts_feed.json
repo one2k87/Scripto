@@ -1,6 +1,20 @@
 {
- "updated_at": "2026-11-16 11:50",
+ "updated_at": "2026-11-24 14:41",
  "items": [
+  {
+   "post_id": 3780,
+   "url": "https://wontheland.com/galaxy-quantum4-update-freeze-fix/",
+   "date": "2026-11-24",
+   "title": "갤럭시 업데이트 멈춤 해결, 7초 강제 재부팅으로 데이터 살리는 법",
+   "hook": "소프트웨어 다운로드 게이지가 멈춰서 아무 버튼도 먹지 않나요?",
+   "lines": [
+    "화면이 멈췄을 때 강제로 폰을 끄면 사진이나 연락처가 지워지나요?",
+    "전화 너머 부모님께 어떻게 설명해야 실수 없이 따라 하실까요?",
+    "작업 중 마주치는 실패 시나리오 2가지와 단계별 복구 절차"
+   ],
+   "cta": "자세한 순서는 프로필 링크 · 원더랜드 블로그에서 확인하세요",
+   "used": false
+  },
   {
    "post_id": 3642,
    "url": "https://wontheland.com/iphone-call-drop-remote-fix-senior/",

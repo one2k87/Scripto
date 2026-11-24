@@ -1,14 +1,12 @@
 {
- "updated_at": "2026-11-16T11:48:02",
+ "updated_at": "2026-11-24T14:39:44",
  "site": "https://wontheland.com",
  "checked": 30,
- "indexed": 16,
- "ghosts": [
-  "https://wontheland.com/청년-월세-한시-특별지원-소득재산-재조사-신청-꼭-알/"
- ],
+ "indexed": 23,
+ "ghosts": [],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-11-16T10:25:30\",\"link\":\"https:\\/\\/wontheland.com\\/iphone-13-passcode-reset-without-data-loss\\/\"},{\"mo"
+  "body_head": "[{\"modified\":\"2026-11-24T14:35:40\",\"link\":\"https:\\/\\/wontheland.com\\/galaxy-quantum4-update-freeze-fix\\/\"},{\"modified\":\""
  },
  "posts_n": 30,
  "results": [
@@ -16,169 +14,61 @@
    "url": "https://wontheland.com/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-05"
+   "lastCrawl": "2026-11-23"
   },
   {
-   "url": "https://wontheland.com/iphone-13-passcode-reset-without-data-loss/",
+   "url": "https://wontheland.com/galaxy-quantum4-update-freeze-fix/",
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
-   "url": "https://wontheland.com/iphone-call-drop-remote-fix-senior/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
+   "url": "https://wontheland.com/galaxy-s24-lockscreen-clock-size-setting/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-24"
   },
   {
-   "url": "https://wontheland.com/iphone13-call-reception-error-senior-guide/",
+   "url": "https://wontheland.com/galaxy-s24-phone-call-error-network-reset/",
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
-   "url": "https://wontheland.com/boice-phishing-prevention-senior-2026-september/",
+   "url": "https://wontheland.com/galaxy-s24-ringtone-notification-volume-settings/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-06"
+   "lastCrawl": "2026-11-24"
   },
   {
-   "url": "https://wontheland.com/senior-phone-suspicious-link-prevention-2026-09/",
+   "url": "https://wontheland.com/smart-phone-dark-screen-solution-2026-10/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-05"
+   "lastCrawl": "2026-11-20"
   },
   {
-   "url": "https://wontheland.com/government24-mobile-id-senior-digital-guide/",
+   "url": "https://wontheland.com/galaxy-s24-battery-replacement-cost-and-checklist/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-05"
+   "lastCrawl": "2026-11-23"
+  },
+  {
+   "url": "https://wontheland.com/galaxy-a15-screen-off-clock-setting/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-22"
   },
   {
    "url": "https://wontheland.com/senior-pass-app-installation-guide/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-03"
-  },
-  {
-   "url": "https://wontheland.com/senior-digital-mvno-portability-guide/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-05"
-  },
-  {
-   "url": "https://wontheland.com/senior-alttelphone-value-added-service-cancel/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-digital-phone-payment-phishing-block/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-train-ticket-app-reservation/",
-   "verdict": "NEUTRAL",
-   "state": "Crawled - currently not indexed",
-   "lastCrawl": "2026-10-08"
-  },
-  {
-   "url": "https://wontheland.com/senior-express-bus-app-destination-check-2026/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-03"
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-unexpected-charges/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-15"
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-ringtones-notifications/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-google-account-password-reset/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-digital-low-cost-unlimited-plan-202609/",
-   "verdict": "NEUTRAL",
-   "state": "Crawled - currently not indexed",
-   "lastCrawl": "2026-10-21"
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-telecom-saving-mvno-2026-09/",
-   "verdict": "NEUTRAL",
-   "state": "Crawled - currently not indexed",
-   "lastCrawl": "2026-11-15"
-  },
-  {
-   "url": "https://wontheland.com/senior-digital-assistance-2026-09/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-05"
-  },
-  {
-   "url": "https://wontheland.com/senior-digital-kiosk-order-2026/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-16"
-  },
-  {
-   "url": "https://wontheland.com/smartphone-photo-google-photos-backup-senior/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
+   "lastCrawl": "2026-11-18"
   },
   {
    "url": "https://wontheland.com/senior-smartphone-document-pdf-send-method/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/mobile-id-screen-instead-of-photo/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-05"
-  },
-  {
-   "url": "https://wontheland.com/senior-mobile-drivers-license-guide/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-05"
-  },
-  {
-   "url": "https://wontheland.com/mvno-data-usage-check-after-switch/",
-   "verdict": "NEUTRAL",
    "state": "Crawled - currently not indexed",
-   "lastCrawl": "2026-10-10"
-  },
-  {
-   "url": "https://wontheland.com/2026-september-senior-data-usage-check/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-05"
-  },
-  {
-   "url": "https://wontheland.com/senior-digital-education-2026-september/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-03"
+   "lastCrawl": "2026-11-20"
   },
   {
    "url": "https://wontheland.com/senior-international-call-block/",
@@ -187,19 +77,121 @@
    "lastCrawl": "2026-11-07"
   },
   {
-   "url": "https://wontheland.com/senior-hospital-kiosk-registration/",
+   "url": "https://wontheland.com/galaxy-quantum-lock-reset-guide/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-23"
+  },
+  {
+   "url": "https://wontheland.com/iphone13-call-reception-error-senior-guide/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-23"
+  },
+  {
+   "url": "https://wontheland.com/iphone-call-drop-remote-fix-senior/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/iphone-13-passcode-reset-without-data-loss/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-18"
+  },
+  {
+   "url": "https://wontheland.com/senior-low-cost-phone-usim-change/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-20"
+  },
+  {
+   "url": "https://wontheland.com/gov24-resident-registration-copy-senior/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-20"
+  },
+  {
+   "url": "https://wontheland.com/galaxy-s24-call-volume-boost-guide/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-22"
+  },
+  {
+   "url": "https://wontheland.com/mobile-id-card-issuance-senior-guide/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-23"
+  },
+  {
+   "url": "https://wontheland.com/galaxy-s24-wifi-disconnect-network-reset/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-24"
+  },
+  {
+   "url": "https://wontheland.com/galaxy-s24-screen-capture-button-guide/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-20"
+  },
+  {
+   "url": "https://wontheland.com/senior-train-ticket-app-reservation/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-18"
+  },
+  {
+   "url": "https://wontheland.com/senior-express-bus-app-destination-check-2026/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-21"
+  },
+  {
+   "url": "https://wontheland.com/senior-smartphone-google-account-password-reset/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-19"
+  },
+  {
+   "url": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-20"
+  },
+  {
+   "url": "https://wontheland.com/senior-digital-kiosk-order-2026/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-23"
+  },
+  {
+   "url": "https://wontheland.com/smartphone-photo-google-photos-backup-senior/",
+   "verdict": "NEUTRAL",
+   "state": "Discovered - currently not indexed",
+   "lastCrawl": ""
+  },
+  {
+   "url": "https://wontheland.com/2026-september-senior-data-usage-check/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-11-05"
   }
  ],
  "history": [
-  {
-   "d": "2026-11-03",
-   "posts": 30,
-   "indexed": 13,
-   "checked": 29
-  },
   {
    "d": "2026-11-04",
    "posts": 30,
@@ -277,7 +269,13 @@
    "posts": 30,
    "indexed": 16,
    "checked": 30
+  },
+  {
+   "d": "2026-11-24",
+   "posts": 30,
+   "indexed": 23,
+   "checked": 30
   }
  ],
- "post_indexed": 15
+ "post_indexed": 22
 }
