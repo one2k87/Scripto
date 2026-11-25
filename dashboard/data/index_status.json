@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-24T16:02:27",
+ "updated_at": "2026-11-25T14:01:14",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 23,
@@ -14,7 +14,7 @@
    "url": "https://wontheland.com/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-23"
+   "lastCrawl": "2026-11-24"
   },
   {
    "url": "https://wontheland.com/galaxy-s24-battery-replacement-cost-and-checklist/",
@@ -25,7 +25,7 @@
   {
    "url": "https://wontheland.com/galaxy-quantum4-update-freeze-fix/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -50,7 +50,7 @@
    "url": "https://wontheland.com/smart-phone-dark-screen-solution-2026-10/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-20"
+   "lastCrawl": "2026-11-24"
   },
   {
    "url": "https://wontheland.com/galaxy-a15-screen-off-clock-setting/",
@@ -74,7 +74,7 @@
    "url": "https://wontheland.com/senior-international-call-block/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-07"
+   "lastCrawl": "2026-11-24"
   },
   {
    "url": "https://wontheland.com/galaxy-quantum-lock-reset-guide/",
@@ -188,16 +188,10 @@
    "url": "https://wontheland.com/2026-september-senior-data-usage-check/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-05"
+   "lastCrawl": "2026-11-24"
   }
  ],
  "history": [
-  {
-   "d": "2026-11-04",
-   "posts": 30,
-   "indexed": 12,
-   "checked": 30
-  },
   {
    "d": "2026-11-05",
    "posts": 30,
@@ -272,6 +266,12 @@
   },
   {
    "d": "2026-11-24",
+   "posts": 30,
+   "indexed": 23,
+   "checked": 30
+  },
+  {
+   "d": "2026-11-25",
    "posts": 30,
    "indexed": 23,
    "checked": 30

@@ -2027,6 +2027,19 @@
       "intent": "evergreen",
       "date": "2026-11-24",
       "series_id": ""
+    },
+    {
+      "title": "아이폰 알림 안옴, 설정 4곳만 잠그면 연락 끊길 일 없습니다",
+      "slug": "iphone-15-notification-fix-senior-guide",
+      "url": "",
+      "post_id": null,
+      "status": "폐기",
+      "kind": "long",
+      "keyword": "아이폰 15 알림 안옴 현상 해결 방법, 부모님 연락 놓치지 않는 4단계 설정 기준",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-11-25",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"

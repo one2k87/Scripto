@@ -1,22 +1,22 @@
 {
- "updated_at": "2026-11-24T16:03",
+ "updated_at": "2026-11-25T14:02",
  "window": [
-  "2026-10-26",
-  "2026-11-22"
+  "2026-10-27",
+  "2026-11-23"
  ],
- "pages_with_impr": 38,
- "queries": 23,
- "total_impr": 183,
+ "pages_with_impr": 39,
+ "queries": 24,
+ "total_impr": 235,
  "total_clicks": 3,
  "plan": [
   {
    "id": 3541,
    "url": "https://wontheland.com/galaxy-s24-battery-replacement-cost-and-checklist",
    "title": "s24 배터리 교체 비용, 무상 수리 조건 2가지와 울트라 모델별 가격",
-   "impr": 48,
+   "impr": 59,
    "clicks": 0,
    "ctr": 0.0,
-   "pos": 8.4,
+   "pos": 8.5,
    "top_queries": [
     [
      "s24 배터리 교체 비용",
@@ -45,16 +45,42 @@
    "id": 3514,
    "url": "https://wontheland.com/galaxy-s24-lockscreen-clock-size-setting",
    "title": "갤럭시 S24 잠금화면 시계 크기 키우는 법, 작아질 때 되돌리는 설정",
-   "impr": 19,
+   "impr": 32,
    "clicks": 0,
    "ctr": 0.0,
-   "pos": 6.2,
+   "pos": 5.8,
    "top_queries": [
     [
      "갤럭시 잠금화면 시계 크기",
      2
     ]
+   ],
+   "action": "title"
+  },
+  {
+   "id": 3528,
+   "url": "https://wontheland.com/galaxy-s24-call-volume-boost-guide",
+   "title": "갤럭시 통화 소리 작음, 측면 버튼으로 안 커질 때 확인할 설정 3가지",
+   "impr": 8,
+   "clicks": 0,
+   "ctr": 0.0,
+   "pos": 15.8,
+   "top_queries": [
+    [
+     "갤럭시 통화 음량 조절",
+     1
+    ]
    ]
+  },
+  {
+   "id": 3227,
+   "url": "https://wontheland.com/galaxy-a35-software-update-auto-off-guide",
+   "title": "갤럭시 A35 업데이트 방법, 자동 설치까지 끄는 설정",
+   "impr": 8,
+   "clicks": 0,
+   "ctr": 0.0,
+   "pos": 8.1,
+   "top_queries": []
   },
   {
    "id": 3213,
@@ -67,16 +93,44 @@
    "top_queries": []
   },
   {
-   "id": 3528,
-   "url": "https://wontheland.com/galaxy-s24-call-volume-boost-guide",
-   "title": "갤럭시 통화 소리 작음, 측면 버튼으로 안 커질 때 확인할 설정 3가지",
-   "impr": 6,
+   "id": 3490,
+   "url": "https://wontheland.com/galaxy-a15-screen-off-clock-setting",
+   "title": "갤럭시 A15 꺼진 화면 시계, AOD 없을 때 대신 켜는 2가지",
+   "impr": 5,
    "clicks": 0,
    "ctr": 0.0,
-   "pos": 20.2,
+   "pos": 2.6,
+   "top_queries": []
+  },
+  {
+   "id": 3229,
+   "url": "https://wontheland.com/galaxy-s24-wifi-disconnect-network-reset",
+   "title": "갤럭시 S24 와이파이가 자꾸 끊길 때, 네트워크 설정으로 해결합니다",
+   "impr": 5,
+   "clicks": 0,
+   "ctr": 0.0,
+   "pos": 7.4,
+   "top_queries": []
+  },
+  {
+   "id": 2612,
+   "url": "https://wontheland.com/senior-smartphone-google-account-password-reset",
+   "title": "구글 계정 비밀번호를 잊었을 때, 상황별 가장 쉬운 찾기 절차",
+   "impr": 5,
+   "clicks": 0,
+   "ctr": 0.0,
+   "pos": 27.8,
    "top_queries": [
     [
-     "갤럭시 통화 음량 조절",
+     "구글 비밀번호 찾기",
+     3
+    ],
+    [
+     "구글 계정 비번 찾기",
+     1
+    ],
+    [
+     "구글비밀번호찾기",
      1
     ]
    ]
@@ -89,6 +143,16 @@
    "clicks": 2,
    "ctr": 0.5,
    "pos": 6,
+   "top_queries": []
+  },
+  {
+   "id": 3442,
+   "url": "https://wontheland.com/galaxy-quantum-lock-reset-guide",
+   "title": "갤럭시 퀀텀 화면잠김 초기화 방법, 데이터 백업 여부부터 확인",
+   "impr": 4,
+   "clicks": 0,
+   "ctr": 0.0,
+   "pos": 5.2,
    "top_queries": []
   },
   {
@@ -112,24 +176,16 @@
    "top_queries": []
   },
   {
-   "id": 2612,
-   "url": "https://wontheland.com/senior-smartphone-google-account-password-reset",
-   "title": "구글 계정 비밀번호를 잊었을 때, 상황별 가장 쉬운 찾기 절차",
-   "impr": 4,
+   "id": 3640,
+   "url": "https://wontheland.com/iphone13-call-reception-error-senior-guide",
+   "title": "아이폰13 전화 수신 오류, 무작정 초기화하면 사진 다 날아갑니다",
+   "impr": 3,
    "clicks": 0,
    "ctr": 0.0,
-   "pos": 26,
+   "pos": 13.7,
    "top_queries": [
     [
-     "구글 비밀번호 찾기",
-     2
-    ],
-    [
-     "구글 계정 비번 찾기",
-     1
-    ],
-    [
-     "구글비밀번호찾기",
+     "아이폰 전화 수신 안됨",
      1
     ]
    ]
@@ -154,26 +210,6 @@
    ]
   },
   {
-   "id": 3442,
-   "url": "https://wontheland.com/galaxy-quantum-lock-reset-guide",
-   "title": "갤럭시 퀀텀 화면잠김 초기화 방법, 데이터 백업 여부부터 확인",
-   "impr": 3,
-   "clicks": 0,
-   "ctr": 0.0,
-   "pos": 6.7,
-   "top_queries": []
-  },
-  {
-   "id": 3227,
-   "url": "https://wontheland.com/galaxy-a35-software-update-auto-off-guide",
-   "title": "갤럭시 A35 업데이트 방법, 자동 설치까지 끄는 설정",
-   "impr": 3,
-   "clicks": 0,
-   "ctr": 0.0,
-   "pos": 8.3,
-   "top_queries": []
-  },
-  {
    "id": 3172,
    "url": "https://wontheland.com/galaxy-s24-ringtone-notification-volume-settings",
    "title": "갤럭시 S24 벨소리 알림 음량 따로 조절, 전화는 크게·알림은 작게",
@@ -191,31 +227,6 @@
    "clicks": 0,
    "ctr": 0.0,
    "pos": 9,
-   "top_queries": []
-  },
-  {
-   "id": 3640,
-   "url": "https://wontheland.com/iphone13-call-reception-error-senior-guide",
-   "title": "아이폰13 전화 수신 오류, 무작정 초기화하면 사진 다 날아갑니다",
-   "impr": 2,
-   "clicks": 0,
-   "ctr": 0.0,
-   "pos": 16.5,
-   "top_queries": [
-    [
-     "아이폰 전화 수신 안됨",
-     1
-    ]
-   ]
-  },
-  {
-   "id": 3229,
-   "url": "https://wontheland.com/galaxy-s24-wifi-disconnect-network-reset",
-   "title": "갤럭시 S24 와이파이가 자꾸 끊길 때, 네트워크 설정으로 해결합니다",
-   "impr": 2,
-   "clicks": 0,
-   "ctr": 0.0,
-   "pos": 12,
    "top_queries": []
   },
   {
@@ -239,23 +250,23 @@
    "top_queries": []
   },
   {
-   "id": 3490,
-   "url": "https://wontheland.com/galaxy-a15-screen-off-clock-setting",
-   "title": "갤럭시 A15 꺼진 화면 시계, AOD 없을 때 대신 켜는 2가지",
-   "impr": 1,
-   "clicks": 0,
-   "ctr": 0.0,
-   "pos": 2,
-   "top_queries": []
-  },
-  {
    "id": 3151,
    "url": "https://wontheland.com/galaxy-a25-battery-drain-replacement-comparison",
    "title": "갤럭시 A25 배터리가 빨리 닳을 때, 정품 교체 시기와 용량 비교",
+   "impr": 2,
+   "clicks": 0,
+   "ctr": 0.0,
+   "pos": 6,
+   "top_queries": []
+  },
+  {
+   "id": 3127,
+   "url": "https://wontheland.com/senior-smartphone-google-account-main-setting",
+   "title": "구글 계정이 여러 개일 때, 스마트폰 주 계정 정하는 법",
    "impr": 1,
    "clicks": 0,
    "ctr": 0.0,
-   "pos": 5,
+   "pos": 9,
    "top_queries": []
   },
   {
@@ -284,7 +295,7 @@
    "id": 3430,
    "url": "https://wontheland.com/galaxy-folder-phone-kakaotalk-install",
    "title": "폴더폰에서 카톡이 사라질까 봐 걱정되시나요, 갤럭시 폴더폰 카톡 설치와 연동하는 실전 순서",
-   "age": 21
+   "age": 22
   },
   {
    "id": 3246,
@@ -296,61 +307,55 @@
    "id": 3243,
    "url": "https://wontheland.com/galaxy-s24-phone-call-error-network-reset",
    "title": "갤럭시 S24 전화 안됨·끊김, 모바일 네트워크 설정 초기화 순서",
-   "age": 22
+   "age": 23
   },
   {
    "id": 3134,
    "url": "https://wontheland.com/senior-low-cost-phone-usim-change",
    "title": "알뜰폰 유심 교체 후 등록하는 법, 새 휴대폰에 혼자서 3단계로",
-   "age": 36
-  },
-  {
-   "id": 3127,
-   "url": "https://wontheland.com/senior-smartphone-google-account-main-setting",
-   "title": "구글 계정이 여러 개일 때, 스마트폰 주 계정 정하는 법",
    "age": 37
   },
   {
    "id": 3116,
    "url": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting",
    "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
-   "age": 38
+   "age": 39
   },
   {
    "id": 3107,
    "url": "https://wontheland.com/senior-smartphone-photo-backup-google-naver-2026",
    "title": "구글 포토 vs 네이버 MYBOX, 스마트폰 사진 백업 어디가 나을까",
-   "age": 39
+   "age": 40
   },
   {
    "id": 2965,
    "url": "https://wontheland.com/senior-digital-photo-print-organize-202610",
    "title": "스마트폰에 쌓인 사진, 쉽고 안전하게 인화하고 정리하는 법",
-   "age": 44
+   "age": 45
   },
   {
    "id": 2739,
    "url": "https://wontheland.com/senior-smartphone-joint-certificate-2026-11",
    "title": "스마트폰으로 공동인증서 발급, 더 간편해진 방법",
-   "age": 46
+   "age": 47
   },
   {
    "id": 2725,
    "url": "https://wontheland.com/2026-november-senior-smartphone-app-management",
    "title": "안 쓰는 앱 숨기거나 삭제하는 가장 쉬운 방법",
-   "age": 47
+   "age": 48
   },
   {
    "id": 2706,
    "url": "https://wontheland.com/senior-smartphone-photo-tips",
    "title": "핸드폰 사진이 흔들릴 때, 선명하게 찍는 방법",
-   "age": 49
+   "age": 50
   },
   {
    "id": 2688,
    "url": "https://wontheland.com/senior-smartphone-touch-troubleshoot",
    "title": "휴대폰 터치 먹통일 때, 갑자기 안 되는 터치 먼저 확인할 것과 해결 순서",
-   "age": 53
+   "age": 54
   },
   {
    "id": 2682,
@@ -362,44 +367,69 @@
    "id": 2663,
    "url": "https://wontheland.com/2026-september-senior-data-usage-check",
    "title": "휴대폰 데이터 사용량, 걱정 없이 확인하는 방법",
-   "age": 56
+   "age": 57
   },
   {
    "id": 2646,
    "url": "https://wontheland.com/senior-smartphone-document-pdf-send-method",
    "title": "핸드폰으로 서류 PDF 보내는 방법",
-   "age": 58
+   "age": 59
   },
   {
    "id": 2640,
    "url": "https://wontheland.com/smartphone-photo-google-photos-backup-senior",
    "title": "스마트폰 사진, 구글 포토에 자동 백업하는 방법",
-   "age": 59
+   "age": 60
   },
   {
    "id": 2620,
    "url": "https://wontheland.com/senior-smartphone-notification-important-call-setting",
    "title": "중요한 전화만 울리게 하는 설정, 방해금지 모드 활용법",
-   "age": 62
+   "age": 63
   },
   {
    "id": 2602,
    "url": "https://wontheland.com/senior-express-bus-app-destination-check-2026",
    "title": "고속버스 예매 앱으로 표 끊고 목적지까지 확인하는 순서",
-   "age": 64
+   "age": 65
   },
   {
    "id": 2596,
    "url": "https://wontheland.com/senior-train-ticket-app-reservation",
    "title": "기차표 예매 앱, 도움 없이 혼자 예매하는 방법",
-   "age": 65
+   "age": 66
   }
  ],
- "gaps": [],
- "acted": [],
+ "gaps": [
+  "구글 비밀번호 찾기"
+ ],
+ "acted": [
+  {
+   "post_id": 3514,
+   "url": "https://wontheland.com/galaxy-s24-lockscreen-clock-size-setting",
+   "type": "title",
+   "at": "2026-11-25T14:02",
+   "before": {
+    "impr": 32,
+    "clicks": 0,
+    "ctr": 0.0,
+    "pos": 5.8
+   },
+   "queries": [
+    [
+     "갤럭시 잠금화면 시계 크기",
+     2
+    ]
+   ],
+   "old_title": "갤럭시 S24 잠금화면 시계 크기 키우는 법, 작아질 때 되돌리는 설정",
+   "new_title": "갤럭시 잠금화면 시계 크기 조절, S24 설정 3단계로 키우는 법",
+   "old_meta": "",
+   "new_meta": "갤럭시 잠금화면 시계 크기는 잠금화면 편집 모드에서 시계 모서리 프레임을 드래그해 조절할 수 있습니다. 갤럭시 S24를 기준으로 화면 켜기부터 크기 확대, 완료까지 3단계 설정법을 구체적으로 알려드립니다."
+  }
+ ],
  "evaluated": 0,
  "experiments": {
-  "total": 1,
+  "total": 2,
   "improved": 0,
   "reverted": 0
  }
