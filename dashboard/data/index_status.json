@@ -1,17 +1,23 @@
 {
- "updated_at": "2026-11-25T14:01:14",
+ "updated_at": "2026-11-25T14:30:47",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 23,
  "ghosts": [],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-11-24T14:41:12\",\"link\":\"https:\\/\\/wontheland.com\\/galaxy-s24-battery-replacement-cost-and-checklist\\/"
+  "body_head": "[{\"modified\":\"2026-11-25T14:02:36\",\"link\":\"https:\\/\\/wontheland.com\\/galaxy-s24-lockscreen-clock-size-setting\\/\"},{\"modi"
  },
  "posts_n": 30,
  "results": [
   {
    "url": "https://wontheland.com/",
+   "verdict": "PASS",
+   "state": "Submitted and indexed",
+   "lastCrawl": "2026-11-24"
+  },
+  {
+   "url": "https://wontheland.com/galaxy-s24-lockscreen-clock-size-setting/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-11-24"
@@ -27,12 +33,6 @@
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
    "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/galaxy-s24-lockscreen-clock-size-setting/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-24"
   },
   {
    "url": "https://wontheland.com/galaxy-s24-phone-call-error-network-reset/",
@@ -109,7 +109,7 @@
   {
    "url": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
