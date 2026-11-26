@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-26T12:55:36",
+ "updated_at": "2026-11-26T14:06:02",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 22,
@@ -109,7 +109,7 @@
   {
    "url": "https://wontheland.com/senior-low-cost-phone-usim-change/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
