@@ -1,12 +1,12 @@
 {
- "updated_at": "2026-11-25T14:30:47",
+ "updated_at": "2026-11-26T12:55:36",
  "site": "https://wontheland.com",
  "checked": 30,
- "indexed": 23,
+ "indexed": 22,
  "ghosts": [],
  "posts_diag": {
   "http": 200,
-  "body_head": "[{\"modified\":\"2026-11-25T14:02:36\",\"link\":\"https:\\/\\/wontheland.com\\/galaxy-s24-lockscreen-clock-size-setting\\/\"},{\"modi"
+  "body_head": "[{\"modified\":\"2026-11-26T12:51:36\",\"link\":\"https:\\/\\/wontheland.com\\/iphone13-sound-control-fix\\/\"},{\"modified\":\"2026-11"
  },
  "posts_n": 30,
  "results": [
@@ -15,6 +15,12 @@
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-11-24"
+  },
+  {
+   "url": "https://wontheland.com/iphone13-sound-control-fix/",
+   "verdict": "NEUTRAL",
+   "state": "URL is unknown to Google",
+   "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/galaxy-s24-lockscreen-clock-size-setting/",
@@ -103,13 +109,13 @@
   {
    "url": "https://wontheland.com/senior-low-cost-phone-usim-change/",
    "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
+   "state": "URL is unknown to Google",
    "lastCrawl": ""
   },
   {
    "url": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -183,21 +189,9 @@
    "verdict": "NEUTRAL",
    "state": "Discovered - currently not indexed",
    "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/2026-september-senior-data-usage-check/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-24"
   }
  ],
  "history": [
-  {
-   "d": "2026-11-05",
-   "posts": 30,
-   "indexed": 13,
-   "checked": 30
-  },
   {
    "d": "2026-11-06",
    "posts": 30,
@@ -275,7 +269,13 @@
    "posts": 30,
    "indexed": 23,
    "checked": 30
+  },
+  {
+   "d": "2026-11-26",
+   "posts": 30,
+   "indexed": 22,
+   "checked": 30
   }
  ],
- "post_indexed": 22
+ "post_indexed": 21
 }

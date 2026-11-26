@@ -1,0 +1,73 @@
+{
+  "generated_at": "2026-11-26T12:51:45",
+  "categories": [
+    "시니어 디지털"
+  ],
+  "auto_publish": true,
+  "per_category": {
+    "시니어 디지털": 1
+  },
+  "total_all": 158,
+  "articles": [
+    {
+      "keyword": "부모님 아이폰 13 소리 조절 안됨 문제 해결하는 4단계 방법",
+      "kind": "long",
+      "lang": "ko",
+      "category": "시니어 디지털",
+      "title": "아이폰 13 소리 조절 안됨, 센터 방문 대신 집에서 끝내는 4단계 점검법",
+      "meta": "따로 사는 부모님 전화가 계속 안 울릴 때 점검해야 할 핵심을 정리했습니다. 아이폰 13 소리 조절 안됨 현상의 설정 충돌과 복구 절차를 확인해보세요.",
+      "slug": "iphone13-sound-control-fix",
+      "focus_keyword": "아이폰 13 소리 조절 안됨",
+      "tags": [
+        "아이폰13소리안남",
+        "아이폰음량조절",
+        "부모님아이폰설정",
+        "아이폰벨소리",
+        "시니어디지털"
+      ],
+      "faqs": [
+        {
+          "question": "측면 버튼을 눌러도 벨소리 크기가 전혀 변하지 않아요.",
+          "answer": "'설정 > 사운드 및 햅틱' 메뉴에서 '버튼을 사용하여 변경' 스위치가 꺼져 있으면 측면 버튼은 벨소리가 아닌 미디어 음량만 조절합니다. 이 옵션을 녹색으로 켜주면 해결됩니다."
+        },
+        {
+          "question": "벨소리 바를 최대로 올려도 소리가 아예 안 나옵니다.",
+          "answer": "기기 왼쪽 측면 맨 위에 있는 무음 토글 스위치에 주황색 선이 보이는지 확인하세요. 주황색이 보이면 무음 상태이므로 화면 쪽으로 딸깍 밀어 올려야 벨소리가 울립니다."
+        },
+        {
+          "question": "특정 번호로 걸려온 전화만 조용히 넘어가는데 왜 이럴까요?",
+          "answer": "방해금지 모드나 집중 모드가 켜져 특정 연락처 외의 알림을 무음 처리했을 가능성이 높습니다. 제어 센터에서 초승달 모양 아이콘을 눌러 집중 모드를 꺼야 합니다."
+        },
+        {
+          "question": "공식 서비스센터 방문 전 비용이 얼마나 드나요?",
+          "answer": "단순 설정 변경은 비용이 들지 않으나 물리적 볼륨 스위치 고장으로 2026년 기준 공인 센터에서 유상 수리를 받게 되면 기기 상태에 따라 수십만 원대 리퍼 비용이 발생할 수 있으니 소프트웨어 점검이 먼저입니다."
+        }
+      ],
+      "html": "<p class=\"hook\" style=\"font-size:17px;font-weight:600\">3분이면 부모님 전화벨 소리가 다시 시원하게 울립니다.</p><p class=\"byline\" style=\"font-size:12px;color:#98a2b3;margin:2px 0 12px\">✍️ 이음 · 2026년 11월 26일 확인·정리</p><div class=\"tldr\" style=\"margin:14px 0;padding:14px 16px;background:#f2f0ff;border-radius:12px;border:1px solid #e6e2ff\"><strong>📌 핵심 요약</strong><ul style=\"margin:6px 0 0;padding-left:18px;line-height:1.6\"><li>부모님 전화벨이 안 울릴 때 기기 고장보다 설정 버튼 잠금이 원인인 경우가 대부분입니다.</li><li>전화 통화로 '설정 &gt; 사운드 및 햅틱 &gt; 버튼을 사용하여 변경' 켜기만 유도해도 즉시 해결됩니다.</li><li>화면 끄기나 초기화 대신 집중 모드와 벨소리 슬라이더 위치부터 맞추어야 합니다.</li></ul></div><p>부모님과 갑자기 연락이 닿지 않아 가슴이 덜컥 내려앉았다면, 기기 노후화나 하드웨어 파손보다는 소프트웨어 잠금 상태 때문일 가능성이 90% 이상을 차지합니다. 물리적인 기기 결함으로 판명 나는 비율은 10건 중 1건 미만에 불과하므로, 센터를 직접 방문하기 전에 전화 통화로 단계를 나누어 상태를 짚어보는 것이 시간과 지출을 아끼는 지름길입니다.</p>\n\n<h2 id=\"sec-1\">측면 스위치와 제어 센터의 단순 잠금 풀기</h2>\n<p>가장 먼저 점검해야 할 부위는 기기 좌측 상단에 위치한 3mm 크기의 물리 무음 토글스위치입니다. 스마트폰을 손으로 쥐거나 가방 및 주머니에 넣고 빼는 과정에서 의도치 않게 이 스위치가 아래로 내려가 주황색 라인이 노출되는 사례가 잦습니다. 이 스위치를 액정 화면 방향으로 1mm 정도 밀어 올리면 디스플레이 중앙 상단에 무음 해제 벨 아이콘이 나타납니다.</p>\n\n<p><figure style=\"margin:22px 0;text-align:center\"><img src=\"https://wontheland.com/wp-content/uploads/2026/11/img_1795665008348_1.png\" alt=\"원목 식탁 위에 돋보기와 따뜻한 차 한 잔이 놓여 있고 그 옆에 화면이 켜진 아이폰 13이 놓여 있는 정물\" loading=\"lazy\" style=\"max-width:100%;height:auto;border-radius:10px\"><figcaption style=\"font-size:13px;color:#98a2b3;margin-top:6px\">원목 식탁 위에 돋보기와 따뜻한 차 한 잔이 놓여 있고 그 옆에 화면이 켜진 아이폰 13이 놓여 있는 정물 — AI로 연출한 참고 이미지입니다</figcaption></figure></p>\n<div class=\"ad-banner\"></div>\n\n<p>스위치 상태에 따른 조건 분기를 명확히 확인해야 합니다. 만약 측면에 주황색 표시가 전혀 보이지 않는 정상 벨소리 모드라면, 우측 상단 모따기 영역을 아래로 5cm가량 쓸어내려 제어 센터를 확인하도록 안내해야 합니다. 반면 주황색 라인이 뚜렷하게 보인다면 제어 센터 진입 없이 측면 스위치를 상단으로 젖히는 것만으로 즉시 해결됩니다.</p>\n<p>제어 센터를 열었을 때 초승달이나 사람 모양의 '집중 모드(방해금지)' 배지가 켜져 있다면, 착신 호출이 무음 처리되거나 벨이 단 1회도 울리지 않고 부재중으로 넘어갑니다. 부모님께는 다음과 같이 단순 명료한 어조로 안내하는 화법이 효과적입니다: \"엄마, 왼쪽 옆구리 맨 위에 손톱만 한 스위치 있지? 그걸 화면 쪽으로 바짝 밀어서 빨간색이 아예 안 보이게 해봐.\"</p>\n\n<!--orig:v4--><div class=\"orig-tool\" data-mode=\"count\" style=\"margin:22px 0;padding:16px;border:2px solid #c7d2fe;border-radius:12px;background:#f5f7ff\"><p style=\"margin:0 0 10px;font-weight:700\">🧰 부모님 폰, 이것만 해두면 편해집니다 <span style=\"font-weight:400;font-size:12px;color:#667085\">— 체크하면 바로 답이 나옵니다</span></p><label style=\"display:block;margin:6px 0;font-size:14px\"><input type=\"checkbox\" data-w=\"1\" style=\"margin-right:8px\">글씨 크기를 키웠다</label><label style=\"display:block;margin:6px 0;font-size:14px\"><input type=\"checkbox\" data-w=\"1\" style=\"margin-right:8px\">벨소리·알림 소리를 크게 했다</label><label style=\"display:block;margin:6px 0;font-size:14px\"><input type=\"checkbox\" data-w=\"1\" style=\"margin-right:8px\">홈 화면에 자녀 연락처 바로가기를 뒀다</label><label style=\"display:block;margin:6px 0;font-size:14px\"><input type=\"checkbox\" data-w=\"1\" style=\"margin-right:8px\">모르는 번호 차단을 켰다</label><label style=\"display:block;margin:6px 0;font-size:14px\"><input type=\"checkbox\" data-w=\"1\" style=\"margin-right:8px\">긴급 연락처(의료정보)를 등록했다</label><label style=\"display:block;margin:6px 0;font-size:14px\"><input type=\"checkbox\" data-w=\"1\" style=\"margin-right:8px\">자동 업데이트를 와이파이에서만으로 했다</label><button type=\"button\" data-act=\"check\" style=\"margin-top:10px;padding:8px 14px;border-radius:8px;border:0;background:#4f46e5;color:#fff;font-weight:600;cursor:pointer\">확인</button><span class=\"m\" data-min=\"all\" style=\"display:none\">✅ 전부 되어 있습니다. 한 달에 한 번만 다시 확인하면 됩니다.</span><span class=\"m\" data-min=\"rest\" style=\"display:none\">아직 <b>{rest}가지</b>가 남았습니다. 이 글의 순서대로 하나씩 해보세요 — 전화로 알려드릴 때는 <b>설정 앱 → 돋보기(검색) → 그 이름 입력</b>이 가장 빠릅니다.</span></div><script>(function(){if(window.__origTool)return;window.__origTool=1;document.addEventListener(\"click\",function(e){var b=e.target.closest(\"[data-act]\");if(!b)return;var r=b.closest(\".orig-tool\");if(!r)return;var act=b.getAttribute(\"data-act\");if(act===\"check\"){var s=0,n=0,t=0;r.querySelectorAll(\"input[type=checkbox]\").forEach(function(i){t++;if(i.checked){s+=parseInt(i.getAttribute(\"data-w\")||\"1\",10);n++;}});var mode=r.getAttribute(\"data-mode\")||\"score\";var best=null,bv=-1;r.querySelectorAll(\".m\").forEach(function(m){var mn=m.getAttribute(\"data-min\");if(mode===\"count\"){if(mn===\"all\"&&n===t){best=m;bv=999;}else if(mn===\"rest\"&&n!==t&&bv===-1){best=m;bv=1;}}else{var v=parseInt(mn,10);if(s>=v&&v>bv){best=m;bv=v;}}});var o=r.querySelector(\".out\");if(o){o.innerHTML=best?best.innerHTML.replace(\"{rest}\",String(t-n)):\"\";}}if(act===\"step\"){var st=parseInt(r.getAttribute(\"data-step\")||\"0\",10);var steps=r.querySelectorAll(\".st\");var q=r.querySelector(\".q\");if(st>=steps.length){r.setAttribute(\"data-step\",\"0\");q.innerHTML=r.getAttribute(\"data-q0\");b.textContent=r.getAttribute(\"data-b0\");return;}q.innerHTML=steps[st].innerHTML;b.textContent=steps[st].getAttribute(\"data-b\");r.setAttribute(\"data-step\",String(st+1));}});})();</script>\n\n<h2 id=\"sec-2\">버튼을 통한 음량 조절 옵션 활성화</h2>\n<p>iOS 운영체제의 기본 설정값은 측면 볼륨 버튼을 눌렀을 때 벨소리가 아닌 유튜브나 음악 같은 미디어 출력 음량만 조절되도록 세팅되어 있습니다. 이 때문에 어르신들이 소리를 키우려고 옆면 버튼을 10번 이상 눌러도 벨소리 볼륨은 0% 상태 그대로 머무는 엇박자가 발생합니다.</p>\n\n<p><figure style=\"margin:22px 0;text-align:center\"><img src=\"https://wontheland.com/wp-content/uploads/2026/11/img_17956650041661_2.png\" alt=\"설정 앱 진입, 사운드 및 햅틱 선택, 버튼을 사용하여 변경 활성화, 슬라이더 조절로 이어지는 4단계 도해\" loading=\"lazy\" style=\"max-width:100%;height:auto;border-radius:10px\"><figcaption style=\"font-size:13px;color:#98a2b3;margin-top:6px\">설정 앱 진입, 사운드 및 햅틱 선택, 버튼을 사용하여 변경 활성화, 슬라이더 조절로 이어지는 4단계 도해 — 이해를 돕기 위한 도해입니다</figcaption></figure></p>\n\n<p>이 문제를 근본적으로 해결하려면 회색 톱니바퀴 아이콘인 '설정' 앱으로 진입한 뒤, '사운드 및 햅틱' 메뉴를 선택해야 합니다. 화면 중앙에 위치한 '버튼을 사용하여 변경' 토글을 탭하여 녹색 활성 상태로 켜주면, 홈 화면에서 측면 볼륨 버튼을 조작할 때 벨소리 데시벨이 직관적으로 증감합니다.</p>\n<p>이어서 상단 '벨소리 및 알림' 볼륨 바를 우측으로 80%~100% 수준까지 밀어둡니다. 약 85dB 이상의 명확한 사운드가 본체 하단 스피커 홀을 통해 즉각 울리는 것을 확인시켜 드려야 이후 임의로 버튼을 다시 내려버리는 혼선을 방지할 수 있습니다.</p>\n\n<h2 id=\"sec-3\">흔히 겪는 두 가지 설정 실패와 복구 절차</h2>\n<p>자녀가 원격으로 구두 지시를 전달할 때 흔히 마주치는 2대 실패 시나리오는 '화면 주시 인식 활성화'와 '외부 오디오 기기 고스트 페어링'입니다. 이 두 변수를 사전에 차단하지 않으면 설정을 모두 마쳐도 며칠 뒤 같은 불편이 재발합니다.</p>\n<p>첫 번째 실패 사례는 전면 카메라 센서의 '주시 인식 기능' 간섭입니다. 벨소리가 처음에는 100% 크기로 1~2초간 울리다가 부모님이 전화기를 들어 얼굴을 비추는 순간 센서가 시선을 감지해 음량을 20% 이하로 급감시킵니다. 청력이 다소 저하된 어르신은 이를 벨이 끊긴 것으로 오인합니다. 이를 해결하려면 '설정 &gt; 손쉬운 사용 &gt; Face ID 및 주시'로 순서대로 이동하여 '주시 인식 기능'을 회색(비활성)으로 꺼두어야 전화 수신 내내 최대 음량이 유지됩니다.</p>\n<p>두 번째 실패 사례는 블루투스가 켜진 채로 가방 속의 블루투스 이어폰이나 충전 케이스 덮개가 덜 닫힌 보청기에 신호가 물려 있는 상황입니다. 스피커 개구부로 출력되어야 할 착신음이 외장 기기로 우회 전송되어 본체에서는 진동조차 느껴지지 않게 됩니다. '설정 &gt; Bluetooth'로 이동해 페어링된 기기를 수동 해제하거나, 블루투스 자체를 잠시 끄는 조치로 본체 스피커 출력을 되살릴 수 있습니다.</p>\n\n<h2 id=\"sec-4\">수리점 가기 전 원격 점검과 주의사항</h2>\n<p>음량 제어 환경을 구축하는 방식은 크게 '물리 버튼 연동 방식'과 '설정 메뉴 고정 방식'의 2가지로 나뉩니다. 각 방식의 장단점을 비교하여 부모님의 스마트폰 사용 습관에 맞춰 선택해야 합니다.</p>\n<p>첫째, '버튼을 사용하여 변경'을 활성화하는 방식은 상황에 맞춰 부모님이 손쉽게 볼륨을 올릴 수 있다는 편의성이 장점이지만, 주머니 안에서 볼륨 하단 버튼이 3~5초간 지속해서 눌려 의도치 않게 최저 음량으로 내려갈 위험이 있습니다. 둘째, 버튼 변경 옵션을 끄고 설정 메뉴에서 슬라이더를 90% 이상으로 고정해 두는 방식은 오작동으로 벨소리가 줄어드는 현상을 원천 차단하는 절대적 안정성이 장점이나, 영화관이나 병원 등 정숙이 필요한 장소에서 즉각 소리를 줄이기 어렵다는 단점이 있습니다. 평소 버튼 조작 실수가 잦은 부모님이라면 후자인 고정 방식이 훨씬 안전합니다.</p>\n\n<p>더 많은 정보는 아래에서 확인해보세요.</p>\n<div class=\"ad-banner\"></div>\n\n<p>만약 버튼을 10회 이상 강하게 눌러도 틱틱 거리는 피드백이 전혀 없거나 내부 스위치 함몰로 물리 버튼이 반응하지 않는다면 공식 서비스센터 점검이 필요합니다. 공인 엔지니어 점검 시 단순 이물질 세척은 1만 원~3만 원 안팎으로 해결되지만, 버튼 플렉스 케이블 및 하우징 모듈 전체를 교체하게 되면 기종에 따라 약 9만 원에서 14만 원 선의 공임 비용이 발생합니다.</p>\n<p>⚠️ 주의: 고령의 부모님이 서비스센터를 단독 방문했다가 점검 과정에서 기기 전체 초기화(DFU 복원)를 무심코 승인하여 지난 수년간 누적된 손주 사진 2,000장 이상과 필수 연락처가 완전히 소실되는 사고가 빈번합니다. 방문 전 반드시 iCloud 백업 동기화 상태가 24시간 이내인지 확인한 뒤 진행하시길 권장합니다.</p><!--tail--><h2>자주 묻는 질문</h2><h3>측면 버튼을 눌러도 벨소리 크기가 전혀 변하지 않아요.</h3><p>&#x27;설정 &gt; 사운드 및 햅틱&#x27; 메뉴에서 &#x27;버튼을 사용하여 변경&#x27; 스위치가 꺼져 있으면 측면 버튼은 벨소리가 아닌 미디어 음량만 조절합니다. 이 옵션을 녹색으로 켜주면 해결됩니다.</p><h3>벨소리 바를 최대로 올려도 소리가 아예 안 나옵니다.</h3><p>기기 왼쪽 측면 맨 위에 있는 무음 토글 스위치에 주황색 선이 보이는지 확인하세요. 주황색이 보이면 무음 상태이므로 화면 쪽으로 딸깍 밀어 올려야 벨소리가 울립니다.</p><h3>특정 번호로 걸려온 전화만 조용히 넘어가는데 왜 이럴까요?</h3><p>방해금지 모드나 집중 모드가 켜져 특정 연락처 외의 알림을 무음 처리했을 가능성이 높습니다. 제어 센터에서 초승달 모양 아이콘을 눌러 집중 모드를 꺼야 합니다.</p><h3>공식 서비스센터 방문 전 비용이 얼마나 드나요?</h3><p>단순 설정 변경은 비용이 들지 않으나 물리적 볼륨 스위치 고장으로 2026년 기준 공인 센터에서 유상 수리를 받게 되면 기기 상태에 따라 수십만 원대 리퍼 비용이 발생할 수 있으니 소프트웨어 점검이 먼저입니다.</p><p class=\"verified\" style=\"margin-top:14px;padding:9px 12px;border-left:3px solid #cfc6e8;background:#faf9fe;color:#6b6386;font-size:12px;line-height:1.6\">🔎 2026년 11월 26일 기준으로 내용을 확인했습니다.</p><p class=\"freshness\" style=\"margin-top:16px;padding:10px 14px;border-left:3px solid #7c5cff;background:#f6f4ff;color:#5b53a8;font-size:13px;line-height:1.6\">🗓️ <b>기준: 2026년 11월</b> · 숫자·조건은 바뀔 수 있으니, 실제 이용 전 공식 페이지에서 한 번 더 확인하시길 권합니다.</p><p class=\"author-box\" style=\"margin:18px 0 6px;padding:10px 12px;background:#f8f9fb;border-radius:10px;font-size:13px;color:#667085;line-height:1.6\">✍️ <strong>이음</strong> — 멀리 사는 부모님의 &#x27;이거 어떻게 하니&#x27; 전화를 수년째 받아온 자녀의 마음으로 쓰는 사람. 공식 앱 안내서·통신사 고객센터 답변·실제 이용 후기들을 대조해서, 부모님이 전화 너머로도 따라 할 수 있는 순서로 다시 정리하는 것이 일이다.</p><p class=\"ai-notice\" style=\"margin:18px 0 8px;padding:8px 12px;border-left:3px solid #d0d5dd;background:#f9fafb;color:#667085;font-size:12px;line-height:1.6\">ℹ️ 이 글은 운영자(이음)가 주제를 정하고 공식 안내·고객센터 답변과 대조해 검수했으며, 본문 초안과 이미지 작성에는 생성형 AI 도구를 활용했습니다(AI 기본법 제31조에 따른 표시). 기기·통신사에 따라 화면이 다를 수 있으니 실제 적용 전 공식 출처를 한 번 더 확인하세요.</p><p class=\"disclaimer\" style=\"margin-top:22px;padding:12px 14px;border-left:3px solid #d8dbe0;background:#fafbfc;color:#6b7280;font-size:13px;line-height:1.6\">ℹ️ 참고용 글입니다. 상황에 따라 다를 수 있으니 공식 자료도 함께 확인하시길 권합니다.</p><h2>함께 보면 좋은 글</h2><ul class=\"related\"><li><a href=\"https://wontheland.com/galaxy-quantum4-update-freeze-fix/\">갤럭시 업데이트 멈춤 해결, 7초 강제 재부팅으로 데이터 살리는 법</a></li><li><a href=\"https://wontheland.com/iphone-13-passcode-reset-without-data-loss/\">아이폰 비밀번호 분실 초기화, 무작정 누르면 손주 사진 5천 장 날아갑니다</a></li><li><a href=\"https://wontheland.com/iphone13-call-reception-error-senior-guide/\">아이폰13 전화 수신 오류, 무작정 초기화하면 사진 다 날아갑니다</a></li></ul><script type=\"application/ld+json\">{\"@context\": \"https://schema.org\", \"@type\": \"BlogPosting\", \"headline\": \"아이폰 13 소리 조절 안됨, 센터 방문 대신 집에서 끝내는 4단계 점검법\", \"description\": \"따로 사는 부모님 전화가 계속 안 울릴 때 점검해야 할 핵심을 정리했습니다. 아이폰 13 소리 조절 안됨 현상의 설정 충돌과 복구 절차를 확인해보세요.\", \"inLanguage\": \"ko\", \"datePublished\": \"2026-11-26\", \"dateModified\": \"2026-11-26\", \"author\": {\"@type\": \"Person\", \"name\": \"이음\", \"description\": \"멀리 사는 부모님의 '이거 어떻게 하니' 전화를 수년째 받아온 자녀의 마음으로 쓰는 사람. 공식 앱 안내서·통신사 고객센터 답변·실제 이용 후기들을 대조해서, 부모님이 전화 너머로도 따라 할 수 있는 순서로 다시 정리하는 것이 일이다.\"}, \"mainEntityOfPage\": {\"@type\": \"WebPage\"}, \"image\": [\"https://wontheland.com/wp-content/uploads/2026/11/img_1795665008348_1.png\"]}</script><script type=\"application/ld+json\">{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"측면 버튼을 눌러도 벨소리 크기가 전혀 변하지 않아요.\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"'설정 > 사운드 및 햅틱' 메뉴에서 '버튼을 사용하여 변경' 스위치가 꺼져 있으면 측면 버튼은 벨소리가 아닌 미디어 음량만 조절합니다. 이 옵션을 녹색으로 켜주면 해결됩니다.\"}}, {\"@type\": \"Question\", \"name\": \"벨소리 바를 최대로 올려도 소리가 아예 안 나옵니다.\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"기기 왼쪽 측면 맨 위에 있는 무음 토글 스위치에 주황색 선이 보이는지 확인하세요. 주황색이 보이면 무음 상태이므로 화면 쪽으로 딸깍 밀어 올려야 벨소리가 울립니다.\"}}, {\"@type\": \"Question\", \"name\": \"특정 번호로 걸려온 전화만 조용히 넘어가는데 왜 이럴까요?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"방해금지 모드나 집중 모드가 켜져 특정 연락처 외의 알림을 무음 처리했을 가능성이 높습니다. 제어 센터에서 초승달 모양 아이콘을 눌러 집중 모드를 꺼야 합니다.\"}}, {\"@type\": \"Question\", \"name\": \"공식 서비스센터 방문 전 비용이 얼마나 드나요?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"단순 설정 변경은 비용이 들지 않으나 물리적 볼륨 스위치 고장으로 2026년 기준 공인 센터에서 유상 수리를 받게 되면 기기 상태에 따라 수십만 원대 리퍼 비용이 발생할 수 있으니 소프트웨어 점검이 먼저입니다.\"}}]}</script>",
+      "links": [],
+      "_title_fallback": false,
+      "wp_category": "스마트폰 기초",
+      "wp_category_slug": "senior-smartphone-guide",
+      "wp_parent_category": "시니어 디지털 가이드",
+      "wp_parent_slug": "senior-digital",
+      "volume": 20,
+      "competition": "낮음",
+      "steadiness": null,
+      "interest": null,
+      "lane_reason": "특정 기종의 하드웨어/설정 오류 해결법으로 시기와 무관하게 꾸준히 검색되며 해결 니즈가 분명함",
+      "quality": "통과",
+      "quality_reason": "",
+      "accuracy": "ok",
+      "ongoing": "진행중",
+      "accuracy_issues": [],
+      "accuracy_fix": "아이폰의 기본적인 하드웨어 스위치 및 설정 경로를 다루고 있어 현재 시점에서도 유효합니다.",
+      "accuracy_summary": "ok·진행중",
+      "_schedule_date": "2026-11-26T12:51:24.648574",
+      "post_id": 3787,
+      "status": "게시됨",
+      "post_url": "https://wontheland.com/iphone13-sound-control-fix/",
+      "copy_file": "/home/runner/work/Scripto/Scripto/output/20261126_시니어디지털_long_부모님 아이폰 13 소리 조절 안됨 문제 해결하는 4단계 방법.html",
+      "date": "2026-11-26"
+    }
+  ]
+}
