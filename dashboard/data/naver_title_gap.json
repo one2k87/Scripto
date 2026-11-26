@@ -1,19 +1,19 @@
 {
- "at": "2026-11-24 12:56",
+ "at": "2026-11-26 09:56",
  "site": "wontheland.com",
- "seed_collected": "2026-11-23 (서치어드바이저 11/22 갱신분, 사용자 캡처)",
+ "seed_collected": "2026-11-26 (서치어드바이저 11/25 갱신분, 사용자 캡처)",
  "posts": [
   {
    "post_id": 3116,
    "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
    "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
-   "impr": 104,
-   "clicks": 15,
-   "gap_impr": 54,
+   "impr": 134,
+   "clicks": 13,
+   "gap_impr": 68,
    "gap_keywords": [
     {
      "keyword": "영상통화가 안될때 방법",
-     "impr": 20,
+     "impr": 30,
      "cover": 0.78,
      "missing": [
       "영상통화가"
@@ -21,7 +21,7 @@
     },
     {
      "keyword": "카카오톡 영상통화 안됨",
-     "impr": 13,
+     "impr": 17,
      "cover": 0.56,
      "missing": [
       "카카오톡",
@@ -45,7 +45,53 @@
      ]
     }
    ],
-   "gap_share": 0.52
+   "gap_share": 0.51
+  },
+  {
+   "post_id": 3213,
+   "title": "갤럭시 A15 화면 캡쳐, 3초 만에 끝내는 3단계",
+   "link": "https://wontheland.com/galaxy-a15-screen-capture-senior-guide/",
+   "impr": 60,
+   "clicks": 1,
+   "gap_impr": 60,
+   "gap_keywords": [
+    {
+     "keyword": "혼자서끝내는법",
+     "impr": 60,
+     "cover": 0.33,
+     "missing": [
+      "혼자서끝내는법"
+     ]
+    }
+   ],
+   "gap_share": 1.0
+  },
+  {
+   "post_id": 2620,
+   "title": "중요한 전화만 울리게 하는 설정, 방해금지 모드 활용법",
+   "link": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
+   "impr": 58,
+   "clicks": 2,
+   "gap_impr": 58,
+   "gap_keywords": [
+    {
+     "keyword": "방해금지모드 전화 멘트",
+     "impr": 45,
+     "cover": 0.67,
+     "missing": [
+      "멘트"
+     ]
+    },
+    {
+     "keyword": "방해금지모드 전화 연결음",
+     "impr": 13,
+     "cover": 0.6,
+     "missing": [
+      "연결음"
+     ]
+    }
+   ],
+   "gap_share": 1.0
   },
   {
    "post_id": 2638,
@@ -70,8 +116,8 @@
    "post_id": 2671,
    "title": "국제전화 차단 방법, 해외 번호 전화가 자꾸 올 때 갤럭시에서 한 번에 막기",
    "link": "https://wontheland.com/senior-international-call-block/",
-   "impr": 18,
-   "clicks": 3,
+   "impr": 22,
+   "clicks": 4,
    "gap_impr": 6,
    "gap_keywords": [
     {
@@ -84,7 +130,7 @@
      ]
     }
    ],
-   "gap_share": 0.33
+   "gap_share": 0.27
   },
   {
    "post_id": 2682,
@@ -109,8 +155,8 @@
    "post_id": 2688,
    "title": "휴대폰 터치 먹통일 때, 갑자기 안 되는 터치 먼저 확인할 것과 해결 순서",
    "link": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
-   "impr": 48,
-   "clicks": 4,
+   "impr": 64,
+   "clicks": 5,
    "gap_impr": 0,
    "gap_keywords": [],
    "gap_share": 0.0
@@ -144,22 +190,32 @@
    "gap_impr": 0,
    "gap_keywords": [],
    "gap_share": 0.0
-  },
-  {
-   "post_id": 2663,
-   "title": "휴대폰 데이터 사용량, 걱정 없이 확인하는 방법",
-   "link": "https://wontheland.com/2026-september-senior-data-usage-check/",
-   "impr": 3,
-   "clicks": 1,
-   "gap_impr": 0,
-   "gap_keywords": [],
-   "gap_share": 0.0
   }
  ],
  "keywords": [
   {
+   "keyword": "특정 전화 소리 켜는법",
+   "impr": 4,
+   "clicks": 4,
+   "post_id": null,
+   "verdict": "담당 글 불명",
+   "cover": null
+  },
+  {
+   "keyword": "영상통화 안될때 방법",
+   "impr": 39,
+   "clicks": 3,
+   "post_id": 3116,
+   "matched": "추정",
+   "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
+   "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
+   "cover": 1.0,
+   "verdict": "제목에 있음",
+   "missing": []
+  },
+  {
    "keyword": "영상통화가 안될때 방법",
-   "impr": 20,
+   "impr": 30,
    "clicks": 3,
    "post_id": 3116,
    "matched": "추정",
@@ -173,7 +229,7 @@
   },
   {
    "keyword": "카톡 영상통화 화면 안나옴",
-   "impr": 11,
+   "impr": 19,
    "clicks": 3,
    "post_id": 3116,
    "matched": "추정",
@@ -184,21 +240,13 @@
    "missing": []
   },
   {
-   "keyword": "특정 전화 소리 켜는법",
-   "impr": 3,
-   "clicks": 3,
-   "post_id": null,
-   "verdict": "담당 글 불명",
-   "cover": null
-  },
-  {
-   "keyword": "영상통화 안될때 방법",
-   "impr": 23,
+   "keyword": "휴대폰 터치 먹통",
+   "impr": 58,
    "clicks": 2,
-   "post_id": 3116,
+   "post_id": 2688,
    "matched": "추정",
-   "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
-   "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
+   "title": "휴대폰 터치 먹통일 때, 갑자기 안 되는 터치 먼저 확인할 것과 해결 순서",
+   "link": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
    "cover": 1.0,
    "verdict": "제목에 있음",
    "missing": []
@@ -233,20 +281,36 @@
    ]
   },
   {
-   "keyword": "휴대폰 터치 먹통",
-   "impr": 42,
+   "keyword": "혼자서끝내는법",
+   "impr": 60,
    "clicks": 1,
-   "post_id": 2688,
+   "post_id": 3213,
    "matched": "추정",
-   "title": "휴대폰 터치 먹통일 때, 갑자기 안 되는 터치 먼저 확인할 것과 해결 순서",
-   "link": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
-   "cover": 1.0,
-   "verdict": "제목에 있음",
-   "missing": []
+   "title": "갤럭시 A15 화면 캡쳐, 3초 만에 끝내는 3단계",
+   "link": "https://wontheland.com/galaxy-a15-screen-capture-senior-guide/",
+   "cover": 0.33,
+   "verdict": "제목에 없음",
+   "missing": [
+    "혼자서끝내는법"
+   ]
+  },
+  {
+   "keyword": "방해금지모드 전화 멘트",
+   "impr": 45,
+   "clicks": 1,
+   "post_id": 2620,
+   "matched": "추정",
+   "title": "중요한 전화만 울리게 하는 설정, 방해금지 모드 활용법",
+   "link": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
+   "cover": 0.67,
+   "verdict": "일부만",
+   "missing": [
+    "멘트"
+   ]
   },
   {
    "keyword": "카카오톡 영상통화 안됨",
-   "impr": 13,
+   "impr": 17,
    "clicks": 1,
    "post_id": 3116,
    "matched": "추정",
@@ -257,6 +321,20 @@
    "missing": [
     "카카오톡",
     "안됨"
+   ]
+  },
+  {
+   "keyword": "방해금지모드 전화 연결음",
+   "impr": 13,
+   "clicks": 1,
+   "post_id": 2620,
+   "matched": "추정",
+   "title": "중요한 전화만 울리게 하는 설정, 방해금지 모드 활용법",
+   "link": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
+   "cover": 0.6,
+   "verdict": "일부만",
+   "missing": [
+    "연결음"
    ]
   },
   {
@@ -397,6 +475,20 @@
    ]
   },
   {
+   "keyword": "국제전화문자보이싱차단하려면",
+   "impr": 4,
+   "clicks": 1,
+   "post_id": 2671,
+   "matched": "추정",
+   "title": "국제전화 차단 방법, 해외 번호 전화가 자꾸 올 때 갤럭시에서 한 번에 막기",
+   "link": "https://wontheland.com/senior-international-call-block/",
+   "cover": 0.31,
+   "verdict": "제목에 없음",
+   "missing": [
+    "국제전화문자보이싱차단하려면"
+   ]
+  },
+  {
    "keyword": "핸폰바탕이갑자기어두워졌을때",
    "impr": 4,
    "clicks": 1,
@@ -447,6 +539,22 @@
    "cover": null
   },
   {
+   "keyword": "갤럭시 개인별 벨소리",
+   "impr": 4,
+   "clicks": 1,
+   "post_id": null,
+   "verdict": "담당 글 불명",
+   "cover": null
+  },
+  {
+   "keyword": "갤럭리 사진프린트",
+   "impr": 4,
+   "clicks": 1,
+   "post_id": null,
+   "verdict": "담당 글 불명",
+   "cover": null
+  },
+  {
    "keyword": "유심칩 교체하는법",
    "impr": 3,
    "clicks": 1,
@@ -459,83 +567,6 @@
    "missing": [
     "유심칩",
     "교체하는법"
-   ]
-  },
-  {
-   "keyword": "와이파이 영상통화",
-   "impr": 3,
-   "clicks": 1,
-   "post_id": 3116,
-   "matched": "추정",
-   "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
-   "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
-   "cover": 0.43,
-   "verdict": "일부만",
-   "missing": [
-    "와이파이"
-   ]
-  },
-  {
-   "keyword": "요모 요금제 데이터 확인",
-   "impr": 3,
-   "clicks": 1,
-   "post_id": 2663,
-   "matched": "추정",
-   "title": "휴대폰 데이터 사용량, 걱정 없이 확인하는 방법",
-   "link": "https://wontheland.com/2026-september-senior-data-usage-check/",
-   "cover": 0.33,
-   "verdict": "제목에 없음",
-   "missing": [
-    "요모",
-    "요금제"
-   ]
-  },
-  {
-   "keyword": "이모영상전화는 폰화면나옴",
-   "impr": 3,
-   "clicks": 1,
-   "post_id": 3116,
-   "matched": "추정",
-   "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
-   "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
-   "cover": 0.27,
-   "verdict": "제목에 없음",
-   "missing": [
-    "이모영상전화는",
-    "폰화면나옴"
-   ]
-  },
-  {
-   "keyword": "캘럭시 z폴더7 앞화면 터치가 안되는데 조치방법",
-   "impr": 3,
-   "clicks": 1,
-   "post_id": null,
-   "verdict": "담당 글 불명",
-   "cover": null
-  },
-  {
-   "keyword": "카카오톡 내가 걸면 안되요",
-   "impr": 3,
-   "clicks": 1,
-   "post_id": null,
-   "verdict": "담당 글 불명",
-   "cover": null
-  },
-  {
-   "keyword": "카카오톡 상대방 영상 안나오는 경우",
-   "impr": 2,
-   "clicks": 1,
-   "post_id": 3116,
-   "matched": "추정",
-   "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
-   "link": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
-   "cover": 0.14,
-   "verdict": "제목에 없음",
-   "missing": [
-    "카카오톡",
-    "상대방",
-    "안나오는",
-    "경우"
    ]
   }
  ]
