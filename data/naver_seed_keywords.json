@@ -1,27 +1,32 @@
 {
   "_설명": "네이버 서치어드바이저 「검색 키워드 TOP 30」을 사람이 옮겨 적는 파일(통계 조회 API가 없다). 한 줄에 검색어·클릭·노출만 넣으면 되고 post_id 는 몰라도 된다 — scripts/naver_title_gap.py 가 본문을 보고 담당 글을 찾는다. 갱신하면 「네이버 신호 수집」 워크플로가 추이 판정과 제목 격차를 다시 낸다.",
-  "collected": "2026-11-23 (서치어드바이저 11/22 갱신분, 사용자 캡처)",
+  "collected": "2026-11-26 (서치어드바이저 11/25 갱신분, 사용자 캡처)",
   "period": "최근 30일",
   "keywords": [
     {
+      "keyword": "특정 전화 소리 켜는법",
+      "clicks": 4,
+      "impr": 4
+    },
+    {
+      "keyword": "영상통화 안될때 방법",
+      "clicks": 3,
+      "impr": 39
+    },
+    {
       "keyword": "영상통화가 안될때 방법",
       "clicks": 3,
-      "impr": 20
+      "impr": 30
     },
     {
       "keyword": "카톡 영상통화 화면 안나옴",
       "clicks": 3,
-      "impr": 11
+      "impr": 19
     },
     {
-      "keyword": "특정 전화 소리 켜는법",
-      "clicks": 3,
-      "impr": 3
-    },
-    {
-      "keyword": "영상통화 안될때 방법",
+      "keyword": "휴대폰 터치 먹통",
       "clicks": 2,
-      "impr": 23
+      "impr": 58
     },
     {
       "keyword": "kt핸드폰터치가안되요",
@@ -34,12 +39,22 @@
       "impr": 1
     },
     {
-      "keyword": "휴대폰 터치 먹통",
+      "keyword": "혼자서끝내는법",
       "clicks": 1,
-      "impr": 42
+      "impr": 60
+    },
+    {
+      "keyword": "방해금지모드 전화 멘트",
+      "clicks": 1,
+      "impr": 45
     },
     {
       "keyword": "카카오톡 영상통화 안됨",
+      "clicks": 1,
+      "impr": 17
+    },
+    {
+      "keyword": "방해금지모드 전화 연결음",
       "clicks": 1,
       "impr": 13
     },
@@ -99,6 +114,11 @@
       "impr": 5
     },
     {
+      "keyword": "국제전화문자보이싱차단하려면",
+      "clicks": 1,
+      "impr": 4
+    },
+    {
       "keyword": "핸폰바탕이갑자기어두워졌을때",
       "clicks": 1,
       "impr": 4
@@ -119,39 +139,19 @@
       "impr": 4
     },
     {
+      "keyword": "갤럭시 개인별 벨소리",
+      "clicks": 1,
+      "impr": 4
+    },
+    {
+      "keyword": "갤럭리 사진프린트",
+      "clicks": 1,
+      "impr": 4
+    },
+    {
       "keyword": "유심칩 교체하는법",
       "clicks": 1,
       "impr": 3
-    },
-    {
-      "keyword": "와이파이 영상통화",
-      "clicks": 1,
-      "impr": 3
-    },
-    {
-      "keyword": "요모 요금제 데이터 확인",
-      "clicks": 1,
-      "impr": 3
-    },
-    {
-      "keyword": "이모영상전화는 폰화면나옴",
-      "clicks": 1,
-      "impr": 3
-    },
-    {
-      "keyword": "캘럭시 z폴더7 앞화면 터치가 안되는데 조치방법",
-      "clicks": 1,
-      "impr": 3
-    },
-    {
-      "keyword": "카카오톡 내가 걸면 안되요",
-      "clicks": 1,
-      "impr": 3
-    },
-    {
-      "keyword": "카카오톡 상대방 영상 안나오는 경우",
-      "clicks": 1,
-      "impr": 2
     }
   ]
 }
