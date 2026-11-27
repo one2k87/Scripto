@@ -1,12 +1,12 @@
 {
- "updated_at": "2026-11-26T14:07",
+ "updated_at": "2026-11-27T12:55",
  "window": [
-  "2026-10-28",
-  "2026-11-24"
+  "2026-10-29",
+  "2026-11-25"
  ],
  "pages_with_impr": 40,
  "queries": 28,
- "total_impr": 287,
+ "total_impr": 293,
  "total_clicks": 5,
  "plan": [
   {
@@ -45,10 +45,10 @@
    "id": 3514,
    "url": "https://wontheland.com/galaxy-s24-lockscreen-clock-size-setting",
    "title": "갤럭시 잠금화면 시계 크기 조절, S24 설정 3단계로 키우는 법",
-   "impr": 42,
+   "impr": 44,
    "clicks": 1,
-   "ctr": 0.0238,
-   "pos": 6.6,
+   "ctr": 0.0227,
+   "pos": 6.8,
    "top_queries": [
     [
      "갤럭시 잠금화면 시계 크기",
@@ -65,10 +65,10 @@
    "id": 3539,
    "url": "https://wontheland.com/galaxy-s24-screen-capture-button-guide",
    "title": "갤럭시 S24 화면 캡쳐 방법, 버튼·손날·스크롤 캡처 3가지",
-   "impr": 11,
+   "impr": 13,
    "clicks": 2,
-   "ctr": 0.1818,
-   "pos": 9.7,
+   "ctr": 0.1538,
+   "pos": 9.8,
    "top_queries": []
   },
   {
@@ -199,6 +199,25 @@
    ]
   },
   {
+   "id": 3472,
+   "url": "https://wontheland.com/gov24-resident-registration-copy-senior",
+   "title": "정부24 주민등록등본 발급 방법, 무료 발급과 PDF 저장까지",
+   "impr": 4,
+   "clicks": 0,
+   "ctr": 0.0,
+   "pos": 42,
+   "top_queries": [
+    [
+     "정부24 주민등록초본 발급 api 개발 및 연동",
+     1
+    ],
+    [
+     "정부24 주민등록초본 발급 api 사용 및 문제 해결",
+     1
+    ]
+   ]
+  },
+  {
    "id": 2714,
    "url": "https://wontheland.com/government24-senior-signup-guide",
    "title": "정부24 회원가입, 주민센터 안 가고 차근차근 따라 하기",
@@ -247,25 +266,6 @@
    "ctr": 0.0,
    "pos": 9,
    "top_queries": []
-  },
-  {
-   "id": 3472,
-   "url": "https://wontheland.com/gov24-resident-registration-copy-senior",
-   "title": "정부24 주민등록등본 발급 방법, 무료 발급과 PDF 저장까지",
-   "impr": 2,
-   "clicks": 0,
-   "ctr": 0.0,
-   "pos": 73.5,
-   "top_queries": [
-    [
-     "정부24 주민등록초본 발급 api 개발 및 연동",
-     1
-    ],
-    [
-     "정부24 주민등록초본 발급 api 사용 및 문제 해결",
-     1
-    ]
-   ]
   },
   {
    "id": 3174,
@@ -320,16 +320,28 @@
  ],
  "quiet": [
   {
+   "id": 3470,
+   "url": "https://wontheland.com/iphone-13-wifi-fix",
+   "title": "아이폰 13 와이파이 연결 안됨, 순서대로 확인할 해결 방법 3가지",
+   "age": 21
+  },
+  {
+   "id": 3458,
+   "url": "https://wontheland.com/iphone-13-ringtone-change-guide",
+   "title": "아이폰 13 벨소리 바꾸는 법, 설정에서 3단계로 끝내기",
+   "age": 21
+  },
+  {
    "id": 3456,
    "url": "https://wontheland.com/iphone-15-data-error-senior-guide",
    "title": "아이폰 15 데이터 안됨 증상, 무작정 통신사 전화부터 하면 안 되는 이유",
-   "age": 21
+   "age": 22
   },
   {
    "id": 3444,
    "url": "https://wontheland.com/iphone-13-kakao-alarm-fix-3-ways",
    "title": "아이폰 13 카톡 알림 안옴, 알림 설정 3곳 확인하기",
-   "age": 21
+   "age": 22
   },
   {
    "id": 3430,
@@ -341,25 +353,25 @@
    "id": 3246,
    "url": "https://wontheland.com/galaxy-s24-usb-notification-error-fix",
    "title": "갤럭시 S24 USB 알림 계속 뜰 때 충전 오류 해결하는 확인 방법",
-   "age": 23
+   "age": 24
   },
   {
    "id": 3243,
    "url": "https://wontheland.com/galaxy-s24-phone-call-error-network-reset",
    "title": "갤럭시 S24 전화 안됨·끊김, 모바일 네트워크 설정 초기화 순서",
-   "age": 24
+   "age": 25
   },
   {
    "id": 3134,
    "url": "https://wontheland.com/senior-low-cost-phone-usim-change",
    "title": "알뜰폰 유심 교체 후 등록하는 법, 새 휴대폰에 혼자서 3단계로",
-   "age": 38
+   "age": 39
   },
   {
    "id": 3116,
    "url": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting",
    "title": "카톡 영상통화 안될 때 방법, 화면 안 나옴·끊김부터 확인할 설정",
-   "age": 40
+   "age": 41
   },
   {
    "id": 3107,
@@ -377,7 +389,7 @@
    "id": 2739,
    "url": "https://wontheland.com/senior-smartphone-joint-certificate-2026-11",
    "title": "스마트폰으로 공동인증서 발급, 더 간편해진 방법",
-   "age": 48
+   "age": 49
   },
   {
    "id": 2725,
@@ -389,37 +401,37 @@
    "id": 2706,
    "url": "https://wontheland.com/senior-smartphone-photo-tips",
    "title": "핸드폰 사진이 흔들릴 때, 선명하게 찍는 방법",
-   "age": 51
+   "age": 52
   },
   {
    "id": 2688,
    "url": "https://wontheland.com/senior-smartphone-touch-troubleshoot",
    "title": "휴대폰 터치 먹통일 때, 갑자기 안 되는 터치 먼저 확인할 것과 해결 순서",
-   "age": 55
+   "age": 56
   },
   {
    "id": 2682,
    "url": "https://wontheland.com/smart-phone-dark-screen-solution-2026-10",
    "title": "핸드폰 화면이 갑자기 어두워졌을 때, 밝기보다 먼저 볼 설정",
-   "age": 55
+   "age": 56
   },
   {
    "id": 2663,
    "url": "https://wontheland.com/2026-september-senior-data-usage-check",
    "title": "휴대폰 데이터 사용량, 걱정 없이 확인하는 방법",
-   "age": 58
+   "age": 59
   },
   {
    "id": 2646,
    "url": "https://wontheland.com/senior-smartphone-document-pdf-send-method",
    "title": "핸드폰으로 서류 PDF 보내는 방법",
-   "age": 60
+   "age": 61
   },
   {
    "id": 2640,
    "url": "https://wontheland.com/smartphone-photo-google-photos-backup-senior",
    "title": "스마트폰 사진, 구글 포토에 자동 백업하는 방법",
-   "age": 61
+   "age": 62
   },
   {
    "id": 2620,
@@ -431,13 +443,13 @@
    "id": 2602,
    "url": "https://wontheland.com/senior-express-bus-app-destination-check-2026",
    "title": "고속버스 예매 앱으로 표 끊고 목적지까지 확인하는 순서",
-   "age": 66
+   "age": 67
   },
   {
    "id": 2596,
    "url": "https://wontheland.com/senior-train-ticket-app-reservation",
    "title": "기차표 예매 앱, 도움 없이 혼자 예매하는 방법",
-   "age": 67
+   "age": 68
   }
  ],
  "gaps": [

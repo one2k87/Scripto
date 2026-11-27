@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-26T14:06:02",
+ "updated_at": "2026-11-27T12:54:24",
  "site": "https://wontheland.com",
  "checked": 30,
  "indexed": 22,
@@ -19,7 +19,7 @@
   {
    "url": "https://wontheland.com/iphone13-sound-control-fix/",
    "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
+   "state": "Discovered - currently not indexed",
    "lastCrawl": ""
   },
   {
@@ -193,12 +193,6 @@
  ],
  "history": [
   {
-   "d": "2026-11-06",
-   "posts": 30,
-   "indexed": 13,
-   "checked": 30
-  },
-  {
    "d": "2026-11-07",
    "posts": 30,
    "indexed": 12,
@@ -272,6 +266,12 @@
   },
   {
    "d": "2026-11-26",
+   "posts": 30,
+   "indexed": 22,
+   "checked": 30
+  },
+  {
+   "d": "2026-11-27",
    "posts": 30,
    "indexed": 22,
    "checked": 30

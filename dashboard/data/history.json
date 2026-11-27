@@ -2053,6 +2053,19 @@
       "intent": "evergreen",
       "date": "2026-11-26",
       "series_id": ""
+    },
+    {
+      "title": "아이폰 벨소리 안남, 3단계로 바로 푸는 설정 점검",
+      "slug": "iphone-15-ringer-sound-fix",
+      "url": "",
+      "post_id": null,
+      "status": "폐기",
+      "kind": "long",
+      "keyword": "아이폰 15 벨소리 안남 현상 해결하는 3단계 확인 방법",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-11-27",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
