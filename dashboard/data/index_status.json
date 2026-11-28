@@ -1,203 +1,22 @@
 {
- "updated_at": "2026-11-27T14:07:02",
+ "updated_at": "2026-11-28T12:34:54",
  "site": "https://wontheland.com",
- "checked": 30,
- "indexed": 22,
+ "checked": 1,
+ "indexed": 1,
  "ghosts": [],
  "posts_diag": {
-  "http": 200,
-  "body_head": "[{\"modified\":\"2026-11-26T12:51:36\",\"link\":\"https:\\/\\/wontheland.com\\/iphone13-sound-control-fix\\/\"},{\"modified\":\"2026-11"
+  "err": "Expecting value: line 1 column 1 (char 0)"
  },
- "posts_n": 30,
+ "posts_n": 0,
  "results": [
   {
    "url": "https://wontheland.com/",
    "verdict": "PASS",
    "state": "Submitted and indexed",
    "lastCrawl": "2026-11-24"
-  },
-  {
-   "url": "https://wontheland.com/iphone13-sound-control-fix/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/galaxy-s24-lockscreen-clock-size-setting/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-24"
-  },
-  {
-   "url": "https://wontheland.com/galaxy-s24-battery-replacement-cost-and-checklist/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-23"
-  },
-  {
-   "url": "https://wontheland.com/galaxy-quantum4-update-freeze-fix/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/galaxy-s24-phone-call-error-network-reset/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/galaxy-s24-ringtone-notification-volume-settings/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-24"
-  },
-  {
-   "url": "https://wontheland.com/smart-phone-dark-screen-solution-2026-10/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-24"
-  },
-  {
-   "url": "https://wontheland.com/galaxy-a15-screen-off-clock-setting/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-22"
-  },
-  {
-   "url": "https://wontheland.com/senior-pass-app-installation-guide/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-18"
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-document-pdf-send-method/",
-   "verdict": "NEUTRAL",
-   "state": "Crawled - currently not indexed",
-   "lastCrawl": "2026-11-20"
-  },
-  {
-   "url": "https://wontheland.com/senior-international-call-block/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-24"
-  },
-  {
-   "url": "https://wontheland.com/galaxy-quantum-lock-reset-guide/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-23"
-  },
-  {
-   "url": "https://wontheland.com/iphone13-call-reception-error-senior-guide/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-23"
-  },
-  {
-   "url": "https://wontheland.com/iphone-call-drop-remote-fix-senior/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/iphone-13-passcode-reset-without-data-loss/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-24"
-  },
-  {
-   "url": "https://wontheland.com/senior-low-cost-phone-usim-change/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-kakaotalk-videocall-troubleshooting/",
-   "verdict": "NEUTRAL",
-   "state": "URL is unknown to Google",
-   "lastCrawl": ""
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-touch-troubleshoot/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-20"
-  },
-  {
-   "url": "https://wontheland.com/gov24-resident-registration-copy-senior/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-20"
-  },
-  {
-   "url": "https://wontheland.com/galaxy-s24-call-volume-boost-guide/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-22"
-  },
-  {
-   "url": "https://wontheland.com/mobile-id-card-issuance-senior-guide/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-23"
-  },
-  {
-   "url": "https://wontheland.com/galaxy-s24-wifi-disconnect-network-reset/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-24"
-  },
-  {
-   "url": "https://wontheland.com/galaxy-s24-screen-capture-button-guide/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-20"
-  },
-  {
-   "url": "https://wontheland.com/senior-train-ticket-app-reservation/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-18"
-  },
-  {
-   "url": "https://wontheland.com/senior-express-bus-app-destination-check-2026/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-21"
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-google-account-password-reset/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-19"
-  },
-  {
-   "url": "https://wontheland.com/senior-smartphone-notification-important-call-setting/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-20"
-  },
-  {
-   "url": "https://wontheland.com/senior-digital-kiosk-order-2026/",
-   "verdict": "PASS",
-   "state": "Submitted and indexed",
-   "lastCrawl": "2026-11-23"
-  },
-  {
-   "url": "https://wontheland.com/smartphone-photo-google-photos-backup-senior/",
-   "verdict": "NEUTRAL",
-   "state": "Discovered - currently not indexed",
-   "lastCrawl": ""
   }
  ],
  "history": [
-  {
-   "d": "2026-11-07",
-   "posts": 30,
-   "indexed": 12,
-   "checked": 30
-  },
   {
    "d": "2026-11-08",
    "posts": 30,
@@ -275,7 +94,13 @@
    "posts": 30,
    "indexed": 22,
    "checked": 30
+  },
+  {
+   "d": "2026-11-28",
+   "posts": 0,
+   "indexed": 1,
+   "checked": 1
   }
  ],
- "post_indexed": 21
+ "post_indexed": 0
 }

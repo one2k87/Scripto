@@ -2066,6 +2066,19 @@
       "intent": "evergreen",
       "date": "2026-11-27",
       "series_id": ""
+    },
+    {
+      "title": "키오스크 결제 오류 해결, 실패 화면 떴을 때 즉시 거쳐야 할 3단계",
+      "slug": "kiosk-payment-error-solutions",
+      "url": "",
+      "post_id": null,
+      "status": "폐기",
+      "kind": "long",
+      "keyword": "패스트푸드점 무인 키오스크 주문 결제 실패할 때 확인해야 할 3가지 절차",
+      "category": "시니어 디지털",
+      "intent": "evergreen",
+      "date": "2026-11-28",
+      "series_id": ""
     }
   ],
   "rebased_at": "2026-09-07T13:39:30"
